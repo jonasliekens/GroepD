@@ -11,6 +11,7 @@
     <modules>
         <module>trips-web</module>
         <module>trips-backend</module>
+        <module>trips-tests</module>
     </modules>
 
     <repositories>
