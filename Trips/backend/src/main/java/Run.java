@@ -1,3 +1,5 @@
+import be.kdg.Utilities.Utilities;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Fluffy
@@ -7,7 +9,8 @@
  */
 public class Run {
     public static void main(String[] args) {
-        firstClas message = new firstClas("Hello World");
-        System.out.println(message.getMessage());
+        System.out.println("Hashtest:");
+        System.out.println(Utilities.encryptPassword("hahayoucantreadthis123456"));
+        System.out.println("");
     }
 }

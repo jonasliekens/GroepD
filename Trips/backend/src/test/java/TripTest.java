@@ -1,3 +1,5 @@
+import be.kdg.Entities.LosseTrip;
+import be.kdg.Entities.Stopplaats;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -19,7 +21,6 @@ public class TripTest {
     public void getStopplaatsen() {
         List<Stopplaats> stopplaatsen;
         stopplaatsen = trip.getStopplaatsen();
-
         assertTrue(stopplaatsen.size() > 0);
     }
 }
