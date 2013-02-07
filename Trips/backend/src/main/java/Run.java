@@ -7,6 +7,7 @@
  */
 public class Run {
     public static void main(String[] args) {
-        System.out.println("Hello World");
+        firstClas message = new firstClas("Hello World");
+        System.out.println(message.getMessage());
     }
 }
