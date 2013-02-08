@@ -1,4 +1,4 @@
-package be.kdg.utilitiess;
+package be.kdg.utilities;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

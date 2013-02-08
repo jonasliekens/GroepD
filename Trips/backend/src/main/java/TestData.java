@@ -1,5 +1,5 @@
-import be.kdg.entitiess.User;
-import be.kdg.utilitiess.Utilities;
+import be.kdg.entities.User;
+import be.kdg.utilities.Utilities;
 
 /**
  * Created with IntelliJ IDEA.

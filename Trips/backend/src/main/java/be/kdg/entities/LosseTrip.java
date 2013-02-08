@@ -1,4 +1,4 @@
-package be.kdg.entitiess;
+package be.kdg.entities;
 
 import java.util.ArrayList;
 import java.util.List;

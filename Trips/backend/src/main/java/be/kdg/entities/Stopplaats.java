@@ -1,4 +1,4 @@
-package be.kdg.entitiess;
+package be.kdg.entities;
 
 /**
  * Created with IntelliJ IDEA 12.
