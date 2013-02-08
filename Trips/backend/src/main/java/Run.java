@@ -9,8 +9,7 @@ import be.kdg.utilities.Utilities;
  */
 public class Run {
     public static void main(String[] args) {
-        System.out.println("Hashtest:");
-        System.out.println(Utilities.encryptPassword("hahayoucantreadthis123456"));
-        System.out.println("");
+        System.out.println("Testing database by loading default values:");
+        new TestData();
     }
 }

@@ -7,11 +7,17 @@ package be.kdg.entities;
  * Time: 16:09
  * Copyright @ Soulware.be
  */
-public class Stopplaats {
+public class Stop {
     private String plaatsnaam;
+    private double latitude;
+    private double longitude;
+    private Integer accuracy;
 
-    public Stopplaats(String plaatsnaam) {
+    public Stop(String plaatsnaam, double latitude, double longitude, Integer accuracy) {
         this.plaatsnaam = plaatsnaam;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.accuracy = accuracy;
     }
 
     public String getPlaatsnaam() {
