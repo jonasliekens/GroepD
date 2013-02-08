@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Trips/Trips.iml" filepath="$PROJECT_DIR$/Trips/Trips.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Trips/android/android.iml" filepath="$PROJECT_DIR$/Trips/android/android.iml" />
       <module fileurl="file://$PROJECT_DIR$/Trips/backend/backend.iml" filepath="$PROJECT_DIR$/Trips/backend/backend.iml" />
       <module fileurl="file://$PROJECT_DIR$/Trips/web/web.iml" filepath="$PROJECT_DIR$/Trips/web/web.iml" />
     </modules>
