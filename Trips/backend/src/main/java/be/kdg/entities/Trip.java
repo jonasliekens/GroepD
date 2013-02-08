@@ -43,9 +43,9 @@ public class Trip {
     }
 
     private void initLists() {
-        admins = new ArrayList<>();
-        invitedUsers = new ArrayList<>();
-        stops = new ArrayList<>();
+        /*admins = new ArrayList<>();                    Kan niet in Maven compilen als dit er nog staat
+        invitedUsers = new ArrayList<>(); */
+        stops = new ArrayList<Stop>();
     }
 
     public void addStop(Stop stop) {
