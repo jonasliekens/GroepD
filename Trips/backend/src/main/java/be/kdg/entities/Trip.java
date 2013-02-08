@@ -1,6 +1,5 @@
 package be.kdg.entities;
 
-import javax.management.BadStringOperationException;
 import java.util.ArrayList;
 import java.util.List;
 
