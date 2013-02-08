@@ -2,12 +2,17 @@ package be.kdg.services.impl;
 
 import be.kdg.entities.User;
 import be.kdg.services.dao.UserDao;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by IntelliJ IDEA.
  * Author: Nick De Waele
  * Date: 8/02/13
  */
+@Transactional(propagation= Propagation.REQUIRED, readOnly=false)
+@Repository("userDao")
 public class UserDaoImpl extends HibernateDao<User, Integer> implements UserDao{
     public UserDaoImpl() {
         super();

@@ -1,9 +1,9 @@
-import be.kdg.entities.User;
 import be.kdg.services.impl.UserDaoImpl;
-import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 
-import java.util.Date;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -11,11 +11,17 @@ import java.util.Date;
  * Author: Nick De Waele
  * Date: 8/02/13
  */
+@ContextConfiguration(locations = "/persistence-beans.xml")
 public class UserTest {
+    private UserDaoImpl userDao;
+
+    @Autowired
+        public void setUserDao(UserDaoImpl userDao) {
+            this.userDao = userDao;
+        }
     @Test
     public void addUser(){
-        UserDaoImpl userdao=new UserDaoImpl();
-        userdao.add( new User("lala@hotmail.com", "lala", "nick", "de waele", new Date(2,2,1992)));
-        Assert.assertTrue(true);
+        /*userDao.add(new User("seyriu@live.be", "lala", "nick", "de waele", new Date(2,2,1992)));*/
+        assertTrue(true);
     }
 }
