@@ -17,4 +17,11 @@ public class UserDaoImpl extends HibernateDao<User, Integer> implements UserDao{
     public boolean removeUser(User user) {
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    @Override
+    public void add(User user) {
+
+        super.add(user);    //To change body of overridden methods use File | Settings | File Templates.
+
+    }
 }
