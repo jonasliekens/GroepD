@@ -1,6 +1,4 @@
-package be.kdg.Entities;
-
-import java.util.ArrayList;
+package be.kdg.entitiess;
 
 /**
  * Created with IntelliJ IDEA 12.

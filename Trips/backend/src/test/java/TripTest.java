@@ -1,5 +1,5 @@
-import be.kdg.entities.LosseTrip;
-import be.kdg.entities.Stopplaats;
+import be.kdg.entitiess.LosseTrip;
+import be.kdg.entitiess.Stopplaats;
 import org.junit.Test;
 
 import java.util.List;

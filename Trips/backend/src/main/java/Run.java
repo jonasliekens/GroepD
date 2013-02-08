@@ -1,4 +1,4 @@
-import be.kdg.utilities.Utilities;
+import be.kdg.utilitiess.Utilities;
 
 /**
  * Created with IntelliJ IDEA.

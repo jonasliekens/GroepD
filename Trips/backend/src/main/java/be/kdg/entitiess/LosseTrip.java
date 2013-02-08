@@ -1,6 +1,4 @@
-package be.kdg.Entities;
-
-import sun.swing.BakedArrayList;
+package be.kdg.entitiess;
 
 import java.util.ArrayList;
 import java.util.List;

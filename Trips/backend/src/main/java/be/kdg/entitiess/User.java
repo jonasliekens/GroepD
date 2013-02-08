@@ -1,4 +1,4 @@
-package be.kdg.Entities;
+package be.kdg.entitiess;
 
 import org.hibernate.validator.constraints.Email;
 import javax.persistence.*;

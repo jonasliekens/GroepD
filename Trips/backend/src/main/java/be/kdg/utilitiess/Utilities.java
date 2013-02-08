@@ -1,6 +1,5 @@
-package be.kdg.Utilities;
+package be.kdg.utilitiess;
 
-import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
