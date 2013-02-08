@@ -1,5 +1,7 @@
 package be.kdg.entities;
 
+import com.google.common.collect.Table;
+import org.dom4j.Entity;
 import org.hibernate.validator.constraints.Email;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
