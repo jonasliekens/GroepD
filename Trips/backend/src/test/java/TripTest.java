@@ -1,8 +1,7 @@
-import be.kdg.Entities.LosseTrip;
-import be.kdg.Entities.Stopplaats;
+import be.kdg.entities.LosseTrip;
+import be.kdg.entities.Stopplaats;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;

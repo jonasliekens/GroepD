@@ -1,5 +1,4 @@
-import be.kdg.Utilities.Utilities;
-import org.junit.Assert;
+import be.kdg.utilities.Utilities;
 import org.junit.Test;
 import static junit.framework.Assert.assertEquals;
 

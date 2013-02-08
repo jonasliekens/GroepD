@@ -1,4 +1,4 @@
-import be.kdg.Utilities.Utilities;
+import be.kdg.utilities.Utilities;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,5 +12,6 @@ public class Run {
         System.out.println("Hashtest:");
         System.out.println(Utilities.encryptPassword("hahayoucantreadthis123456"));
         System.out.println("");
+        TestData testData = new TestData();
     }
 }

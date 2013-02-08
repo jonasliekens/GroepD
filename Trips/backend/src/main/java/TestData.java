@@ -1,7 +1,5 @@
-import be.kdg.Entities.User;
-import be.kdg.Utilities.Utilities;
-
-import java.text.SimpleDateFormat;
+import be.kdg.entities.User;
+import be.kdg.utilities.Utilities;
 
 /**
  * Created with IntelliJ IDEA.
