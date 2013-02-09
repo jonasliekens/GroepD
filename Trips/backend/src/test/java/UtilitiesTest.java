@@ -1,5 +1,6 @@
 import be.kdg.utilities.Utilities;
 import org.junit.Test;
+
 import static junit.framework.Assert.assertEquals;
 
 /**
@@ -11,7 +12,7 @@ import static junit.framework.Assert.assertEquals;
  */
 public class UtilitiesTest {
     @Test
-    public void testPasswordHash(){
+    public void testPasswordHash() {
         String hash = Utilities.encryptPassword("hahayoucantreadthis123456");
         assertEquals(hash, "986a78574b78edb9c480835b582991d1c561caf7262794132950ca3edd3bcc5a");
     }

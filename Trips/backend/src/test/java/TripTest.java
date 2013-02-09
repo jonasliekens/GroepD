@@ -22,7 +22,7 @@ public class TripTest {
     }
 
     @Test
-    public void addStop(){
+    public void addStop() {
         trip.addStop(new Stop("Karel de Grote Hogeschool", 51.2177208, 4.4008991, 31));
         assertTrue(trip.getStopplaatsen().size() == 1);
     }

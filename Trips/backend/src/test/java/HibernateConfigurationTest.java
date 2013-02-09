@@ -10,14 +10,14 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(value = SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/persistence-beans.xml")
 public class HibernateConfigurationTest {
-	
-	@Autowired
-	private SessionFactory sessionFactory;
 
-	@Test
-	public void testHibernateConfiguration() {
-		// Spring IOC container instantiated and prepared sessionFactory
-		assertNotNull (sessionFactory); 
-	}
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    @Test
+    public void testHibernateConfiguration() {
+        // Spring IOC container instantiated and prepared sessionFactory
+        assertNotNull(sessionFactory);
+    }
 
 }
