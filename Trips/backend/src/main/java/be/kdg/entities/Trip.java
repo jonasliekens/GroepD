@@ -1,5 +1,7 @@
 package be.kdg.entities;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,14 +12,27 @@ import java.util.List;
  * Time: 16:09
  * Copyright @ Soulware.be
  */
+@Entity
+@Table(name = "T_TRIP")
 public class Trip {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @ManyToOne
     private List<User> admins;
+    @ManyToMany
     private List<User> invitedUsers;
+    @NotNull
     private boolean privateTrip;
+    @NotNull
     private boolean published;
+    @OneToOne
     private TripType type;
+    @NotNull
     private Integer nrDays;
+    @NotNull
     private Integer nrHours;
+    @ManyToOne
     private List<Stop> stops;
 
     public Trip(){
@@ -153,5 +168,13 @@ public class Trip {
 
     public List<Stop> getStops() {
         return stops;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

@@ -1,7 +1,12 @@
 import be.kdg.entities.Stop;
 import be.kdg.entities.Trip;
+import be.kdg.services.dao.TripDao;
+import org.junit.After;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -13,17 +18,58 @@ import static org.junit.Assert.*;
  * Time: 14:09
  * Copyright @ Soulware.be
  */
+@ContextConfiguration(locations = "/persistence-beans.xml")
 public class TripTest {
-    private final Trip trip = new Trip();
+    @Autowired(required = true)
+    private TripDao tripDao;
+    // TO DO: INCLUDE OTHER DAOs
+    // IMPROVE TESTS
+    private Trip trip;
 
-    @Test
-    public void getStopplaatsen() {
-        assertTrue(trip.getStopplaatsen().size() == 0);
+    /*@After
+    public void testRemoveTrips() {
+        for (Trip trip : tripDao.list()) {
+            tripDao.remove(trip);
+        }
+
+        assertFalse(tripDao.list().size() > 0);
     }
 
     @Test
-    public void addStop() {
-        trip.addStop(new Stop("Karel de Grote Hogeschool", 51.2177208, 4.4008991, 31));
-        assertTrue(trip.getStopplaatsen().size() == 1);
+    public void testAddTrip() {
+        Trip temp = newTrip();
+        tripDao.add(temp);
+        assertTrue(tripDao.find(temp.getId()) != null);
     }
+
+    @Test
+    public void testUpdateTrip() {
+        Trip temp = newTrip();
+        tripDao.add(temp);
+        tripDao.update(temp);
+                //EDIT
+        assertTrue(true);
+    }
+
+    @Test
+    public void testRemoveTrip() {
+        Trip temp = newTrip();
+        tripDao.add(temp);
+        tripDao.remove(temp);
+        //EDIT
+        assertTrue(true);
+    }
+
+    private Trip newTrip() {
+        Trip trip= new Trip();
+        tripDao.add(trip);
+        return trip;
+    }
+
+    @Test
+    public void testAddStop() {
+        //   Add stopPlaats to stopDao & then add stop object to list
+        //trip.addStop(new Stop("Karel de Grote Hogeschool", 51.2177208, 4.4008991, 31));
+        assertTrue(true);
+    }     */
 }

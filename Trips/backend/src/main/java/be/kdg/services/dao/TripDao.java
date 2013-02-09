@@ -1,5 +1,8 @@
 package be.kdg.services.dao;
 
+import be.kdg.entities.Trip;
+import be.kdg.services.GenericDao;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Nick
@@ -7,5 +10,6 @@ package be.kdg.services.dao;
  * Time: 19:34
  * To change this template use File | Settings | File Templates.
  */
-public interface TripDao {
+public interface TripDao  extends GenericDao<Trip,Integer> {
+    boolean removeTrip(Trip trip);
 }
