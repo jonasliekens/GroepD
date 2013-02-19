@@ -1,6 +1,6 @@
-package be.kdg.services.impl;
+package be.kdg.dao.impl;
 
-import be.kdg.services.GenericDao;
+import be.kdg.dao.interfaces.GenericDao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

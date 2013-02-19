@@ -1,6 +1,6 @@
 import be.kdg.entities.Stop;
 import be.kdg.entities.Trip;
-import be.kdg.services.dao.TripDao;
+import be.kdg.dao.interfaces.TripDao;
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

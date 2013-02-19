@@ -1,7 +1,7 @@
-package be.kdg.services.impl;
+package be.kdg.dao.impl;
 
 import be.kdg.entities.Trip;
-import be.kdg.services.dao.TripDao;
+import be.kdg.dao.interfaces.TripDao;
 import org.springframework.stereotype.Repository;
 
 /**

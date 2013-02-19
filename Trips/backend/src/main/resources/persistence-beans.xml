@@ -57,4 +57,9 @@
         <constructor-arg type="javax.sql.DataSource" ref="dataSource"/>
     </bean>
 
+    <!-- Configure services -->
+    <bean id="userService" class="be.kdg.services.impl.UserServiceImpl">
+
+    </bean>
+
 </beans>
