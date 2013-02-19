@@ -42,8 +42,7 @@
 </section>
 
 <section id="content-section">
-    <h2>${msg}</h2>
-    <h2><spring:message code="TEST" /></h2>
+    Index page
 </section>
 
 <!-- SCRIPTS -->
