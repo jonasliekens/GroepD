@@ -1,11 +1,8 @@
-package be.kdg.services.impl;
+package be.kdg.dao.impl;
 
 import be.kdg.entities.User;
-import be.kdg.services.dao.UserDao;
+import be.kdg.dao.interfaces.UserDao;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by IntelliJ IDEA.

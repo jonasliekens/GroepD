@@ -1,4 +1,4 @@
-package be.kdg.services;
+package be.kdg.dao.interfaces;
 
 import java.util.List;
 

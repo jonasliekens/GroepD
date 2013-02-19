@@ -1,7 +1,6 @@
-package be.kdg.services.dao;
+package be.kdg.dao.interfaces;
 
 import be.kdg.entities.Trip;
-import be.kdg.services.GenericDao;
 
 /**
  * Created with IntelliJ IDEA.

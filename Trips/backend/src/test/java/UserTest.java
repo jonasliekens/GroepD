@@ -1,5 +1,5 @@
 import be.kdg.entities.User;
-import be.kdg.services.dao.UserDao;
+import be.kdg.dao.interfaces.UserDao;
 import be.kdg.utilities.Utilities;
 import org.junit.After;
 import org.junit.Test;
