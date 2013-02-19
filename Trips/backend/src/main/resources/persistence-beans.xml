@@ -24,9 +24,9 @@
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName"
                   value="com.mysql.jdbc.jdbc2.optional.MysqlDataSource"/>
-        <property name="url" value="jdbc:mysql://localhost/groepd"/>
-        <property name="username" value="groepd"/>
-        <property name="password" value="groepd"/>
+        <property name="url" value="jdbc:mysql://localhost/groepD"/>
+        <property name="username" value="groepD"/>
+        <property name="password" value="groepD"/>
     </bean>
 
     <bean id="transactionManager"
