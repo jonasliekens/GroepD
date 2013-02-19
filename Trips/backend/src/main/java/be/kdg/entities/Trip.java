@@ -134,10 +134,6 @@ public class Trip {
         this.nrHours = nrHours;
     }
 
-    public List<Stop> getStopplaatsen() {
-        return stops;
-    }
-
     public List<User> getAdmins() {
         return admins;
     }
