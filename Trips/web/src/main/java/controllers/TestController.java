@@ -19,5 +19,4 @@ public class TestController {
         model.addAttribute("message", "Hello, World!");
         return "index";
     }
-
 }
