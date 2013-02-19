@@ -6,9 +6,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
-import java.util.Date;
-import java.util.List;
-
 import static org.junit.Assert.*;
 
 /**
@@ -26,7 +23,7 @@ public class TripTest {
     // IMPROVE TESTS
     private Trip trip;
 
-    /*@After
+    @After
     public void testRemoveTrips() {
         for (Trip trip : tripDao.list()) {
             tripDao.remove(trip);
@@ -69,7 +66,7 @@ public class TripTest {
     @Test
     public void testAddStop() {
         //   Add stopPlaats to stopDao & then add stop object to list
-        //trip.addStop(new Stop("Karel de Grote Hogeschool", 51.2177208, 4.4008991, 31));
+        trip.addStop(new Stop("Karel de Grote Hogeschool", 51.2177208, 4.4008991, 31));
         assertTrue(true);
-    }     */
+    }
 }

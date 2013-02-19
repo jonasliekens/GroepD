@@ -1,15 +1,11 @@
 import be.kdg.entities.User;
 import be.kdg.services.dao.UserDao;
-import be.kdg.services.impl.UserDaoImpl;
+import be.kdg.utilities.Utilities;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
-
-import java.util.Date;
 
 import static org.junit.Assert.*;
 
@@ -61,7 +57,8 @@ public class UserTest extends AbstractJUnit4SpringContextTests {
     }
 
     private User newUser() {
-        user = new User("test@test.be", "lala", "test", "test", new Date(2, 2, 1992));
+
+        user = new User("test@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
         userDao.add(user);
         return user;
     }
