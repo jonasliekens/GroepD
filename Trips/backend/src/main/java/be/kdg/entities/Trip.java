@@ -5,7 +5,9 @@ import org.hibernate.annotations.Cascade;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA 12.
@@ -26,13 +28,13 @@ public class Trip {
     @JoinTable(name="T_TRIP_ADMINS",
             joinColumns={@JoinColumn(name="tripId")},
             inverseJoinColumns={@JoinColumn(name="userId")})
-    private List<User> admins;
+    private Set<User> admins;
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
     @JoinTable(name="T_TRIP_PARTICIPANT",
             joinColumns={@JoinColumn(name="tripId")},
             inverseJoinColumns={@JoinColumn(name="userId")})
-    private List<User> invitedUsers;
+    private Set<User> invitedUsers;
 
     @NotNull
     private boolean privateTrip;
@@ -52,7 +54,7 @@ public class Trip {
     @OneToMany(fetch = FetchType.EAGER,orphanRemoval=true)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @JoinColumn(name = "tripId")
-    private List<Stop> stops;
+    private Set<Stop> stops;
 
     public Trip(){
         initLists();
@@ -77,9 +79,9 @@ public class Trip {
     }
 
     private void initLists() {
-        admins = new ArrayList<User>();
-        invitedUsers = new ArrayList<User>();
-        stops = new ArrayList<Stop>();
+        admins = new HashSet<User>();
+        invitedUsers = new HashSet<User>();
+        stops = new HashSet<Stop>();
     }
 
     public void addStop(Stop stop) {
@@ -95,7 +97,7 @@ public class Trip {
         }
     }
 
-    public void setStops(List<Stop> stops) {
+    public void setStops(Set<Stop> stops) {
         this.stops = stops;
     }
 
@@ -112,7 +114,7 @@ public class Trip {
         }
     }
 
-    public void setAdmins(List<User> admins) {
+    public void setAdmins(Set<User> admins) {
         this.admins = admins;
     }
 
@@ -129,7 +131,7 @@ public class Trip {
         }
     }
 
-    public void setInvitedUsers(List<User> invitedUsers) {
+    public void setInvitedUsers(Set<User> invitedUsers) {
         this.invitedUsers = invitedUsers;
     }
 
@@ -153,11 +155,11 @@ public class Trip {
         this.nrHours = nrHours;
     }
 
-    public List<User> getAdmins() {
+    public Set<User> getAdmins() {
         return admins;
     }
 
-    public List<User> getInvitedUsers() {
+    public Set<User> getInvitedUsers() {
         return invitedUsers;
     }
 
@@ -181,7 +183,7 @@ public class Trip {
         return nrHours;
     }
 
-    public List<Stop> getStops() {
+    public Set<Stop> getStops() {
         return stops;
     }
 

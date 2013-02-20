@@ -79,7 +79,7 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
         temp.addAdmin(user);
         tripDao.add(temp);
         temp = tripDao.find(temp.getId());
-        assertTrue(temp.getAdmins().size() >0);
+        assertTrue(temp.getAdmins().size() > 0);
     }
 
 
