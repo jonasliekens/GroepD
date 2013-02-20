@@ -10,5 +10,4 @@ import be.kdg.entities.Trip;
  * To change this template use File | Settings | File Templates.
  */
 public interface TripDao  extends GenericDao<Trip,Integer> {
-    boolean removeTrip(Trip trip);
 }

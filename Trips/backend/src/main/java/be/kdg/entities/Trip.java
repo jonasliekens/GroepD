@@ -1,6 +1,7 @@
 package be.kdg.entities;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.LazyCollection;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -49,8 +50,9 @@ public class Trip {
     @NotNull
     private Integer nrHours;
 
-    @OneToMany(mappedBy = "trip")
+    @OneToMany(fetch = FetchType.EAGER,orphanRemoval=true)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @JoinColumn(name = "tripId")
     private List<Stop> stops;
 
     public Trip(){

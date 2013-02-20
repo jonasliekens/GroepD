@@ -17,7 +17,7 @@
     <context:component-scan base-package="be.kdg"/>
 
     <!-- we will manage transactions with annotations -->
-    <tx:annotation-driven/>
+
 
     <!-- data source for our database -->
     <bean id="dataSource"
@@ -33,6 +33,7 @@
           class="org.springframework.orm.hibernate3.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <!-- configure hibernate session factory -->
     <bean id="sessionFactory"
@@ -63,5 +64,6 @@
     <bean id="userService" class="be.kdg.services.impl.UserServiceImpl">
 
     </bean>
+
 
 </beans>

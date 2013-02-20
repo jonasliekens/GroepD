@@ -1,7 +1,7 @@
 package be.kdg.dao.impl;
 
-import be.kdg.entities.Trip;
 import be.kdg.dao.interfaces.TripDao;
+import be.kdg.entities.Trip;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,8 +13,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("tripDao")
 public class TripDaoImpl extends HibernateDao<Trip,Integer> implements TripDao {
-    @Override
-    public boolean removeTrip(Trip trip) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+
 }
