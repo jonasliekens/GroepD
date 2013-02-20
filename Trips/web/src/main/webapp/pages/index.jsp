@@ -26,11 +26,19 @@
     <![endif]-->
 
 
+    <%@include file="../template/header.jsp"%>
+
+
     <div class="container">
-        <h1>Message : ${message}</h1>
-        <h1>${pageContext.response.locale}</h1>
-        <a href="?lang=en"><spring:message code="ENGLISH" /></a> | <a href="?lang=nl"><spring:message code="DUTCH" /></a>
+        <div class="row-fluid">
+            <div class="span12">
+                ${message}
+            </div>
+        </div>
     </div>
+
+
+    <%@include file="../template/footer.jsp"%>
 
 
     <!-- The JavaScript files -->
