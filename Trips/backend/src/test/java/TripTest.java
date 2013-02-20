@@ -1,16 +1,17 @@
+import be.kdg.dao.interfaces.TripDao;
 import be.kdg.entities.Stop;
 import be.kdg.entities.Trip;
-import be.kdg.dao.interfaces.TripDao;
+import be.kdg.entities.TripType;
+import be.kdg.entities.User;
+import be.kdg.utilities.Utilities;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
-import java.security.PublicKey;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created with IntelliJ IDEA 12.
@@ -25,17 +26,11 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
     @Autowired(required = true)
     private TripDao tripDao;
 
-    private Trip trip;
-
-    @Before
-    public void createTrip(){
-        trip = newTrip();
-    }
-
     @Test
     public void testAddTrip() {
-        tripDao.add(trip);
-        assertTrue(tripDao.find(trip.getId()) != null);
+        Trip temp = newTrip();
+        tripDao.add(temp);
+        assertTrue(tripDao.find(temp.getId()) != null);
     }
 
     @Test
@@ -63,17 +58,30 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
         Stop stop = new Stop("Test", 12354.21, 125884.65, 12);
         temp.addStop(stop);
         tripDao.update(temp);
-        temp = tripDao.findTripWithStops(temp.getId());
+        temp = tripDao.find(temp.getId());
         assertTrue(temp.getStops().size() > 0);
     }
 
-    /*
-    @Test
-    public void testPublishTrip(){
 
+    @Test
+    public void testSetTripType() {
+        Trip temp = newTrip();
+        temp.setType(TripType.LOOSE);
+        tripDao.add(temp);
+        temp = tripDao.find(temp.getId());
+        assertTrue(temp.getType().equals(TripType.LOOSE));
     }
 
-    */
+    @Test
+    public void testAddAdminToTrip() {
+        Trip temp = newTrip();
+        User user = new User("test@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
+        temp.addAdmin(user);
+        tripDao.add(temp);
+        temp = tripDao.find(temp.getId());
+        assertTrue(temp.getAdmins().size() >0);
+    }
+
 
     @After
     public void testRemoveTrips() {
