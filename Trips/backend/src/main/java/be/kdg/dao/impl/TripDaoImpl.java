@@ -1,8 +1,7 @@
 package be.kdg.dao.impl;
 
-import be.kdg.entities.Trip;
 import be.kdg.dao.interfaces.TripDao;
-import org.hibernate.Hibernate;
+import be.kdg.entities.Trip;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,4 +13,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("tripDao")
 public class TripDaoImpl extends HibernateDao<Trip,Integer> implements TripDao {
+
 }
