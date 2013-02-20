@@ -11,4 +11,5 @@ import be.kdg.entities.Trip;
  */
 public interface TripDao  extends GenericDao<Trip,Integer> {
     boolean removeTrip(Trip trip);
+    public Trip findTripWithStops(Integer id);
 }

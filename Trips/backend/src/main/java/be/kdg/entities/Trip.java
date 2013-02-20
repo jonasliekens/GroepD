@@ -49,8 +49,9 @@ public class Trip {
     @NotNull
     private Integer nrHours;
 
-    @OneToMany(mappedBy = "trip")
+    @OneToMany(orphanRemoval=true)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @JoinColumn(name = "tripId")
     private List<Stop> stops;
 
     public Trip(){
