@@ -4,6 +4,7 @@ import be.kdg.entities.Trip;
 import be.kdg.entities.TripType;
 import be.kdg.entities.User;
 import be.kdg.utilities.Utilities;
+import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ import static org.junit.Assert.assertTrue;
  */
 @ContextConfiguration(locations = "/persistence-beans.xml")
 public class TripTest extends AbstractJUnit4SpringContextTests {
+
+    @Autowired
+    private SessionFactory sessionFactory;
 
     @Autowired(required = true)
     private TripDao tripDao;
