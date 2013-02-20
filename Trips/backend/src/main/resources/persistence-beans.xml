@@ -41,6 +41,8 @@
         <property name="annotatedClasses">
             <list>
                 <value>be.kdg.entities.User</value>
+                <value>be.kdg.entities.Trip</value>
+                <value>be.kdg.entities.Stop</value>
             </list>
         </property>
         <property name="hibernateProperties">

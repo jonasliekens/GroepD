@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Email;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA 12.
@@ -16,20 +17,34 @@ import java.util.Date;
 @Entity
 @Table(name = "T_USER")
 public class User {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Email
     @NotNull
     private String email;
+
     @NotNull
     private String password;
+
     @NotNull
     private String firstName;
+
     @NotNull
     private String lastName;
+
     private Integer facebookID;
+
     @NotNull
     private Date birthday;
+
+    @ManyToMany(mappedBy="admins")
+    private List<Trip> ownTrips;
+
+    @ManyToMany(mappedBy="invitedUsers")
+    private List<Trip> participatedTrips;
 
     public User() {
     }
@@ -70,7 +85,7 @@ public class User {
         return birthday;
     }
 
-    public void setId(Integer id) {
+    private void setId(Integer id) {
         this.id = id;
     }
 

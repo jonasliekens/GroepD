@@ -1,5 +1,7 @@
 package be.kdg.entities;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -15,24 +17,40 @@ import java.util.List;
 @Entity
 @Table(name = "T_TRIP")
 public class Trip {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @ManyToOne
+
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name="T_TRIP_ADMINS",
+            joinColumns={@JoinColumn(name="tripId")},
+            inverseJoinColumns={@JoinColumn(name="userId")})
     private List<User> admins;
-    @ManyToMany
+
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name="T_TRIP_PARTICIPANT",
+            joinColumns={@JoinColumn(name="tripId")},
+            inverseJoinColumns={@JoinColumn(name="userId")})
     private List<User> invitedUsers;
+
     @NotNull
     private boolean privateTrip;
+
     @NotNull
     private boolean published;
-    @OneToOne
+
+    @Enumerated(EnumType.STRING)
     private TripType type;
+
     @NotNull
     private Integer nrDays;
+
     @NotNull
     private Integer nrHours;
-    @ManyToOne
+
+    @OneToMany(mappedBy = "trip")
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private List<Stop> stops;
 
     public Trip(){
@@ -58,8 +76,8 @@ public class Trip {
     }
 
     private void initLists() {
-        /*admins = new ArrayList<>();                    Kan niet in Maven compilen als dit er nog staat
-        invitedUsers = new ArrayList<>(); */
+        admins = new ArrayList<User>();
+        invitedUsers = new ArrayList<User>();
         stops = new ArrayList<Stop>();
     }
 
@@ -170,7 +188,7 @@ public class Trip {
         return id;
     }
 
-    public void setId(Integer id) {
+    private void setId(Integer id) {
         this.id = id;
     }
 }

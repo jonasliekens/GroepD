@@ -1,5 +1,7 @@
 package be.kdg.entities;
 
+import javax.persistence.Enumerated;
+
 /**
  * Created with IntelliJ IDEA 12.
  * User: Jonas Liekens
@@ -7,6 +9,7 @@ package be.kdg.entities;
  * Time: 10:37
  * Copyright @ Soulware.be
  */
+
 public enum TripType {
     LOOSE, TIMEBOUNDED, REPEATING
 }
