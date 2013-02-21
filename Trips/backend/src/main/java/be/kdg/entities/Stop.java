@@ -4,6 +4,8 @@ import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA 12.
@@ -23,6 +25,9 @@ public class Stop {
     @NotNull
     private String name;
 
+    @Column(columnDefinition="text")
+    private String description;
+
     @NotNull
     private Double latitude;
 
@@ -36,14 +41,31 @@ public class Stop {
     @JoinColumn(name = "tripId")
     private Trip trip;
 
+    @OneToMany(fetch = FetchType.EAGER,orphanRemoval=true)
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @JoinColumn(name = "stopId")
+    private Set<Picture> pictures;
+
+    @OneToMany(fetch = FetchType.EAGER,orphanRemoval=true)
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @JoinColumn(name = "stopId")
+    private Set<MultipleChoiceQuestion> multipleChoiceQuestions;
+
     public Stop() {
+        initLists();
     }
 
     public Stop(String name, double latitude, double longitude, Integer accuracy) {
+        initLists();
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
         this.accuracy = accuracy;
+    }
+
+    private void initLists() {
+        pictures = new HashSet<Picture>();
+        multipleChoiceQuestions = new HashSet<MultipleChoiceQuestion>();
     }
 
     public Integer getId() {
@@ -58,8 +80,24 @@ public class Stop {
         return name;
     }
 
-    public void setName(String plaatsnaam) {
-        this.name = plaatsnaam;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void addPicture(Picture picture){
+        this.pictures.add(picture);
+    }
+
+    public void addMultipleChoiceQuestion(MultipleChoiceQuestion multipleChoiceQuestion){
+        this.multipleChoiceQuestions.add(multipleChoiceQuestion);
     }
 
     public Double getLatitude() {
@@ -92,5 +130,13 @@ public class Stop {
 
     public void setTrip(Trip trip) {
         this.trip = trip;
+    }
+
+    public Set<Picture> getPictures(){
+        return pictures;
+    }
+
+    public Set<MultipleChoiceQuestion> getQuestions(){
+        return multipleChoiceQuestions;
     }
 }
