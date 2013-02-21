@@ -4,8 +4,8 @@ import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA 12.
@@ -22,17 +22,20 @@ public class Trip {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
+    @NotNull
+    private String name;
+
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(name="T_TRIP_ADMINS",
             joinColumns={@JoinColumn(name="tripId")},
             inverseJoinColumns={@JoinColumn(name="userId")})
-    private Set<User> admins;
+    private List<User> admins;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(name="T_TRIP_PARTICIPANT",
             joinColumns={@JoinColumn(name="tripId")},
             inverseJoinColumns={@JoinColumn(name="userId")})
-    private Set<User> invitedUsers;
+    private List<User> invitedUsers;
 
     @NotNull
     private boolean privateTrip;
@@ -49,25 +52,27 @@ public class Trip {
     @NotNull
     private Integer nrHours;
 
-    @OneToMany(fetch = FetchType.EAGER,orphanRemoval=true)
+    @OneToMany(orphanRemoval=true)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @JoinColumn(name = "tripId")
-    private Set<Stop> stops;
+    private List<Stop> stops;
 
     public Trip(){
         initLists();
     }
 
-    public Trip(User admin, boolean privateTrip) {
+    public Trip(String name, User admin, boolean privateTrip) {
         initLists();
+        setName(name);
         addAdmin(admin);
         setPublished(false);
         setType(TripType.LOOSE);
         setPrivateTrip(privateTrip);
     }
 
-    public Trip(User admin, boolean privateTrip, Integer nrDays, Integer nrHours, TripType type) {
+    public Trip(String name, User admin, boolean privateTrip, Integer nrDays, Integer nrHours, TripType type) {
         initLists();
+        setName(name);
         addAdmin(admin);
         setType(type);
         setPublished(false);
@@ -77,9 +82,9 @@ public class Trip {
     }
 
     private void initLists() {
-        admins = new HashSet<User>();
-        invitedUsers = new HashSet<User>();
-        stops = new HashSet<Stop>();
+        admins = new ArrayList<User>();
+        invitedUsers = new ArrayList<User>();
+        stops = new ArrayList<Stop>();
     }
 
     public void addStop(Stop stop) {
@@ -95,7 +100,7 @@ public class Trip {
         }
     }
 
-    public void setStops(Set<Stop> stops) {
+    public void setStops(List<Stop> stops) {
         this.stops = stops;
     }
 
@@ -112,7 +117,7 @@ public class Trip {
         }
     }
 
-    public void setAdmins(Set<User> admins) {
+    public void setAdmins(List<User> admins) {
         this.admins = admins;
     }
 
@@ -129,7 +134,11 @@ public class Trip {
         }
     }
 
-    public void setInvitedUsers(Set<User> invitedUsers) {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setInvitedUsers(List<User> invitedUsers) {
         this.invitedUsers = invitedUsers;
     }
 
@@ -153,11 +162,11 @@ public class Trip {
         this.nrHours = nrHours;
     }
 
-    public Set<User> getAdmins() {
+    public List<User> getAdmins() {
         return admins;
     }
 
-    public Set<User> getInvitedUsers() {
+    public List<User> getInvitedUsers() {
         return invitedUsers;
     }
 
@@ -167,6 +176,10 @@ public class Trip {
 
     public boolean isPublished() {
         return published;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public TripType getType() {
@@ -181,7 +194,7 @@ public class Trip {
         return nrHours;
     }
 
-    public Set<Stop> getStops() {
+    public List<Stop> getStops() {
         return stops;
     }
 
