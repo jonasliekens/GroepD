@@ -32,7 +32,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public User getUser(Integer id){
+    public User getUser(Integer id) {
         return userDao.find(id);
+    }
+
+    @Transactional
+    public boolean deleteUser(Integer id) {
+        User userToDelete = getUser(id);
+        if (userToDelete == null) {
+            return false;
+        } else {
+            userDao.remove(userToDelete);
+            return true;
+        }
+    }
+
+    @Transactional
+    public boolean checkLogin(String email, String password) {
+        User user = userDao.find(email);
+        if (user != null) {
+            if (user.getPassword().equals(password)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 }

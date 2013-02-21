@@ -34,26 +34,32 @@ public class UserTest extends AbstractJUnit4SpringContextTests {
     @Test
     public void testAddUser() {
         User temp = newUser();
-        userDao.add(temp);
         assertTrue(userDao.find(temp.getId()) != null);
+        userDao.remove(temp);
     }
 
     @Test
     public void testUpdateUser() {
         User temp = newUser();
-        userDao.add(temp);
         temp.setPassword("haha");
         userDao.update(temp);
 
         assertTrue(userDao.find(temp.getId()).getPassword().equals("haha"));
+        userDao.remove(temp);
     }
 
     @Test
     public void testRemoveUser() {
         User temp = newUser();
-        userDao.add(temp);
         userDao.remove(temp);
         assertTrue(userDao.find(temp.getId()) == null);
+    }
+
+    @Test
+    public void findUserByMail(){
+        User temp = newUser();
+        assertNotNull(userDao.find(temp.getEmail()));
+        userDao.remove(temp);
     }
 
     private User newUser() {

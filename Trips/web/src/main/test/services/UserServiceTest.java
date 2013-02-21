@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
  * Copyright @ Soulware.be
  */
 @ContextConfiguration(locations = "/persistence-beans.xml")
-public class UserServiceTest extends AbstractJUnit4SpringContextTests{
+public class UserServiceTest extends AbstractJUnit4SpringContextTests {
     @Autowired(required = true)
     private UserService userService;
     private User user;
@@ -31,8 +31,36 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests{
 
     @Test
     public void addUser() {
-        this.userService.addUser(this.user);
-        Assert.assertTrue(this.userService.getUser(this.user.getId()) != null);
+        addUserToDatabase();
+        Assert.assertTrue(removeUserFromDatabase());
     }
 
+    @Test
+    public void checkFaultyPassword() {
+        addUserToDatabase();
+        Assert.assertFalse(this.userService.checkLogin(user.getEmail(), "lala"));
+        removeUserFromDatabase();
+    }
+
+    @Test
+    public void checkFaultyUsername() {
+        addUserToDatabase();
+        Assert.assertFalse(this.userService.checkLogin("fail@gmail.com", "blabla"));
+        removeUserFromDatabase();
+    }
+
+    @Test
+    public void checkCorrectLogin() {
+        addUserToDatabase();
+        Assert.assertTrue(this.userService.checkLogin("test2@test.be", "blabla"));
+        removeUserFromDatabase();
+    }
+
+    private void addUserToDatabase() {
+        this.userService.addUser(this.user);
+    }
+
+    private boolean removeUserFromDatabase(){
+       return this.userService.deleteUser(this.user.getId());
+    }
 }

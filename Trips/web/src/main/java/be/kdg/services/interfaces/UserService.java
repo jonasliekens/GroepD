@@ -13,5 +13,6 @@ import be.kdg.entities.User;
 public interface UserService {
     public void addUser(User user);
     public User getUser(Integer id);
-
+    public boolean deleteUser(Integer id);
+    public boolean checkLogin(String email, String password);
 }
