@@ -21,13 +21,13 @@ public class Stop {
     private Integer id;
 
     @NotNull
-    private String plaatsnaam;
+    private String name;
 
     @NotNull
-    private double latitude;
+    private Double latitude;
 
     @NotNull
-    private double longitude;
+    private Double longitude;
 
     private Integer accuracy;
 
@@ -39,8 +39,8 @@ public class Stop {
     public Stop() {
     }
 
-    public Stop(String plaatsnaam, double latitude, double longitude, Integer accuracy) {
-        this.plaatsnaam = plaatsnaam;
+    public Stop(String name, double latitude, double longitude, Integer accuracy) {
+        this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
         this.accuracy = accuracy;
@@ -54,11 +54,43 @@ public class Stop {
         this.id = id;
     }
 
-    public String getPlaatsnaam() {
-        return plaatsnaam;
+    public String getName() {
+        return name;
     }
 
-    public void setPlaatsnaam(String plaatsnaam) {
-        this.plaatsnaam = plaatsnaam;
+    public void setName(String plaatsnaam) {
+        this.name = plaatsnaam;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Integer getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAccuracy(Integer accuracy) {
+        this.accuracy = accuracy;
+    }
+
+    public Trip getTrip() {
+        return trip;
+    }
+
+    public void setTrip(Trip trip) {
+        this.trip = trip;
     }
 }

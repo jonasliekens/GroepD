@@ -3,9 +3,11 @@ package be.kdg.services.impl;
 import be.kdg.dao.interfaces.UserDao;
 import be.kdg.entities.User;
 import be.kdg.services.interfaces.UserService;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -17,9 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("userService")
 @Component
+@ContextConfiguration(locations = "/persistence-beans.xml")
 public class UserServiceImpl implements UserService {
     @Autowired(required = true)
     private UserDao userDao;
+    @Autowired(required = true)
+    private SessionFactory sessionFactory;
 
     @Transactional
     public void addUser(User user) {

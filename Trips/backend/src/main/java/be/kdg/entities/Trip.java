@@ -22,23 +22,26 @@ public class Trip {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
+    @NotNull
+    private String name;
+
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(name="T_TRIP_ADMINS",
             joinColumns={@JoinColumn(name="tripId")},
             inverseJoinColumns={@JoinColumn(name="userId")})
     private Set<User> admins;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(name="T_TRIP_PARTICIPANT",
             joinColumns={@JoinColumn(name="tripId")},
             inverseJoinColumns={@JoinColumn(name="userId")})
     private Set<User> invitedUsers;
 
     @NotNull
-    private boolean privateTrip;
+    private Boolean privateTrip;
 
     @NotNull
-    private boolean published;
+    private Boolean published;
 
     @Enumerated(EnumType.STRING)
     private TripType type;
@@ -49,7 +52,7 @@ public class Trip {
     @NotNull
     private Integer nrHours;
 
-    @OneToMany(fetch = FetchType.EAGER,orphanRemoval=true)
+    @OneToMany(orphanRemoval=true)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @JoinColumn(name = "tripId")
     private Set<Stop> stops;
@@ -58,16 +61,18 @@ public class Trip {
         initLists();
     }
 
-    public Trip(User admin, boolean privateTrip) {
+    public Trip(String name, User admin, boolean privateTrip) {
         initLists();
+        setName(name);
         addAdmin(admin);
         setPublished(false);
         setType(TripType.LOOSE);
         setPrivateTrip(privateTrip);
     }
 
-    public Trip(User admin, boolean privateTrip, Integer nrDays, Integer nrHours, TripType type) {
+    public Trip(String name, User admin, boolean privateTrip, Integer nrDays, Integer nrHours, TripType type) {
         initLists();
+        setName(name);
         addAdmin(admin);
         setType(type);
         setPublished(false);
@@ -129,6 +134,10 @@ public class Trip {
         }
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setInvitedUsers(Set<User> invitedUsers) {
         this.invitedUsers = invitedUsers;
     }
@@ -169,6 +178,10 @@ public class Trip {
         return published;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public TripType getType() {
         return type;
     }
@@ -191,5 +204,21 @@ public class Trip {
 
     private void setId(Integer id) {
         this.id = id;
+    }
+
+    public Boolean getPublished() {
+        return published;
+    }
+
+    public void setPublished(Boolean published) {
+        this.published = published;
+    }
+
+    public Boolean getPrivateTrip() {
+        return privateTrip;
+    }
+
+    public void setPrivateTrip(Boolean privateTrip) {
+        this.privateTrip = privateTrip;
     }
 }

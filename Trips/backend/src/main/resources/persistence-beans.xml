@@ -43,6 +43,7 @@
             <list>
                 <value>be.kdg.entities.User</value>
                 <value>be.kdg.entities.Trip</value>
+                <value>be.kdg.entities.TripType</value>
                 <value>be.kdg.entities.Stop</value>
             </list>
         </property>
@@ -50,7 +51,7 @@
             <props>
                 <prop key="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
                 <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.hbm2ddl.auto">create</prop>
             </props>
         </property>
     </bean>
