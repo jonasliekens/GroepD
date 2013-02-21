@@ -1,3 +1,5 @@
+package services;
+
 import be.kdg.entities.User;
 import be.kdg.services.interfaces.UserService;
 import be.kdg.utilities.Utilities;
@@ -15,16 +17,16 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
  * Time: 14:50
  * Copyright @ Soulware.be
  */
-@ContextConfiguration(locations = "/persistence-beans.xml")
+@ContextConfiguration(locations = "classpath*:persistence-beans.xml")
 public class UserServiceTest extends AbstractJUnit4SpringContextTests{
-    @Autowired
+    @Autowired(required = true)
     private UserService userService;
     private User user;
 
     @Before
     public void init() {
         //this.userService = new UserServiceImpl();
-        this.user = new User("test@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
+        this.user = new User("test2@test.be", "blabla", "test", "test", Utilities.makeDate("03/02/1992"));
     }
 
     @Test
@@ -32,6 +34,5 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests{
         this.userService.addUser(this.user);
         Assert.assertTrue(this.userService.getUser(this.user.getId()) != null);
     }
-
 
 }

@@ -4,6 +4,7 @@ import be.kdg.dao.interfaces.UserDao;
 import be.kdg.entities.User;
 import be.kdg.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,9 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
  * Time: 14:46
  * Copyright @ Soulware.be
  */
-@Service
-//Niet zeker of het hier nodig is, mocht het niet werken zonder de tests, uncomment - Jonas & Sander
-//@ContextConfiguration(locations = "/persistence-beans.xml")
+@Service("userService")
+@Component
 public class UserServiceImpl implements UserService {
     @Autowired(required = true)
     private UserDao userDao;

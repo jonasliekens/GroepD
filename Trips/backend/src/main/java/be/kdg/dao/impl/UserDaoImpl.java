@@ -1,7 +1,7 @@
 package be.kdg.dao.impl;
 
-import be.kdg.entities.User;
 import be.kdg.dao.interfaces.UserDao;
+import be.kdg.entities.User;
 import org.springframework.stereotype.Repository;
 
 /**
