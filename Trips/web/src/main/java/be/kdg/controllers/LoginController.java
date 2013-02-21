@@ -4,6 +4,7 @@ import be.kdg.forms.RegisterForm;
 import be.kdg.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @SessionAttributes
 @RequestMapping("/login")
+@ContextConfiguration(locations = "/persistence-beans.xml")
 public class LoginController {
     @Autowired
     private UserService userService;

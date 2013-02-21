@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
  * Time: 14:50
  * Copyright @ Soulware.be
  */
-@ContextConfiguration(locations = "classpath*:persistence-beans.xml")
+@ContextConfiguration(locations = "/persistence-beans.xml")
 public class UserServiceTest extends AbstractJUnit4SpringContextTests{
     @Autowired(required = true)
     private UserService userService;

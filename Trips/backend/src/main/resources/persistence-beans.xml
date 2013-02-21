@@ -43,6 +43,7 @@
             <list>
                 <value>be.kdg.entities.User</value>
                 <value>be.kdg.entities.Trip</value>
+                <value>be.kdg.entities.TripType</value>
                 <value>be.kdg.entities.Stop</value>
             </list>
         </property>
