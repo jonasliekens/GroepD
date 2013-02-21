@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.Email;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA 12.
@@ -41,10 +41,10 @@ public class User {
     private Date birthday;
 
     @ManyToMany(mappedBy="admins")
-    private List<Trip> ownTrips;
+    private Set<Trip> ownTrips;
 
     @ManyToMany(mappedBy="invitedUsers")
-    private List<Trip> participatedTrips;
+    private Set<Trip> participatedTrips;
 
     public User() {
     }
@@ -112,4 +112,6 @@ public class User {
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
+
+
 }
