@@ -25,13 +25,13 @@ public class Trip {
     @NotNull
     private String name;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
     @JoinTable(name="T_TRIP_ADMINS",
             joinColumns={@JoinColumn(name="tripId")},
             inverseJoinColumns={@JoinColumn(name="userId")})
     private Set<User> admins;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
     @JoinTable(name="T_TRIP_PARTICIPANT",
             joinColumns={@JoinColumn(name="tripId")},
             inverseJoinColumns={@JoinColumn(name="userId")})
@@ -52,7 +52,7 @@ public class Trip {
     @NotNull
     private Integer nrHours;
 
-    @OneToMany(orphanRemoval=true)
+    @OneToMany(fetch = FetchType.EAGER,orphanRemoval=true)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @JoinColumn(name = "tripId")
     private Set<Stop> stops;

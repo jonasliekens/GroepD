@@ -45,6 +45,9 @@
                 <value>be.kdg.entities.Trip</value>
                 <value>be.kdg.entities.TripType</value>
                 <value>be.kdg.entities.Stop</value>
+                <value>be.kdg.entities.MultipleChoiceQuestion</value>
+                <value>be.kdg.entities.Answer</value>
+                <value>be.kdg.entities.Picture</value>
             </list>
         </property>
         <property name="hibernateProperties">

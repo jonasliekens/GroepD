@@ -75,11 +75,21 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
     @Test
     public void testAddAdminToTrip() {
         Trip temp = newTrip();
-        User user = new User("test@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
+        User user = new User("Admin@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
         temp.addAdmin(user);
         tripDao.add(temp);
         temp = tripDao.find(temp.getId());
         assertTrue(temp.getAdmins().size() > 0);
+    }
+
+    @Test
+    public void testAddParticipantToTrip(){
+        Trip temp = newTrip();
+        User user = new User("Invited@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
+        temp.addInviteduser(user);
+        tripDao.add(temp);
+        temp = tripDao.find(temp.getId());
+        assertTrue(temp.getInvitedUsers().size() > 0);
     }
 
 
@@ -94,6 +104,7 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
 
     private Trip newTrip() {
         Trip trip = new Trip();
+        trip.setName("test");
         trip.setPrivateTrip(false);
         trip.setPublished(false);
         trip.setNrDays(10);
