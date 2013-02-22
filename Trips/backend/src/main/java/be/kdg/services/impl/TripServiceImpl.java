@@ -22,25 +22,21 @@ public class TripServiceImpl implements TripService {
     @Autowired(required = true)
     private TripDao tripDao;
 
-    @Override
     @Transactional
     public void addTrip(Trip trip) {
         tripDao.add(trip);
     }
 
-    @Override
     @Transactional
     public void deleteTrip(Trip trip) {
         tripDao.remove(trip);
     }
 
-    @Override
     @Transactional
     public Trip getTrip(Integer key) {
         return tripDao.find(key);
     }
 
-    @Override
     @Transactional
     public List<Trip> getTrips() {
         return tripDao.list();

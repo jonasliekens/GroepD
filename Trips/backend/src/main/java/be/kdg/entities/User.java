@@ -35,7 +35,7 @@ public class User {
     @NotNull
     private String lastName;
 
-    private Integer facebookID;
+    private String facebookID;
 
     @NotNull
     private Date birthday;
@@ -77,7 +77,7 @@ public class User {
         return lastName;
     }
 
-    public Integer getFacebookID() {
+    public String getFacebookID() {
         return facebookID;
     }
 
@@ -105,7 +105,7 @@ public class User {
         this.lastName = lastName;
     }
 
-    public void setFacebookID(Integer facebookID) {
+    public void setFacebookID(String facebookID) {
         this.facebookID = facebookID;
     }
 

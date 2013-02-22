@@ -8,5 +8,7 @@ import be.kdg.entities.User;
  * Date: 8/02/13
  */
 public interface UserDao extends GenericDao<User,Integer> {
-    public User find(String email);
+    public User findByMail(String email);
+    public void mergeUser(Integer id, String facebookId);
+    public User findByFacebook(String facebookId);
 }

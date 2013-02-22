@@ -48,8 +48,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
+    public void mergeUserWithFacebook(Integer id, String facebookid) {
+        userDao.mergeUser(id, facebookid);
+    }
+
+    @Transactional
+    public boolean checkLoginWithFacebook(String facebookId) {
+        if (userDao.findByFacebook(facebookId) != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Transactional
     public boolean checkLogin(String email, String password) {
-        User user = userDao.find(email);
+        User user = userDao.findByMail(email);
         if (user != null) {
             if (user.getPassword().equals(password)) {
                 return true;

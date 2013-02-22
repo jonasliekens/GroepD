@@ -22,12 +22,10 @@ public class UserTest extends AbstractJUnit4SpringContextTests {
     @Autowired(required = true)
     private UserDao userDao;
 
-    private User user;
-
     @After
     public void testRemoveUsers() {
         for (User user : userDao.list()) {
-            userDao.remove(user);
+            removeUser(user);
         }
 
         assertFalse(userDao.list().size() > 0);
@@ -37,7 +35,7 @@ public class UserTest extends AbstractJUnit4SpringContextTests {
     public void testAddUser() {
         User temp = newUser();
         assertTrue(userDao.find(temp.getId()) != null);
-        userDao.remove(temp);
+        removeUser(temp);
     }
 
     @Test
@@ -45,28 +43,39 @@ public class UserTest extends AbstractJUnit4SpringContextTests {
         User temp = newUser();
         temp.setPassword("haha");
         userDao.update(temp);
-
         assertTrue(userDao.find(temp.getId()).getPassword().equals("haha"));
-        userDao.remove(temp);
+        removeUser(temp);
     }
 
     @Test
     public void testRemoveUser() {
         User temp = newUser();
-        userDao.remove(temp);
+        removeUser(temp);
         assertTrue(userDao.find(temp.getId()) == null);
     }
 
     @Test
-    public void findUserByMail(){
+    public void findUserByMail() {
         User temp = newUser();
-        assertNotNull(userDao.find(temp.getEmail()));
+        assertNotNull(userDao.findByMail(temp.getEmail()));
+        removeUser(temp);
+    }
+
+    @Test
+    public void mergeUserWithFacebook() {
+        User temp = newUser();
+        String facebookId = "100000420715358";
+        userDao.mergeUser(temp.getId(), facebookId);
+        assertNotNull(userDao.findByFacebook(facebookId));
+        removeUser(temp);
+    }
+
+    private void removeUser(User temp) {
         userDao.remove(temp);
     }
 
     private User newUser() {
-
-        user = new User("test@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
+        User user = new User("test@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
         userDao.add(user);
         return user;
     }
