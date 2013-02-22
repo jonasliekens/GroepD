@@ -56,6 +56,22 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests {
         removeUserFromDatabase();
     }
 
+    @Test
+    public void checkLoginWithFacebookFail(){
+        addUserToDatabase();
+        userService.mergeUserWithFacebook(this.user.getId(), "100000420715358");
+        Assert.assertFalse(userService.checkLoginWithFacebook("100000420715357"));
+        removeUserFromDatabase();
+    }
+
+    @Test
+    public void checkLoginWithFacebookWin(){
+        addUserToDatabase();
+        userService.mergeUserWithFacebook(this.user.getId(), "100000420715358");
+        Assert.assertTrue(userService.checkLoginWithFacebook("100000420715358"));
+        removeUserFromDatabase();
+    }
+
     private void addUserToDatabase() {
         this.userService.addUser(this.user);
     }

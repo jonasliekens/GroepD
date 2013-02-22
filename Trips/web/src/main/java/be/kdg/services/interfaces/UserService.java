@@ -15,4 +15,6 @@ public interface UserService {
     public User getUser(Integer id);
     public boolean deleteUser(Integer id);
     public boolean checkLogin(String email, String password);
+    public void mergeUserWithFacebook(Integer id, String facebookid);
+    public boolean checkLoginWithFacebook(String facebookId);
 }
