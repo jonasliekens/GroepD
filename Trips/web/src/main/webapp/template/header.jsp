@@ -9,13 +9,13 @@
         <div class="span12">
             <ul>
                 <li>
-                    <a href="/web/">Home</a>
+                    <a href="">Home</a>
                 </li>
                 <li>
-                    <a href="/web/trips">Trips</a>
+                    <a href="trips">Trips</a>
                 </li>
                 <li>
-                    <a href="/web/login">Login</a>
+                    <a href="login">Login</a>
                 </li>
             </ul>
         </div>

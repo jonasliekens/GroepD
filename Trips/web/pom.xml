@@ -57,13 +57,5 @@
             <artifactId>backend</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>-->
-
-        <!-- The dependency for tiles, a mechanism to define parts of pages -->
-        <dependency>
-            <groupId>org.apache.tiles</groupId>
-            <artifactId>tiles-extras</artifactId>
-            <version>3.0.1</version>
-        </dependency>
-
     </dependencies>
 </project>

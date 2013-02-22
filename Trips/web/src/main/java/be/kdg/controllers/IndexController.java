@@ -10,11 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class IndexController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public String index(ModelMap model) {
-
-        model.addAttribute("message", "Spring 3 MVC Hello World");
+    public String index() {
         return "index";
-
     }
 
 }

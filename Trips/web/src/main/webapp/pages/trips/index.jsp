@@ -1,10 +1,13 @@
 <%--
-  User: Sander
-  Date: 20/02/13
-  Time: 10:43
+  Created by IntelliJ IDEA.
+  User: bartverhavert
+  Date: 21/02/13
+  Time: 14:06
+  To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -14,7 +17,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Register complete</title>
+    <title>Trips</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
@@ -38,7 +41,24 @@
     <div class="container">
         <div class="row-fluid">
             <div class="span12">
-                Register complete
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <td>
+                                Trip name
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="trip" items="${trips}">
+                            <tr>
+                                <td>
+                                    <a href="trips/detail/${trip.id}">${trip.name}</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

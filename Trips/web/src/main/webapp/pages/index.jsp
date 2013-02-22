@@ -14,6 +14,8 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
+    <base href="${pageContext.request.contextPath}/" />
+
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
     <link rel="stylesheet" href="css/main.css">
@@ -32,7 +34,7 @@
     <div class="container">
         <div class="row-fluid">
             <div class="span12">
-                ${message}
+
             </div>
         </div>
     </div>
