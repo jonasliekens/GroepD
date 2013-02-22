@@ -2,6 +2,7 @@ package be.kdg.controllers;
 
 import be.kdg.forms.RegisterForm;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,20 +24,23 @@ public class LoginController {
     private UserService userService;*/
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView showPage() {
-        ModelAndView model = new ModelAndView("/login/index");
-        model.addObject("registerForm", new RegisterForm());
-        return model;
+    public String showPage(ModelMap model) {
+        RegisterForm registerForm = new RegisterForm();
+
+        model.addAttribute("registerForm", registerForm);
+
+        return "login/index";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ModelAndView register(@ModelAttribute("registerForm") RegisterForm registerForm, BindingResult result, SessionStatus status) {
-        ModelAndView model = new ModelAndView("/login/registercomplete");
-        return model;
+    public String register(@ModelAttribute("registerForm") RegisterForm registerForm, BindingResult result, SessionStatus status) {
+        //TODO: Validate the RegisterForm object and register the user
+
+        return "login/registercomplete";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String goToLogin() {
-          return "redirect:/login";
+        return "redirect:/login";
     }
 }

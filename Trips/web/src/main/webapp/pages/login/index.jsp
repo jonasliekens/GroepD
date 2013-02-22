@@ -66,7 +66,7 @@
                         </tr>
 
                         <tr>
-                            <spring:message code="register.btnRegister" var="btnRegister"/>
+                            <spring:message code="control.register" var="btnRegister"/>
                             <td colspan="2"><input type="submit" value="${btnRegister}" /></td>
                         </tr>
                     </table>

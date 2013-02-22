@@ -41,6 +41,8 @@
     <div class="container">
         <div class="row-fluid">
             <div class="span12">
+                <a href="trips/add">Add</a>
+                ${name} ${test}
                 <table class="table table-striped">
                     <thead>
                         <tr>
