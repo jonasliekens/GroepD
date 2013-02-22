@@ -1,11 +1,7 @@
 package be.kdg.controllers;
 
-import be.kdg.services.interfaces.TripService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * User: Bart Verhavert
@@ -14,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/trips")
 public class TripController {
-    @Autowired
+    /*@Autowired
     TripService tripService;
 
     @RequestMapping(method = RequestMethod.GET)
@@ -23,6 +19,6 @@ public class TripController {
         model.addAttribute("trips", tripService.getTrips());
         return "trips";
 
-    }
+    }   */
 
 }
