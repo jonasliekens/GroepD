@@ -1,3 +1,5 @@
+package dao;
+
 import be.kdg.dao.interfaces.StopDao;
 import be.kdg.entities.Answer;
 import be.kdg.entities.MultipleChoiceQuestion;
@@ -41,6 +43,9 @@ public class StopTest extends AbstractJUnit4SpringContextTests {
         MultipleChoiceQuestion question = new MultipleChoiceQuestion();
         question.setQuestion("Wat werpt Brabo?");
 
+        MultipleChoiceQuestion question2 = new MultipleChoiceQuestion();
+        question2.setQuestion("Wordt ik mee verwijderd?");
+
         Answer answer = new Answer();
         answer.setCorrect(true);
         answer.setAnswer("Een Hand");
@@ -52,11 +57,12 @@ public class StopTest extends AbstractJUnit4SpringContextTests {
         Answer answer3 = new Answer();
         answer3.setCorrect(false);
         answer3.setAnswer("Een Hoofd");
-
+        /*
         question.addAnswer(answer);
-        question.addAnswer(answer2);
-        question.addAnswer(answer3);
         temp.addMultipleChoiceQuestion(question);
+        question.addAnswer(answer2);*/
+        question.addAnswer(answer3);
+        temp.addMultipleChoiceQuestion(question2);
         stopDao.add(temp);
         assertTrue(stopDao.find(temp.getId()).getQuestions().size() > 0);
     }
@@ -64,6 +70,7 @@ public class StopTest extends AbstractJUnit4SpringContextTests {
     @After
     public void deleteStops(){
         for(Stop stop : stopDao.list()){
+
             stopDao.remove(stop);
         }
         assertTrue(stopDao.list().size() == 0);

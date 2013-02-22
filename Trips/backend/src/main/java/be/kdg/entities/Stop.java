@@ -1,8 +1,11 @@
 package be.kdg.entities;
 
-import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
@@ -37,17 +40,17 @@ public class Stop {
     private Integer accuracy;
 
     @ManyToOne
-    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @Cascade({CascadeType.SAVE_UPDATE})
     @JoinColumn(name = "tripId")
     private Trip trip;
 
     @OneToMany(fetch = FetchType.EAGER,orphanRemoval=true)
-    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @Cascade({CascadeType.SAVE_UPDATE})
     @JoinColumn(name = "stopId")
     private Set<Picture> pictures;
 
     @OneToMany(fetch = FetchType.EAGER,orphanRemoval=true)
-    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @Cascade({CascadeType.ALL})
     @JoinColumn(name = "stopId")
     private Set<MultipleChoiceQuestion> multipleChoiceQuestions;
 

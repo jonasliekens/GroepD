@@ -1,3 +1,5 @@
+package dao;
+
 import be.kdg.dao.interfaces.TripDao;
 import be.kdg.entities.Stop;
 import be.kdg.entities.Trip;

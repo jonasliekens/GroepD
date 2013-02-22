@@ -1,9 +1,12 @@
 package be.kdg.entities;
 
 import com.sun.istack.internal.NotNull;
-import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,7 +31,7 @@ public class Answer {
     private Boolean isCorrect;
 
     @ManyToOne
-    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @Cascade({CascadeType.SAVE_UPDATE})
     @JoinColumn(name = "multipleChoiceId")
     private MultipleChoiceQuestion multipleChoiceQuestion;
 

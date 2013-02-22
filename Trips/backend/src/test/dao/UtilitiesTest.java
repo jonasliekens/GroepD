@@ -1,3 +1,5 @@
+package dao;
+
 import be.kdg.utilities.Utilities;
 import org.junit.Test;
 

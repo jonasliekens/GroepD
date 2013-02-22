@@ -1,8 +1,11 @@
 package be.kdg.entities;
 
-import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,13 +29,12 @@ public class MultipleChoiceQuestion {
     @NotNull
     private String question;
 
-    @OneToMany(fetch = FetchType.EAGER,orphanRemoval=true)
-    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @OneToMany(fetch = FetchType.EAGER)
+    @Cascade({CascadeType.ALL})
     @JoinColumn(name = "multipleChoiceId")
     private Set<Answer> answers;
 
     @ManyToOne
-    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @JoinColumn(name = "stopId")
     private Stop stop;
 

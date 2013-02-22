@@ -1,3 +1,5 @@
+package dao;
+
 import be.kdg.entities.User;
 import be.kdg.dao.interfaces.UserDao;
 import be.kdg.utilities.Utilities;
