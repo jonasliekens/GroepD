@@ -10,7 +10,7 @@ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.spri
 
 
     <!-- Scan the given package for controllers -->
-	<context:component-scan base-package="be.kdg" />
+	<context:component-scan base-package="be.kdg.web"/>
 
 
     <!-- Prevent the static content from being mapped to a controller -->

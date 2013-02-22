@@ -1,15 +1,15 @@
 package dao;
 
-import be.kdg.dao.interfaces.TripDao;
-import be.kdg.entities.Stop;
-import be.kdg.entities.Trip;
-import be.kdg.entities.TripType;
-import be.kdg.entities.User;
-import be.kdg.utilities.Utilities;
+import be.kdg.backend.dao.interfaces.TripDao;
+import be.kdg.backend.entities.Stop;
+import be.kdg.backend.entities.Trip;
+import be.kdg.backend.entities.TripType;
+import be.kdg.backend.entities.User;
+import be.kdg.backend.utilities.Utilities;
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
 import static org.junit.Assert.assertFalse;
@@ -22,9 +22,8 @@ import static org.junit.Assert.assertTrue;
  * Time: 14:09
  * Copyright @ Soulware.be
  */
-@ContextConfiguration(locations = "/persistence-beans.xml")
 public class TripTest extends AbstractJUnit4SpringContextTests {
-
+    @Qualifier("tripDaoImpl")
     @Autowired(required = true)
     private TripDao tripDao;
 

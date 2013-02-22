@@ -1,15 +1,16 @@
 package dao;
 
-import be.kdg.dao.interfaces.StopDao;
-import be.kdg.entities.Answer;
-import be.kdg.entities.MultipleChoiceQuestion;
-import be.kdg.entities.Picture;
-import be.kdg.entities.Stop;
+import be.kdg.backend.dao.interfaces.StopDao;
+import be.kdg.backend.entities.Answer;
+import be.kdg.backend.entities.MultipleChoiceQuestion;
+import be.kdg.backend.entities.Picture;
+import be.kdg.backend.entities.Stop;
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
+
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -20,9 +21,9 @@ import static org.junit.Assert.assertTrue;
  * To change this template use File | Settings | File Templates.
  */
 
-@ContextConfiguration(locations = "/persistence-beans.xml")
 public class StopTest extends AbstractJUnit4SpringContextTests {
 
+    @Qualifier("stopDaoImpl")
     @Autowired(required = true)
     private StopDao stopDao;
 

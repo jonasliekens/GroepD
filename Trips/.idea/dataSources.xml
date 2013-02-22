@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="3330021610">
+    <data-source source="LOCAL" name="dataSource" product="MySQL" version="5.5.25a" jdbc-version="3.0" driver-name="MySQL-AB JDBC Driver" driver-version="mysql-connector-java-5.1.6 ( Revision: ${svn.Revision} )" uuid="711edc2d-eb4d-4a00-a1c3-e17b5b129810">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost/groepD</jdbc-url>
+      <user-name>groepD</user-name>
+      <user-password>dfcddfd8dfc5dfcfdfdadfee</user-password>
+      <libraries>
+        <library>
+          <url>jar://$MAVEN_REPOSITORY$/mysql/mysql-connector-java/5.1.6/mysql-connector-java-5.1.6.jar!/</url>
+        </library>
+      </libraries>
+    </data-source>
+  </component>
+</project>
+

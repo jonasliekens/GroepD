@@ -1,6 +1,6 @@
 package dao;
 
-import be.kdg.utilities.Utilities;
+import be.kdg.backend.utilities.Utilities;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
