@@ -31,33 +31,29 @@ public class StopDaoImpl implements StopDao {
     }
 
     @Override
-    @Transactional
     public void add(Stop entity) {
         entityManager.getTransaction().begin();
         entityManager.persist(entity);
-        entityManager.getTransaction().commit();
+        entityManager.getTransaction().begin();
     }
 
     @Override
     @Transactional
     public void remove(Stop entity) {
-        entityManager.getTransaction().begin();
         entityManager.remove(entity);
-        entityManager.getTransaction().commit();
     }
 
     @Override
     @Transactional
     public void update(Stop entity) {
-        entityManager.getTransaction().begin();
         entityManager.merge(entity);
-        entityManager.getTransaction().commit();
     }
 
     @Override
     @Transactional
-    public Stop find(Integer id) {
-        return entityManager.find(Stop.class, id);
+    public Stop find(Integer stopId) {
+        Query query = entityManager.createQuery("select s from Stop s");
+        return (Stop)query.getResultList().get(0);
     }
 
     @Override

@@ -3,5 +3,15 @@
     <persistence-unit name="JpaPersistenceUnit"
                       transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <properties>
+            <property name="hibernate.archive.autodetection" value="class, hbm"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+            <property name="hibernate.connection.password" value="groepD"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost/groepd"/>
+            <property name="hibernate.connection.username" value="groepD"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+        </properties>
+
     </persistence-unit>
 </persistence>
