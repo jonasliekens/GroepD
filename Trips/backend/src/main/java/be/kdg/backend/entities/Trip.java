@@ -51,7 +51,7 @@ public class Trip {
     @NotNull
     private Integer nrHours;
 
-    @OneToMany(fetch = FetchType.EAGER,orphanRemoval=true)
+    @OneToMany(fetch = FetchType.EAGER,orphanRemoval=true,cascade = {CascadeType.ALL})
     @JoinColumn(name = "tripId")
     private Set<Stop> stops;
 

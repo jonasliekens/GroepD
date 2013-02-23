@@ -2,7 +2,6 @@ package be.kdg.backend.dao.impl;
 
 import be.kdg.backend.dao.interfaces.TripDao;
 import be.kdg.backend.entities.Trip;
-import org.junit.Before;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,13 +19,7 @@ import java.util.List;
 public class TripDaoImpl implements TripDao {
     protected EntityManager entityManager;
     protected EntityTransaction etx;
-
-    @Before
-    public void init(){
-
-
-
-    }
+    protected EntityManagerFactory emf;
 
     @Override
     @Transactional
@@ -34,8 +27,7 @@ public class TripDaoImpl implements TripDao {
         /*entityManager.getTransaction().begin();
         entityManager.persist(entity);
         enityManager.getTransaction().commit();*/
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JpaPersistenceUnit");
-        entityManager = emf.createEntityManager();
+        initEntityManager();
         etx = entityManager.getTransaction();
         etx.begin();
         entityManager.persist(entity);
@@ -45,9 +37,10 @@ public class TripDaoImpl implements TripDao {
     @Override
     @Transactional
     public void remove(Trip entity) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JpaPersistenceUnit");
-        entityManager = emf.createEntityManager();
+
+        initEntityManager();
         entityManager.getTransaction().begin();
+        entity = entityManager.find(Trip.class, entity.getId());
         entityManager.remove(entity);
         entityManager.getTransaction().commit();
     }
@@ -55,8 +48,7 @@ public class TripDaoImpl implements TripDao {
     @Override
     @Transactional
     public void update(Trip entity) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JpaPersistenceUnit");
-        entityManager = emf.createEntityManager();
+        initEntityManager();
         entityManager.getTransaction().begin();
         entityManager.merge(entity);
         entityManager.getTransaction().commit();
@@ -65,17 +57,20 @@ public class TripDaoImpl implements TripDao {
     @Override
     @Transactional
     public Trip find(Integer id) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JpaPersistenceUnit");
-        entityManager = emf.createEntityManager();
+        initEntityManager();
         return entityManager.find(Trip.class, id);
     }
 
     @Override
     @Transactional
     public List<Trip> list() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JpaPersistenceUnit");
-        entityManager = emf.createEntityManager();
+        initEntityManager();
         Query query = entityManager.createQuery("select t from Trip t");
         return query.getResultList();
+    }
+
+    public void initEntityManager(){
+        emf = Persistence.createEntityManagerFactory("JpaPersistenceUnit");
+        entityManager = emf.createEntityManager();
     }
 }
