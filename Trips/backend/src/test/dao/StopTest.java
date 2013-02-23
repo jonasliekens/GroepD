@@ -9,6 +9,7 @@ import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
 import static org.junit.Assert.assertTrue;
@@ -21,6 +22,7 @@ import static org.junit.Assert.assertTrue;
  * To change this template use File | Settings | File Templates.
  */
 
+@ContextConfiguration(locations = "classpath*:/META-INF/applicationContext.xml")
 public class StopTest extends AbstractJUnit4SpringContextTests {
 
     @Qualifier("stopDaoImpl")

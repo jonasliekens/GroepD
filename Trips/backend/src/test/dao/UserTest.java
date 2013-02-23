@@ -7,6 +7,7 @@ import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
 import static org.junit.Assert.*;
@@ -17,6 +18,7 @@ import static org.junit.Assert.*;
  * Author: Nick De Waele
  * Date: 8/02/13
  */
+@ContextConfiguration(locations = "classpath*:/META-INF/applicationContext.xml")
 public class UserTest extends AbstractJUnit4SpringContextTests {
     @Qualifier("userDaoImpl")
     @Autowired(required = true)

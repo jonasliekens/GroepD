@@ -12,6 +12,7 @@ import static junit.framework.Assert.assertEquals;
  * Time: 16:03
  * Copyright @ Soulware.be
  */
+
 public class UtilitiesTest {
     @Test
     public void testPasswordHash() {

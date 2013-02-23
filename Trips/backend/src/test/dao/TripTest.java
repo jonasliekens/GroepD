@@ -10,6 +10,7 @@ import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
 import static org.junit.Assert.assertFalse;
@@ -22,6 +23,7 @@ import static org.junit.Assert.assertTrue;
  * Time: 14:09
  * Copyright @ Soulware.be
  */
+@ContextConfiguration(locations = "classpath*:/META-INF/applicationContext.xml")
 public class TripTest extends AbstractJUnit4SpringContextTests {
     @Qualifier("tripDaoImpl")
     @Autowired(required = true)
