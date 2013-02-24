@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Dutch strings -->
-<resources>
-    <string name="app_name">Trips</string>
-    <string name="language_test">Dit is Nederlandse tekst.</string>
-</resources>

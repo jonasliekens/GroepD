@@ -61,6 +61,11 @@
     <orderEntry type="library" name="Maven: commons-pool:commons-pool:1.5.4" level="project" />
     <orderEntry type="library" name="Maven: org.antlr:antlr:3.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.antlr:stringtemplate:3.1-b1" level="project" />
+    <orderEntry type="library" name="Maven: org.hibernate:hibernate-validator:4.3.1.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.aspectj:aspectjrt:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-aspects:2.5" level="project" />
+    <orderEntry type="library" name="Maven: aspectj:aspectjrt:1.5.3" level="project" />
+    <orderEntry type="library" name="Maven: aspectj:aspectjweaver:1.5.3" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tiles:tiles-extras:3.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tiles:tiles-core:3.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tiles:tiles-api:3.0.1" level="project" />

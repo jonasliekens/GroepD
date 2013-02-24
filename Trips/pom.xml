@@ -13,6 +13,7 @@
         <module>backend</module>
         <module>web</module>
         <module>backend</module>
+        <module>android</module>
     </modules>
 
     <repositories>
