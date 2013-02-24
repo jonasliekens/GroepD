@@ -24,10 +24,6 @@ public class Picture {
     @Column(columnDefinition="text")
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "stopId")
-    private Stop stop;
-
     public Picture() {
     }
 

@@ -2,6 +2,7 @@ package be.kdg.backend.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,13 +32,13 @@ public class Stop {
     @JoinColumn(name = "tripId")
     private Trip trip;
 
-    @OneToMany(fetch = FetchType.EAGER,orphanRemoval=true, cascade = {CascadeType.ALL})
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "stopId")
     private Set<Picture> pictures;
 
-    @OneToMany(fetch = FetchType.EAGER,orphanRemoval=true, cascade = {CascadeType.ALL})
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "stopId")
-    private Set<MultipleChoiceQuestion> multipleChoiceQuestions;
+    private Set<Question> questions;
 
     public Stop() {
         initLists();
@@ -51,9 +52,9 @@ public class Stop {
         this.accuracy = accuracy;
     }
 
-    private void initLists() {
-        pictures = new HashSet<Picture>();
-        multipleChoiceQuestions = new HashSet<MultipleChoiceQuestion>();
+    private void initLists(){
+        this.questions = new HashSet<Question>();
+        this.pictures = new HashSet<Picture>();
     }
 
     public Integer getId() {
@@ -84,8 +85,8 @@ public class Stop {
         this.pictures.add(picture);
     }
 
-    public void addMultipleChoiceQuestion(MultipleChoiceQuestion multipleChoiceQuestion){
-        this.multipleChoiceQuestions.add(multipleChoiceQuestion);
+    public void addQuestion(Question question){
+        this.questions.add(question);
     }
 
     public Double getLatitude() {
@@ -120,11 +121,19 @@ public class Stop {
         this.trip = trip;
     }
 
-    public Set<Picture> getPictures(){
+    public Set<Picture> getPictures() {
         return pictures;
     }
 
-    public Set<MultipleChoiceQuestion> getQuestions(){
-        return multipleChoiceQuestions;
+    public void setPictures(Set<Picture> pictures) {
+        this.pictures = pictures;
+    }
+
+    public Set<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(Set<Question> questions) {
+        this.questions = questions;
     }
 }

@@ -2,7 +2,7 @@ package dao;
 
 import be.kdg.backend.dao.interfaces.StopDao;
 import be.kdg.backend.entities.Answer;
-import be.kdg.backend.entities.MultipleChoiceQuestion;
+import be.kdg.backend.entities.Question;
 import be.kdg.backend.entities.Picture;
 import be.kdg.backend.entities.Stop;
 import org.junit.After;
@@ -43,10 +43,10 @@ public class StopTest extends AbstractJUnit4SpringContextTests {
     @Test
     public void testAddMultipleChoice(){
         Stop temp = newStop();
-        MultipleChoiceQuestion question = new MultipleChoiceQuestion();
+        Question question = new Question();
         question.setQuestion("Wat werpt Brabo?");
 
-        MultipleChoiceQuestion question2 = new MultipleChoiceQuestion();
+        Question question2 = new Question();
         question2.setQuestion("Wordt ik mee verwijderd?");
 
         Answer answer = new Answer();
@@ -60,12 +60,12 @@ public class StopTest extends AbstractJUnit4SpringContextTests {
         Answer answer3 = new Answer();
         answer3.setCorrect(false);
         answer3.setAnswer("Een Hoofd");
-        /*
+
         question.addAnswer(answer);
-        temp.addMultipleChoiceQuestion(question);
-        question.addAnswer(answer2);*/
+        question.addAnswer(answer2);
         question.addAnswer(answer3);
-        temp.addMultipleChoiceQuestion(question2);
+        temp.addQuestion(question);
+        temp.addQuestion(question2);
         stopDao.add(temp);
         assertTrue(stopDao.find(temp.getId()).getQuestions().size() > 0);
     }

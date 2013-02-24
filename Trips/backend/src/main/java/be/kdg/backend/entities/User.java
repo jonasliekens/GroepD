@@ -3,7 +3,9 @@ package be.kdg.backend.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -46,14 +48,21 @@ public class User {
     private Set<Trip> participatedTrips;
 
     public User() {
+        initLists();
     }
 
     public User(String email, String password, String firstName, String lastName, Date birthday) {
+        initLists();
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
+    }
+
+    private void initLists(){
+        this.ownTrips = new HashSet<Trip>();
+        this.participatedTrips = new HashSet<Trip>();
     }
 
     public Integer getId() {
@@ -112,5 +121,19 @@ public class User {
         this.birthday = birthday;
     }
 
+    public Set<Trip> getOwnTrips() {
+        return ownTrips;
+    }
 
+    public void setOwnTrips(Set<Trip> ownTrips) {
+        this.ownTrips = ownTrips;
+    }
+
+    public Set<Trip> getParticipatedTrips() {
+        return participatedTrips;
+    }
+
+    public void setParticipatedTrips(Set<Trip> participatedTrips) {
+        this.participatedTrips = participatedTrips;
+    }
 }
