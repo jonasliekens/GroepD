@@ -5,9 +5,7 @@ import be.kdg.backend.entities.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Query;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -20,6 +18,8 @@ import java.util.List;
 @Repository
 public class UserDaoImpl implements UserDao {
     protected EntityManager entityManager;
+    protected EntityTransaction etx;
+    protected EntityManagerFactory emf;
 
     public EntityManager getEntityManager() {
         return entityManager;
@@ -33,6 +33,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional
     public void add(User entity) {
+        initEntityManager();
         entityManager.getTransaction().begin();
         entityManager.persist(entity);
         entityManager.getTransaction().commit();
@@ -41,7 +42,9 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional
     public void remove(User user) {
+        initEntityManager();
         entityManager.getTransaction().begin();
+        user = entityManager.find(User.class, user.getId());
         entityManager.remove(user);
         entityManager.getTransaction().commit();
     }
@@ -49,6 +52,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional
     public void update(User user) {
+        initEntityManager();
         entityManager.getTransaction().begin();
         entityManager.merge(user);
         entityManager.getTransaction().commit();
@@ -57,12 +61,14 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional
     public User find(Integer id) {
+        initEntityManager();
         return entityManager.find(User.class, id);
     }
 
     @Override
     @Transactional
     public List<User> list() {
+        initEntityManager();
         Query query = entityManager.createQuery("select u from User u");
         return query.getResultList();
     }
@@ -70,14 +76,22 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional
     public User findByMail(String mail) {
-        Query query = entityManager.createQuery("select u from User u where email = " + mail);
+        initEntityManager();
+        Query query = entityManager.createQuery("select u from User u where email = :mail");
+        query.setParameter("mail", mail);
         return (User) query.getSingleResult();
     }
 
     @Override
     @Transactional
     public User findByFacebook(String facebookId) {
+        initEntityManager();
         Query query = entityManager.createQuery("select u from User u where facebookID = " + facebookId);
         return (User) query.getSingleResult();
+    }
+
+    public void initEntityManager(){
+        emf = Persistence.createEntityManagerFactory("JpaPersistenceUnit");
+        entityManager = emf.createEntityManager();
     }
 }

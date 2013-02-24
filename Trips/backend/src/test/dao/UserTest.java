@@ -29,7 +29,6 @@ public class UserTest extends AbstractJUnit4SpringContextTests {
         for (User user : userDao.list()) {
             removeUser(user);
         }
-
         assertFalse(userDao.list().size() > 0);
     }
 

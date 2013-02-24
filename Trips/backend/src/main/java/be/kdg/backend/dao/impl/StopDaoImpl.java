@@ -5,9 +5,7 @@ import be.kdg.backend.entities.Stop;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -20,6 +18,8 @@ import java.util.List;
 @Repository
 public class StopDaoImpl implements StopDao {
     protected EntityManager entityManager;
+    protected EntityTransaction etx;
+    protected EntityManagerFactory emf;
 
     public EntityManager getEntityManager() {
         return entityManager;
@@ -32,26 +32,33 @@ public class StopDaoImpl implements StopDao {
 
     @Override
     public void add(Stop entity) {
+        initEntityManager();
         entityManager.getTransaction().begin();
         entityManager.persist(entity);
-        entityManager.getTransaction().begin();
+        entityManager.getTransaction().commit();
     }
 
     @Override
     @Transactional
     public void remove(Stop entity) {
+        initEntityManager();
+        entityManager.getTransaction().begin();
+        entity=entityManager.find(Stop.class, entity.getId());
         entityManager.remove(entity);
+        entityManager.getTransaction().commit();
     }
 
     @Override
     @Transactional
     public void update(Stop entity) {
+        initEntityManager();
         entityManager.merge(entity);
     }
 
     @Override
     @Transactional
     public Stop find(Integer stopId) {
+        initEntityManager();
         Query query = entityManager.createQuery("select s from Stop s");
         return (Stop)query.getResultList().get(0);
     }
@@ -59,7 +66,13 @@ public class StopDaoImpl implements StopDao {
     @Override
     @Transactional
     public List<Stop> list() {
+        initEntityManager();
         Query query = entityManager.createQuery("select s from Stop s");
         return query.getResultList();
+    }
+
+    public void initEntityManager(){
+        emf = Persistence.createEntityManagerFactory("JpaPersistenceUnit");
+        entityManager = emf.createEntityManager();
     }
 }

@@ -101,7 +101,6 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
         for (Trip trip : tripDao.list()) {
             tripDao.remove(trip);
         }
-
         assertFalse(tripDao.list().size() > 0);
     }
 

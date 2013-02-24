@@ -31,11 +31,11 @@ public class Stop {
     @JoinColumn(name = "tripId")
     private Trip trip;
 
-    @OneToMany(fetch = FetchType.EAGER,orphanRemoval=true)
+    @OneToMany(fetch = FetchType.EAGER,orphanRemoval=true, cascade = {CascadeType.ALL})
     @JoinColumn(name = "stopId")
     private Set<Picture> pictures;
 
-    @OneToMany(fetch = FetchType.EAGER,orphanRemoval=true)
+    @OneToMany(fetch = FetchType.EAGER,orphanRemoval=true, cascade = {CascadeType.ALL})
     @JoinColumn(name = "stopId")
     private Set<MultipleChoiceQuestion> multipleChoiceQuestions;
 
