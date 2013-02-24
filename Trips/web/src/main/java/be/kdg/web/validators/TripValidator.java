@@ -2,6 +2,7 @@ package be.kdg.web.validators;
 
 import be.kdg.web.forms.TripForm;
 
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -10,6 +11,8 @@ import org.springframework.validation.Validator;
  * User: Bart Verhavert
  * Date: 24/02/13 12:30
  */
+//TODO: Is this the correct annotation?
+@Component
 public class TripValidator implements Validator {
     @Override
     public boolean supports(Class<?> aClass) {
