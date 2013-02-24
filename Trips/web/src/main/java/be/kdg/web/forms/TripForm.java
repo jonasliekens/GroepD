@@ -1,4 +1,4 @@
-package be.kdg.forms;
+package be.kdg.web.forms;
 
 /**
  * User: Bart Verhavert

@@ -45,7 +45,7 @@
             <form:form method="post" action="trips/add" modelAttribute="tripForm">
                 <form:label path="name">Name</form:label>
                 <form:input path="name" />
-
+                <form:errors path="name" cssClass="alert alert-error" />
 
                 <spring:message code="control.add" var="btnAdd"></spring:message>
                 <input type="submit" value="${btnAdd}" />
