@@ -2,6 +2,7 @@ package be.kdg.backend.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,8 +15,8 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "T_MULTIPLECHOICE")
-public class MultipleChoiceQuestion {
+@Table(name = "T_QUESTION")
+public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,16 +25,16 @@ public class MultipleChoiceQuestion {
     @NotNull
     private String question;
 
-    @OneToMany(fetch = FetchType.EAGER,orphanRemoval=true)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "multipleChoiceId")
     private Set<Answer> answers;
 
-    @ManyToOne
-    @JoinColumn(name = "stopId")
-    private Stop stop;
+    public Question() {
+        initLists();
+    }
 
-    public MultipleChoiceQuestion() {
-        answers = new HashSet<Answer>();
+    private void initLists(){
+        this.answers = new HashSet<Answer>();
     }
 
     public Integer getId() {
@@ -54,5 +55,13 @@ public class MultipleChoiceQuestion {
 
     public void addAnswer(Answer answer){
         this.answers.add(answer);
+    }
+
+    public Set<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(Set<Answer> answers) {
+        this.answers = answers;
     }
 }

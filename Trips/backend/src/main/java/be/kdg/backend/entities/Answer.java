@@ -24,10 +24,6 @@ public class Answer {
     @NotNull
     private Boolean isCorrect;
 
-    @ManyToOne
-    @JoinColumn(name = "multipleChoiceId")
-    private MultipleChoiceQuestion multipleChoiceQuestion;
-
     public Answer() {
     }
 

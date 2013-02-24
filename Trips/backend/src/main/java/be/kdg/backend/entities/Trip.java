@@ -3,6 +3,7 @@ package be.kdg.backend.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,13 +25,13 @@ public class Trip {
     @NotNull
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name="T_TRIP_ADMINS",
             joinColumns={@JoinColumn(name="tripId")},
             inverseJoinColumns={@JoinColumn(name="userId")})
     private Set<User> admins;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name="T_TRIP_PARTICIPANT",
             joinColumns={@JoinColumn(name="tripId")},
             inverseJoinColumns={@JoinColumn(name="userId")})
@@ -51,7 +52,7 @@ public class Trip {
     @NotNull
     private Integer nrHours;
 
-    @OneToMany(fetch = FetchType.EAGER,orphanRemoval=true,cascade = {CascadeType.ALL})
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "tripId")
     private Set<Stop> stops;
 
@@ -59,30 +60,10 @@ public class Trip {
         initLists();
     }
 
-    public Trip(String name, User admin, boolean privateTrip) {
-        initLists();
-        setName(name);
-        addAdmin(admin);
-        setPublished(false);
-        setType(TripType.LOOSE);
-        setPrivateTrip(privateTrip);
-    }
-
-    public Trip(String name, User admin, boolean privateTrip, Integer nrDays, Integer nrHours, TripType type) {
-        initLists();
-        setName(name);
-        addAdmin(admin);
-        setType(type);
-        setPublished(false);
-        setPrivateTrip(privateTrip);
-        setNrDays(nrDays);
-        setNrHours(nrHours);
-    }
-
-    private void initLists() {
-        admins = new HashSet<User>();
-        invitedUsers = new HashSet<User>();
-        stops = new HashSet<Stop>();
+    private void initLists(){
+        this.admins = new HashSet<User>();
+        this.invitedUsers = new HashSet<User>();
+        this.stops = new HashSet<Stop>();
     }
 
     public void addStop(Stop stop) {
@@ -132,12 +113,12 @@ public class Trip {
         }
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setInvitedUsers(Set<User> invitedUsers) {
         this.invitedUsers = invitedUsers;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setPrivateTrip(boolean privateTrip) {
@@ -158,14 +139,6 @@ public class Trip {
 
     public void setNrHours(Integer nrHours) {
         this.nrHours = nrHours;
-    }
-
-    public Set<User> getAdmins() {
-        return admins;
-    }
-
-    public Set<User> getInvitedUsers() {
-        return invitedUsers;
     }
 
     public boolean isPrivateTrip() {
@@ -218,5 +191,13 @@ public class Trip {
 
     public void setPrivateTrip(Boolean privateTrip) {
         this.privateTrip = privateTrip;
+    }
+
+    public Collection<User> getAdmins() {
+        return admins;
+    }
+
+    public Set<User> getInvitedUsers() {
+        return invitedUsers;
     }
 }
