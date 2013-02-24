@@ -5,7 +5,6 @@ import be.kdg.backend.entities.Trip;
 import be.kdg.backend.services.interfaces.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +15,6 @@ import java.util.List;
  * Date: 21/02/13 14:08
  */
 @Service("tripService")
-@Component
 public class TripServiceImpl implements TripService {
     @Qualifier("tripDaoImpl")
     @Autowired(required = true)

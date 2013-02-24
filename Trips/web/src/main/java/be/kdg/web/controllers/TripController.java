@@ -1,10 +1,11 @@
 package be.kdg.web.controllers;
 
-import be.kdg.backend.entities.Trip;
+import be.kdg.backend.services.interfaces.TripService;
 import be.kdg.web.forms.TripForm;
 import be.kdg.web.validators.TripValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -14,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * User: Bart Verhavert
  * Date: 21/02/13 14:02
@@ -24,18 +22,17 @@ import java.util.List;
 @Controller
 @RequestMapping("/trips")
 public class TripController {
-    TripValidator tripValidator;
+//    @Autowired
+//    @Qualifier("tripService")
+//    TripService tripService;
 
     @Autowired
-    public TripController(TripValidator tripValidator){
-        this.tripValidator = tripValidator;
-    }
+    @Qualifier("tripValidator")
+    TripValidator tripValidator;
 
     @RequestMapping(method = RequestMethod.GET)
     public String index(ModelMap model) {
-        List<Trip> trips = new ArrayList<Trip>();
-
-        model.addAttribute("trips", trips);
+//        model.addAttribute("trips", tripService.getTrips());
 
         return "trips/list";
     }

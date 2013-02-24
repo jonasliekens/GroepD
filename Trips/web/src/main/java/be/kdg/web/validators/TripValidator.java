@@ -11,8 +11,8 @@ import org.springframework.validation.Validator;
  * User: Bart Verhavert
  * Date: 24/02/13 12:30
  */
-//TODO: Is this the correct annotation?
-@Component
+
+@Component("tripValidator")
 public class TripValidator implements Validator {
     @Override
     public boolean supports(Class<?> aClass) {

@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
  * Copyright @ Soulware.be
  */
 @Service("userService")
-@Component
 //@ContextConfiguration(locations = "/persistence-beans.xml")
 public class UserServiceImpl implements UserService {
     @Qualifier("userDaoImpl")
