@@ -14,6 +14,8 @@ public class Stop {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private Integer order;
+
     @NotNull
     private String name;
 
@@ -44,12 +46,11 @@ public class Stop {
         initLists();
     }
 
-    public Stop(String name, double latitude, double longitude, Integer accuracy) {
+    public Stop(String name, Double latitude, Double longitude) {
         initLists();
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.accuracy = accuracy;
     }
 
     private void initLists(){
@@ -63,6 +64,14 @@ public class Stop {
 
     private void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getOrder() {
+        return order;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
     }
 
     public String getName() {

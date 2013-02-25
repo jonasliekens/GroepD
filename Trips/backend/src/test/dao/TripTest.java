@@ -58,7 +58,7 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
     public void testAddStop() {
         Trip temp = newTrip();
         tripDao.add(temp);
-        Stop stop = new Stop("Test", 12354.21, 125884.65, 12);
+        Stop stop = new Stop("Test", 12354.21, 125884.65);
         temp.addStop(stop);
         tripDao.update(temp);
         temp = tripDao.find(temp.getId());
