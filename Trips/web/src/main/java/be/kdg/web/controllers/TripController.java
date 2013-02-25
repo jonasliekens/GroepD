@@ -31,7 +31,7 @@ public class TripController {
     TripValidator tripValidator;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String index(ModelMap model) {
+    public String list(ModelMap model) {
 //        model.addAttribute("trips", tripService.getTrips());
 
         return "trips/list";
@@ -39,16 +39,14 @@ public class TripController {
 
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable Integer id, ModelMap model) {
-        model.addAttribute("id", id);
+//        model.addAttribute("trip", tripService.getTrip(id));
 
         return "trips/detail";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String addTripForm(ModelMap model) {
-        TripForm tripForm = new TripForm();
-
-        model.addAttribute("tripForm", tripForm);
+        model.addAttribute("tripForm", new TripForm());
 
         return "trips/add";
     }
@@ -65,4 +63,10 @@ public class TripController {
         }
     }
 
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public String deleteTripConfirm(ModelMap model) {
+//        model.addAttribute("trip", tripService.getTrip(id));
+
+        return "trips/delete";
+    }
 }
