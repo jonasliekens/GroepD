@@ -25,6 +25,7 @@ import static org.junit.Assert.assertTrue;
  */
 @ContextConfiguration(locations = "classpath*:/META-INF/applicationContext.xml")
 public class TripTest extends AbstractJUnit4SpringContextTests {
+
     @Qualifier("tripDaoImpl")
     @Autowired(required = true)
     private TripDao tripDao;
@@ -33,14 +34,14 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
     public void testAddTrip() {
         Trip temp = newTrip();
         tripDao.add(temp);
-        assertTrue(tripDao.find(temp.getId()) != null);
+        assertTrue(tripDao.findById(temp.getId()) != null);
     }
 
     @Test
     public void testUpdateTrip() {
         Trip temp = newTrip();
         tripDao.add(temp);
-        temp = tripDao.find(temp.getId());
+        temp = tripDao.findById(temp.getId());
         temp.setPublished(true);
         tripDao.update(temp);
         assertTrue(temp.isPublished());
@@ -51,7 +52,7 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
         Trip temp = newTrip();
         tripDao.add(temp);
         tripDao.remove(temp);
-        assertTrue(tripDao.find(temp.getId()) == null);
+        assertTrue(tripDao.findById(temp.getId()) == null);
     }
 
     @Test
@@ -61,7 +62,7 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
         Stop stop = new Stop("Test", 12354.21, 125884.65);
         temp.addStop(stop);
         tripDao.update(temp);
-        temp = tripDao.find(temp.getId());
+        temp = tripDao.findById(temp.getId());
         assertTrue(temp.getStops().size() > 0);
     }
 
@@ -71,7 +72,7 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
         Trip temp = newTrip();
         temp.setType(TripType.LOOSE);
         tripDao.add(temp);
-        temp = tripDao.find(temp.getId());
+        temp = tripDao.findById(temp.getId());
         assertTrue(temp.getType().equals(TripType.LOOSE));
     }
 
@@ -81,7 +82,7 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
         User user = new User("Admin@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
         temp.addAdmin(user);
         tripDao.add(temp);
-        temp = tripDao.find(temp.getId());
+        temp = tripDao.findById(temp.getId());
         assertTrue(temp.getAdmins().size() > 0);
     }
 
@@ -91,17 +92,17 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
         User user = new User("Invited@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
         temp.addInviteduser(user);
         tripDao.add(temp);
-        temp = tripDao.find(temp.getId());
+        temp = tripDao.findById(temp.getId());
         assertTrue(temp.getInvitedUsers().size() > 0);
     }
 
 
     @After
     public void testRemoveTrips() {
-        for (Trip trip : tripDao.list()) {
+        for (Trip trip : tripDao.findAll()) {
             tripDao.remove(trip);
         }
-        assertFalse(tripDao.list().size() > 0);
+        assertFalse(tripDao.findAll().size() > 0);
     }
 
     private Trip newTrip() {

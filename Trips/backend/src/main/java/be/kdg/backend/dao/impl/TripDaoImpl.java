@@ -17,28 +17,24 @@ import java.util.List;
  */
 @Repository
 public class TripDaoImpl implements TripDao {
+
     protected EntityManager entityManager;
-    protected EntityTransaction etx;
-    protected EntityManagerFactory emf;
+
+    public TripDaoImpl() {
+        entityManager = emf.createEntityManager();
+    }
 
     @Override
     @Transactional
     public void add(Trip entity) {
-        /*entityManager.getTransaction().begin();
+        entityManager.getTransaction().begin();
         entityManager.persist(entity);
-        enityManager.getTransaction().commit();*/
-        initEntityManager();
-        etx = entityManager.getTransaction();
-        etx.begin();
-        entityManager.persist(entity);
-        etx.commit();
+        entityManager.getTransaction().commit();
     }
 
     @Override
     @Transactional
     public void remove(Trip entity) {
-
-        initEntityManager();
         entityManager.getTransaction().begin();
         entity = entityManager.find(Trip.class, entity.getId());
         entityManager.remove(entity);
@@ -48,7 +44,6 @@ public class TripDaoImpl implements TripDao {
     @Override
     @Transactional
     public void update(Trip entity) {
-        initEntityManager();
         entityManager.getTransaction().begin();
         entityManager.merge(entity);
         entityManager.getTransaction().commit();
@@ -56,21 +51,14 @@ public class TripDaoImpl implements TripDao {
 
     @Override
     @Transactional
-    public Trip find(Integer id) {
-        initEntityManager();
+    public Trip findById(Integer id) {
         return entityManager.find(Trip.class, id);
     }
 
     @Override
     @Transactional
-    public List<Trip> list() {
-        initEntityManager();
+    public List<Trip> findAll() {
         Query query = entityManager.createQuery("select t from Trip t");
         return query.getResultList();
-    }
-
-    public void initEntityManager(){
-        emf = Persistence.createEntityManagerFactory("JpaPersistenceUnit");
-        entityManager = emf.createEntityManager();
     }
 }

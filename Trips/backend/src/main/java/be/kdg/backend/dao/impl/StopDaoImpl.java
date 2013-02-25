@@ -17,22 +17,15 @@ import java.util.List;
  */
 @Repository
 public class StopDaoImpl implements StopDao {
+
     protected EntityManager entityManager;
-    protected EntityTransaction etx;
-    protected EntityManagerFactory emf;
 
-    public EntityManager getEntityManager() {
-        return entityManager;
-    }
-
-    @PersistenceContext
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    public StopDaoImpl() {
+        entityManager = emf.createEntityManager();
     }
 
     @Override
     public void add(Stop entity) {
-        initEntityManager();
         entityManager.getTransaction().begin();
         entityManager.persist(entity);
         entityManager.getTransaction().commit();
@@ -41,7 +34,6 @@ public class StopDaoImpl implements StopDao {
     @Override
     @Transactional
     public void remove(Stop entity) {
-        initEntityManager();
         entityManager.getTransaction().begin();
         entity=entityManager.find(Stop.class, entity.getId());
         entityManager.remove(entity);
@@ -51,28 +43,20 @@ public class StopDaoImpl implements StopDao {
     @Override
     @Transactional
     public void update(Stop entity) {
-        initEntityManager();
         entityManager.merge(entity);
     }
 
     @Override
     @Transactional
-    public Stop find(Integer stopId) {
-        initEntityManager();
+    public Stop findById(Integer stopId) {
         Query query = entityManager.createQuery("select s from Stop s");
         return (Stop)query.getResultList().get(0);
     }
 
     @Override
     @Transactional
-    public List<Stop> list() {
-        initEntityManager();
+    public List<Stop> findAll() {
         Query query = entityManager.createQuery("select s from Stop s");
         return query.getResultList();
-    }
-
-    public void initEntityManager(){
-        emf = Persistence.createEntityManagerFactory("JpaPersistenceUnit");
-        entityManager = emf.createEntityManager();
     }
 }

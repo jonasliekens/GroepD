@@ -13,6 +13,6 @@ import java.util.Comparator;
 public class StopComparator implements Comparator<Stop> {
     @Override
     public int compare(Stop o1, Stop o2) {
-        return o1.getOrder().compareTo(o2.getOrder());
+        return o1.getOrderNumber().compareTo(o2.getOrderNumber());
     }
 }

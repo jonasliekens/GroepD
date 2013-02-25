@@ -14,8 +14,6 @@ public class Stop {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer order;
-
     @NotNull
     private String name;
 
@@ -30,9 +28,7 @@ public class Stop {
 
     private Integer accuracy;
 
-    @ManyToOne
-    @JoinColumn(name = "tripId")
-    private Trip trip;
+    private Integer orderNumber;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "stopId")
@@ -66,12 +62,12 @@ public class Stop {
         this.id = id;
     }
 
-    public Integer getOrder() {
-        return order;
+    public Integer getOrderNumber() {
+        return orderNumber;
     }
 
-    public void setOrder(Integer order) {
-        this.order = order;
+    public void setOrderNumber(Integer orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
     public String getName() {
@@ -120,14 +116,6 @@ public class Stop {
 
     public void setAccuracy(Integer accuracy) {
         this.accuracy = accuracy;
-    }
-
-    public Trip getTrip() {
-        return trip;
-    }
-
-    public void setTrip(Trip trip) {
-        this.trip = trip;
     }
 
     public Set<Picture> getPictures() {

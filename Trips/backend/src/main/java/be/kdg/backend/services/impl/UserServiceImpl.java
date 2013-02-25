@@ -5,7 +5,6 @@ import be.kdg.backend.entities.User;
 import be.kdg.backend.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public User getUser(Integer id) {
-        return userDao.find(id);
+        return userDao.findById(id);
     }
 
     @Transactional
@@ -46,14 +45,14 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public void mergeUserWithFacebook(Integer id, String facebookid) {
-        User user = userDao.find(id);
+        User user = userDao.findById(id);
         user.setFacebookID(facebookid);
         userDao.update(user);
     }
 
     @Transactional
     public boolean checkLoginWithFacebook(String facebookId) {
-        if (userDao.findByFacebook(facebookId) != null) {
+        if (userDao.findByFacebookId(facebookId) != null) {
             return true;
         } else {
             return false;
@@ -62,7 +61,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public boolean checkLogin(String email, String password) {
-        User user = userDao.findByMail(email);
+        User user = userDao.findByEMail(email);
         if (user != null) {
             if (user.getPassword().equals(password)) {
                 return true;

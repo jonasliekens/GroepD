@@ -32,11 +32,11 @@ public class TripServiceImpl implements TripService {
 
     @Transactional
     public Trip getTrip(Integer key) {
-        return tripDao.find(key);
+        return tripDao.findById(key);
     }
 
     @Transactional
     public List<Trip> getTrips() {
-        return tripDao.list();
+        return tripDao.findAll();
     }
 }

@@ -10,6 +10,6 @@ import be.kdg.backend.entities.User;
  * Copyright @ Soulware.be
  */
 public interface UserDao extends GenericDao<User, Integer>{
-    public User findByMail(String mail);
-    public User findByFacebook(String facebookId);
+    public User findByEMail(String mail);
+    public User findByFacebookId(String facebookId);
 }

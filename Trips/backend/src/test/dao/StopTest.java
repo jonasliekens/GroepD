@@ -37,7 +37,7 @@ public class StopTest extends AbstractJUnit4SpringContextTests {
         picture.setDescription("Facebook");
         temp.addPicture(picture);
         stopDao.add(temp);
-        assertTrue(stopDao.find(temp.getId()).getPictures().size() > 0);
+        assertTrue(stopDao.findById(temp.getId()).getPictures().size() > 0);
     }
 
     @Test
@@ -67,15 +67,15 @@ public class StopTest extends AbstractJUnit4SpringContextTests {
         temp.addQuestion(question);
         temp.addQuestion(question2);
         stopDao.add(temp);
-        assertTrue(stopDao.find(temp.getId()).getQuestions().size() > 0);
+        assertTrue(stopDao.findById(temp.getId()).getQuestions().size() > 0);
     }
 
     @After
     public void deleteStops(){
-        for(Stop stop : stopDao.list()){
+        for(Stop stop : stopDao.findAll()){
             stopDao.remove(stop);
         }
-        assertFalse(stopDao.list().size() > 0);
+        assertFalse(stopDao.findAll().size() > 0);
     }
 
     private Stop newStop(){

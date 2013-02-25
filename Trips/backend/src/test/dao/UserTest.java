@@ -26,16 +26,16 @@ public class UserTest extends AbstractJUnit4SpringContextTests {
 
     @After
     public void testRemoveUsers() {
-        for (User user : userDao.list()) {
+        for (User user : userDao.findAll()) {
             removeUser(user);
         }
-        assertFalse(userDao.list().size() > 0);
+        assertFalse(userDao.findAll().size() > 0);
     }
 
     @Test
     public void testAddUser() {
         User temp = newUser();
-        assertTrue(userDao.find(temp.getId()) != null);
+        assertTrue(userDao.findById(temp.getId()) != null);
         removeUser(temp);
     }
 
@@ -44,7 +44,7 @@ public class UserTest extends AbstractJUnit4SpringContextTests {
         User temp = newUser();
         temp.setPassword("haha");
         userDao.update(temp);
-        assertTrue(userDao.find(temp.getId()).getPassword().equals("haha"));
+        assertTrue(userDao.findById(temp.getId()).getPassword().equals("haha"));
         removeUser(temp);
     }
 
@@ -52,13 +52,13 @@ public class UserTest extends AbstractJUnit4SpringContextTests {
     public void testRemoveUser() {
         User temp = newUser();
         removeUser(temp);
-        assertTrue(userDao.find(temp.getId()) == null);
+        assertTrue(userDao.findById(temp.getId()) == null);
     }
 
     @Test
     public void findUserByMail() {
         User temp = newUser();
-        assertNotNull(userDao.findByMail(temp.getEmail()));
+        assertNotNull(userDao.findByEMail(temp.getEmail()));
         removeUser(temp);
     }
 
@@ -68,7 +68,7 @@ public class UserTest extends AbstractJUnit4SpringContextTests {
         String facebookId = "100000420715358";
         temp.setFacebookID(facebookId);
         userDao.update(temp);
-        assertNotNull(userDao.findByFacebook(facebookId));
+        assertNotNull(userDao.findByFacebookId(facebookId));
         removeUser(temp);
     }
 
