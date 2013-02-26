@@ -17,7 +17,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>!!TRIPNAME!!</title>
+    <title>${trip.name}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
@@ -41,7 +41,7 @@
     <div class="container">
         <div class="row-fluid">
             <div class="span12">
-                Trip id: ${id}
+                ${trip.name}
             </div>
         </div>
     </div>

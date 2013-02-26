@@ -47,7 +47,16 @@
                     <thead>
                         <tr>
                             <td>
-                                Trip name
+                                <spring:message code="trip.name" />
+                            </td>
+                            <td>
+                                <spring:message code="trip.private" />
+                            </td>
+                            <td>
+                                <spring:message code="trip.start" />
+                            </td>
+                            <td>
+                                <spring:message code="trip.end" />
                             </td>
                         </tr>
                     </thead>
@@ -56,6 +65,20 @@
                             <tr>
                                 <td>
                                     <a href="trips/detail/${trip.id}">${trip.name}</a>
+                                </td>
+                                <td>
+                                    <c:if test="${trip.privateTrip == true}">
+                                        <spring:message code="commom.yes" />
+                                    </c:if>
+                                    <c:if test="${trip.privateTrip == false}">
+                                        <spring:message code="common.no" />
+                                    </c:if>
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+
                                 </td>
                             </tr>
                         </c:forEach>
