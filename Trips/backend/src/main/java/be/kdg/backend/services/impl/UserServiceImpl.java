@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.NoResultException;
+
 /**
  * Created with IntelliJ IDEA 12.
  * User: Jonas Liekens
@@ -16,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
  * Copyright @ Soulware.be
  */
 @Service("userService")
-//@ContextConfiguration(locations = "/persistence-beans.xml")
 public class UserServiceImpl implements UserService {
     @Qualifier("userDaoImpl")
     @Autowired(required = true)
@@ -29,17 +30,25 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public User getUser(Integer id) {
-        return userDao.findById(id);
+        try {
+            return userDao.findById(id);
+        } catch (NoResultException e) {
+            return null; //TODO: null throwen of leeg object? => Coding rules.
+        }
     }
 
     @Transactional
     public boolean deleteUser(Integer id) {
-        User userToDelete = getUser(id);
-        if (userToDelete == null) {
+        try {
+            User userToDelete = getUser(id);
+            if (userToDelete == null) {
+                return false;
+            } else {
+                userDao.remove(userToDelete);
+                return true;
+            }
+        } catch (NoResultException e) {
             return false;
-        } else {
-            userDao.remove(userToDelete);
-            return true;
         }
     }
 
@@ -52,23 +61,27 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public boolean checkLoginWithFacebook(String facebookId) {
-        if (userDao.findByFacebookId(facebookId) != null) {
-            return true;
-        } else {
+        try {
+            if (userDao.findByFacebookId(facebookId) != null) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (NoResultException e) {
             return false;
         }
     }
 
     @Transactional
     public boolean checkLogin(String email, String password) {
-        User user = userDao.findByEMail(email);
-        if (user != null) {
+        try {
+            User user = userDao.findByEMail(email);
             if (user.getPassword().equals(password)) {
                 return true;
             } else {
                 return false;
             }
-        } else {
+        } catch (NoResultException e) {
             return false;
         }
     }

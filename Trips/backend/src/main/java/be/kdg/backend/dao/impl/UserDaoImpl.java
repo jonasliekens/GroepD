@@ -51,20 +51,20 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     @Transactional
-    public User findById(Integer id) {
+    public User findById(Integer id) throws NoResultException{
         return entityManager.find(User.class, id);
     }
 
     @Override
     @Transactional
-    public List<User> findAll() {
+    public List<User> findAll() throws NoResultException{
         Query query = entityManager.createQuery("select u from User u");
         return query.getResultList();
     }
 
     @Override
     @Transactional
-    public User findByEMail(String mail) {
+    public User findByEMail(String mail) throws NoResultException{
         Query query = entityManager.createQuery("select u from User u where email = :mail");
         query.setParameter("mail", mail);
         return (User) query.getSingleResult();
@@ -72,7 +72,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     @Transactional
-    public User findByFacebookId(String facebookId) {
+    public User findByFacebookId(String facebookId) throws NoResultException{
         Query query = entityManager.createQuery("select u from User u where facebookID = " + facebookId);
         return (User) query.getSingleResult();
     }
