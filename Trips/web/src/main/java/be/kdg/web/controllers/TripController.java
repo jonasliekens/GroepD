@@ -22,9 +22,9 @@ import org.springframework.web.bind.support.SessionStatus;
 @Controller
 @RequestMapping("/trips")
 public class TripController {
-//    @Autowired
-//    @Qualifier("tripService")
-//    TripService tripService;
+    @Autowired
+    @Qualifier("tripService")
+    TripService tripService;
 
     @Autowired
     @Qualifier("tripValidator")
@@ -32,7 +32,7 @@ public class TripController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(ModelMap model) {
-//        model.addAttribute("trips", tripService.getTrips());
+        model.addAttribute("trips", tripService.getTrips());
 
         return "trips/list";
     }

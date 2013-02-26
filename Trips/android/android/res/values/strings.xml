@@ -4,4 +4,7 @@
     <string name="app_name">Trips</string>
 
     <string name="trips_name">Trips</string>
+    <string name="alltrips_name">All Trips</string>
+    <string name="mytrips_name">My Trips</string>
+    <string name="chat_name">Chat</string>
 </resources>

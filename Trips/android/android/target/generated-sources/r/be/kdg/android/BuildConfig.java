@@ -1,5 +1,6 @@
+/** Automatically generated file. DO NOT MODIFY */
 package be.kdg.android;
 
 public final class BuildConfig {
-  public static final boolean DEBUG = true;
+    public final static boolean DEBUG = true;
 }

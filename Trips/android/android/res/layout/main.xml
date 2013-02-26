@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
+    <fragment android:name="be.kdg.android.fragments.AllTripsFragment"
+              android:id="@+id/alltrips"
+              android:layout_weight="1"
+              android:layout_width="0dp"
+              android:layout_height="match_parent"/>
+    <fragment android:name="be.kdg.android.fragments.MyTripsFragment"
+              android:id="@+id/mytrips"
+              android:layout_weight="1"
+              android:layout_width="0dp"
+              android:layout_height="match_parent"/>
+    <fragment android:name="be.kdg.android.fragments.ChatFragment"
+              android:id="@+id/chat"
+              android:layout_weight="1"
+              android:layout_width="0dp"
+              android:layout_height="match_parent"/>
 </LinearLayout>
