@@ -7,4 +7,9 @@
     <string name="alltrips_name">Alle Trips</string>
     <string name="mytrips_name">Mijn Trips</string>
     <string name="chat_name">Chat</string>
+
+    <!-- Login -->
+    <string name="login_username">Gebruikersnaam</string>
+    <string name="login_password">Wachtwoord</string>
+    <string name="login_submit">Inloggen</string>
 </resources>
