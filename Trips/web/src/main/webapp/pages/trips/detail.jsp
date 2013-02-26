@@ -17,7 +17,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>!!TRIPNAME!!</title>
+    <title>${trip.name}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
@@ -38,13 +38,15 @@
     <%@include file="../../template/header.jsp"%>
 
 
-    <div class="container">
-        <div class="row-fluid">
-            <div class="span12">
-                Trip id: ${id}
+    <sectoin>
+        <div class="container">
+            <div class="row-fluid">
+                <div class="span12">
+                    ${trip.name}
+                </div>
             </div>
         </div>
-    </div>
+    </sectoin>
 
 
     <%@include file="../../template/footer.jsp"%>

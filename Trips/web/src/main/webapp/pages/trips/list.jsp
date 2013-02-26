@@ -37,33 +37,64 @@
 
     <%@include file="../../template/header.jsp"%>
 
-
-    <div class="container">
-        <div class="row-fluid">
-            <div class="span12">
-                <a href="trips/add">Add</a>
-                ${name} ${test}
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <td>
-                                Trip name
-                            </td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="trip" items="${trips}">
+    <sectoin>
+        <div class="container">
+            <div class="row-fluid">
+                <div class="span12">
+                    <a href="trips/add">Add</a>
+                    ${name} ${test}
+                    <table class="table table-striped">
+                        <thead>
                             <tr>
-                                <td>
-                                    <a href="trips/detail/${trip.id}">${trip.name}</a>
-                                </td>
+                                <th>
+                                    <spring:message code="trip.name" />
+                                </th>
+                                <th>
+                                    <spring:message code="trip.private" />
+                                </th>
+                                <th>
+                                    <spring:message code="trip.start" />
+                                </th>
+                                <th>
+                                    <spring:message code="trip.end" />
+                                </th>
+                                <th>
+                                    <!--Controls-->
+                                </th>
                             </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="trip" items="${trips}" varStatus="loop">
+                                <tr>
+                                    <td>
+                                        <a href="trips/detail/${trip.id}">${trip.name}</a>
+                                    </td>
+                                    <td>
+                                        <c:if test="${trip.privateTrip == true}">
+                                            <spring:message code="commom.yes" />
+                                        </c:if>
+                                        <c:if test="${trip.privateTrip == false}">
+                                            <spring:message code="common.no" />
+                                        </c:if>
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                    <td>
+                                        <a href="trips/edit/${trip.id}"><spring:message code="control.edit" /></a>
+                                        <a href="trips/delete/${trip.id}"><spring:message code="control.delete" /></a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
+    </sectoin>
 
 
     <%@include file="../../template/footer.jsp"%>

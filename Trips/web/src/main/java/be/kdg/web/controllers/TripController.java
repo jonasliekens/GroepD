@@ -1,5 +1,6 @@
 package be.kdg.web.controllers;
 
+import be.kdg.backend.entities.Trip;
 import be.kdg.backend.services.interfaces.TripService;
 import be.kdg.web.forms.TripForm;
 import be.kdg.web.validators.TripValidator;
@@ -39,7 +40,7 @@ public class TripController {
 
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable Integer id, ModelMap model) {
-//        model.addAttribute("trip", tripService.getTrip(id));
+        model.addAttribute("trip", tripService.getTrip(id));
 
         return "trips/detail";
     }
@@ -59,13 +60,32 @@ public class TripController {
             return "trips/add";
         } else {
             status.setComplete();
+
+            Trip trip = new Trip();
+
+            trip.setName(tripForm.getName());
+            trip.setPrivateTrip(tripForm.getPrivateTrip());
+            // On creation, a trip shouldn't be published
+            trip.setPublished(false);
+            trip.setNrDays(tripForm.getNrDays());
+            trip.setNrHours(tripForm.getNrHours());
+
+            tripService.addTrip(trip);
+
             return "redirect:/trips";
         }
     }
 
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public String editTripConfirm(@PathVariable Integer id, ModelMap model) {
+        model.addAttribute("trip", tripService.getTrip(id));
+
+        return "trips/edit";
+    }
+
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-    public String deleteTripConfirm(ModelMap model) {
-//        model.addAttribute("trip", tripService.getTrip(id));
+    public String deleteTripConfirm(@PathVariable Integer id, ModelMap model) {
+        model.addAttribute("trip", tripService.getTrip(id));
 
         return "trips/delete";
     }

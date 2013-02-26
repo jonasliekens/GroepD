@@ -31,48 +31,50 @@
     <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 </head>
 <body>
-<!--[if lt IE 7]>
-<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-<![endif]-->
+    <!--[if lt IE 7]>
+    <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+    <![endif]-->
 
 
-<%@include file="../../template/header.jsp"%>
+    <%@include file="../../template/header.jsp"%>
 
 
-<div class="container">
-    <div class="row-fluid">
-        <div class="span12">
-            <form:form method="post" action="trips/add" modelAttribute="tripForm">
-                <form:label path="name">Name</form:label>
-                <form:input path="name" />
-                <form:errors path="name" cssClass="alert alert-error" />
+    <sectoin>
+        <div class="container">
+            <div class="row-fluid">
+                <div class="span12">
+                    <form:form method="post" action="trips/add" modelAttribute="tripForm">
+                        <form:label path="name">Name</form:label>
+                        <form:input path="name" />
+                        <form:errors path="name" cssClass="alert alert-error" />
 
-                <form:label path="privateTrip">Is this a private trip?</form:label>
-                <form:checkbox path="privateTrip" />
-                <form:errors path="privateTrip" cssClass="alert alert-error" />
+                        <form:label path="privateTrip">Is this a private trip?</form:label>
+                        <form:checkbox path="privateTrip" />
+                        <form:errors path="privateTrip" cssClass="alert alert-error" />
 
-                <form:label path="nrDays">Number of days</form:label>
-                <form:input path="nrDays" />
-                <form:errors path="nrDays" cssClass="alert alert-error" />
+                        <form:label path="nrDays">Number of days</form:label>
+                        <form:input path="nrDays" />
+                        <form:errors path="nrDays" cssClass="alert alert-error" />
 
-                <form:label path="nrHours">Number of hours</form:label>
-                <form:input path="nrHours" />
-                <form:errors path="nrHours" cssClass="alert alert-error" />
+                        <form:label path="nrHours">Number of hours</form:label>
+                        <form:input path="nrHours" />
+                        <form:errors path="nrHours" cssClass="alert alert-error" />
 
-                <spring:message code="control.add" var="btnAdd"></spring:message>
-                <input type="submit" value="${btnAdd}" />
-            </form:form>
+                        <spring:message code="control.add" var="btnAdd"></spring:message>
+                        <input type="submit" value="${btnAdd}" />
+                    </form:form>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+    </sectoin>
 
 
-<%@include file="../../template/footer.jsp"%>
+    <%@include file="../../template/footer.jsp"%>
 
 
-<!-- The JavaScript files -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+    <!-- The JavaScript files -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 
     <script src="js/main.js"></script>
 </body>
