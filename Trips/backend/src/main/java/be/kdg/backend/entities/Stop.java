@@ -28,6 +28,7 @@ public class Stop {
 
     private Integer accuracy;
 
+    @NotNull
     private Integer orderNumber;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -38,15 +39,20 @@ public class Stop {
     @JoinColumn(name = "stopId")
     private Set<Question> questions;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "tripId")
+    Trip trip;
+
     public Stop() {
         initLists();
     }
 
-    public Stop(String name, Double latitude, Double longitude) {
+    public Stop(String name, Double latitude, Double longitude, Integer orderNumber) {
         initLists();
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.orderNumber = orderNumber;
     }
 
     private void initLists(){
@@ -132,5 +138,13 @@ public class Stop {
 
     public void setQuestions(Set<Question> questions) {
         this.questions = questions;
+    }
+
+    public Trip getTrip() {
+        return trip;
+    }
+
+    public void setTrip(Trip trip) {
+        this.trip = trip;
     }
 }

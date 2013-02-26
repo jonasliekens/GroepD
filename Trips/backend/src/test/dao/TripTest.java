@@ -5,6 +5,7 @@ import be.kdg.backend.entities.Stop;
 import be.kdg.backend.entities.Trip;
 import be.kdg.backend.entities.TripType;
 import be.kdg.backend.entities.User;
+import be.kdg.backend.utilities.StopComparator;
 import be.kdg.backend.utilities.Utilities;
 import org.junit.After;
 import org.junit.Test;
@@ -12,6 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
+
+import java.util.Collections;
+import java.util.Set;
+import java.util.TreeSet;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -59,13 +64,12 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
     public void testAddStop() {
         Trip temp = newTrip();
         tripDao.add(temp);
-        Stop stop = new Stop("Test", 12354.21, 125884.65);
+        Stop stop = newStop(1);
         temp.addStop(stop);
         tripDao.update(temp);
         temp = tripDao.findById(temp.getId());
         assertTrue(temp.getStops().size() > 0);
     }
-
 
     @Test
     public void testSetTripType() {
@@ -96,6 +100,28 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
         assertTrue(temp.getInvitedUsers().size() > 0);
     }
 
+    @Test
+    public void testOrderStops(){
+        boolean correct = true;
+        Stop stop1 = newStop(1);
+        Stop stop2 = newStop(2);
+        Stop stop3 = newStop(3);
+        Trip trip = newTrip();
+        trip.addStop(stop1);
+        trip.addStop(stop2);
+        trip.addStop(stop3);
+        tripDao.add(trip);
+        trip = tripDao.findById(trip.getId());
+        Set<Stop> stops = new TreeSet<Stop>(new StopComparator());
+        stops.addAll(trip.getStops());
+        for(int i = 1; i <= stops.size(); i++){
+            if(i != ((Stop)stops.toArray()[i-1]).getOrderNumber()){
+                correct = false;
+            }
+        }
+        assertTrue(correct);
+    }
+
 
     @After
     public void testRemoveTrips() {
@@ -113,5 +139,10 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
         trip.setNrDays(10);
         trip.setNrHours(12);
         return trip;
+    }
+
+    private Stop newStop(Integer order) {
+        Stop stop = new Stop("Test", 12354.21, 125884.65, order);
+        return stop;
     }
 }

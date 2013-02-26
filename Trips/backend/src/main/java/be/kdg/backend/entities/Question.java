@@ -26,7 +26,7 @@ public class Question {
     private String question;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "multipleChoiceId")
+    @JoinColumn(name = "questionId")
     private Set<Answer> answers;
 
     public Question() {

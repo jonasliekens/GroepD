@@ -52,8 +52,7 @@ public class Trip {
     @NotNull
     private Integer nrHours;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tripId")
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
     private Set<Stop> stops;
 
     public Trip(){

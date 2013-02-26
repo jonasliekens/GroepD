@@ -1,0 +1,152 @@
+package services;
+
+import be.kdg.backend.entities.Stop;
+import be.kdg.backend.entities.Trip;
+import be.kdg.backend.services.interfaces.StopService;
+import be.kdg.backend.services.interfaces.TripService;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
+
+import java.util.List;
+
+import static org.junit.Assert.*;
+
+/**
+ * Created with IntelliJ IDEA.
+ * User: Bart
+ * Date: 26/02/13
+ * Time: 15:17
+ * To change this template use File | Settings | File Templates.
+ */
+@ContextConfiguration(locations = "classpath*:/META-INF/applicationContext.xml")
+public class StopServiceTest extends AbstractJUnit4SpringContextTests {
+
+    @Autowired(required = true)
+    StopService stopService;
+
+    @Autowired(required = true)
+    TripService tripService;
+
+    private Trip trip;
+
+    @Before
+    public void createTripWithStops(){
+        trip = newTrip();
+        tripService.addTrip(trip);
+    }
+
+    @Test
+    public void testAddStop(){
+        Stop stop = newStop(1);
+        stopService.add(stop, trip.getId());
+        assertTrue(stopService.get(stop.getId()).getName() == stop.getName());
+    }
+
+    @Test
+    public void testUpdateStop(){
+        Stop stop = newStop(2);
+        stopService.add(stop, trip.getId());
+        stop.setAccuracy(3);
+        stopService.update(stop, trip.getId());
+        assertTrue(stopService.get(stop.getId()).getAccuracy() == 3);
+    }
+
+    @Test
+    public void testDeleteStop(){
+        Stop stop = newStop(3);
+        stopService.add(stop, trip.getId());
+        stop = stopService.get(stop.getId());
+        stopService.remove(stop);
+        assertTrue(stopService.get(stop.getId()) == null);
+    }
+
+    @Test
+    public void testAddStopBetween(){
+        Stop stop1 = newStop(1);
+        Stop stop2 =newStop(2);
+        Stop stop3 = newStop(3);
+        Stop stop4 = newStop(4);
+        stopService.add(stop1, trip.getId());
+        stopService.add(stop2, trip.getId());
+        stopService.add(stop3, trip.getId());
+        stopService.add(stop4, trip.getId());
+        Stop duplicate = newStop(2);
+        stopService.add(duplicate, trip.getId());
+        List<Stop> stops = stopService.getStopsByTripId(trip.getId());
+        assertTrue(stops.get(1).getId() == duplicate.getId());
+    }
+
+    @Test
+    public void testStopComparator(){
+        Stop stop1 = newStop(1);
+        Stop stop2 = newStop(2);
+        Stop stop3 = newStop(3);
+        Stop stop4 = newStop(4);
+        stopService.add(stop4, trip.getId());
+        stopService.add(stop2, trip.getId());
+        stopService.add(stop3, trip.getId());
+        stopService.add(stop1, trip.getId());
+
+        List<Stop> stops = stopService.getStopsByTripId(trip.getId());
+        assertTrue(stops.get(0).getId() == stop1.getId());
+    }
+
+    @Test
+    public void testUpdateStopBetween(){
+        Stop stop1 = newStop(1);
+        Stop stop2 =newStop(2);
+        Stop stop3 = newStop(3);
+        Stop stop4 = newStop(4);
+        stopService.add(stop1, trip.getId());
+        stopService.add(stop2, trip.getId());
+        stopService.add(stop3, trip.getId());
+        stopService.add(stop4, trip.getId());
+
+        Stop dubbel = stopService.get(stop4.getId());
+        dubbel.setOrderNumber(1);
+        stopService.update(dubbel, trip.getId());
+
+        List<Stop> stops = stopService.getStopsByTripId(trip.getId());
+        assertTrue(stops.get(0).getId() == dubbel.getId());
+    }
+
+    @Test
+    public void testDeleteStopBetween(){
+        Stop stop1 = newStop(1);
+        Stop stop2 =newStop(2);
+        Stop stop3 = newStop(3);
+        Stop stop4 = newStop(4);
+        stopService.add(stop1, trip.getId());
+        stopService.add(stop2, trip.getId());
+        stopService.add(stop3, trip.getId());
+        stopService.add(stop4, trip.getId());
+
+        stopService.remove(stop3);
+
+        List<Stop> stops = stopService.getStopsByTripId(trip.getId());
+        assertTrue(stops.get(2).getId() == stop4.getId());
+    }
+
+    private Trip newTrip() {
+        Trip trip = new Trip();
+        trip.setName("A name");
+        trip.setPrivateTrip(false);
+        trip.setPublished(false);
+        trip.setNrDays(10);
+        trip.setNrHours(12);
+        return trip;
+    }
+
+    private Stop newStop(Integer order){
+        Stop stop = new Stop();
+        stop.setLatitude(12342.245);
+        stop.setLongitude(15572.245);
+        stop.setName("Stop" + order);
+        stop.setOrderNumber(order);
+        stop.setTrip(this.trip);
+        return stop;
+    }
+}
