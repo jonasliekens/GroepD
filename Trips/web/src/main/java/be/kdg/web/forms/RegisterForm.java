@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.util.Date;
 
 /**
@@ -13,17 +13,22 @@ import java.util.Date;
  * Date: 20/02/13 9:52
  */
 public class RegisterForm {
+
     @NotEmpty
     @Email
     private String email;
+
     @NotEmpty
     @Length(min=8, max=20)
     private String password;
+
     @NotEmpty
     private String firstname;
+
     @NotEmpty
     private String lastname;
-    //@NotEmpty
+
+
     private Date birthday;
 
     public String getEmail() {

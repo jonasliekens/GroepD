@@ -4,6 +4,8 @@ import be.kdg.backend.entities.User;
 import be.kdg.backend.exceptions.LoginInvalidException;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA 12.
  * User: Jonas Liekens
@@ -21,4 +23,12 @@ public interface UserService extends GenericService<User, Integer>{
     public boolean mergeUserWithFacebook(Integer id, String facebookId);
     @Transactional
     public boolean checkLoginWithFacebook(String facebookId);
+    @Transactional
+    public User findUserByEMail(String eMail);
+    @Transactional
+    public List<User> getAllUsers();
+
+    @Override
+    @Deprecated
+    void add(User entity);
 }

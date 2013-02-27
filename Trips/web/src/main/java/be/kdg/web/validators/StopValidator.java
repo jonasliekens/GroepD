@@ -13,7 +13,7 @@ import org.springframework.validation.Validator;
  */
 @Component("stopValidator")
 public class StopValidator implements Validator {
-    @Override
+       @Override
        public boolean supports(Class<?> aClass) {
            return StopForm.class.isAssignableFrom(aClass);
        }

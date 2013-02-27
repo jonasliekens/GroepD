@@ -59,14 +59,15 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findByEMail(String mail) {
-        Query query = entityManager.createQuery("select u from User u where email = :mail");
-        query.setParameter("mail", mail);
+        Query query = entityManager.createQuery("select u from User u where email = ?1");
+        query.setParameter(1, mail);
         return (User) query.getSingleResult();
     }
 
     @Override
     public User findByFacebookId(String facebookId) {
-        Query query = entityManager.createQuery("select u from User u where facebookID = " + facebookId);
+        Query query = entityManager.createQuery("select u from User u where facebookID = ?1");
+        query.setParameter(1, facebookId);
         return (User) query.getSingleResult();
     }
 }

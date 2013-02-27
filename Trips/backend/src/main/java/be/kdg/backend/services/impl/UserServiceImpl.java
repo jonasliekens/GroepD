@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA 12.
@@ -26,7 +27,6 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    @Deprecated
     public void add(User entity) {
         userDao.add(entity);
     }
@@ -35,10 +35,10 @@ public class UserServiceImpl implements UserService {
     public boolean addUser(User user) {
         try{
             userDao.findByEMail(user.getEmail());
-            return false;
+            return true;
         }catch (NoResultException e){
             userDao.add(user);
-            return true;
+            return false;
         }
     }
 
@@ -98,5 +98,19 @@ public class UserServiceImpl implements UserService {
         } catch (NoResultException e) {
             throw new LoginInvalidException();
         }
+    }
+
+    @Override
+    public User findUserByEMail(String eMail) {
+        try{
+            return userDao.findByEMail(eMail);
+        }catch (NoResultException e){
+            return null;//Todo: geen null returne
+        }
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userDao.findAll();
     }
 }
