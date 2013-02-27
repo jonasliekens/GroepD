@@ -6,13 +6,13 @@ package be.kdg.web.forms;
  * Date: 27/02/13
  */
 public class StopForm {
-
-        private String name;
-        private String description;
-        private Double latitude;
-        private Double longitude;
-        private Integer accuracy;
-        private Integer orderNumber;
+    private String name;
+    private String description;
+    private Double latitude;
+    private Double longitude;
+    private Integer accuracy;
+    private Integer orderNumber;
+    private String orderString;
 
     public StopForm() {
     }
@@ -63,5 +63,13 @@ public class StopForm {
 
     public void setOrderNumber(Integer orderNumber) {
         this.orderNumber = orderNumber;
+    }
+
+    public String getOrderString() {
+        return orderString;
+    }
+
+    public void setOrderString(String orderString) {
+        this.orderString = orderString;
     }
 }

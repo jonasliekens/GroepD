@@ -1,9 +1,11 @@
 package be.kdg.web.controllers;
 
 import be.kdg.backend.entities.Stop;
+import be.kdg.backend.entities.Trip;
 import be.kdg.backend.services.interfaces.StopService;
 import be.kdg.backend.services.interfaces.TripService;
 import be.kdg.web.forms.StopForm;
+import be.kdg.web.forms.TripForm;
 import be.kdg.web.validators.StopValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
+
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,6 +33,7 @@ public class StopController {
     StopService stopService;
     @Autowired
     TripService tripService;
+    List stops;
 
     @Autowired
     StopValidator stopValidator;
@@ -34,6 +42,7 @@ public class StopController {
     public String list(@PathVariable Integer id, ModelMap model) {
         model.addAttribute("tripId", id);
         model.addAttribute("stops", stopService.getStopsByTripId(id));
+        stops = setToList(tripService.get(id).getStops());
         return "/stops/list";
     }
 
@@ -59,8 +68,16 @@ public class StopController {
             stop.setDescription(stopForm.getDescription());
             stop.setLatitude(stopForm.getLatitude());
             stop.setLongitude(stopForm.getLongitude());
-            stop.setOrderNumber(stopForm.getOrderNumber());
             stop.setAccuracy(stopForm.getAccuracy());
+
+            if (stopForm.getOrderString().equals("first")) {
+                stop.setOrderNumber(1);
+            } else if (stopForm.getOrderString().equals("last")) {
+                stop.setOrderNumber(tripService.get(id).getStops().size()+1);
+            } else if (stopForm.getOrderString().equals("after")) {
+                stop.setOrderNumber(stopForm.getOrderNumber()+1);
+            }
+
             stopService.add(stop, id);
 
             return "redirect:/trips/" + id + "/stops";
@@ -104,18 +121,27 @@ public class StopController {
             return "redirect:/trips/" + id + "/stops";
         }
     }
+
     @RequestMapping(value = "trips/{id}/stops/delete/{stopid}", method = RequestMethod.GET)
-    public String deleteStopConfirm(@PathVariable Integer id,@PathVariable Integer stopid, ModelMap model) {
+    public String deleteStopConfirm(@PathVariable Integer id, @PathVariable Integer stopid, ModelMap model) {
         model.addAttribute("trip", tripService.get(id));
         model.addAttribute("stop", stopService.get(stopid));
         return "/stops/delete";
     }
 
     @RequestMapping(value = "trips/{id}/stops/delete/{stopid}", method = RequestMethod.POST)
-    public String deleteStop(@PathVariable Integer id,@PathVariable Integer stopid, ModelMap model) {
+    public String deleteStop(@PathVariable Integer id, @PathVariable Integer stopid, ModelMap model) {
 
         stopService.remove(stopService.get(stopid));
 
         return "redirect:/trips/"+id+"/stops/";
+    }
+
+    private List<String> setToList(Set<Stop> stops){
+        List<String> list = new ArrayList<String>();
+        for(Stop stop : stops){
+            list.add(stop.getName());
+        }
+        return list;
     }
 }
