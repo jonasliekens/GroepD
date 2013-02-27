@@ -1,6 +1,7 @@
 package be.kdg.web.controllers;
 
 import be.kdg.backend.entities.User;
+import be.kdg.backend.exceptions.LoginInvalidException;
 import be.kdg.backend.services.interfaces.UserService;
 import be.kdg.web.forms.LoginForm;
 import be.kdg.web.forms.RegisterForm;
@@ -40,15 +41,24 @@ public class LoginController {
         return "login/index";
     }
 
-    @RequestMapping(value="/checkLogin", method=RequestMethod.POST)
-    public String checkLogin(ModelMap model, @ModelAttribute("loginForm") @Valid LoginForm loginForm, BindingResult result, SessionStatus status){
+    @RequestMapping(value = "/checkLogin", method = RequestMethod.POST)
+    public String checkLogin(ModelMap model, @ModelAttribute("loginForm") @Valid LoginForm loginForm, BindingResult result, SessionStatus status) {
         model.addAttribute("registerForm", new RegisterForm());
-        if(!userService.checkLogin(loginForm.getEmail(), loginForm.getPassword()) || result.hasErrors()){
-            result.addError(new ObjectError("email", "Email or password not correct."));
-            return "login/index";
-        }else{
-            return "login/loginwin";
+        try {
+            if (!result.hasErrors()) {
+                userService.checkLogin(loginForm.getEmail(), loginForm.getPassword());
+                return "login/loginwin";
+            }else{
+                return returnToLoginIndex(result);
+            }
+        } catch (LoginInvalidException e) {
+            return returnToLoginIndex(result);
         }
+    }
+
+    private String returnToLoginIndex(BindingResult result){
+        result.addError(new ObjectError("email", "Email or password invalid."));
+        return "login/index";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -58,7 +68,7 @@ public class LoginController {
             return "login/index";
         } else {
             User user = new User(registerForm.getEmail(), registerForm.getPassword(), registerForm.getFirstname(), registerForm.getLastname(), registerForm.getBirthday());
-            userService.addUser(user);
+            boolean userExisted = userService.addUser(user);
             return "login/registercomplete";
         }
     }
@@ -69,7 +79,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/checklogin", method = RequestMethod.GET)
-    public String redirectFromCheckLogin(){
+    public String redirectFromCheckLogin() {
         return doRedirect();
     }
 

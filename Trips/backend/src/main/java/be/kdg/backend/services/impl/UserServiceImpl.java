@@ -2,6 +2,7 @@ package be.kdg.backend.services.impl;
 
 import be.kdg.backend.dao.interfaces.UserDao;
 import be.kdg.backend.entities.User;
+import be.kdg.backend.exceptions.LoginInvalidException;
 import be.kdg.backend.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,8 +25,14 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Transactional
-    public void addUser(User user) {
-        userDao.add(user);
+    public boolean addUser(User user) {
+        try{
+            userDao.findByEMail(user.getEmail());
+            return false;
+        }catch(NoResultException e){
+            userDao.add(user);
+            return true;
+        }
     }
 
     @Transactional
@@ -73,16 +80,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public boolean checkLogin(String email, String password) {
+    public User checkLogin(String email, String password) throws LoginInvalidException {
         try {
             User user = userDao.findByEMail(email);
             if (user.getPassword().equals(password)) {
-                return true;
+               return userDao.findByEMail(email);
             } else {
-                return false;
+                throw new LoginInvalidException();
             }
         } catch (NoResultException e) {
-            return false;
+            throw new LoginInvalidException();
         }
     }
 }
