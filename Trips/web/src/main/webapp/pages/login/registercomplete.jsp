@@ -38,7 +38,7 @@
     <div class="container">
         <div class="row-fluid">
             <div class="span12">
-                Register complete, you can now login.
+                ${msg}
             </div>
         </div>
     </div>

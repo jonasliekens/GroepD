@@ -1,6 +1,7 @@
 package services;
 
 import be.kdg.backend.entities.User;
+import be.kdg.backend.exceptions.LoginInvalidException;
 import be.kdg.backend.services.interfaces.UserService;
 import be.kdg.backend.utilities.Utilities;
 import org.junit.After;
@@ -26,40 +27,44 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests {
     User user;
 
     @Before
-    public void addUser(){
+    public void addUser() {
         user = new User("soulscammer@gmail.com", "test", "Jonas", "Liekens", Utilities.makeDate("04/08/1991"));
-        userService.addUser(user);
-        Assert.assertNotNull(userService.getUser(user.getId()));
+        Assert.assertTrue(userService.addUser(user));
     }
 
     @Test
-    public void checkCorrectLogin(){
-        Assert.assertTrue(userService.checkLogin("soulscammer@gmail.com", "test"));
+    public void addExisting() {
+        Assert.assertFalse(userService.addUser(user));
     }
 
     @Test
-    public void checkFalseLoginMail(){
-        Assert.assertFalse(userService.checkLogin("soulscammer@gmail.com", "bla"));
+    public void checkCorrectLogin() throws LoginInvalidException {
+        Assert.assertNotNull(userService.checkLogin("soulscammer@gmail.com", "test"));
+    }
+
+    @Test(expected = LoginInvalidException.class)
+    public void checkFalseLoginMail() throws LoginInvalidException {
+        userService.checkLogin("soulscammer@gmail.com", "bla");
+    }
+
+    @Test(expected = LoginInvalidException.class)
+    public void checkFalseLoginPass() throws LoginInvalidException {
+        userService.checkLogin("fail@gmail.com", "test");
+    }
+
+    @Test(expected = LoginInvalidException.class)
+    public void checkFalseLoginEverything() throws LoginInvalidException {
+        userService.checkLogin("fail@gmail.com", "bla");
     }
 
     @Test
-    public void checkFalseLoginPass(){
-        Assert.assertFalse(userService.checkLogin("fail@gmail.com", "test"));
-    }
-
-    @Test
-    public void checkFalseLoginEverything(){
-        Assert.assertFalse(userService.checkLogin("fail@gmail.com", "bla"));
-    }
-
-    @Test
-    public void checkFacebookLoginAfterMerge(){
+    public void checkFacebookLoginAfterMerge() {
         userService.mergeUserWithFacebook(user.getId(), "100000420715358");
         Assert.assertTrue(userService.checkLoginWithFacebook("100000420715358"));
     }
 
     @After
-    public void deleteUser(){
+    public void deleteUser() {
         userService.deleteUser(user.getId());
         Assert.assertNull(userService.getUser(user.getId()));
     }
