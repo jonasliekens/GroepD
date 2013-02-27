@@ -13,14 +13,19 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface StopService {
+
     @Transactional
     void add(Stop entity, Integer tripId);
+
     @Transactional
     void update(Stop entity, Integer tripId);
+
     @Transactional
     void remove(Stop entity);
+
     @Transactional
     Stop get(Integer stopId);
+
     @Transactional
     List<Stop> getStopsByTripId(Integer tripId);
 }

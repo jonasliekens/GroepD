@@ -1,7 +1,9 @@
 package be.kdg.backend.services.impl;
 
 import be.kdg.backend.dao.interfaces.StopDao;
+import be.kdg.backend.dao.interfaces.TripDao;
 import be.kdg.backend.entities.Stop;
+import be.kdg.backend.entities.Trip;
 import be.kdg.backend.services.interfaces.StopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,10 +25,16 @@ public class StopServiceImpl implements StopService {
     @Autowired(required = true)
     private StopDao stopDao;
 
+    @Qualifier("tripDaoImpl")
+    @Autowired(required = true)
+    private TripDao tripDao;
+
     @Override
     public void add(Stop entity, Integer tripId) {
         fixOrderNumbers(entity, tripId);
-        stopDao.add(entity);
+        Trip trip = tripDao.findById(tripId);
+        trip.addStop(entity);
+        tripDao.update(trip);
     }
 
     @Override

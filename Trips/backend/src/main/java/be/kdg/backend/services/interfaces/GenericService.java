@@ -15,12 +15,16 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface GenericService<E, ID extends Serializable> {
+
     @Transactional
     public void add(E entity);
+
     @Transactional
     public void remove(E entity);
+
     @Transactional
     public void update(E entity);
+
     @Transactional
     public E get(ID id);
 }

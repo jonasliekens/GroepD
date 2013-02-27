@@ -4,6 +4,8 @@ import be.kdg.backend.entities.Stop;
 import be.kdg.backend.entities.Trip;
 import be.kdg.backend.services.interfaces.StopService;
 import be.kdg.backend.services.interfaces.TripService;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,25 +32,22 @@ public class StopServiceTest extends AbstractJUnit4SpringContextTests {
     @Autowired(required = true)
     TripService tripService;
 
-    private Trip trip;
-
-    @Before
-    public void createTripWithStops(){
-        trip = newTrip();
-        tripService.addTrip(trip);
-    }
-
     @Test
     public void testAddStop(){
-        Stop stop = newStop(1);
+        Trip trip = newTrip();
+        tripService.add(trip);
+        Stop stop = newStop(1, trip);
         stopService.add(stop, trip.getId());
-        assertTrue(stopService.get(stop.getId()).getName() == stop.getName());
+        assertTrue(stopService.getStopsByTripId(trip.getId()).get(0).getName().equals(stop.getName()));
     }
 
     @Test
     public void testUpdateStop(){
-        Stop stop = newStop(2);
+        Trip trip = newTrip();
+        tripService.add(trip);
+        Stop stop = newStop(2, trip);
         stopService.add(stop, trip.getId());
+        stop = stopService.getStopsByTripId(trip.getId()).get(0);
         stop.setAccuracy(3);
         stopService.update(stop, trip.getId());
         assertTrue(stopService.get(stop.getId()).getAccuracy() == 3);
@@ -56,78 +55,100 @@ public class StopServiceTest extends AbstractJUnit4SpringContextTests {
 
     @Test
     public void testDeleteStop(){
-        Stop stop = newStop(3);
+        Trip trip = newTrip();
+        tripService.add(trip);
+        Stop stop = newStop(3, trip);
         stopService.add(stop, trip.getId());
-        stop = stopService.get(stop.getId());
+        stop = stopService.getStopsByTripId(trip.getId()).get(0);
         stopService.remove(stop);
         assertTrue(stopService.get(stop.getId()) == null);
     }
 
     @Test
     public void testAddStopBetween(){
-        Stop stop1 = newStop(1);
-        Stop stop2 =newStop(2);
-        Stop stop3 = newStop(3);
-        Stop stop4 = newStop(4);
+        Trip trip = newTrip();
+        tripService.add(trip);
+
+        Stop stop1 = newStop(1, trip);
+        Stop stop2 = newStop(2, trip);
+        Stop stop3 = newStop(3, trip);
+        Stop stop4 = newStop(4, trip);
         stopService.add(stop1, trip.getId());
         stopService.add(stop2, trip.getId());
         stopService.add(stop3, trip.getId());
         stopService.add(stop4, trip.getId());
-        Stop duplicate = newStop(2);
+
+        Stop duplicate = newStop(2, trip);
         stopService.add(duplicate, trip.getId());
         List<Stop> stops = stopService.getStopsByTripId(trip.getId());
-        assertTrue(stops.get(1).getId() == duplicate.getId());
+        assertTrue(stops.get(1).getName().equals(duplicate.getName()));
     }
 
     @Test
     public void testStopComparator(){
-        Stop stop1 = newStop(1);
-        Stop stop2 = newStop(2);
-        Stop stop3 = newStop(3);
-        Stop stop4 = newStop(4);
+        Trip trip = newTrip();
+        tripService.add(trip);
+
+        Stop stop1 = newStop(1, trip);
+        Stop stop2 = newStop(2, trip);
+        Stop stop3 = newStop(3, trip);
+        Stop stop4 = newStop(4, trip);
         stopService.add(stop4, trip.getId());
         stopService.add(stop2, trip.getId());
         stopService.add(stop3, trip.getId());
         stopService.add(stop1, trip.getId());
 
         List<Stop> stops = stopService.getStopsByTripId(trip.getId());
-        assertTrue(stops.get(0).getId() == stop1.getId());
+        assertTrue(stops.get(0).getName().equals(stop1.getName()));
     }
 
     @Test
     public void testUpdateStopBetween(){
-        Stop stop1 = newStop(1);
-        Stop stop2 =newStop(2);
-        Stop stop3 = newStop(3);
-        Stop stop4 = newStop(4);
+        Trip trip = newTrip();
+        tripService.add(trip);
+
+        Stop stop1 = newStop(1, trip);
+        Stop stop2 = newStop(2, trip);
+        Stop stop3 = newStop(3, trip);
+        Stop stop4 = newStop(4, trip);
         stopService.add(stop1, trip.getId());
         stopService.add(stop2, trip.getId());
         stopService.add(stop3, trip.getId());
         stopService.add(stop4, trip.getId());
 
-        Stop dubbel = stopService.get(stop4.getId());
+        Stop dubbel = stopService.getStopsByTripId(trip.getId()).get(3);
         dubbel.setOrderNumber(1);
         stopService.update(dubbel, trip.getId());
 
         List<Stop> stops = stopService.getStopsByTripId(trip.getId());
-        assertTrue(stops.get(0).getId() == dubbel.getId());
+        assertTrue(stops.get(0).getName().equals(dubbel.getName()));
     }
 
     @Test
     public void testDeleteStopBetween(){
-        Stop stop1 = newStop(1);
-        Stop stop2 =newStop(2);
-        Stop stop3 = newStop(3);
-        Stop stop4 = newStop(4);
+        Trip trip = newTrip();
+        tripService.add(trip);
+
+        Stop stop1 = newStop(1, trip);
+        Stop stop2 = newStop(2, trip);
+        Stop stop3 = newStop(3, trip);
+        Stop stop4 = newStop(4, trip);
         stopService.add(stop1, trip.getId());
         stopService.add(stop2, trip.getId());
         stopService.add(stop3, trip.getId());
         stopService.add(stop4, trip.getId());
-
+        stop3 = stopService.getStopsByTripId(trip.getId()).get(2);
         stopService.remove(stop3);
 
         List<Stop> stops = stopService.getStopsByTripId(trip.getId());
-        assertTrue(stops.get(2).getId() == stop4.getId());
+        assertTrue(stops.get(2).getName().equals(stop4.getName()));
+    }
+
+    @After
+    public void removeTripsWithStops(){
+        for(Trip trip : tripService.getTrips()){
+            tripService.remove(trip);
+        }
     }
 
     private Trip newTrip() {
@@ -140,13 +161,13 @@ public class StopServiceTest extends AbstractJUnit4SpringContextTests {
         return trip;
     }
 
-    private Stop newStop(Integer order){
+    private Stop newStop(Integer order, Trip trip){
         Stop stop = new Stop();
         stop.setLatitude(12342.245);
         stop.setLongitude(15572.245);
         stop.setName("Stop" + order);
         stop.setOrderNumber(order);
-        stop.setTrip(this.trip);
+        stop.setTrip(trip);
         return stop;
     }
 }

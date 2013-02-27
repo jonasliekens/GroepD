@@ -61,11 +61,13 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
     }
 
     @Test
-    public void testAddStop() {
+    public void testAddStops() {
         Trip temp = newTrip();
         tripDao.add(temp);
         Stop stop = newStop(1);
+        Stop stop1 = newStop(2);
         temp.addStop(stop);
+        temp.addStop(stop1);
         tripDao.update(temp);
         temp = tripDao.findById(temp.getId());
         assertTrue(temp.getStops().size() > 0);

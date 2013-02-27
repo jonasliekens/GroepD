@@ -20,23 +20,30 @@ import javax.persistence.NoResultException;
  */
 @Service("userService")
 public class UserServiceImpl implements UserService {
+
     @Qualifier("userDaoImpl")
     @Autowired(required = true)
     private UserDao userDao;
 
-    @Transactional
+    @Override
+    @Deprecated
+    public void add(User entity) {
+        userDao.add(entity);
+    }
+
+    @Override
     public boolean addUser(User user) {
         try{
             userDao.findByEMail(user.getEmail());
             return false;
-        }catch(NoResultException e){
+        }catch (NoResultException e){
             userDao.add(user);
             return true;
         }
     }
 
-    @Transactional
-    public User getUser(Integer id) {
+    @Override
+    public User get(Integer id) {
         try {
             return userDao.findById(id);
         } catch (NoResultException e) {
@@ -44,29 +51,29 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Transactional
-    public boolean deleteUser(Integer id) {
-        try {
-            User userToDelete = getUser(id);
-            if (userToDelete == null) {
-                return false;
-            } else {
-                userDao.remove(userToDelete);
-                return true;
-            }
-        } catch (NoResultException e) {
+    @Override
+    public void remove(User entity) {
+        userDao.remove(entity);
+    }
+
+    @Override
+    public void update(User entity) {
+        userDao.update(entity);
+    }
+
+    @Override
+    public boolean mergeUserWithFacebook(Integer id, String facebookId) {
+        try{
+            User user = userDao.findById(id);
+            user.setFacebookID(facebookId);
+            userDao.update(user);
+            return true;
+        }catch(Exception e){
             return false;
         }
     }
 
-    @Transactional
-    public void mergeUserWithFacebook(Integer id, String facebookid) {
-        User user = userDao.findById(id);
-        user.setFacebookID(facebookid);
-        userDao.update(user);
-    }
-
-    @Transactional
+    @Override
     public boolean checkLoginWithFacebook(String facebookId) {
         try {
             if (userDao.findByFacebookId(facebookId) != null) {
@@ -79,12 +86,12 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Transactional
-    public User checkLogin(String email, String password) throws LoginInvalidException {
+    @Override
+    public User checkLogin(String email, String password) throws LoginInvalidException{
         try {
             User user = userDao.findByEMail(email);
             if (user.getPassword().equals(password)) {
-               return userDao.findByEMail(email);
+                return userDao.findByEMail(email);
             } else {
                 throw new LoginInvalidException();
             }

@@ -21,6 +21,7 @@ import static org.junit.Assert.assertFalse;
  */
 @ContextConfiguration(locations = "classpath*:/META-INF/applicationContext.xml")
 public class TripServiceTest extends AbstractJUnit4SpringContextTests {
+
     @Autowired(required = true)
     TripService tripService;
     User admin;
@@ -33,7 +34,7 @@ public class TripServiceTest extends AbstractJUnit4SpringContextTests {
     @After
     public void testRemoveTrips() {
         for (Trip trip : this.tripService.getTrips()) {
-            this.tripService.deleteTrip(trip);
+            this.tripService.remove(trip);
         }
 
         assertFalse(this.tripService.getTrips().size() > 0);
@@ -42,33 +43,33 @@ public class TripServiceTest extends AbstractJUnit4SpringContextTests {
     @Test
     public void addTrip() {
         Trip trip = newTrip();
-        this.tripService.addTrip(trip);
+        this.tripService.add(trip);
 
-        Assert.assertTrue(this.tripService.getTrip(trip.getId()) != null);
+        Assert.assertTrue(this.tripService.get(trip.getId()) != null);
     }
 
     @Test
     public void deleteTrip() {
         Trip trip = newTrip();
-        this.tripService.addTrip(trip);
+        this.tripService.add(trip);
 
-        this.tripService.deleteTrip(trip);
+        this.tripService.remove(trip);
 
-        Assert.assertTrue(this.tripService.getTrip(trip.getId()) == null);
+        Assert.assertTrue(this.tripService.get(trip.getId()) == null);
     }
 
     @Test
     public void getTrip() {
         Trip trip = newTrip();
-        this.tripService.addTrip(trip);
+        this.tripService.add(trip);
 
-        Assert.assertTrue(this.tripService.getTrip(trip.getId()) != null);
+        Assert.assertTrue(this.tripService.get(trip.getId()) != null);
     }
 
     @Test
     public void getTrips() {
-        this.tripService.addTrip(newTrip());
-        this.tripService.addTrip(newTrip());
+        this.tripService.add(newTrip());
+        this.tripService.add(newTrip());
 
         Assert.assertEquals(2, this.tripService.getTrips().size());
     }

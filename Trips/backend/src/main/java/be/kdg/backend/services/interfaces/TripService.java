@@ -1,6 +1,7 @@
 package be.kdg.backend.services.interfaces;
 
 import be.kdg.backend.entities.Trip;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -8,10 +9,7 @@ import java.util.List;
  * User: Bart Verhavert
  * Date: 21/02/13 14:07
  */
-public interface TripService {
-    public void addTrip(Trip trip);
-    public void deleteTrip(Trip trip);
-    public void editTrip(Trip trip);
-    public Trip getTrip(Integer key);
+public interface TripService extends GenericService<Trip, Integer>{
+    @Transactional
     public List<Trip> getTrips();
 }

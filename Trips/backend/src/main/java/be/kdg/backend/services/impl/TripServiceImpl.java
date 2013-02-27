@@ -16,26 +16,32 @@ import java.util.List;
  */
 @Service("tripService")
 public class TripServiceImpl implements TripService {
+
     @Qualifier("tripDaoImpl")
     @Autowired(required = true)
     private TripDao tripDao;
 
-    @Transactional
-    public void addTrip(Trip trip) {
+    @Override
+    public void add(Trip trip) {
         tripDao.add(trip);
     }
 
-    @Transactional
-    public void deleteTrip(Trip trip) {
+    @Override
+    public void remove(Trip trip) {
         tripDao.remove(trip);
     }
 
-    @Transactional
-    public Trip getTrip(Integer key) {
+    @Override
+    public Trip get(Integer key) {
         return tripDao.findById(key);
     }
 
-    @Transactional
+    @Override
+    public void update(Trip entity) {
+        tripDao.update(entity);
+    }
+
+    @Override
     public List<Trip> getTrips() {
         return tripDao.findAll();
     }

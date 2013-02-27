@@ -39,7 +39,7 @@ public class Stop {
     @JoinColumn(name = "stopId")
     private Set<Question> questions;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "tripId")
     Trip trip;
 

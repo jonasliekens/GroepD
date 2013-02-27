@@ -43,29 +43,29 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests {
     }
 
     @Test(expected = LoginInvalidException.class)
-    public void checkFalseLoginMail() throws LoginInvalidException {
+    public void checkFalseLoginMail() throws LoginInvalidException{
         userService.checkLogin("soulscammer@gmail.com", "bla");
     }
 
     @Test(expected = LoginInvalidException.class)
-    public void checkFalseLoginPass() throws LoginInvalidException {
+    public void checkFalseLoginPass() throws LoginInvalidException{
         userService.checkLogin("fail@gmail.com", "test");
     }
 
     @Test(expected = LoginInvalidException.class)
-    public void checkFalseLoginEverything() throws LoginInvalidException {
+    public void checkFalseLoginEverything() throws LoginInvalidException{
         userService.checkLogin("fail@gmail.com", "bla");
     }
 
     @Test
-    public void checkFacebookLoginAfterMerge() {
+    public void checkFacebookLoginAfterMerge(){
         userService.mergeUserWithFacebook(user.getId(), "100000420715358");
         Assert.assertTrue(userService.checkLoginWithFacebook("100000420715358"));
     }
 
     @After
-    public void deleteUser() {
-        userService.deleteUser(user.getId());
-        Assert.assertNull(userService.getUser(user.getId()));
+    public void deleteUser(){
+        userService.remove(user);
+        Assert.assertNull(userService.get(user.getId()));
     }
 }
