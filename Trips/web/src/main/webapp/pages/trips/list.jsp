@@ -38,7 +38,7 @@
 
     <%@include file="../../template/header.jsp"%>
 
-    <sectoin>
+    <section>
         <div class="container">
             <div class="row-fluid">
                 <div class="span12">
@@ -71,7 +71,7 @@
                             <c:forEach var="trip" items="${trips}" varStatus="loop">
                                 <tr>
                                     <td>
-                                        <a href="trips/detail/${trip.id}">${trip.name}</a>
+                                        <a href="trips/details/${trip.id}">${trip.name}</a>
                                     </td>
                                     <td>
                                         <c:if test="${trip.privateTrip == true}">
@@ -101,7 +101,7 @@
                 </div>
             </div>
         </div>
-    </sectoin>
+    </section>
 
 
     <%@include file="../../template/footer.jsp"%>

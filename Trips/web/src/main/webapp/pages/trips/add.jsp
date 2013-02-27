@@ -39,11 +39,11 @@
     <%@include file="../../template/header.jsp"%>
 
 
-    <sectoin>
+    <section>
         <div class="container">
             <div class="row-fluid">
                 <div class="span12">
-                    <form:form method="post" action="trips/add" modelAttribute="tripForm">
+                    <form:form method="post" modelAttribute="tripForm">
                         <form:label path="name">Name</form:label>
                         <form:input path="name" />
                         <form:errors path="name" cssClass="alert alert-error" />
@@ -60,7 +60,7 @@
                 </div>
             </div>
         </div>
-    </sectoin>
+    </section>
 
 
     <%@include file="../../template/footer.jsp"%>

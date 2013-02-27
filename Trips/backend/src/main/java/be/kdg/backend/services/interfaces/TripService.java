@@ -11,6 +11,7 @@ import java.util.List;
 public interface TripService {
     public void addTrip(Trip trip);
     public void deleteTrip(Trip trip);
+    public void editTrip(Trip trip);
     public Trip getTrip(Integer key);
     public List<Trip> getTrips();
 }

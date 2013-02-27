@@ -38,7 +38,7 @@ public class TripController {
         return "trips/list";
     }
 
-    @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/details/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable Integer id, ModelMap model) {
         model.addAttribute("trip", tripService.getTrip(id));
 
@@ -67,32 +67,69 @@ public class TripController {
             trip.setPrivateTrip(tripForm.getPrivateTrip());
             // On creation, a trip shouldn't be published
             trip.setPublished(false);
-            if (tripForm.getNrDays() == null){
+            if (tripForm.getNrDays() == null) {
                 trip.setNrDays(0);
-            }
-            else{
+            } else {
                 trip.setNrDays(tripForm.getNrDays());
             }
-            if (tripForm.getNrHours() == null){
+            if (tripForm.getNrHours() == null) {
                 trip.setNrHours(0);
-            }
-            else {
+            } else {
                 trip.setNrHours(tripForm.getNrHours());
             }
 
 
             tripService.addTrip(trip);
 
-            return "redirect:/trips/edit/"+trip.getId();
+            return "redirect:/trips/edit/" + trip.getId();
         }
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String editTripConfirm(@PathVariable Integer id, ModelMap model) {
-        model.addAttribute("trip", tripService.getTrip(id));
-
+    public String edit(@PathVariable Integer id, ModelMap model) {
+        Trip trip = tripService.getTrip(id);
+        TripForm tripForm = new TripForm();
+        tripForm.setName(trip.getName());
+        tripForm.setNrDays(trip.getNrDays());
+        tripForm.setNrHours(trip.getNrHours());
+        tripForm.setPrivateTrip(trip.getPrivateTrip());
+        model.addAttribute("tripForm", tripForm);
+        model.addAttribute("trip", trip);
         return "trips/edit";
     }
+
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+    public String editTrip(@PathVariable Integer id, @ModelAttribute("tripForm") TripForm tripForm, BindingResult result, SessionStatus status) {
+        tripValidator.validate(tripForm, result);
+        if (result.hasErrors()) {
+            return "trips";
+        } else {
+            status.setComplete();
+
+            Trip trip = tripService.getTrip(id);
+
+            trip.setName(tripForm.getName());
+            trip.setPrivateTrip(tripForm.getPrivateTrip());
+            // On creation, a trip shouldn't be published
+            trip.setPublished(false);
+            if (tripForm.getNrDays() == null) {
+                trip.setNrDays(0);
+            } else {
+                trip.setNrDays(tripForm.getNrDays());
+            }
+            if (tripForm.getNrHours() == null) {
+                trip.setNrHours(0);
+            } else {
+                trip.setNrHours(tripForm.getNrHours());
+            }
+
+
+            tripService.editTrip(trip);
+
+            return "redirect:/trips/";
+        }
+    }
+
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteTripConfirm(@PathVariable Integer id, ModelMap model) {
