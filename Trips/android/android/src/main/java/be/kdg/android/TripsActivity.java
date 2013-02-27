@@ -9,6 +9,8 @@ import be.kdg.android.fragments.AllTripsFragment;
 import be.kdg.android.fragments.ChatFragment;
 import be.kdg.android.fragments.MyTripsFragment;
 import be.kdg.android.login.LoginActivity;
+import be.kdg.android.utilities.Constants;
+import de.akquinet.android.androlog.Log;
 
 /**
  * User: Sander
@@ -20,6 +22,8 @@ public class TripsActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        Log.v("TRIPS", "TripsActivity created");
 
         initControls();
         checkLogin();

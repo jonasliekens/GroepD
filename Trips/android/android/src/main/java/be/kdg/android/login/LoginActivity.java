@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import be.kdg.android.R;
+import de.akquinet.android.androlog.Log;
 
 /**
  * User: Sander
@@ -21,6 +22,8 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        Log.v("TRIPS", "LoginActivity created");
+
         initControls();
         initListener();
     }
@@ -33,12 +36,16 @@ public class LoginActivity extends Activity {
 
     private void initListener() {
         btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View view) {
-                // REST-service aanroepen
                 String username = txtUsername.getText().toString();
                 String password = txtPassword.getText().toString();
-                Toast.makeText(getApplicationContext(),username + " " + password, Toast.LENGTH_LONG).show();
+
+                String[] params = new String[2];
+                params[0] = username;
+                params[1] = password;
+
+                LoginTask login = new LoginTask();
+                login.execute(params);
             }
         });
     }

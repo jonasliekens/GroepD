@@ -22,7 +22,6 @@ public class TripsTabListener<T extends Fragment> implements ActionBar.TabListen
         this.mClass = mClass;
     }
 
-    @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         if (fragment == null) {
             fragment = Fragment.instantiate(activity, mClass.getName());
@@ -33,7 +32,6 @@ public class TripsTabListener<T extends Fragment> implements ActionBar.TabListen
         }
     }
 
-    @Override
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
         if (fragment != null) {
             ft.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
@@ -41,7 +39,6 @@ public class TripsTabListener<T extends Fragment> implements ActionBar.TabListen
         }
     }
 
-    @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
     }
 }
