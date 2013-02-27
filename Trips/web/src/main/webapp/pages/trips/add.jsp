@@ -52,7 +52,7 @@
                         <form:checkbox path="privateTrip" />
                         <form:errors path="privateTrip" cssClass="alert alert-error" />
 
-                        <form:radiobutton path="type" value="LOOSE" /> Loose
+
 
                         <spring:message code="control.add" var="btnAdd"></spring:message>
                         <input type="submit" value="${btnAdd}" />
