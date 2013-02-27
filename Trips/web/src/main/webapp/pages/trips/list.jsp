@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -59,6 +60,9 @@
                                     <spring:message code="trip.end" />
                                 </th>
                                 <th>
+                                    <spring:message code="trip.numberOfStops" />
+                                </th>
+                                <th>
                                     <!--Controls-->
                                 </th>
                             </tr>
@@ -82,6 +86,9 @@
                                     </td>
                                     <td>
 
+                                    </td>
+                                    <td>
+                                        ${fn:length(trip.stops)}
                                     </td>
                                     <td>
                                         <a href="trips/edit/${trip.id}"><spring:message code="control.edit" /></a>

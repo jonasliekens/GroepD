@@ -52,13 +52,7 @@
                         <form:checkbox path="privateTrip" />
                         <form:errors path="privateTrip" cssClass="alert alert-error" />
 
-                        <form:label path="nrDays">Number of days</form:label>
-                        <form:input path="nrDays" />
-                        <form:errors path="nrDays" cssClass="alert alert-error" />
-
-                        <form:label path="nrHours">Number of hours</form:label>
-                        <form:input path="nrHours" />
-                        <form:errors path="nrHours" cssClass="alert alert-error" />
+                        <form:radiobutton path="type" value="LOOSE" /> Loose
 
                         <spring:message code="control.add" var="btnAdd"></spring:message>
                         <input type="submit" value="${btnAdd}" />

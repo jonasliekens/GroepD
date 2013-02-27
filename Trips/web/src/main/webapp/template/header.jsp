@@ -9,7 +9,7 @@
         </div>
         <div class="row-fluid">
             <div class="span12">
-                <ul>
+                <ul class="menu" id="main-menu">
                     <li>
                         <a href=""><spring:message code="menu.home" /></a>
                     </li>
