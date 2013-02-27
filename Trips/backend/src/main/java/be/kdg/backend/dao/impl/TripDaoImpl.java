@@ -3,9 +3,9 @@ package be.kdg.backend.dao.impl;
 import be.kdg.backend.dao.interfaces.TripDao;
 import be.kdg.backend.entities.Trip;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -16,7 +16,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Repository
-public class TripDaoImpl implements TripDao {
+public class  TripDaoImpl implements TripDao {
 
     protected EntityManager entityManager;
 
