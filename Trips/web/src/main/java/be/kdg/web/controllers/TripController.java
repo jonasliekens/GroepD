@@ -133,6 +133,7 @@ public class TripController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteTripConfirm(@PathVariable Integer id, ModelMap model) {
+
         model.addAttribute("trip", tripService.get(id));
 
         return "trips/delete";

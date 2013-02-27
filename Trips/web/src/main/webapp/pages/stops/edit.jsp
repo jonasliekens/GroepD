@@ -49,6 +49,9 @@
                         <form:label path="accuracy"><spring:message code="stop.accuracy" /></form:label>
                         <form:input path="accuracy"/>
                         <form:errors path="accuracy" cssClass="alert alert-error"/>
+                        <form:label path="orderNumber"><spring:message code="stop.orderNumber" /></form:label>
+                        <form:input path="orderNumber"/>
+                        <form:errors path="orderNumber" cssClass="alert alert-error"/>
 
                         <spring:message code="control.edit" var="btnEdit"></spring:message>
                         <input type="submit" value="${btnEdit}"/>

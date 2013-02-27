@@ -48,7 +48,7 @@ public class LoginController {
                 User user = userService.checkLogin(loginForm.getEmail(), loginForm.getPassword());
                 session.setAttribute("userId", user.getId());
                 return "login/loginwin";
-            }else{
+            } else {
                 return returnToLoginIndex(result);
             }
         } catch (LoginInvalidException e) {
@@ -56,7 +56,7 @@ public class LoginController {
         }
     }
 
-    private String returnToLoginIndex(BindingResult result){
+    private String returnToLoginIndex(BindingResult result) {
         result.addError(new ObjectError("email", "Email or password invalid."));
         return "login/index";
     }
@@ -69,9 +69,9 @@ public class LoginController {
         } else {
             User user = new User(registerForm.getEmail(), registerForm.getPassword(), registerForm.getFirstname(), registerForm.getLastname(), registerForm.getBirthday());
             boolean userExisted = userService.addUser(user);
-            if(userExisted){
+            if (userExisted) {
                 model.addAttribute("msg", "User already existed. You can login with your email and password.");
-            }else{
+            } else {
                 model.addAttribute("msg", "User has been succesfully registered. You can now login with your provided email and password.");
             }
             return "login/registercomplete";

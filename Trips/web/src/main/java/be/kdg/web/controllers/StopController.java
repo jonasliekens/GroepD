@@ -47,28 +47,29 @@ public class StopController {
     }
 
     @RequestMapping(value = "/trips/{id}/stops/add", method = RequestMethod.POST)
-        public String addStop(@PathVariable Integer id, @ModelAttribute("stopForm") StopForm stopForm,  BindingResult result, SessionStatus status) {
+    public String addStop(@PathVariable Integer id, @ModelAttribute("stopForm") StopForm stopForm, BindingResult result, SessionStatus status) {
 
         stopValidator.validate(stopForm, result);
 
-            if (result.hasErrors()) {
-                return "stops/add";
-            } else {
-                status.setComplete();
+        if (result.hasErrors()) {
+            return "/stops/add";
+        } else {
+            status.setComplete();
 
-                Stop stop = new Stop();
+            Stop stop = new Stop();
 
-                stop.setName(stopForm.getName());
-                stop.setDescription(stopForm.getDescription());
-                stop.setLatitude(stopForm.getLatitude());
-                stop.setLongitude(stopForm.getLongitude());
-                stop.setOrderNumber(stopForm.getOrderNumber());
-                stop.setAccuracy(stopForm.getAccuracy());
-                stopService.add(stop, id);
+            stop.setName(stopForm.getName());
+            stop.setDescription(stopForm.getDescription());
+            stop.setLatitude(stopForm.getLatitude());
+            stop.setLongitude(stopForm.getLongitude());
+            stop.setOrderNumber(stopForm.getOrderNumber());
+            stop.setAccuracy(stopForm.getAccuracy());
+            stopService.add(stop, id);
 
-                return "redirect:/trips/" + id+"/stops";
-            }
+            return "redirect:/trips/" + id + "/stops";
         }
+    }
+
     @RequestMapping(value = "trips/{id}/stops/edit/{stopid}", method = RequestMethod.GET)
     public String edit(@PathVariable Integer id, @PathVariable Integer stopid, ModelMap model) {
         Stop stop = stopService.get(stopid);
@@ -81,6 +82,42 @@ public class StopController {
         stopForm.setOrderNumber(stop.getOrderNumber());
         model.addAttribute("stopForm", stopForm);
         model.addAttribute("stop", stop);
-        return "stops/edit";
+        return "/stops/edit";
+    }
+
+    @RequestMapping(value = "/trips/{id}/stops/edit/{stopid}", method = RequestMethod.POST)
+    public String editTrip(@PathVariable Integer id, @PathVariable Integer stopid, @ModelAttribute("stopForm") StopForm stopForm, BindingResult result, SessionStatus status) {
+        stopValidator.validate(stopForm, result);
+        if (result.hasErrors()) {
+            return "stops";
+        } else {
+            status.setComplete();
+
+            Stop stop = stopService.get(stopid);
+
+            stop.setName(stopForm.getName());
+            stop.setDescription(stopForm.getDescription());
+            // On creation, a trip shouldn't be published
+            stop.setLongitude(stopForm.getLongitude());
+            stop.setLatitude(stopForm.getLatitude());
+            stop.setAccuracy(stopForm.getAccuracy());
+            stop.setOrderNumber(stopForm.getOrderNumber());
+            stopService.update(stop, id);
+
+            return "redirect:/trips/" + id + "/stops";
+        }
+    }
+    @RequestMapping(value = "trips/{id}/stops/delete/{stopid}", method = RequestMethod.GET)
+    public String deleteStopConfirm(@PathVariable Integer id,@PathVariable Integer stopid, ModelMap model) {
+        model.addAttribute("trip", tripService.get(id));
+        model.addAttribute("stop", stopService.get(stopid));
+        return "/stops/delete";
+    }
+
+    @RequestMapping(value = "trips/{id}/stops/delete/{stopid}", method = RequestMethod.POST)
+    public String deleteStop(@PathVariable Integer id,@PathVariable Integer stopid, ModelMap model) {
+
+        stopService.remove(stopService.get(stopid));
+        return "/stops/list";
     }
 }

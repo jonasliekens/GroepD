@@ -57,7 +57,7 @@
                     <form:label path="latitude"><spring:message code="stop.latitude"/></form:label>
                     <form:input path="latitude"/>
                     <form:errors path="latitude" cssClass="alert alert-error"/>
-                    <form:label path="longitude"><spring:message code="stop.longtitude"/></form:label>
+                    <form:label path="longitude"><spring:message code="stop.longitude"/></form:label>
                     <form:input path="longitude"/>
                     <form:errors path="longitude" cssClass="alert alert-error"/>
                     <form:label path="accuracy"><spring:message code="stop.accuracy"/></form:label>
