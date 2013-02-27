@@ -70,6 +70,17 @@ public class StopTest extends AbstractJUnit4SpringContextTests {
         assertTrue(stopDao.findById(temp.getId()).getQuestions().size() > 0);
     }
 
+    @Test
+    public void testUpdateOrderNumber(){
+        Stop stop = newStop();
+        stopDao.add(stop);
+        stop = stopDao.findById(stop.getId());
+        stop.setOrderNumber(3);
+        stopDao.update(stop);
+        stop = stopDao.findById(stop.getId());
+        assertTrue(stop.getOrderNumber() == 3);
+    }
+
     @After
     public void deleteStops(){
         for(Stop stop : stopDao.findAll()){
@@ -84,6 +95,7 @@ public class StopTest extends AbstractJUnit4SpringContextTests {
         stop.setName("Brabo");
         stop.setLatitude(1245.213);
         stop.setLongitude(1548.325);
+        stop.setOrderNumber(1);
         return stop;
     }
 }

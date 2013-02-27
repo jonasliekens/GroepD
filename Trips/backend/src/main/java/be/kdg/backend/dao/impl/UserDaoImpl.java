@@ -25,7 +25,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @Transactional
     public void add(User entity) {
         entityManager.getTransaction().begin();
         entityManager.persist(entity);
@@ -33,7 +32,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @Transactional
     public void remove(User user) {
         entityManager.getTransaction().begin();
         user = entityManager.find(User.class, user.getId());
@@ -42,7 +40,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @Transactional
     public void update(User user) {
         entityManager.getTransaction().begin();
         entityManager.merge(user);
@@ -50,29 +47,25 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @Transactional
-    public User findById(Integer id) throws NoResultException{
+    public User findById(Integer id) {
         return entityManager.find(User.class, id);
     }
 
     @Override
-    @Transactional
-    public List<User> findAll() throws NoResultException{
+    public List<User> findAll() {
         Query query = entityManager.createQuery("select u from User u");
         return query.getResultList();
     }
 
     @Override
-    @Transactional
-    public User findByEMail(String mail) throws NoResultException{
+    public User findByEMail(String mail) {
         Query query = entityManager.createQuery("select u from User u where email = :mail");
         query.setParameter("mail", mail);
         return (User) query.getSingleResult();
     }
 
     @Override
-    @Transactional
-    public User findByFacebookId(String facebookId) throws NoResultException{
+    public User findByFacebookId(String facebookId) {
         Query query = entityManager.createQuery("select u from User u where facebookID = " + facebookId);
         return (User) query.getSingleResult();
     }

@@ -38,13 +38,15 @@
     <%@include file="../../template/header.jsp"%>
 
 
-    <div class="container">
-        <div class="row-fluid">
-            <div class="span12">
-                ${trip.name}
+    <sectoin>
+        <div class="container">
+            <div class="row-fluid">
+                <div class="span12">
+                    ${trip.name}
+                </div>
             </div>
         </div>
-    </div>
+    </sectoin>
 
 
     <%@include file="../../template/footer.jsp"%>

@@ -31,13 +31,15 @@
     <%@include file="../template/header.jsp"%>
 
 
-    <div class="container">
-        <div class="row-fluid">
-            <div class="span12">
+    <section>
+        <div class="container">
+            <div class="row-fluid">
+                <div class="span12">
 
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
 
     <%@include file="../template/footer.jsp"%>

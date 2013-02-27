@@ -25,7 +25,6 @@ public class TripDaoImpl implements TripDao {
     }
 
     @Override
-    @Transactional
     public void add(Trip entity) {
         entityManager.getTransaction().begin();
         entityManager.persist(entity);
@@ -33,7 +32,6 @@ public class TripDaoImpl implements TripDao {
     }
 
     @Override
-    @Transactional
     public void remove(Trip entity) {
         entityManager.getTransaction().begin();
         entity = entityManager.find(Trip.class, entity.getId());
@@ -42,7 +40,6 @@ public class TripDaoImpl implements TripDao {
     }
 
     @Override
-    @Transactional
     public void update(Trip entity) {
         entityManager.getTransaction().begin();
         entityManager.merge(entity);
@@ -50,13 +47,11 @@ public class TripDaoImpl implements TripDao {
     }
 
     @Override
-    @Transactional
     public Trip findById(Integer id) {
         return entityManager.find(Trip.class, id);
     }
 
     @Override
-    @Transactional
     public List<Trip> findAll() {
         Query query = entityManager.createQuery("select t from Trip t");
         return query.getResultList();
