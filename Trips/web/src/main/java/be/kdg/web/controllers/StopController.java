@@ -1,11 +1,9 @@
 package be.kdg.web.controllers;
 
 import be.kdg.backend.entities.Stop;
-import be.kdg.backend.entities.Trip;
 import be.kdg.backend.services.interfaces.StopService;
 import be.kdg.backend.services.interfaces.TripService;
 import be.kdg.web.forms.StopForm;
-import be.kdg.web.forms.TripForm;
 import be.kdg.web.validators.StopValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,8 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
-
-import javax.validation.Valid;
 
 /**
  * Created by IntelliJ IDEA.
@@ -119,6 +115,7 @@ public class StopController {
     public String deleteStop(@PathVariable Integer id,@PathVariable Integer stopid, ModelMap model) {
 
         stopService.remove(stopService.get(stopid));
-        return "/stops/list";
+
+        return "redirect:/trips/"+id+"/stops/";
     }
 }

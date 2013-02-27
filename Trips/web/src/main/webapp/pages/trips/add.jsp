@@ -51,7 +51,13 @@
                         <form:label path="privateTrip"><spring:message code="trip.privateQuestion" /></form:label>
                         <form:checkbox path="privateTrip" />
                         <form:errors path="privateTrip" cssClass="alert alert-error" />
-
+                        <form:label path="communicationByChat"><spring:message code="trip.communicationByChatQuestion" /></form:label>
+                        <form:checkbox path="communicationByChat" />
+                        <form:errors path="communicationByChat" cssClass="alert alert-error" />
+                        <form:label path="communicationByLocation"><spring:message code="trip.communicationByLocationQuestion" /></form:label>
+                        <form:checkbox path="communicationByLocation" />
+                        <form:errors path="communicationByLocation" cssClass="alert alert-error" />
+                        <br/>
 
 
                         <spring:message code="control.add" var="btnAdd"></spring:message>

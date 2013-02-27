@@ -55,6 +55,9 @@ public class Trip {
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
     private Set<Stop> stops;
 
+    private boolean communicationByChat;
+    private boolean communicationByLocation;
+
     public Trip(){
         initLists();
     }
@@ -198,5 +201,21 @@ public class Trip {
 
     public Set<User> getInvitedUsers() {
         return invitedUsers;
+    }
+
+    public boolean getCommunicationByChat() {
+        return communicationByChat;
+    }
+
+    public void setCommunicationByChat(boolean communicationByChat) {
+        this.communicationByChat = communicationByChat;
+    }
+
+    public boolean getCommunicationByLocation() {
+        return communicationByLocation;
+    }
+
+    public void setCommunicationByLocation(boolean communicationByLocation) {
+        this.communicationByLocation = communicationByLocation;
     }
 }

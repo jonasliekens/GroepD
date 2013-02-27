@@ -81,6 +81,8 @@ public class TripServiceTest extends AbstractJUnit4SpringContextTests {
         trip.setPublished(false);
         trip.setNrDays(10);
         trip.setNrHours(12);
+        trip.setCommunicationByChat(true);
+        trip.setCommunicationByLocation(true);
         return trip;
     }
 }

@@ -1,7 +1,5 @@
 package be.kdg.web.forms;
 
-import be.kdg.backend.entities.TripType;
-
 /**
  * User: Bart Verhavert
  * Date: 22/02/13 13:28
@@ -12,6 +10,9 @@ public class TripForm {
 //    private TripType type;
     private Integer nrDays;
     private Integer nrHours;
+
+    private boolean communicationByChat;
+    private boolean communicationByLocation;
 
     public TripForm() {
     }
@@ -46,5 +47,21 @@ public class TripForm {
 
     public void setNrHours(Integer nrHours) {
         this.nrHours = nrHours;
+    }
+
+    public boolean getCommunicationByChat() {
+        return communicationByChat;
+    }
+
+    public void setCommunicationByChat(boolean communicationByChat) {
+        this.communicationByChat = communicationByChat;
+    }
+
+    public boolean getCommunicationByLocation() {
+        return communicationByLocation;
+    }
+
+    public void setCommunicationByLocation(boolean communicationByLocation) {
+        this.communicationByLocation = communicationByLocation;
     }
 }

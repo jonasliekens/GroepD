@@ -47,6 +47,8 @@ public class StopServiceImpl implements StopService {
 
     @Override
     public void remove(Stop entity) {
+        entity.getTrip().getStops().remove(entity);
+        tripDao.update(entity.getTrip());
         stopDao.remove(entity);
     }
 

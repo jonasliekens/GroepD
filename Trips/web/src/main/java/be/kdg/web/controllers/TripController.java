@@ -65,6 +65,8 @@ public class TripController {
 
             trip.setName(tripForm.getName());
             trip.setPrivateTrip(tripForm.getPrivateTrip());
+            trip.setCommunicationByLocation(tripForm.getCommunicationByLocation());
+            trip.setCommunicationByChat(tripForm.getCommunicationByChat());
             // On creation, a trip shouldn't be published
             trip.setPublished(false);
             if (tripForm.getNrDays() == null) {
@@ -81,7 +83,7 @@ public class TripController {
 
             tripService.add(trip);
 
-            return "redirect:/trips/edit/" + trip.getId();
+            return "redirect:/trips/";
         }
     }
 
@@ -93,6 +95,8 @@ public class TripController {
         tripForm.setNrDays(trip.getNrDays());
         tripForm.setNrHours(trip.getNrHours());
         tripForm.setPrivateTrip(trip.getPrivateTrip());
+        tripForm.setCommunicationByChat(trip.getCommunicationByChat());
+        tripForm.setCommunicationByLocation(trip.getCommunicationByLocation());
         model.addAttribute("tripForm", tripForm);
         model.addAttribute("trip", trip);
         return "trips/edit";
@@ -110,6 +114,8 @@ public class TripController {
 
             trip.setName(tripForm.getName());
             trip.setPrivateTrip(tripForm.getPrivateTrip());
+            trip.setCommunicationByLocation(tripForm.getCommunicationByLocation());
+            trip.setCommunicationByChat(tripForm.getCommunicationByChat());
             // On creation, a trip shouldn't be published
             trip.setPublished(false);
             if (tripForm.getNrDays() == null) {
@@ -137,5 +143,12 @@ public class TripController {
         model.addAttribute("trip", tripService.get(id));
 
         return "trips/delete";
+    }
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    public String deleteTip(@PathVariable Integer id, ModelMap model) {
+
+        tripService.remove(tripService.get(id));
+
+        return "redirect:/trips/";
     }
 }

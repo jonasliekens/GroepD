@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
-import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -140,6 +139,8 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
         trip.setPublished(false);
         trip.setNrDays(10);
         trip.setNrHours(12);
+        trip.setCommunicationByChat(true);
+        trip.setCommunicationByLocation(true);
         return trip;
     }
 
