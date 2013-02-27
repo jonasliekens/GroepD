@@ -33,11 +33,11 @@
             <div class="row-fluid">
                 <div class="span12">
                     <form:form method="post" modelAttribute="tripForm">
-                        <form:label path="name">Name</form:label>
+                        <form:label path="name"><spring:message code="trip.name" /></form:label>
                         <form:input path="name"/>
                         <form:errors path="name" cssClass="alert alert-error"/>
 
-                        <form:label path="privateTrip">Is this a private trip?</form:label>
+                        <form:label path="privateTrip"><spring:message code="trip.privateQuestion" /></form:label>
                         <form:checkbox path="privateTrip"/>
                         <form:errors path="privateTrip" cssClass="alert alert-error"/>
 

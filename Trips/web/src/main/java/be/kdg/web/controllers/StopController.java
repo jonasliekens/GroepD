@@ -5,6 +5,7 @@ import be.kdg.backend.entities.Trip;
 import be.kdg.backend.services.interfaces.StopService;
 import be.kdg.backend.services.interfaces.TripService;
 import be.kdg.web.forms.StopForm;
+import be.kdg.web.forms.TripForm;
 import be.kdg.web.validators.StopValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -68,4 +69,18 @@ public class StopController {
                 return "redirect:/trips/" + id+"/stops";
             }
         }
+    @RequestMapping(value = "trips/{id}/stops/edit/{stopid}", method = RequestMethod.GET)
+    public String edit(@PathVariable Integer id, @PathVariable Integer stopid, ModelMap model) {
+        Stop stop = stopService.get(stopid);
+        StopForm stopForm = new StopForm();
+        stopForm.setName(stop.getName());
+        stopForm.setDescription(stop.getDescription());
+        stopForm.setAccuracy(stop.getAccuracy());
+        stopForm.setLatitude(stop.getLatitude());
+        stopForm.setLongitude(stop.getLongitude());
+        stopForm.setOrderNumber(stop.getOrderNumber());
+        model.addAttribute("stopForm", stopForm);
+        model.addAttribute("stop", stop);
+        return "stops/edit";
+    }
 }

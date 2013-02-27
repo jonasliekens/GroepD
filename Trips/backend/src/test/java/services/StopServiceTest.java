@@ -167,7 +167,6 @@ public class StopServiceTest extends AbstractJUnit4SpringContextTests {
         stop.setLongitude(15572.245);
         stop.setName("Stop" + order);
         stop.setOrderNumber(order);
-        stop.setTrip(trip);
         return stop;
     }
 }
