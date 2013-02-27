@@ -91,6 +91,7 @@
                                         ${fn:length(trip.stops)}
                                     </td>
                                     <td>
+                                        <a href="trips/${trip.id}/stops"><spring:message code="control.stops" /></a>
                                         <a href="trips/edit/${trip.id}"><spring:message code="control.edit" /></a>
                                         <a href="trips/delete/${trip.id}"><spring:message code="control.delete" /></a>
                                     </td>

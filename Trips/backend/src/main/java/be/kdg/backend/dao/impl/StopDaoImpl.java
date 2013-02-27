@@ -66,6 +66,7 @@ public class StopDaoImpl implements StopDao {
         query.setParameter(1, id);
         List<Stop> stops = query.getResultList();
         Collections.sort(stops, new StopComparator());
+
         return stops;
     }
 }

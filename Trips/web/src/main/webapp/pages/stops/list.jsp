@@ -58,10 +58,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="stop" items="${stops}" varStatus="loop">
+
+                            <c:forEach var="stop" items="${trip.stops}" varStatus="loop">
                                 <tr>
                                     <td>
-                                        <a href="trips/${trip.id}/stop/detail/${stop.id}">${stop.name}</a>
+                                        <a href="trips/${trip.id}/stops/details/${stop.id}">${stop.name}</a>
                                     </td>
                                     <td>
                                         ${stop.description}

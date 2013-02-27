@@ -60,7 +60,12 @@
                     <form:label path="longitude"><spring:message code="stop.longtitude"/></form:label>
                     <form:input path="longitude"/>
                     <form:errors path="longitude" cssClass="alert alert-error"/>
-
+                    <form:label path="accuracy"><spring:message code="stop.accuracy"/></form:label>
+                    <form:input path="accuracy"/>
+                    <form:errors path="accuracy" cssClass="alert alert-error"/>
+                    <form:label path="orderNumber"><spring:message code="stop.orderNumber"/></form:label>
+                    <form:input path="orderNumber"/>
+                    <form:errors path="orderNumber" cssClass="alert alert-error"/>
 
                     <spring:message code="control.add" var="btnAdd"></spring:message>
                     <input type="submit" value="${btnAdd}"/>

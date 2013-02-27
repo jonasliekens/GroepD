@@ -33,8 +33,10 @@ public class StopServiceImpl implements StopService {
     public void add(Stop entity, Integer tripId) {
         fixOrderNumbers(entity, tripId);
         Trip trip = tripDao.findById(tripId);
+        entity.setTrip(trip);
         trip.addStop(entity);
         tripDao.update(trip);
+
     }
 
     @Override
