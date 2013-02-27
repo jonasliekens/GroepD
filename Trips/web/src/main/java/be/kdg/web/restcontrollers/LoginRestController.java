@@ -1,5 +1,6 @@
 package be.kdg.web.restcontrollers;
 
+import be.kdg.backend.exceptions.LoginInvalidException;
 import be.kdg.backend.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,8 +22,11 @@ public class LoginRestController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String doLogin(@RequestParam String username, @RequestParam String password) {
-        userService.checkLogin(username, password);
-
-        return "true";
+        try {
+            userService.checkLogin(username, password);
+            return "true";
+        } catch (LoginInvalidException e) {
+            return "false";
+        }
     }
 }

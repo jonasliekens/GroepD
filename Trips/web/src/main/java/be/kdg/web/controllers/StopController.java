@@ -29,7 +29,7 @@ public class StopController {
     @RequestMapping(value = "/trips/{id}/stops", method = RequestMethod.GET)
     public String list(@PathVariable Integer id, ModelMap model) {
         model.addAttribute("stops", stopService.getStopsByTripId(id));
-        model.addAttribute("trip", tripService.getTrip(id));
+        model.addAttribute("trip", tripService.get(id));
         return "/stops/list";
     }
 

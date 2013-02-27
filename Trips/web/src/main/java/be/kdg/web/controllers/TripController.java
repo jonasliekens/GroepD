@@ -40,7 +40,7 @@ public class TripController {
 
     @RequestMapping(value = "/details/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable Integer id, ModelMap model) {
-        model.addAttribute("trip", tripService.getTrip(id));
+        model.addAttribute("trip", tripService.get(id));
 
         return "trips/detail";
     }
@@ -79,7 +79,7 @@ public class TripController {
             }
 
 
-            tripService.addTrip(trip);
+            tripService.add(trip);
 
             return "redirect:/trips/edit/" + trip.getId();
         }
@@ -87,7 +87,7 @@ public class TripController {
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String edit(@PathVariable Integer id, ModelMap model) {
-        Trip trip = tripService.getTrip(id);
+        Trip trip = tripService.get(id);
         TripForm tripForm = new TripForm();
         tripForm.setName(trip.getName());
         tripForm.setNrDays(trip.getNrDays());
@@ -106,7 +106,7 @@ public class TripController {
         } else {
             status.setComplete();
 
-            Trip trip = tripService.getTrip(id);
+            Trip trip = tripService.get(id);
 
             trip.setName(tripForm.getName());
             trip.setPrivateTrip(tripForm.getPrivateTrip());
@@ -124,7 +124,7 @@ public class TripController {
             }
 
 
-            tripService.editTrip(trip);
+            tripService.update(trip);
 
             return "redirect:/trips/";
         }
@@ -133,7 +133,7 @@ public class TripController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteTripConfirm(@PathVariable Integer id, ModelMap model) {
-        model.addAttribute("trip", tripService.getTrip(id));
+        model.addAttribute("trip", tripService.get(id));
 
         return "trips/delete";
     }

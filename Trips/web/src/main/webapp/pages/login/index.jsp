@@ -56,12 +56,13 @@
                         // Additional init code here
                         FB.getLoginStatus(function(response) {
                             if (response.status === 'connected') {
-                                // connected
+                                // User logged into FB and authorized
+                                alert("Get data here?");
                             } else if (response.status === 'not_authorized') {
-                                // not_authorized
+                                // User logged into FB but not authorized
                                 login();
                             } else {
-                                // not_logged_in
+                                // User not logged into FB
                                 login();
                             }
                         });
@@ -79,9 +80,9 @@
                     function login() {
                         FB.login(function(response) {
                             if (response.authResponse) {
-                                // connected
+                                alert("logged in");
                             } else {
-                                // cancelled
+                                alert("Not logged in");
                             }
                         });
                     }
@@ -143,6 +144,7 @@
                         </tr>
                     </table>
                 </form:form>
+                <div class="fb-login-button" data-show-faces="true" data-width="200" data-max-rows="1" onclick="login()"></div>
             </div>
         </div>
     </div>

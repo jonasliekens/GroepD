@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userDao.findById(id);
         } catch (NoResultException e) {
-            return null; //TODO: null throwen of leeg object? => Coding rules.
+            return null; //TODO: null throwen of leeg object of exception doorthrowen? => Coding rules.
         }
     }
 
