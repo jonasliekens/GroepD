@@ -14,9 +14,9 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 
@@ -25,7 +25,6 @@ import javax.validation.Valid;
  * Date: 19/02/13 14:08
  */
 @Controller
-@SessionAttributes
 @RequestMapping("/login")
 public class LoginController {
     @Autowired
@@ -42,11 +41,12 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/checkLogin", method = RequestMethod.POST)
-    public String checkLogin(ModelMap model, @ModelAttribute("loginForm") @Valid LoginForm loginForm, BindingResult result, SessionStatus status) {
+    public String checkLogin(ModelMap model, @ModelAttribute("loginForm") @Valid LoginForm loginForm, BindingResult result, SessionStatus status, HttpSession session) {
         model.addAttribute("registerForm", new RegisterForm());
         try {
             if (!result.hasErrors()) {
-                userService.checkLogin(loginForm.getEmail(), loginForm.getPassword());
+                User user = userService.checkLogin(loginForm.getEmail(), loginForm.getPassword());
+                session.setAttribute("userId", user.getId());
                 return "login/loginwin";
             }else{
                 return returnToLoginIndex(result);
@@ -69,6 +69,11 @@ public class LoginController {
         } else {
             User user = new User(registerForm.getEmail(), registerForm.getPassword(), registerForm.getFirstname(), registerForm.getLastname(), registerForm.getBirthday());
             boolean userExisted = userService.addUser(user);
+            if(userExisted){
+                model.addAttribute("msg", "User already existed. You can login with your email and password.");
+            }else{
+                model.addAttribute("msg", "User has been succesfully registered. You can now login with your provided email and password.");
+            }
             return "login/registercomplete";
         }
     }
