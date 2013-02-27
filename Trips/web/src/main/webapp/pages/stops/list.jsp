@@ -41,7 +41,7 @@
         <div class="container">
             <div class="row-fluid">
                 <div class="span12">
-                    <a href="trips/${trip.id}/stops/add">Add</a>
+                    <a href="trips/${tripId}/stops/add">Add</a>
 
                     <table class="table table-striped">
                         <thead>
@@ -59,17 +59,17 @@
                         </thead>
                         <tbody>
 
-                            <c:forEach var="stop" items="${trip.stops}" varStatus="loop">
+                            <c:forEach var="stop" items="${stops}">
                                 <tr>
                                     <td>
-                                        <a href="trips/${trip.id}/stops/details/${stop.id}">${stop.name}</a>
+                                        <a href="trips/${tripId}/stops/details/${stop.id}">${stop.name}</a>
                                     </td>
                                     <td>
                                         ${stop.description}
                                     </td>
                                     <td>
-                                        <a href="trips/${trip.id}/stops/edit/${stop.id}"><spring:message code="control.edit" /></a>
-                                        <a href="trips/${trip.id}/stops/delete/${stop.id}"><spring:message code="control.delete" /></a>
+                                        <a href="trips/${tripId}/stops/edit/${stop.id}"><spring:message code="control.edit" /></a>
+                                        <a href="trips/${tripId}/stops/delete/${stop.id}"><spring:message code="control.delete" /></a>
                                     </td>
                                 </tr>
                             </c:forEach>

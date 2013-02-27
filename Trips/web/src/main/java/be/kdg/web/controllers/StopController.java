@@ -36,7 +36,8 @@ public class StopController {
 
     @RequestMapping(value = "/trips/{id}/stops", method = RequestMethod.GET)
     public String list(@PathVariable Integer id, ModelMap model) {
-        model.addAttribute("trip", tripService.get(id));
+        model.addAttribute("tripId", id);
+        model.addAttribute("stops", stopService.getStopsByTripId(id));
         return "/stops/list";
     }
 

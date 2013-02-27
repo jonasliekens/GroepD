@@ -75,7 +75,7 @@
                                     </td>
                                     <td>
                                         <c:if test="${trip.privateTrip == true}">
-                                            <spring:message code="commom.yes" />
+                                            <spring:message code="common.yes" />
                                         </c:if>
                                         <c:if test="${trip.privateTrip == false}">
                                             <spring:message code="common.no" />
