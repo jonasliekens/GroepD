@@ -67,12 +67,23 @@ public class TripController {
             trip.setPrivateTrip(tripForm.getPrivateTrip());
             // On creation, a trip shouldn't be published
             trip.setPublished(false);
-            trip.setNrDays(tripForm.getNrDays());
-            trip.setNrHours(tripForm.getNrHours());
+            if (tripForm.getNrDays() == null){
+                trip.setNrDays(0);
+            }
+            else{
+                trip.setNrDays(tripForm.getNrDays());
+            }
+            if (tripForm.getNrHours() == null){
+                trip.setNrHours(0);
+            }
+            else {
+                trip.setNrHours(tripForm.getNrHours());
+            }
+
 
             tripService.addTrip(trip);
 
-            return "redirect:/trips";
+            return "redirect:/trips/edit/"+trip.getId();
         }
     }
 
