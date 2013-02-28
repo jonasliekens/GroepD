@@ -1,11 +1,9 @@
 package be.kdg.web.controllers;
 
 import be.kdg.backend.entities.Stop;
-import be.kdg.backend.entities.Trip;
 import be.kdg.backend.services.interfaces.StopService;
 import be.kdg.backend.services.interfaces.TripService;
 import be.kdg.web.forms.StopForm;
-import be.kdg.web.forms.TripForm;
 import be.kdg.web.validators.StopValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -80,7 +77,7 @@ public class StopController {
 
             stopService.add(stop, id);
 
-            return "redirect:/trips/" + id + "/stops";
+            return "redirect:/trips/" + id + "/details";
         }
     }
 

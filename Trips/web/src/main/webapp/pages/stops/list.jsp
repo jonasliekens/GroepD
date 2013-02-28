@@ -41,7 +41,7 @@
         <div class="container">
             <div class="row-fluid">
                 <div class="span12">
-                    <a href="trips/${tripId}/stops/add">Add</a>
+                    <a href="trips/${tripId}/stops/add"><spring:message code="control.add"/></a>
 
                     <table class="table table-striped">
                         <thead>

@@ -4,12 +4,12 @@ import be.kdg.backend.entities.User;
 import be.kdg.backend.exceptions.LoginInvalidException;
 import be.kdg.backend.services.interfaces.UserService;
 import be.kdg.backend.utilities.Utilities;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
-
-import javax.persistence.NoResultException;
 
 /**
  * Created with IntelliJ IDEA 12.
@@ -82,6 +82,13 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests {
         userService.addUser(user);
         userService.remove(user);
         Assert.assertTrue(userService.findUserByEMail(user.getEmail()) == null);
+    }
+
+    @Test
+    public void testAddTripToUser(){
+        User user = new User("soulscammer@gmail.com", "test", "Jonas", "Liekens", Utilities.makeDate("04/08/1991"));
+        userService.addUser(user);
+
     }
 
     @After

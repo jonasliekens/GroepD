@@ -1,10 +1,12 @@
 package be.kdg.web.controllers;
 
 import be.kdg.backend.entities.Trip;
+import be.kdg.backend.entities.User;
+import be.kdg.backend.services.interfaces.StopService;
 import be.kdg.backend.services.interfaces.TripService;
+import be.kdg.backend.services.interfaces.UserService;
 import be.kdg.web.forms.TripForm;
 import be.kdg.web.validators.TripValidator;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * User: Bart Verhavert
@@ -31,6 +35,13 @@ public class TripController {
     @Qualifier("tripValidator")
     TripValidator tripValidator;
 
+    @Autowired
+    @Qualifier("userService")
+    UserService userService;
+
+    @Autowired
+    StopService stopService;
+
     @RequestMapping(method = RequestMethod.GET)
     public String list(ModelMap model) {
         model.addAttribute("trips", tripService.getTrips());
@@ -41,8 +52,8 @@ public class TripController {
     @RequestMapping(value = "/details/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable Integer id, ModelMap model) {
         model.addAttribute("trip", tripService.get(id));
-
-        return "trips/detail";
+        model.addAttribute("stops", stopService.getStopsByTripId(id));
+        return "trips/details";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -53,7 +64,7 @@ public class TripController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addTrip(@ModelAttribute("tripForm") TripForm tripForm, BindingResult result, SessionStatus status) {
+    public String addTrip(@ModelAttribute("tripForm") TripForm tripForm, BindingResult result, SessionStatus status, HttpSession session) {
         tripValidator.validate(tripForm, result);
 
         if (result.hasErrors()) {
@@ -62,6 +73,7 @@ public class TripController {
             status.setComplete();
 
             Trip trip = new Trip();
+            User user = userService.get((Integer) session.getAttribute("userId"));
 
             trip.setName(tripForm.getName());
             trip.setPrivateTrip(tripForm.getPrivateTrip());
@@ -69,6 +81,8 @@ public class TripController {
             trip.setCommunicationByChat(tripForm.getCommunicationByChat());
             // On creation, a trip shouldn't be published
             trip.setPublished(false);
+
+
             if (tripForm.getNrDays() == null) {
                 trip.setNrDays(0);
             } else {
@@ -82,6 +96,8 @@ public class TripController {
 
 
             tripService.add(trip);
+            trip.addAdmin(user);
+            tripService.update(trip);
 
             return "redirect:/trips/";
         }
@@ -144,11 +160,32 @@ public class TripController {
 
         return "trips/delete";
     }
+
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String deleteTip(@PathVariable Integer id, ModelMap model) {
 
         tripService.remove(tripService.get(id));
 
         return "redirect:/trips/";
+    }
+
+    @RequestMapping(value = "/register/{id}", method = RequestMethod.GET)
+    public String registerForTrip(@PathVariable Integer id) {
+        return "trips/register";
+    }
+    @RequestMapping(value = "/register/{id}", method = RequestMethod.POST)
+    public String register(@PathVariable Integer id, HttpSession session) {
+        Trip trip = tripService.get(id);
+        User user = userService.get((Integer) session.getAttribute("userId"));
+        trip.addInviteduser(user);
+
+        tripService.update(trip);
+        return "redirect:/trips/details/"+id;
+    }
+
+    @RequestMapping(value = "/registered", method = RequestMethod.GET)
+    public String registeredTrips(ModelMap model, HttpSession session) {
+        model.addAttribute("user", userService.get((Integer)session.getAttribute("userId")));
+        return "trips/registered";
     }
 }

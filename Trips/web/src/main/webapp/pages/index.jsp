@@ -35,7 +35,7 @@
         <div class="container">
             <div class="row-fluid">
                 <div class="span12">
-
+                      CURRENTLY LOGGED IN USER: ${sessionScope.userId}
                 </div>
             </div>
         </div>

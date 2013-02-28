@@ -47,7 +47,9 @@ public class LoginController {
             if (!result.hasErrors()) {
                 User user = userService.checkLogin(loginForm.getEmail(), loginForm.getPassword());
                 session.setAttribute("userId", user.getId());
-                return "login/loginwin";
+                //Redirect to loginWin? Why not /trips/list?
+                //return "login/loginWin";
+                return "redirect:/trips/";
             } else {
                 return returnToLoginIndex(result);
             }
@@ -85,6 +87,18 @@ public class LoginController {
 
     @RequestMapping(value = "/checklogin", method = RequestMethod.GET)
     public String redirectFromCheckLogin() {
+        return doRedirect();
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logOut() {
+
+        return "login/logout";
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public String logOut(HttpSession session) {
+        session.removeAttribute("userId");
         return doRedirect();
     }
 

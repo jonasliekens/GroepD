@@ -42,8 +42,7 @@
         <div class="container">
             <div class="row-fluid">
                 <div class="span12">
-                    <a href="trips/add">Add</a>
-                    ${name} ${test}
+                    <a href="trips/add"><spring:message code="control.add"/></a> <a href="trips/registered"><spring:message code="message.showusertrips.trip"/></a>
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -91,7 +90,6 @@
                                         ${fn:length(trip.stops)}
                                     </td>
                                     <td>
-                                        <a href="trips/${trip.id}/stops"><spring:message code="control.stops" /></a>
                                         <a href="trips/edit/${trip.id}"><spring:message code="control.edit" /></a>
                                         <a href="trips/delete/${trip.id}"><spring:message code="control.delete" /></a>
                                     </td>
