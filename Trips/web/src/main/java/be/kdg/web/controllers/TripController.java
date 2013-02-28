@@ -3,6 +3,7 @@ package be.kdg.web.controllers;
 import be.kdg.backend.entities.ParticipatedTrip;
 import be.kdg.backend.entities.Trip;
 import be.kdg.backend.entities.User;
+import be.kdg.backend.services.interfaces.ParticipatedTripService;
 import be.kdg.backend.services.interfaces.StopService;
 import be.kdg.backend.services.interfaces.TripService;
 import be.kdg.backend.services.interfaces.UserService;
@@ -39,6 +40,9 @@ public class TripController {
     @Autowired
     @Qualifier("userService")
     UserService userService;
+    @Autowired
+    @Qualifier("participatedTripService")
+    ParticipatedTripService participatedTripService;
 
     @Autowired
     StopService stopService;
@@ -178,13 +182,12 @@ public class TripController {
     @RequestMapping(value = "/register/{id}", method = RequestMethod.POST)
     public String register(@PathVariable Integer id, HttpSession session) {
         Trip trip = tripService.get(id);
-        User user = userService.get((Integer) session.getAttribute("userId"));
+        User user = userService.get((Integer)session.getAttribute("userId"));
         ParticipatedTrip participatedTrip = new ParticipatedTrip();
-        participatedTrip.setTrip(trip);
+        participatedTripService.add(participatedTrip);
         participatedTrip.setUser(user);
-        trip.addParticipatedTrip(participatedTrip);
-
-        tripService.update(trip);
+        participatedTrip.setTrip(trip);
+        participatedTripService.update(participatedTrip);
         return "redirect:/trips/details/"+id;
     }
 

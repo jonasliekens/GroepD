@@ -135,4 +135,7 @@ public class User {
     public void setParticipatedTrips(Set<ParticipatedTrip> participatedTrips) {
         this.participatedTrips = participatedTrips;
     }
+    public void addParticipatedTrips(ParticipatedTrip participatedTrip) {
+        this.participatedTrips.add(participatedTrip);
+    }
 }
