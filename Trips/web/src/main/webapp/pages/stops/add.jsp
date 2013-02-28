@@ -65,15 +65,15 @@
                     <form:errors path="accuracy" cssClass="alert alert-error"/>
 
                     <label><spring:message code="stop.orderNumber"/></label>
-                    <form:select path="orderString">
+                    <form:select path="orderOption">
                         <form:option value="first"><spring:message code="label.first"/></form:option>
                         <form:option value="after"><spring:message code="label.after"/></form:option>
                         <form:option value="last"><spring:message code="label.last"/></form:option>
                     </form:select>
 
-                    <form:input path="orderNumber"></form:input>
-
-                    <form:errors path="orderNumber" cssClass="alert alert-error"/>
+                    <form:select path="orderNumber">
+                        <form:options items="${stops}"/>
+                    </form:select>
 
                     <form:button><spring:message code="control.add"/></form:button>
                 </form:form>

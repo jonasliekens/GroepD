@@ -177,7 +177,7 @@ public class TripController {
     public String register(@PathVariable Integer id, HttpSession session) {
         Trip trip = tripService.get(id);
         User user = userService.get((Integer) session.getAttribute("userId"));
-        trip.addInviteduser(user);
+        //trip.addInviteduser(user);
 
         tripService.update(trip);
         return "redirect:/trips/details/"+id;

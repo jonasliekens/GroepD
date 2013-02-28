@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -26,13 +27,10 @@ import java.util.Set;
  */
 @Controller
 public class StopController {
-
     @Autowired
     StopService stopService;
-
     @Autowired
     TripService tripService;
-    List stops;
 
     @Autowired
     StopValidator stopValidator;
@@ -40,14 +38,18 @@ public class StopController {
     @RequestMapping(value = "/trips/{id}/stops", method = RequestMethod.GET)
     public String list(@PathVariable Integer id, ModelMap model) {
         model.addAttribute("tripId", id);
-        model.addAttribute("stops", stopService.getStopsByTripId(id));
-        stops = setToList(tripService.get(id).getStops());
         return "/stops/list";
     }
 
     @RequestMapping(value = "/trips/{id}/stops/add", method = RequestMethod.GET)
     public String add(@PathVariable Integer id, ModelMap model) {
         model.addAttribute("stopForm", new StopForm());
+
+        HashMap<Integer, String> stops = new HashMap<Integer, String>();
+        for(Stop stop : tripService.get(id).getStops()){
+            stops.put(stop.getOrderNumber(), stop.getName());
+        }
+        model.addAttribute("stops", stops);
         return "/stops/add";
     }
 
@@ -69,17 +71,19 @@ public class StopController {
             stop.setLongitude(stopForm.getLongitude());
             stop.setAccuracy(stopForm.getAccuracy());
 
-            if (stopForm.getOrderString().equals("first")) {
+            if (stopForm.getOrderOption().equals("first")) {
                 stop.setOrderNumber(1);
-            } else if (stopForm.getOrderString().equals("last")) {
-                stop.setOrderNumber(tripService.get(id).getStops().size() + 1);
-            } else if (stopForm.getOrderString().equals("after")) {
-                stop.setOrderNumber(stopForm.getOrderNumber() + 1);
+            } else if (stopForm.getOrderOption().equals("last")) {
+                stop.setOrderNumber(tripService.get(id).getStops().size()+1);
+            } else if (stopForm.getOrderOption().equals("after")) {
+
+                //stop.setOrderNumber(stopForm.getSelectedStop().getKey()+1);
+                stop.setOrderNumber(stopForm.getOrderNumber()+1);
             }
 
             stopService.add(stop, id);
 
-            return "redirect:/trips/details/" + id;
+            return "redirect:/trips/details/"+id;
         }
     }
 
@@ -117,7 +121,7 @@ public class StopController {
             stop.setOrderNumber(stopForm.getOrderNumber());
             stopService.update(stop, id);
 
-            return "redirect:/trips/details/" + id;
+            return "redirect:/trips/stops/"+id;
         }
     }
 
@@ -145,7 +149,7 @@ public class StopController {
 
     private List<String> setToList(Set<Stop> stops) {
         List<String> list = new ArrayList<String>();
-        for (Stop stop : stops) {
+        for(Stop stop : stops){
             list.add(stop.getName());
         }
         return list;
