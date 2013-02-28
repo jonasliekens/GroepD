@@ -96,7 +96,23 @@ public class StopController {
         stopForm.setAccuracy(stop.getAccuracy());
         stopForm.setLatitude(stop.getLatitude());
         stopForm.setLongitude(stop.getLongitude());
-        stopForm.setOrderNumber(stop.getOrderNumber());
+
+        HashMap<Integer, String> stops = new HashMap<Integer, String>();
+        for(Stop stop2 : tripService.get(id).getStops()){
+            stops.put(stop2.getOrderNumber(), stop2.getName());
+        }
+        model.addAttribute("stops", stops);
+
+        if(stopService.get(stopid).getOrderNumber() == stopService.getStopsByTripId(id).get(0).getOrderNumber()){
+            stopForm.setOrderOption("first");
+        } else if(stopService.get(stopid).getOrderNumber() == stopService.getStopsByTripId(id).get(stopService.getStopsByTripId(id).size()-1).getOrderNumber()){
+            stopForm.setOrderOption("last");
+        } else {
+            int index = stopService.getStopsByTripId(id).indexOf(stopService.get(stopid));
+            stopForm.setOrderOption("after");
+            stopForm.setOrderNumber(stopService.getStopsByTripId(id).get(index-1).getOrderNumber());
+        }
+
         model.addAttribute("stopForm", stopForm);
         model.addAttribute("stop", stop);
         return "/stops/edit";

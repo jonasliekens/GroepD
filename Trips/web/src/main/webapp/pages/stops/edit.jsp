@@ -33,25 +33,33 @@
             <div class="row-fluid">
                 <div class="span12">
                     <form:form method="post" modelAttribute="stopForm">
-                        <form:label path="name"><spring:message code="stop.name"/></form:label>
+                        <form:label path="name"><spring:message code="stop.name" /></form:label>
                         <form:input path="name"/>
                         <form:errors path="name" cssClass="alert alert-error"/>
 
-                        <form:label path="description"><spring:message code="stop.description"/></form:label>
+                        <form:label path="description"><spring:message code="stop.description" /></form:label>
                         <form:input path="description"/>
                         <form:errors path="description" cssClass="alert alert-error"/>
-                        <form:label path="latitude"><spring:message code="stop.latitude"/></form:label>
+                        <form:label path="latitude"><spring:message code="stop.latitude" /></form:label>
                         <form:input path="latitude"/>
                         <form:errors path="latitude" cssClass="alert alert-error"/>
-                        <form:label path="longitude"><spring:message code="stop.longitude"/></form:label>
+                        <form:label path="longitude"><spring:message code="stop.longitude" /></form:label>
                         <form:input path="longitude"/>
                         <form:errors path="longitude" cssClass="alert alert-error"/>
-                        <form:label path="accuracy"><spring:message code="stop.accuracy"/></form:label>
+                        <form:label path="accuracy"><spring:message code="stop.accuracy" /></form:label>
                         <form:input path="accuracy"/>
                         <form:errors path="accuracy" cssClass="alert alert-error"/>
-                        <form:label path="orderNumber"><spring:message code="stop.orderNumber"/></form:label>
-                        <form:input path="orderNumber"/>
-                        <form:errors path="orderNumber" cssClass="alert alert-error"/>
+
+                        <label><spring:message code="stop.orderNumber"/></label>
+                        <form:select path="orderOption">
+                            <form:option value="first"><spring:message code="label.first"/></form:option>
+                            <form:option value="after"><spring:message code="label.after"/></form:option>
+                            <form:option value="last"><spring:message code="label.last"/></form:option>
+                        </form:select>
+
+                        <form:select path="orderNumber">
+                            <form:options items="${stops}" />
+                        </form:select>
 
                         <spring:message code="control.edit" var="btnEdit"></spring:message>
                         <input type="submit" value="${btnEdit}"/>
