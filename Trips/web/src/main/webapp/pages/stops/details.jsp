@@ -93,11 +93,61 @@
                             ${stop.orderNumber}
                         </td>
                         <td>
+                            <a href="trips/${trip.id}/stops/addquestion/${stop.id}"><spring:message code="control.question"/></a>
                             <a href="trips/${trip.id}/stops/edit/${stop.id}"><spring:message code="control.edit"/></a>
                             <a href="trips/${trip.id}/stops/delete/${stop.id}"><spring:message
                                     code="control.delete"/></a>
                         </td>
                     </tr>
+                    </tbody>
+                </table>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            <spring:message code="stop.question"/>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="question" items="${stop.questions}">
+                    <tr>
+                        <td>
+                            ${question.question}
+                        </td>
+                        <td>
+                            <table class="table table-striped">
+                                <thead>
+                                    <th>
+                                        <spring:message code="stop.answer"/>
+                                    </th>
+                                    <th>
+                                        <spring:message code="stop.iscorrect"/>
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <c:forEach var="answer" items="${question.answers}">
+                                        <tr>
+                                            <td>
+                                                ${answer.answer}
+                                            </td>
+                                            <td>
+                                                <c:if test="${answer.correct == true}">
+                                                    <spring:message code="common.yes"/>
+                                                </c:if>
+                                                <c:if test="${answer.correct == false}">
+                                                    <spring:message code="common.no"/>
+                                                </c:if>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                            <a href="trips/${trip.id}/stops/addanswer/${stop.id}/${question.id}"><spring:message code="control.answer"/></a>
+                        </td>
+
+                    </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>

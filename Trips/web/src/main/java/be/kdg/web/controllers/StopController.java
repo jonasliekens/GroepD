@@ -1,9 +1,15 @@
 package be.kdg.web.controllers;
 
+import be.kdg.backend.entities.Answer;
+import be.kdg.backend.entities.Question;
 import be.kdg.backend.entities.Stop;
 import be.kdg.backend.services.interfaces.StopService;
 import be.kdg.backend.services.interfaces.TripService;
+import be.kdg.web.forms.AnswerForm;
+import be.kdg.web.forms.QuestionForm;
 import be.kdg.web.forms.StopForm;
+import be.kdg.web.validators.AnswerValidator;
+import be.kdg.web.validators.QuestionValidator;
 import be.kdg.web.validators.StopValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +40,12 @@ public class StopController {
 
     @Autowired
     StopValidator stopValidator;
+
+    @Autowired
+    AnswerValidator answerValidator;
+
+    @Autowired
+    QuestionValidator questionValidator;
 
     @RequestMapping(value = "/trips/{id}/stops", method = RequestMethod.GET)
     public String list(@PathVariable Integer id, ModelMap model) {
@@ -163,6 +175,47 @@ public class StopController {
         return "/stops/details";
     }
 
+    @RequestMapping(value = "trips/{id}/stops/addquestion/{stopid}", method = RequestMethod.GET)
+    public String addInfoGet(@PathVariable Integer id, @PathVariable Integer stopid, ModelMap model) {
+        model.addAttribute("questionForm", new QuestionForm());
+        return "/stops/addquestion";
+    }
+
+    @RequestMapping(value = "trips/{id}/stops/addquestion/{stopid}", method = RequestMethod.POST)
+    public String addInfoPost(@PathVariable Integer id, @PathVariable Integer stopid,@ModelAttribute("questionForm") QuestionForm questionForm, BindingResult result, ModelMap model) {
+        questionValidator.validate(questionForm, result);
+        Stop stop = stopService.get(stopid);
+        Question question = new Question();
+        question.setQuestion(questionForm.getQuestion());
+        stop.addQuestion(question);
+        stopService.update(stop,stop.getTrip().getId());
+        return "redirect:/trips/"+id+"/stops/details/" + stopid;
+    }
+
+    @RequestMapping(value = "trips/{id}/stops/addanswer/{stopid}/{questionid}", method = RequestMethod.GET)
+    public String addAnswerGet(@PathVariable Integer id, @PathVariable Integer stopid,@PathVariable Integer questionid, ModelMap model) {
+        model.addAttribute("answerForm", new AnswerForm());
+        return "/stops/addanswer";
+    }
+    @RequestMapping(value = "trips/{id}/stops/addanswer/{stopid}/{questionid}", method = RequestMethod.POST)
+    public String addAnswerPost(@PathVariable Integer id, @PathVariable Integer stopid,@PathVariable Integer questionid,@ModelAttribute("answerForm") AnswerForm answerForm, BindingResult result, ModelMap model) {
+        answerValidator.validate(answerForm, result);
+        Stop stop = stopService.get(stopid);
+        Set<Question> questions = stop.getQuestions();
+        Question question = new Question();
+        for(Question q:questions){
+            if (q.getId().equals(questionid)){
+                question = q;
+                break;
+            }
+        }
+        Answer answer = new Answer();
+        answer.setAnswer(answerForm.getAnswer());
+        answer.setCorrect(answerForm.isIscorrect());
+        question.addAnswer(answer);
+        stopService.update(stop,stop.getTrip().getId());
+        return "redirect:/trips/"+id+"/stops/details/" + stopid;
+    }
     private List<String> setToList(Set<Stop> stops) {
         List<String> list = new ArrayList<String>();
         for(Stop stop : stops){
