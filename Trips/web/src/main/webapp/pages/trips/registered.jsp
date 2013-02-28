@@ -64,16 +64,18 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="trip" items="${user.participatedTrips}" varStatus="loop">
+                    <c:forEach var="participatedTrip" items="${user.participatedTrips}" varStatus="loop">
+                        ${participatedTrip.trip.id}
+                         ${participatedTrip.user.id}
                         <tr>
                             <td>
-                                <a href="trips/details/${trip.id}">${trip.name}</a>
+                                <a href="trips/details/${participatedTrip.trip.id}">${participatedTrip.trip.name}</a>
                             </td>
                             <td>
-                                <c:if test="${trip.privateTrip == true}">
+                                <c:if test="${participatedTrip.trip.privateTrip == true}">
                                     <spring:message code="common.yes" />
                                 </c:if>
-                                <c:if test="${trip.privateTrip == false}">
+                                <c:if test="${participatedTrip.trip.privateTrip == false}">
                                     <spring:message code="common.no" />
                                 </c:if>
                             </td>
@@ -84,7 +86,7 @@
 
                             </td>
                             <td>
-                                    ${fn:length(trip.stops)}
+                                    ${fn:length(participatedTrip.trip.stops)}
                             </td>
                         </tr>
                     </c:forEach>

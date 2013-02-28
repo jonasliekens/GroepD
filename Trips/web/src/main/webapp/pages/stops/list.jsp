@@ -68,8 +68,10 @@
                                         ${stop.description}
                                     </td>
                                     <td>
-                                        <a href="trips/${tripId}/stops/edit/${stop.id}"><spring:message code="control.edit" /></a>
-                                        <a href="trips/${tripId}/stops/delete/${stop.id}"><spring:message code="control.delete" /></a>
+                                        <a href="trips/${tripId}/stops/edit/${stop.id}"><spring:message
+                                                code="control.edit"/></a>
+                                        <a href="trips/${tripId}/stops/delete/${stop.id}"><spring:message
+                                                code="control.delete"/></a>
                                     </td>
                                 </tr>
                             </c:forEach>

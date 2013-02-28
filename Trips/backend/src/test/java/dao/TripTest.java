@@ -95,6 +95,7 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
         ParticipatedTrip participatedTrip = new ParticipatedTrip();
         participatedTrip.setUser(user);
         trip.addParticipatedTrip(participatedTrip);
+        participatedTrip.setTrip(trip);
         tripDao.add(trip);
         trip = tripDao.findById(trip.getId());
         User user1 = ((ParticipatedTrip)trip.getParticipatedTrips().toArray()[0]).getUser();

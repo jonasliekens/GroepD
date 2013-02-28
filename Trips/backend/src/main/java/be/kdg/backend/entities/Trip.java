@@ -25,7 +25,7 @@ public class Trip {
     @NotNull
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name="T_TRIP_ADMINS",
             joinColumns={@JoinColumn(name="tripId")},
             inverseJoinColumns={@JoinColumn(name="userId")})
@@ -192,7 +192,7 @@ public class Trip {
         this.privateTrip = privateTrip;
     }
 
-    public Collection<User> getAdmins() {
+    public Set<User> getAdmins() {
         return admins;
     }
 

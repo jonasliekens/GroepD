@@ -1,5 +1,6 @@
 package be.kdg.web.controllers;
 
+import be.kdg.backend.entities.ParticipatedTrip;
 import be.kdg.backend.entities.Trip;
 import be.kdg.backend.entities.User;
 import be.kdg.backend.services.interfaces.StopService;
@@ -177,8 +178,10 @@ public class TripController {
     public String register(@PathVariable Integer id, HttpSession session) {
         Trip trip = tripService.get(id);
         User user = userService.get((Integer) session.getAttribute("userId"));
-        //trip.addInviteduser(user);
-
+        ParticipatedTrip participatedTrip = new ParticipatedTrip();
+        participatedTrip.setUser(user);
+        participatedTrip.setTrip(trip);
+         trip.addParticipatedTrip(participatedTrip);
         tripService.update(trip);
         return "redirect:/trips/details/"+id;
     }

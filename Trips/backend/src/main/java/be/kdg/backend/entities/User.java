@@ -43,7 +43,7 @@ public class User {
     @ManyToMany(mappedBy="admins")
     private Set<Trip> ownTrips;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy= "user")
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy= "user")
     private Set<ParticipatedTrip> participatedTrips;
 
     public User() {

@@ -43,6 +43,7 @@ public class  TripDaoImpl implements TripDao {
 
     @Override
     public void update(Trip entity) {
+        entityManager.clear();
         entityManager.getTransaction().begin();
         entityManager.merge(entity);
         entityManager.getTransaction().commit();
