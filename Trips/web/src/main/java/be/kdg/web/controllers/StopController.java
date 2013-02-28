@@ -121,7 +121,7 @@ public class StopController {
             stop.setOrderNumber(stopForm.getOrderNumber());
             stopService.update(stop, id);
 
-            return "redirect:/trips/stops/"+id;
+            return "redirect:/trips/details/"+id;
         }
     }
 

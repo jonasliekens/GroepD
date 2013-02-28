@@ -116,6 +116,7 @@ public class TripController {
         tripForm.setCommunicationByLocation(trip.getCommunicationByLocation());
         model.addAttribute("tripForm", tripForm);
         model.addAttribute("trip", trip);
+
         return "trips/edit";
     }
 
@@ -179,9 +180,10 @@ public class TripController {
         Trip trip = tripService.get(id);
         User user = userService.get((Integer) session.getAttribute("userId"));
         ParticipatedTrip participatedTrip = new ParticipatedTrip();
-        participatedTrip.setUser(user);
         participatedTrip.setTrip(trip);
-         trip.addParticipatedTrip(participatedTrip);
+        participatedTrip.setUser(user);
+        trip.addParticipatedTrip(participatedTrip);
+
         tripService.update(trip);
         return "redirect:/trips/details/"+id;
     }

@@ -32,162 +32,168 @@
     <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 </head>
 <body>
-    <!--[if lt IE 7]>
-    <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-        your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to
-        improve your experience.</p>
-    <![endif]-->
+<!--[if lt IE 7]>
+<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to
+    improve your experience.</p>
+<![endif]-->
 
 
-    <%@include file="../../template/header.jsp" %>
+<%@include file="../../template/header.jsp" %>
 
 
-    <section>
-        <div class="container">
-            <div class="row-fluid">
-                <div class="span12">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>
-                                <spring:message code="trip.name"/>
-                            </th>
-                            <th>
-                                <spring:message code="trip.private"/>
-                            </th>
-                            <th>
-                                <spring:message code="trip.start"/>
-                            </th>
-                            <th>
-                                <spring:message code="trip.end"/>
-                            </th>
-                            <th>
-                                <spring:message code="trip.numberOfStops"/>
-                            </th>
-                            <th>
-                                <spring:message code="trip.participants"/>
-                            </th>
-                            <th>
-                                <!--Controls-->
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>
-                                ${trip.name}
-                            </td>
-                            <td>
-                                <c:if test="${trip.privateTrip == true}">
-                                    <spring:message code="common.yes"/>
-                                </c:if>
-                                <c:if test="${trip.privateTrip == false}">
-                                    <spring:message code="common.no"/>
-                                </c:if>
-                            </td>
-                            <td>
+<section>
+    <div class="container">
+        <div class="row-fluid">
+            <div class="span12">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            <spring:message code="trip.name"/>
+                        </th>
+                        <th>
+                            <spring:message code="trip.private"/>
+                        </th>
+                        <th>
+                            <spring:message code="trip.start"/>
+                        </th>
+                        <th>
+                            <spring:message code="trip.end"/>
+                        </th>
+                        <th>
+                            <spring:message code="trip.numberOfStops"/>
+                        </th>
+                        <th>
+                            <spring:message code="trip.participants"/>
+                        </th>
+                        <th>
+                            <!--Controls-->
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            ${trip.name}
+                        </td>
+                        <td>
+                            <c:if test="${trip.privateTrip == true}">
+                                <spring:message code="common.yes"/>
+                            </c:if>
+                            <c:if test="${trip.privateTrip == false}">
+                                <spring:message code="common.no"/>
+                            </c:if>
+                        </td>
+                        <td>
 
-                            </td>
-                            <td>
+                        </td>
+                        <td>
 
-                            </td>
-                            <td>
-                                ${fn:length(trip.stops)}
-                            </td>
-                            <td>
+                        </td>
+                        <td>
+                            ${fn:length(trip.stops)}
+                        </td>
+                        <td>
 
-                            </td>
-                            <td>
-                                <a href="trips/edit/${trip.id}"><spring:message code="control.edit"/></a>
-                                <a href="trips/delete/${trip.id}"><spring:message code="control.delete"/></a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <h5>
-                        <spring:message code="trip.stops"/>
-                    </h5>
+                        </td>
+                        <td>
+                            <a href="trips/edit/${trip.id}"><spring:message code="control.edit"/></a>
+                            <a href="trips/delete/${trip.id}"><spring:message code="control.delete"/></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <h5>
+                    <spring:message code="trip.stops"/>
+                </h5>
+                <c:forEach var="admin" items="${trip.admins}">
+                    ${admin.id} ${sessionScope.userId}
+                </c:forEach>
+                <c:if test="${trip.admins.contains(sessionScope.userId)}">
                     <a href="trips/${trip.id}/stops/add"><spring:message code="control.add"/></a>
-                    <table class="table table-striped">
-                        <thead>
+                </c:if>
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            <spring:message code="stop.name"/>
+                        </th>
+                        <th>
+                            <spring:message code="stop.orderNumber"/>
+                        </th>
+                        <th>
+                            <spring:message code="stop.description"/>
+                        </th>
+                        <th>
+                            <spring:message code="stop.latitude"/>
+                        </th>
+                        <th>
+                            <spring:message code="stop.longitude"/>
+                        </th>
+                        <th>
+                            <!--Controls-->
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="stop" items="${stops}" varStatus="loop">
                         <tr>
-                            <th>
-                                <spring:message code="stop.name"/>
-                            </th>
-                            <th>
-                                <spring:message code="stop.orderNumber"/>
-                            </th>
-                            <th>
-                                <spring:message code="stop.description"/>
-                            </th>
-                            <th>
-                                <spring:message code="stop.latitude"/>
-                            </th>
-                            <th>
-                                <spring:message code="stop.longitude"/>
-                            </th>
-                            <th>
-                                <!--Controls-->
-                            </th>
+                            <td>
+                                <a href="trips/${trip.id}/stops/details/${stop.id}">${stop.name}</a>
+                            </td>
+                            <td>
+                                    ${stop.orderNumber}
+                            </td>
+                            <td>
+                                    ${stop.description}
+                            </td>
+                            <td>
+                                    ${stop.latitude}
+                            </td>
+                            <td>
+                                    ${stop.longitude}
+                            </td>
+                            <td>
+                                <a href="trips/${trip.id}/stops/edit/${stop.id}"><spring:message
+                                        code="control.edit"/></a>
+                                <a href="trips/${trip.id}/stops/delete/${stop.id}"><spring:message
+                                        code="control.delete"/></a>
+                            </td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach var="stop" items="${stops}" varStatus="loop">
-                            <tr>
-                                <td>
-                                    <a href="trips/${trip.id}/stops/details/${stop.id}">${stop.name}</a>
-                                </td>
-                                <td>
-                                        ${stop.orderNumber}
-                                </td>
-                                <td>
-                                        ${stop.description}
-                                </td>
-                                <td>
-                                        ${stop.latitude}
-                                </td>
-                                <td>
-                                        ${stop.longitude}
-                                </td>
-                                <td>
-                                    <a href="trips/${trip.id}/stops/edit/${stop.id}"><spring:message
-                                            code="control.edit"/></a>
-                                    <a href="trips/${trip.id}/stops/delete/${stop.id}"><spring:message
-                                            code="control.delete"/></a>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                    <c:choose>
-                        <c:when test="${sessionScope.userId > 0}">
-                            <a href="trips/register/${trip.id}"><spring:message code="trip.register"/></a>
-                        </c:when>
-                    </c:choose>
-                </div>
-            </div>
-            <div class="row-fluid">
-                <div class="span8">
-                    <div id="map_canvas" data-trip-id="${trip.id}"></div>
-                </div>
-                <div class="span4">
-                    <div id="directionsPanel"></div>
-                </div>
+                    </c:forEach>
+                    </tbody>
+                </table>
+
+                <c:if test="${sessionScope.userId > 0}">
+                    <a href="trips/register/${trip.id}"><spring:message code="trip.register"/></a>
+                </c:if>
             </div>
         </div>
+        <div class="row-fluid">
+            <div class="span8">
+                <div id="map_canvas" data-trip-id="${trip.id}"></div>
+            </div>
+            <div class="span4">
+                <div id="directionsPanel"></div>
+            </div>
+        </div>
+    </div>
 
-    </section>
+</section>
 
 
-    <%@include file="../../template/footer.jsp" %>
+<%@include file="../../template/footer.jsp" %>
 
 
-    <!-- The JavaScript files -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<!-- The JavaScript files -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJXL1bwZ0C3Hdus-DOgbxOGedijvCRpPc&sensor=true"></script>
+<script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJXL1bwZ0C3Hdus-DOgbxOGedijvCRpPc&sensor=true"></script>
 
-    <script src="js/trips-maps.min.js"></script>
+<script src="js/trips-maps.min.js"></script>
 </body>
 </html>
