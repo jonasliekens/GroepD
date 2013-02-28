@@ -108,55 +108,57 @@
                     <spring:message code="trip.stops"/>
                 </h5>
                 <a href="trips/${trip.id}/stops/add"><spring:message code="control.add"/></a>
-                    <table class="table table-striped">
-                        <thead>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            <spring:message code="stop.name"/>
+                        </th>
+                        <th>
+                            <spring:message code="stop.orderNumber"/>
+                        </th>
+                        <th>
+                            <spring:message code="stop.description"/>
+                        </th>
+                        <th>
+                            <spring:message code="stop.latitude"/>
+                        </th>
+                        <th>
+                            <spring:message code="stop.longitude"/>
+                        </th>
+                        <th>
+                            <!--Controls-->
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="stop" items="${stops}" varStatus="loop">
                         <tr>
-                            <th>
-                                <spring:message code="stop.name"/>
-                            </th>
-                            <th>
-                                <spring:message code="stop.orderNumber"/>
-                            </th>
-                            <th>
-                                <spring:message code="stop.description"/>
-                            </th>
-                            <th>
-                                <spring:message code="stop.latitude"/>
-                            </th>
-                            <th>
-                                <spring:message code="stop.longitude"/>
-                            </th>
-                            <th>
-                                <!--Controls-->
-                            </th>
+                            <td>
+                                <a href="trips/${trip.id}/stops/details/${stop.id}">${stop.name}</a>
+                            </td>
+                            <td>
+                                    ${stop.orderNumber}
+                            </td>
+                            <td>
+                                    ${stop.description}
+                            </td>
+                            <td>
+                                    ${stop.latitude}
+                            </td>
+                            <td>
+                                    ${stop.longitude}
+                            </td>
+                            <td>
+                                <a href="trips/${trip.id}/stops/edit/${stop.id}"><spring:message
+                                        code="control.edit"/></a>
+                                <a href="trips/${trip.id}/stops/delete/${stop.id}"><spring:message
+                                        code="control.delete"/></a>
+                            </td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach var="stop" items="${stops}" varStatus="loop">
-                            <tr>
-                                <td>
-                                    <a href="trips/${trip.id}/stops/details/${stop.id}">${stop.name}</a>
-                                </td>
-                                <td>
-                                        ${stop.orderNumber}
-                                </td>
-                                <td>
-                                        ${stop.description}
-                                </td>
-                                <td>
-                                        ${stop.latitude}
-                                </td>
-                                <td>
-                                        ${stop.longitude}
-                                </td>
-                                <td>
-                                    <a href="trips/${trip.id}/stops/edit/${stop.id}"><spring:message code="control.edit"/></a>
-                                    <a href="trips/${trip.id}/stops/delete/${stop.id}"><spring:message code="control.delete"/></a>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
+                    </c:forEach>
+                    </tbody>
+                </table>
                 <c:choose>
                     <c:when test="${sessionScope.userId > 0}">
                         <a href="trips/register/${trip.id}"><spring:message code="trip.register"/></a>
@@ -166,6 +168,9 @@
             </div>
         </div>
     </div>
+
+    <div id="map_canvas"></div>
+
 </section>
 
 
@@ -174,8 +179,12 @@
 
 <!-- The JavaScript files -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script>window.jQuery || document.write('
+    <script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 
-<script src="js/main.js"></script>
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJXL1bwZ0C3Hdus-DOgbxOGedijvCRpPc&sensor=TRUE"></script>
+
+    <script src="js/trips-maps.min.js"></script>
 </body>
 </html>
