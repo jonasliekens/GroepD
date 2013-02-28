@@ -72,14 +72,14 @@ public class StopController {
             if (stopForm.getOrderString().equals("first")) {
                 stop.setOrderNumber(1);
             } else if (stopForm.getOrderString().equals("last")) {
-                stop.setOrderNumber(tripService.get(id).getStops().size()+1);
+                stop.setOrderNumber(tripService.get(id).getStops().size() + 1);
             } else if (stopForm.getOrderString().equals("after")) {
-                stop.setOrderNumber(stopForm.getOrderNumber()+1);
+                stop.setOrderNumber(stopForm.getOrderNumber() + 1);
             }
 
             stopService.add(stop, id);
 
-            return "redirect:/trips/" + id + "/details";
+            return "redirect:/trips/details/" + id;
         }
     }
 
@@ -117,7 +117,7 @@ public class StopController {
             stop.setOrderNumber(stopForm.getOrderNumber());
             stopService.update(stop, id);
 
-            return "redirect:/trips/" + id + "/stops";
+            return "redirect:/trips/details/" + id;
         }
     }
 
@@ -133,12 +133,19 @@ public class StopController {
 
         stopService.remove(stopService.get(stopid));
 
-        return "redirect:/trips/"+id+"/stops/";
+        return "redirect:/trips/details/" + id;
     }
 
-    private List<String> setToList(Set<Stop> stops){
+    @RequestMapping(value = "trips/{id}/stops/details/{stopid}", method = RequestMethod.GET)
+    public String detailsStop(@PathVariable Integer id, @PathVariable Integer stopid, ModelMap model) {
+        model.addAttribute("trip", tripService.get(id));
+        model.addAttribute("stop", stopService.get(stopid));
+        return "/stops/details";
+    }
+
+    private List<String> setToList(Set<Stop> stops) {
         List<String> list = new ArrayList<String>();
-        for(Stop stop : stops){
+        for (Stop stop : stops) {
             list.add(stop.getName());
         }
         return list;
