@@ -98,14 +98,15 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
 
     @Test
     public void testAddParticipantToTrip(){
-        Trip trip = tripDao.findById(370);
-        User user =  userDao.findById(292);
+        Trip trip = newTrip();
+        User user = new User("Invited@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
+
         ParticipatedTrip participatedTrip = new ParticipatedTrip();
         participatedTripDao.add(participatedTrip);
         participatedTrip.setUser(user);
         participatedTrip.setTrip(trip);
         participatedTripDao.update(participatedTrip);
-        trip = tripDao.findById(trip.getId());
+        trip = tripDao.findById(participatedTrip.getTrip().getId());
         User user1 = ((ParticipatedTrip)trip.getParticipatedTrips().toArray()[0]).getUser();
         assertTrue(user1.getEmail().equals(user.getEmail()));
     }

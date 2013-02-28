@@ -40,7 +40,7 @@ public class User {
     @NotNull
     private Date birthday;
 
-    @ManyToMany(mappedBy="admins")
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy="admins")
     private Set<Trip> ownTrips;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy= "user")
