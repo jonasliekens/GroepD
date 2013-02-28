@@ -95,7 +95,7 @@
                             ${fn:length(trip.stops)}
                         </td>
                         <td>
-                            ${fn:length(trip.invitedUsers)}
+                            ${fn:length(trip.participatedTrips)}
                         </td>
                         <td>
                             <a href="trips/edit/${trip.id}"><spring:message code="control.edit"/></a>

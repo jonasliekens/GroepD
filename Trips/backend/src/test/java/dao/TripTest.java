@@ -1,10 +1,7 @@
 package dao;
 
 import be.kdg.backend.dao.interfaces.TripDao;
-import be.kdg.backend.entities.Stop;
-import be.kdg.backend.entities.Trip;
-import be.kdg.backend.entities.TripType;
-import be.kdg.backend.entities.User;
+import be.kdg.backend.entities.*;
 import be.kdg.backend.utilities.StopComparator;
 import be.kdg.backend.utilities.Utilities;
 import org.junit.After;
@@ -93,12 +90,15 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
 
     @Test
     public void testAddParticipantToTrip(){
-        Trip temp = newTrip();
+        Trip trip = newTrip();
         User user = new User("Invited@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
-        temp.addInviteduser(user);
-        tripDao.add(temp);
-        temp = tripDao.findById(temp.getId());
-        assertTrue(temp.getInvitedUsers().size() > 0);
+        ParticipatedTrip participatedTrip = new ParticipatedTrip();
+        participatedTrip.setUser(user);
+        trip.addParticipatedTrip(participatedTrip);
+        tripDao.add(trip);
+        trip = tripDao.findById(trip.getId());
+        User user1 = ((ParticipatedTrip)trip.getParticipatedTrips().toArray()[0]).getUser();
+        assertTrue(user1.getEmail().equals(user.getEmail()));
     }
 
     @Test

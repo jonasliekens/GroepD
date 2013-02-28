@@ -26,8 +26,10 @@ import java.util.Set;
  */
 @Controller
 public class StopController {
+
     @Autowired
     StopService stopService;
+
     @Autowired
     TripService tripService;
     List stops;

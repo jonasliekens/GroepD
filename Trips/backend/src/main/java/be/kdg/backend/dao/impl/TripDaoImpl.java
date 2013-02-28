@@ -26,6 +26,7 @@ public class  TripDaoImpl implements TripDao {
 
     @Override
     public void add(Trip entity) {
+        entityManager.clear();
         entityManager.getTransaction().begin();
         entityManager.persist(entity);
         entityManager.getTransaction().commit();
