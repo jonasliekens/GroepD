@@ -59,6 +59,16 @@ public class User {
         this.birthday = birthday;
     }
 
+    public User(String email, String password, String firstName, String lastName, Date birthday, String facebookID) {
+        initLists();
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthday = birthday;
+        this.facebookID = facebookID;
+    }
+
     private void initLists(){
         this.ownTrips = new HashSet<Trip>();
         this.participatedTrips = new HashSet<ParticipatedTrip>();

@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * Created with IntelliJ IDEA 12.
@@ -15,8 +16,6 @@ import java.util.Date;
  * Copyright @ Soulware.be
  */
 public class Utilities {
-
-    private final static  SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     public static String encryptPassword(String password){
         try {
@@ -38,10 +37,22 @@ public class Utilities {
 
     public static Date makeDate(String date){
         try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             return sdf.parse(date);
         } catch (ParseException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            return null;
         }
-        return null;
+    }
+
+    public static String newPass(int length)
+    {
+        String characters="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random rng = new Random();
+        char[] text = new char[length];
+        for (int i = 0; i < length; i++)
+        {
+            text[i] = characters.charAt(rng.nextInt(characters.length()));
+        }
+        return new String(text);
     }
 }

@@ -1,6 +1,7 @@
 package be.kdg.backend.services.interfaces;
 
 import be.kdg.backend.entities.User;
+import be.kdg.backend.exceptions.DataNotFoundException;
 import be.kdg.backend.exceptions.LoginInvalidException;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,9 +23,9 @@ public interface UserService extends GenericService<User, Integer>{
     @Transactional
     public boolean mergeUserWithFacebook(Integer id, String facebookId);
     @Transactional
-    public boolean checkLoginWithFacebook(String facebookId);
+    public Integer checkLoginWithFacebook(String facebookId) throws LoginInvalidException;
     @Transactional
-    public User findUserByEMail(String eMail);
+    public User findUserByEMail(String eMail) throws DataNotFoundException;
     @Transactional
     public List<User> getAllUsers();
 

@@ -12,7 +12,7 @@
 <!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html class="no-js"> <!--<![endif]-->
+<html class="no-js" xmlns:fb="http://ogp.me/ns/fb#"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -57,13 +57,7 @@
                         FB.getLoginStatus(function(response) {
                             if (response.status === 'connected') {
                                 // User logged into FB and authorized
-                                alert("Get data here?");
-                            } else if (response.status === 'not_authorized') {
-                                // User logged into FB but not authorized
-                                login();
-                            } else {
-                                // User not logged into FB
-                                login();
+                                getData();
                             }
                         });
                     };
@@ -77,13 +71,15 @@
                         ref.parentNode.insertBefore(js, ref);
                     }(document));
 
-                    function login() {
-                        FB.login(function(response) {
-                            if (response.authResponse) {
-                                alert("logged in");
-                            } else {
-                                alert("Not logged in");
-                            }
+                    function getData(){
+                        FB.api("/me?fields=id,first_name,last_name,birthday,email", function(response){
+                            $.post(
+                                    "rest/login/facebook",
+                                    response,
+                                    function(data) {
+
+                                    }
+                            );
                         });
                     }
                 </script>
@@ -144,7 +140,7 @@
                         </tr>
                     </table>
                 </form:form>
-                <div class="fb-login-button" data-show-faces="true" data-width="200" data-max-rows="1" onclick="login()"></div>
+                <fb:login-button show-faces="true" width="200" max-rows="1" onlogin="getData()"></fb:login-button>
             </div>
         </div>
     </div>
