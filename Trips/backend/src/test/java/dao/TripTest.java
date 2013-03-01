@@ -4,6 +4,7 @@ import be.kdg.backend.dao.interfaces.ParticipatedTripDao;
 import be.kdg.backend.dao.interfaces.TripDao;
 import be.kdg.backend.dao.interfaces.UserDao;
 import be.kdg.backend.entities.*;
+import be.kdg.backend.enums.*;
 import be.kdg.backend.utilities.StopComparator;
 import be.kdg.backend.utilities.Utilities;
 import org.junit.After;
@@ -16,7 +17,7 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created with IntelliJ IDEA 12.
@@ -80,10 +81,10 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
     @Test
     public void testSetTripType() {
         Trip temp = newTrip();
-        temp.setType(TripType.LOOSE);
+        temp.setTripType(TripType.LOOSE);
         tripDao.add(temp);
         temp = tripDao.findById(temp.getId());
-        assertTrue(temp.getType().equals(TripType.LOOSE));
+        assertTrue(temp.getTripType().equals(TripType.LOOSE));
     }
 
     @Test
@@ -99,15 +100,17 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
     @Test
     public void testAddParticipantToTrip(){
         Trip trip = newTrip();
-        User user = new User("Invited@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
-
+        tripDao.add(trip);
+        User user =new User("Admin@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
+        userDao.add(user);
+        trip.addAdmin(user);
+        tripDao.update(trip);
         ParticipatedTrip participatedTrip = new ParticipatedTrip();
-        participatedTripDao.add(participatedTrip);
         participatedTrip.setUser(user);
         participatedTrip.setTrip(trip);
-        participatedTripDao.update(participatedTrip);
-        trip = tripDao.findById(participatedTrip.getTrip().getId());
-        User user1 = ((ParticipatedTrip)trip.getParticipatedTrips().toArray()[0]).getUser();
+        participatedTripDao.add(participatedTrip);
+        User user1 = participatedTripDao.findById(participatedTrip.getId()).getUser();
+        //User user1 = ((ParticipatedTrip)trip.getParticipatedTrips().toArray()[0]).getUser();
         assertTrue(user1.getEmail().equals(user.getEmail()));
     }
 
@@ -137,9 +140,9 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
     @After
     public void testRemoveTrips() {
         for (Trip trip : tripDao.findAll()) {
-           // tripDao.remove(trip);
+            tripDao.remove(trip);
         }
-        //assertFalse(tripDao.findAll().size() > 0);
+        assertFalse(tripDao.findAll().size() > 0);
     }
 
     private Trip newTrip() {

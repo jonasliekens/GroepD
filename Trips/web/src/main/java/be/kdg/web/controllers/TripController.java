@@ -60,6 +60,7 @@ public class TripController {
     public String detail(@PathVariable Integer id, ModelMap model) {
         model.addAttribute("trip", tripService.get(id));
         model.addAttribute("stops", stopService.getStopsByTripId(id));
+
         return "trips/details";
     }
 
@@ -193,10 +194,10 @@ public class TripController {
         Trip trip = tripService.get(id);
         User user = userService.get((Integer)session.getAttribute("userId"));
         ParticipatedTrip participatedTrip = new ParticipatedTrip();
-        participatedTripService.add(participatedTrip);
+        //participatedTripService.add(participatedTrip);
         participatedTrip.setUser(user);
         participatedTrip.setTrip(trip);
-        participatedTripService.update(participatedTrip);
+        participatedTripService.add(participatedTrip);
         return "redirect:/trips/details/"+id;
     }
 

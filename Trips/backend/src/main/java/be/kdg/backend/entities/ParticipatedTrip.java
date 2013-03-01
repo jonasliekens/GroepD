@@ -22,12 +22,12 @@ public class ParticipatedTrip {
 
     private boolean isFinished;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "tripId",insertable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "tripId")
     Trip trip;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "userId",insertable = false)
+    @ManyToOne(cascade =CascadeType.ALL)
+    @JoinColumn(name = "userId")
     User user;
 
     public ParticipatedTrip() {

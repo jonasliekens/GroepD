@@ -33,9 +33,7 @@ public class  TripDaoImpl implements TripDao {
 
     @Override
     public void remove(Trip entity) {
-        entityManager.clear();
         entityManager.getTransaction().begin();
-        entity = entityManager.find(Trip.class, entity.getId());
         entityManager.remove(entity);
         entityManager.getTransaction().commit();
     }
@@ -44,6 +42,7 @@ public class  TripDaoImpl implements TripDao {
     public void update(Trip entity) {
 
         entityManager.getTransaction().begin();
+
         entityManager.merge(entity);
         entityManager.getTransaction().commit();
     }

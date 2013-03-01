@@ -2,6 +2,8 @@ package be.kdg.backend.dao.impl;
 
 import be.kdg.backend.dao.interfaces.ParticipatedTripDao;
 import be.kdg.backend.entities.ParticipatedTrip;
+import be.kdg.backend.entities.Trip;
+import be.kdg.backend.entities.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -26,6 +28,8 @@ public class ParticipatedTripDaoImpl implements ParticipatedTripDao {
     @Override
     public void add(ParticipatedTrip entity) {
         entityManager.getTransaction().begin();
+        entity.setTrip(entityManager.find(Trip.class, entity.getTrip().getId()));
+        entity.setUser(entityManager.find(User.class, entity.getUser().getId()));
         entityManager.persist(entity);
         entityManager.getTransaction().commit();
     }
