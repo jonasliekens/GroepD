@@ -141,14 +141,6 @@ public class Trip {
         this.nrHours = nrHours;
     }
 
-    public boolean isPrivateTrip() {
-        return privateTrip;
-    }
-
-    public boolean isPublished() {
-        return published;
-    }
-
     public String getName() {
         return name;
     }

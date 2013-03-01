@@ -1,5 +1,7 @@
 package be.kdg.backend.entities;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
@@ -41,7 +43,8 @@ public class Stop {
 
     @ManyToOne
     @JoinColumn(name = "tripId")
-    Trip trip;
+    @JsonIgnore
+    private Trip trip;
 
     public Stop() {
         initLists();

@@ -54,7 +54,7 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
         temp = tripDao.findById(temp.getId());
         temp.setPublished(true);
         tripDao.update(temp);
-        assertTrue(temp.isPublished());
+        assertTrue(temp.getPublished());
     }
 
     @Test
