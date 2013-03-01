@@ -32,64 +32,71 @@
     <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 </head>
 <body>
-<!--[if lt IE 7]>
-<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-    your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to
-    improve your experience.</p>
-<![endif]-->
+    <!--[if lt IE 7]>
+    <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+        your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to
+        improve your experience.</p>
+    <![endif]-->
 
 
-<%@include file="../../template/header.jsp" %>
+    <%@include file="../../template/header.jsp" %>
 
 
-<section>
-    <div class="container">
-        <div class="row-fluid">
-            <div class="span12">
-                <form:form method="post" modelAttribute="stopForm">
-                    <form:label path="name"><spring:message code="stop.name"/></form:label>
-                    <form:input path="name"/>
-                    <form:errors path="name" cssClass="alert alert-error"/>
+    <section>
+        <div class="container">
+            <div class="row-fluid">
+                <div class="span12">
+                    <form:form method="post" modelAttribute="stopForm">
+                        <form:label path="name"><spring:message code="stop.name"/></form:label>
+                        <form:input path="name"/>
+                        <form:errors path="name" cssClass="alert alert-error"/>
 
-                    <form:label path="description"><spring:message code="stop.description"/></form:label>
-                    <form:input path="description"/>
-                    <form:errors path="description" cssClass="alert alert-error"/>
-                    <form:label path="latitude"><spring:message code="stop.latitude"/></form:label>
-                    <form:input path="latitude"/>
-                    <form:errors path="latitude" cssClass="alert alert-error"/>
-                    <form:label path="longitude"><spring:message code="stop.longitude"/></form:label>
-                    <form:input path="longitude"/>
-                    <form:errors path="longitude" cssClass="alert alert-error"/>
-                    <form:label path="accuracy"><spring:message code="stop.accuracy"/></form:label>
-                    <form:input path="accuracy"/>
-                    <form:errors path="accuracy" cssClass="alert alert-error"/>
+                        <form:label path="description"><spring:message code="stop.description"/></form:label>
+                        <form:input path="description"/>
+                        <form:errors path="description" cssClass="alert alert-error"/>
+                        <form:label path="latitude"><spring:message code="stop.latitude"/></form:label>
+                        <form:input id="latitude" path="latitude" readonly="true"/>
+                        <form:errors path="latitude" cssClass="alert alert-error"/>
+                        <form:label path="longitude"><spring:message code="stop.longitude"/></form:label>
+                        <form:input id="longitude" path="longitude" readonly="true"/>
+                        <form:errors path="longitude" cssClass="alert alert-error"/>
+                        <form:label path="accuracy"><spring:message code="stop.accuracy"/></form:label>
+                        <form:input path="accuracy"/>
+                        <form:errors path="accuracy" cssClass="alert alert-error"/>
 
-                    <label><spring:message code="stop.orderNumber"/></label>
-                    <form:select path="orderOption">
-                        <form:option value="first"><spring:message code="label.first"/></form:option>
-                        <form:option value="after"><spring:message code="label.after"/></form:option>
-                        <form:option value="last"><spring:message code="label.last"/></form:option>
-                    </form:select>
+                        <label><spring:message code="stop.orderNumber"/></label>
+                        <form:select path="orderOption">
+                            <form:option value="first"><spring:message code="label.first"/></form:option>
+                            <form:option value="after"><spring:message code="label.after"/></form:option>
+                            <form:option value="last"><spring:message code="label.last"/></form:option>
+                        </form:select>
 
-                    <form:select path="orderNumber">
-                        <form:options items="${stops}"/>
-                    </form:select>
+                        <form:select path="orderNumber">
+                            <form:options items="${stops}"/>
+                        </form:select>
 
-                    <form:button><spring:message code="control.add"/></form:button>
-                </form:form>
+                        <form:button><spring:message code="control.add"/></form:button>
+                    </form:form>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span12">
+                    <div id="map_canvas"></div>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
-<%@include file="../../template/footer.jsp" %>
+    <%@include file="../../template/footer.jsp" %>
 
 
-<!-- The JavaScript files -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+    <!-- The JavaScript files -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 
-<script src="js/main.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJXL1bwZ0C3Hdus-DOgbxOGedijvCRpPc&sensor=true"></script>
+
+    <script src="js/add-stop-maps.min.js"></script>
 </body>
 </html>
