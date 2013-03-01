@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="css/main.css">
 
     <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    <script src="js/facebook.js"></script>
 </head>
 <body>
 <!--[if lt IE 7]>
@@ -44,48 +45,11 @@
             <div class="span12">
                 <div id="fb-root"></div>
                 <script>
-                    // Additional JS functions here
-                    window.fbAsyncInit = function() {
-                        FB.init({
-                            appId      : '610255372322861', // App ID
-                            channelUrl : 'http://localhost:8080/web/login/channel.html', // Channel File
-                            status     : true, // check login status
-                            cookie     : true, // enable cookies to allow the server to access the session
-                            xfbml      : true  // parse XFBML
-                        });
-                        // Additional init code here
-                        FB.getLoginStatus(function(response) {
-                            if (response.status === 'connected') {
-                                // User logged into FB and authorized
-                                getData();
-                            }
-                        });
+                    window.fbAsyncInit = function () {
+                        initFB();
+                        checkLoginStatus();
                     };
-
-                    // Load the SDK Asynchronously
-                    (function(d){
-                        var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-                        if (d.getElementById(id)) {return;}
-                        js = d.createElement('script'); js.id = id; js.async = true;
-                        js.src = "//connect.facebook.net/en_US/all.js";
-                        ref.parentNode.insertBefore(js, ref);
-                    }(document));
-
-                    function getData(){
-                        FB.api("/me?fields=id,first_name,last_name,birthday,email", function(response){
-                            $.post(
-                                    "rest/login/facebook",
-                                    response,
-                                    function(data) {
-                                        if(data == "true"){
-                                            window.location = "trips/"
-                                        }
-                                    }
-                            );
-                        });
-                    }
                 </script>
-
                 <h1>Trips - Login</h1>
 
                 <h2><spring:message code="register.loginTitle"/></h2>
@@ -101,8 +65,8 @@
                             <td><form:password path="password"/></td>
                         </tr>
                         <tr>
-                        <spring:message code="control.login" var="btnLogin"/>
-                        <td colspan="2"><input type="submit" value="${btnLogin}"/></td>
+                            <spring:message code="control.login" var="btnLogin"/>
+                            <td colspan="2"><input type="submit" value="${btnLogin}"/></td>
                         </tr>
                     </table>
                 </form:form>

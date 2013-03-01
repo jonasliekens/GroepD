@@ -99,7 +99,7 @@ public class LoginController {
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public String logOut(HttpSession session) {
         session.removeAttribute("userId");
-        return doRedirect();
+        return "redirect:/";
     }
 
     private String doRedirect() {
