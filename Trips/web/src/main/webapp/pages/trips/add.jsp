@@ -59,6 +59,16 @@
                         <form:errors path="communicationByLocation" cssClass="alert alert-error" />
                         <br/>
 
+                        <form:label path="tripType"><spring:message code="trip.tripTypeQuestion" /></form:label>
+                        <form:select path="tripType">
+                            <form:options items="${tripTypes}"/>
+                        </form:select>
+
+                        <form:label path="travelType"><spring:message code="trip.travelTypeQuestion" /></form:label>
+                        <form:select path="travelType">
+                            <form:options items="${travelTypes}"/>
+                        </form:select>
+
 
                         <spring:message code="control.add" var="btnAdd"></spring:message>
                         <input type="submit" value="${btnAdd}" />

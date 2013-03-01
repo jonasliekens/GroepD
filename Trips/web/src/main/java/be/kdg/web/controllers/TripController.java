@@ -3,6 +3,8 @@ package be.kdg.web.controllers;
 import be.kdg.backend.entities.ParticipatedTrip;
 import be.kdg.backend.entities.Trip;
 import be.kdg.backend.entities.User;
+import be.kdg.backend.enums.TravelType;
+import be.kdg.backend.enums.TripType;
 import be.kdg.backend.services.interfaces.ParticipatedTripService;
 import be.kdg.backend.services.interfaces.StopService;
 import be.kdg.backend.services.interfaces.TripService;
@@ -64,7 +66,8 @@ public class TripController {
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String addTripForm(ModelMap model) {
         model.addAttribute("tripForm", new TripForm());
-
+        model.addAttribute("tripTypes", TripType.values());
+        model.addAttribute("travelTypes", TravelType.values());
         return "trips/add";
     }
 
@@ -86,6 +89,8 @@ public class TripController {
             trip.setCommunicationByChat(tripForm.getCommunicationByChat());
             // On creation, a trip shouldn't be published
             trip.setPublished(false);
+            trip.setTripType(tripForm.getTripType());
+            trip.setTravelType(tripForm.getTravelType());
 
 
             if (tripForm.getNrDays() == null) {
@@ -118,9 +123,12 @@ public class TripController {
         tripForm.setPrivateTrip(trip.getPrivateTrip());
         tripForm.setCommunicationByChat(trip.getCommunicationByChat());
         tripForm.setCommunicationByLocation(trip.getCommunicationByLocation());
+        tripForm.setTravelType(trip.getTravelType());
+        tripForm.setTripType(trip.getTripType());
         model.addAttribute("tripForm", tripForm);
         model.addAttribute("trip", trip);
-
+        model.addAttribute("tripTypes", TripType.values());
+        model.addAttribute("travelTypes", TravelType.values());
         return "trips/edit";
     }
 
@@ -138,8 +146,9 @@ public class TripController {
             trip.setPrivateTrip(tripForm.getPrivateTrip());
             trip.setCommunicationByLocation(tripForm.getCommunicationByLocation());
             trip.setCommunicationByChat(tripForm.getCommunicationByChat());
-            // On creation, a trip shouldn't be published
-            trip.setPublished(false);
+            trip.setTripType(tripForm.getTripType());
+            trip.setTravelType(tripForm.getTravelType());
+
             if (tripForm.getNrDays() == null) {
                 trip.setNrDays(0);
             } else {

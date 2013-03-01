@@ -47,6 +47,17 @@
                         <form:checkbox path="communicationByLocation" />
                         <form:errors path="communicationByLocation" cssClass="alert alert-error" />
                         <br/>
+
+                        <form:label path="tripType"><spring:message code="trip.tripTypeQuestion" /></form:label>
+                        <form:select path="tripType">
+                            <form:options items="${tripTypes}"/>
+                        </form:select>
+
+                        <form:label path="travelType"><spring:message code="trip.travelTypeQuestion" /></form:label>
+                        <form:select path="travelType">
+                            <form:options items="${travelTypes}"/>
+                        </form:select>
+
                         <a href="trips/${trip.id}/stops"><spring:message code="trip.stops" /></a>
                         <br/>
                         <spring:message code="control.edit" var="btnEdit"></spring:message>
