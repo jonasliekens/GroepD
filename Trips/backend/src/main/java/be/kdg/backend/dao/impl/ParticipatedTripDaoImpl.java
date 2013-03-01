@@ -1,7 +1,7 @@
 package be.kdg.backend.dao.impl;
 
-import be.kdg.backend.dao.interfaces.TripDao;
-import be.kdg.backend.entities.Trip;
+import be.kdg.backend.dao.interfaces.ParticipatedTripDao;
+import be.kdg.backend.entities.ParticipatedTrip;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -11,51 +11,49 @@ import java.util.List;
 /**
  * Created with IntelliJ IDEA.
  * User: Nick
- * Date: 9/02/13
- * Time: 19:36
+ * Date: 28/02/13
+ * Time: 23:24
  * To change this template use File | Settings | File Templates.
  */
 @Repository
-public class  TripDaoImpl implements TripDao {
+public class ParticipatedTripDaoImpl implements ParticipatedTripDao {
 
     protected EntityManager entityManager;
 
-    public TripDaoImpl() {
+    public ParticipatedTripDaoImpl() {
         entityManager = emf.createEntityManager();
     }
-
     @Override
-    public void add(Trip entity) {
+    public void add(ParticipatedTrip entity) {
         entityManager.getTransaction().begin();
         entityManager.persist(entity);
         entityManager.getTransaction().commit();
     }
 
     @Override
-    public void remove(Trip entity) {
+    public void remove(ParticipatedTrip entity) {
         entityManager.clear();
         entityManager.getTransaction().begin();
-        entity = entityManager.find(Trip.class, entity.getId());
+        entity = entityManager.find(ParticipatedTrip.class, entity.getId());
         entityManager.remove(entity);
         entityManager.getTransaction().commit();
     }
 
     @Override
-    public void update(Trip entity) {
-
+    public void update(ParticipatedTrip entity) {
         entityManager.getTransaction().begin();
         entityManager.merge(entity);
         entityManager.getTransaction().commit();
     }
 
     @Override
-    public Trip findById(Integer id) {
-        return entityManager.find(Trip.class, id);
+    public ParticipatedTrip findById(Integer integer) {
+        return entityManager.find(ParticipatedTrip.class, integer);
     }
 
     @Override
-    public List<Trip> findAll() {
-        Query query = entityManager.createQuery("select t from Trip t");
+    public List<ParticipatedTrip> findAll() {
+        Query query = entityManager.createQuery("select pt from ParticipatedTrip pt");
         return query.getResultList();
     }
 }

@@ -1,7 +1,14 @@
+/* Import the utilities */
+@import "utilities.scss";
+
 /* Import the color scheme */
 @import "color-scheme.scss";
 
-body {
+/*
+ *	Header
+ */
+
+#header-section {
 
 }
 
@@ -12,5 +19,34 @@ body {
 
     li {
         float: left;
+
+        a {
+        	display: inline-block;
+        }
     }
+}
+
+/*
+ *	Content
+ */
+
+/*
+ *	Footer
+ */
+
+#footer-section {
+
+}
+
+/* Import the page specific css files */
+@import "page.trips.scss";
+
+
+/*
+ *	Other
+ */
+#map_canvas {
+	width: 100%;
+	height: 450px;
+	@include prefix(box-shadow, 0 0 7px #333);
 }

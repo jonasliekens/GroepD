@@ -45,9 +45,4 @@ public class TripServiceImpl implements TripService {
     public List<Trip> getTrips() {
         return tripDao.findAll();
     }
-
-    @Transactional
-    public void editTrip(Trip trip) {
-        tripDao.update(trip);
-    }
 }

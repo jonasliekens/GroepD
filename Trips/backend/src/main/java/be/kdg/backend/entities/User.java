@@ -3,7 +3,6 @@ package be.kdg.backend.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,11 +40,11 @@ public class User {
     @NotNull
     private Date birthday;
 
-    @ManyToMany(mappedBy="admins")
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy="admins")
     private Set<Trip> ownTrips;
 
-    @ManyToMany(mappedBy="invitedUsers")
-    private Set<Trip> participatedTrips;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy= "user")
+    private Set<ParticipatedTrip> participatedTrips;
 
     public User() {
         initLists();
@@ -72,7 +71,7 @@ public class User {
 
     private void initLists(){
         this.ownTrips = new HashSet<Trip>();
-        this.participatedTrips = new HashSet<Trip>();
+        this.participatedTrips = new HashSet<ParticipatedTrip>();
     }
 
     public Integer getId() {
@@ -139,11 +138,14 @@ public class User {
         this.ownTrips = ownTrips;
     }
 
-    public Set<Trip> getParticipatedTrips() {
+    public Set<ParticipatedTrip> getParticipatedTrips() {
         return participatedTrips;
     }
 
-    public void setParticipatedTrips(Set<Trip> participatedTrips) {
+    public void setParticipatedTrips(Set<ParticipatedTrip> participatedTrips) {
         this.participatedTrips = participatedTrips;
+    }
+    public void addParticipatedTrips(ParticipatedTrip participatedTrip) {
+        this.participatedTrips.add(participatedTrip);
     }
 }

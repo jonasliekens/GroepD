@@ -31,11 +31,8 @@ public class Trip {
             inverseJoinColumns={@JoinColumn(name="userId")})
     private Set<User> admins;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="T_TRIP_PARTICIPANT",
-            joinColumns={@JoinColumn(name="tripId")},
-            inverseJoinColumns={@JoinColumn(name="userId")})
-    private Set<User> invitedUsers;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "trip")
+    private Set<ParticipatedTrip> participatedTrips;
 
     @NotNull
     private Boolean privateTrip;
@@ -64,7 +61,7 @@ public class Trip {
 
     private void initLists(){
         this.admins = new HashSet<User>();
-        this.invitedUsers = new HashSet<User>();
+        this.participatedTrips = new HashSet<ParticipatedTrip>();
         this.stops = new HashSet<Stop>();
     }
 
@@ -102,21 +99,21 @@ public class Trip {
         this.admins = admins;
     }
 
-    public void addInviteduser(User user) {
-        this.invitedUsers.add(user);
+    public void addParticipatedTrip(ParticipatedTrip participatedTrip) {
+        this.participatedTrips.add(participatedTrip);
     }
 
-    public boolean removeInvitedUser(User user) {
-        if (invitedUsers.contains(user)) {
-            invitedUsers.remove(user);
+    public boolean removeParticipatedTrip(ParticipatedTrip participatedTrip) {
+        if (participatedTrips.contains(participatedTrip)) {
+            participatedTrips.remove(participatedTrip);
             return true;
         } else {
             return false;
         }
     }
 
-    public void setInvitedUsers(Set<User> invitedUsers) {
-        this.invitedUsers = invitedUsers;
+    public void setParticipatedTrips(Set<ParticipatedTrip> participatedTrips) {
+        this.participatedTrips = participatedTrips;
     }
 
     public void setName(String name) {
@@ -195,12 +192,12 @@ public class Trip {
         this.privateTrip = privateTrip;
     }
 
-    public Collection<User> getAdmins() {
+    public Set<User> getAdmins() {
         return admins;
     }
 
-    public Set<User> getInvitedUsers() {
-        return invitedUsers;
+    public Set<ParticipatedTrip> getParticipatedTrips() {
+        return participatedTrips;
     }
 
     public boolean getCommunicationByChat() {

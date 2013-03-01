@@ -1,5 +1,8 @@
 package be.kdg.web.forms;
 
+import be.kdg.backend.enums.TravelType;
+import be.kdg.backend.enums.TripType;
+
 /**
  * User: Bart Verhavert
  * Date: 22/02/13 13:28
@@ -7,7 +10,8 @@ package be.kdg.web.forms;
 public class TripForm {
     private String name;
     private Boolean privateTrip;
-//    private TripType type;
+    private TripType tripType;
+    private TravelType travelType;
     private Integer nrDays;
     private Integer nrHours;
 
@@ -63,5 +67,21 @@ public class TripForm {
 
     public void setCommunicationByLocation(boolean communicationByLocation) {
         this.communicationByLocation = communicationByLocation;
+    }
+
+    public TripType getTripType() {
+        return tripType;
+    }
+
+    public void setTripType(TripType tripType) {
+        this.tripType = tripType;
+    }
+
+    public TravelType getTravelType() {
+        return travelType;
+    }
+
+    public void setTravelType(TravelType travelType) {
+        this.travelType = travelType;
     }
 }

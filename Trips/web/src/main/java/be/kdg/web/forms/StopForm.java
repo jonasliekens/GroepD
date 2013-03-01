@@ -11,8 +11,8 @@ public class StopForm {
     private Double latitude;
     private Double longitude;
     private Integer accuracy;
+    private String orderOption;
     private Integer orderNumber;
-    private String orderString;
 
     public StopForm() {
     }
@@ -57,19 +57,19 @@ public class StopForm {
         this.accuracy = accuracy;
     }
 
+    public String getOrderOption() {
+        return orderOption;
+    }
+
+    public void setOrderOption(String orderOption) {
+        this.orderOption = orderOption;
+    }
+
     public Integer getOrderNumber() {
         return orderNumber;
     }
 
     public void setOrderNumber(Integer orderNumber) {
         this.orderNumber = orderNumber;
-    }
-
-    public String getOrderString() {
-        return orderString;
-    }
-
-    public void setOrderString(String orderString) {
-        this.orderString = orderString;
     }
 }

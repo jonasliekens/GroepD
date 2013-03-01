@@ -3,9 +3,9 @@ package be.kdg.backend.dao.impl;
 import be.kdg.backend.dao.interfaces.UserDao;
 import be.kdg.backend.entities.User;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -48,6 +48,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findById(Integer id) {
+        entityManager.clear();
         return entityManager.find(User.class, id);
     }
 

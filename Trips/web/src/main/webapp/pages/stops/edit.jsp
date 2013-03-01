@@ -49,9 +49,17 @@
                         <form:label path="accuracy"><spring:message code="stop.accuracy" /></form:label>
                         <form:input path="accuracy"/>
                         <form:errors path="accuracy" cssClass="alert alert-error"/>
-                        <form:label path="orderNumber"><spring:message code="stop.orderNumber" /></form:label>
-                        <form:input path="orderNumber"/>
-                        <form:errors path="orderNumber" cssClass="alert alert-error"/>
+
+                        <label><spring:message code="stop.orderNumber"/></label>
+                        <form:select path="orderOption">
+                            <form:option value="first"><spring:message code="label.first"/></form:option>
+                            <form:option value="after"><spring:message code="label.after"/></form:option>
+                            <form:option value="last"><spring:message code="label.last"/></form:option>
+                        </form:select>
+
+                        <form:select path="orderNumber">
+                            <form:options items="${stops}" />
+                        </form:select>
 
                         <spring:message code="control.edit" var="btnEdit"></spring:message>
                         <input type="submit" value="${btnEdit}"/>
