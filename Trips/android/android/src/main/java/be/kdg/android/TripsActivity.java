@@ -25,13 +25,16 @@ public class TripsActivity extends Activity {
 
         Log.v("TRIPS", "TripsActivity created");
 
-        initControls();
+        initSettings();
         checkLogin();
+        initControls();
+    }
+
+    private void initSettings() {
+        settings = getSharedPreferences(Constants.PREFS_NAME, 0);
     }
 
     private void initControls() {
-        settings = getSharedPreferences(Constants.PREFS_NAME, 0);
-
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         // actionBar.setDisplayShowTitleEnabled(false);

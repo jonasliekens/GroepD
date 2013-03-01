@@ -19,5 +19,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/login_password"
-            android:text="@string/login_submit"/>
+            android:text="@string/login_submit"
+            android:onClick="login"/>
 </RelativeLayout>
