@@ -1,7 +1,5 @@
 package be.kdg.web.restcontrollers;
 
-import be.kdg.backend.entities.Trip;
-import be.kdg.backend.entities.Trips;
 import be.kdg.backend.services.interfaces.TripService;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
