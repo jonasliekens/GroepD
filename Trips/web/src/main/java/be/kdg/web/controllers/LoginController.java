@@ -64,7 +64,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String register(ModelMap model, @ModelAttribute("registerForm") @Valid RegisterForm registerForm, BindingResult result, SessionStatus status) {
+    public String register(ModelMap model, @ModelAttribute("registerForm") @Valid RegisterForm registerForm, BindingResult result, SessionStatus status, HttpSession session) {
         model.addAttribute("loginForm", new LoginForm());
         if (result.hasErrors()) {
             return "login/index";
@@ -75,6 +75,7 @@ public class LoginController {
                 model.addAttribute("msg", "User already existed. You can login with your email and password.");
             } else {
                 model.addAttribute("msg", "User has been succesfully registered. You can now login with your provided email and password.");
+                session.setAttribute("userId", user.getId());
             }
             return "login/registercomplete";
         }
