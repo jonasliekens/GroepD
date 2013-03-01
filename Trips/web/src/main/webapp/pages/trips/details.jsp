@@ -107,10 +107,7 @@
                     <h5>
                         <spring:message code="trip.stops"/>
                     </h5>
-                    <c:forEach var="admin" items="${trip.admins}">
-                        ${admin.id} ${sessionScope.userId}
-                    </c:forEach>
-                    <c:if test="${trip.admins.contains(sessionScope.userId)}">
+                    <c:if test="${isAdmin}">
                         <a href="trips/${trip.id}/stops/add"><spring:message code="control.add"/></a>
                     </c:if>
 
@@ -176,7 +173,7 @@
                     <div id="map_canvas" data-trip-id="${trip.id}"></div>
                 </div>
                 <div class="span4">
-                    <div id="map_error" class="alert alert-error">NOG VERTALEN: Er zijn niet genoeg stopplaatsen om een route te berekenen</div>
+                    <div id="map_error" class="alert alert-error"><spring:message code="stop.name"/></div>
                     <div id="directionsPanel"></div>
                 </div>
             </div>

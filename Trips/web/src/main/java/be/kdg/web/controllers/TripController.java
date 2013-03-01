@@ -57,10 +57,21 @@ public class TripController {
     }
 
     @RequestMapping(value = "/details/{id}", method = RequestMethod.GET)
-    public String detail(@PathVariable Integer id, ModelMap model) {
-        model.addAttribute("trip", tripService.get(id));
+    public String detail(@PathVariable Integer id, ModelMap model, HttpSession session) {
+        Trip trip =   tripService.get(id);
+        model.addAttribute("trip", trip);
+        boolean isAdmin = false;
+        User user;
         model.addAttribute("stops", stopService.getStopsByTripId(id));
-
+        if (!(session.getAttribute("userId")==null)){
+            user = userService.get((Integer)session.getAttribute("userId"));
+            for (User u: trip.getAdmins()){
+                if (u.getId()== user.getId()){
+                    isAdmin = true;
+                }
+            }
+            model.addAttribute("isAdmin", isAdmin);
+        }
         return "trips/details";
     }
 
@@ -189,21 +200,22 @@ public class TripController {
     public String registerForTrip(@PathVariable Integer id) {
         return "trips/register";
     }
+
     @RequestMapping(value = "/register/{id}", method = RequestMethod.POST)
     public String register(@PathVariable Integer id, HttpSession session) {
         Trip trip = tripService.get(id);
-        User user = userService.get((Integer)session.getAttribute("userId"));
+        User user = userService.get((Integer) session.getAttribute("userId"));
         ParticipatedTrip participatedTrip = new ParticipatedTrip();
         //participatedTripService.add(participatedTrip);
         participatedTrip.setUser(user);
         participatedTrip.setTrip(trip);
         participatedTripService.add(participatedTrip);
-        return "redirect:/trips/details/"+id;
+        return "redirect:/trips/details/" + id;
     }
 
     @RequestMapping(value = "/registered", method = RequestMethod.GET)
     public String registeredTrips(ModelMap model, HttpSession session) {
-        model.addAttribute("user", userService.get((Integer)session.getAttribute("userId")));
+        model.addAttribute("user", userService.get((Integer) session.getAttribute("userId")));
         return "trips/registered";
     }
 }

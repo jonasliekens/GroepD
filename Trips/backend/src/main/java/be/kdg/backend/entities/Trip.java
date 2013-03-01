@@ -182,6 +182,7 @@ public class Trip {
     }
 
     public Set<User> getAdmins() {
+
         return admins;
     }
 

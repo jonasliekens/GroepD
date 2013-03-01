@@ -75,11 +75,4 @@ public class LoginTask extends AsyncTask<String, String, String> {
 
         return "null";
     }
-
-    @Override
-    protected void onPostExecute(String aString) {
-        Log.v("TRIPS", aString);
-    }
-
-
 }
