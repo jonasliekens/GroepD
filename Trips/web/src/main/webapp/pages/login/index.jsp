@@ -77,7 +77,9 @@
                                     "rest/login/facebook",
                                     response,
                                     function(data) {
-
+                                        if(data == "true"){
+                                            window.location = "trips/"
+                                        }
                                     }
                             );
                         });
