@@ -1,6 +1,8 @@
 package be.kdg.backend.entities;
 
 
+import be.kdg.backend.enums.TravelType;
+import be.kdg.backend.enums.TripType;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
@@ -41,7 +43,10 @@ public class Trip {
     private Boolean published;
 
     @Enumerated(EnumType.STRING)
-    private TripType type;
+    private TripType tripType;
+
+    @Enumerated(EnumType.STRING)
+    private TravelType travelType;
 
     @NotNull
     private Integer nrDays;
@@ -128,10 +133,6 @@ public class Trip {
         this.published = published;
     }
 
-    public void setType(TripType type) {
-        this.type = type;
-    }
-
     public void setNrDays(Integer nrDays) {
         this.nrDays = nrDays;
     }
@@ -150,10 +151,6 @@ public class Trip {
 
     public String getName() {
         return name;
-    }
-
-    public TripType getType() {
-        return type;
     }
 
     public Integer getNrDays() {
@@ -214,5 +211,21 @@ public class Trip {
 
     public void setCommunicationByLocation(boolean communicationByLocation) {
         this.communicationByLocation = communicationByLocation;
+    }
+
+    public TripType getTripType() {
+        return tripType;
+    }
+
+    public void setTripType(TripType tripType) {
+        this.tripType = tripType;
+    }
+
+    public TravelType getTravelType() {
+        return travelType;
+    }
+
+    public void setTravelType(TravelType travelType) {
+        this.travelType = travelType;
     }
 }
