@@ -65,6 +65,7 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:2.5" level="project" />
     <orderEntry type="library" name="Maven: aspectj:aspectjrt:1.5.3" level="project" />
     <orderEntry type="library" name="Maven: aspectj:aspectjweaver:1.5.3" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.jackson:jackson-core-asl:1.7.1" level="project" />
   </component>
 </module>
 
