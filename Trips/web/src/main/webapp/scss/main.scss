@@ -50,3 +50,7 @@
 	height: 450px;
 	@include prefix(box-shadow, 0 0 7px #333);
 }
+
+#map_error {
+	display: none;
+}

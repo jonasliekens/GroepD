@@ -108,7 +108,7 @@
                         <spring:message code="trip.stops"/>
                     </h5>
                     <c:if test="${isAdmin}">
-                        <a href="trips/${trip.id}/stops/add"><spring:message code="control.add"/></a>
+                        <a class="btn" href="trips/${trip.id}/stops/add"><spring:message code="control.add"/></a>
                     </c:if>
 
                     <table class="table table-striped">
@@ -164,7 +164,7 @@
                     </table>
 
                     <c:if test="${sessionScope.userId > 0}">
-                        <a href="trips/register/${trip.id}"><spring:message code="trip.register"/></a>
+                        <a class="btn" href="trips/register/${trip.id}"><spring:message code="trip.register"/></a>
                     </c:if>
                 </div>
             </div>
@@ -173,7 +173,7 @@
                     <div id="map_canvas" data-trip-id="${trip.id}"></div>
                 </div>
                 <div class="span4">
-                    <div id="map_error" class="alert alert-error"><spring:message code="stop.name"/></div>
+                    <div id="map_error" class="alert alert-error"><spring:message code="trip.notEnoughStops"/></div>
                     <div id="directionsPanel"></div>
                 </div>
             </div>

@@ -103,15 +103,17 @@ public class StopController {
     public String edit(@PathVariable Integer id, @PathVariable Integer stopid, ModelMap model) {
         Stop stop = stopService.get(stopid);
         StopForm stopForm = new StopForm();
+
         stopForm.setName(stop.getName());
         stopForm.setDescription(stop.getDescription());
         stopForm.setAccuracy(stop.getAccuracy());
         stopForm.setLatitude(stop.getLatitude());
         stopForm.setLongitude(stop.getLongitude());
 
+        // Make a key value pair for the dropdown
         HashMap<Integer, String> stops = new HashMap<Integer, String>();
-        for(Stop stop2 : tripService.get(id).getStops()){
-            stops.put(stop2.getOrderNumber(), stop2.getName());
+        for(Stop tempStop : stopService.getStopsByTripId(id)){
+            stops.put(tempStop.getOrderNumber(), tempStop.getName());
         }
         model.addAttribute("stops", stops);
 
@@ -133,23 +135,44 @@ public class StopController {
     @RequestMapping(value = "/trips/{id}/stops/edit/{stopid}", method = RequestMethod.POST)
     public String editTrip(@PathVariable Integer id, @PathVariable Integer stopid, @ModelAttribute("stopForm") StopForm stopForm, BindingResult result, SessionStatus status) {
         stopValidator.validate(stopForm, result);
+
         if (result.hasErrors()) {
             return "stops";
-        } else {
+        }
+
+        else {
             status.setComplete();
 
             Stop stop = stopService.get(stopid);
 
             stop.setName(stopForm.getName());
             stop.setDescription(stopForm.getDescription());
-            // On creation, a trip shouldn't be published
             stop.setLongitude(stopForm.getLongitude());
             stop.setLatitude(stopForm.getLatitude());
             stop.setAccuracy(stopForm.getAccuracy());
-            stop.setOrderNumber(stopForm.getOrderNumber());
+
+            // First position
+            if(stopForm.getOrderOption().equals("first")) {
+                stop.setOrderNumber(1);
+            }
+            // After
+            else if(stopForm.getOrderOption().equals("after")) {
+                if(stopForm.getOrderNumber() < stop.getOrderNumber()) {
+                    stop.setOrderNumber(stopForm.getOrderNumber() + 1);
+                }
+
+                else {
+                    stop.setOrderNumber(stopForm.getOrderNumber());
+                }
+            }
+            // Last position
+            else {
+                stop.setOrderNumber(stopService.getStopsByTripId(id).size());
+            }
+
             stopService.update(stop, id);
 
-            return "redirect:/trips/details/"+id;
+            return "redirect:/trips/details/" + id;
         }
     }
 

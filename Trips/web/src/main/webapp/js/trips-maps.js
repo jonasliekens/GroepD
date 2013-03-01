@@ -15,6 +15,7 @@
 	 *	jQuery objects
 	 */
 		$mapCanvas,
+		$mapError,
 
 
 
@@ -23,6 +24,7 @@
 	 */
 		initialize	= function() {
 			$mapCanvas = $("#map_canvas");
+			$mapError = $("#map_error");
 
 			map = new google.maps.Map(
 				$mapCanvas.get(0),
@@ -36,40 +38,13 @@
 			directionsDisplay.setMap(map);
 			directionsDisplay.setPanel($("#directionsPanel").get(0));
 
-			//$.getJSON("rest/trip/" + $mapCanvas.data("trip-id") + "/stops", calculateRoute);
-
-			calculateRoute([
-				{
-					"id"			: 1,
-					"name"			: "Some blah blah stop",
-					"description"	: "Some description",
-					"latitude"		: 51.2192159,
-					"longitude"		: 4.4028818,
-					"accuracy"		: 5,
-					"orderNumber"	: 1
-				},
-				{
-					"id"			: 2,
-					"name"			: "Some blah blah stop 2",
-					"description"	: "Some description 2",
-					"latitude"		: 51.2192159,
-					"longitude"		: 5.4028818,
-					"accuracy"		: 5,
-					"orderNumber"	: 2
-				},
-				{
-					"id"			: 3,
-					"name"			: "Some blah blah stop 3",
-					"description"	: "Some description 3",
-					"latitude"		: 50.2192159,
-					"longitude"		: 5.4028818,
-					"accuracy"		: 5,
-					"orderNumber"	: 2
-				}
-			]);
+			console.log("rest/trips/" + $mapCanvas.data("trip-id") + "/stops");
+			$.getJSON("rest/trips/" + $mapCanvas.data("trip-id") + "/stops", calculateRoute);
 		},
 
 		calculateRoute	= function(stops) {
+			$mapError.toggle(stops.length < 2);
+
 			// Don't try to calculate a route when there are less than 2 stops
 			if(stops.length < 2) {
 				return false;
@@ -83,7 +58,6 @@
 			// Loop through the stops in between and make waypoints of them
 			for(var key in stops) {
 				otherStops.push({
-// LATLNG CAUSES ZERO RESULTS
 					location	: new google.maps.LatLng(stops[key].latitude, stops[key].longitude),
 					stopover	: true
 				});
@@ -101,6 +75,8 @@
 					if(status === google.maps.DirectionsStatus.OK) {
 						directionsDisplay.setDirections(response);
 					}
+
+					console.log(status);
 				}
 			);
 		};

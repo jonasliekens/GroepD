@@ -36,7 +36,6 @@ public class StopServiceImpl implements StopService {
         entity.setTrip(trip);
         trip.addStop(entity);
         tripDao.update(trip);
-
     }
 
     @Override
@@ -58,14 +57,19 @@ public class StopServiceImpl implements StopService {
     }
 
     private void fixOrderNumbers(Stop entity, Integer tripId) {
-        List<Stop> orderedStops = stopDao.findAllByTripId(tripId);
-        boolean isDouble = false;
-        for(Stop stop : orderedStops){
-            if(stop.getOrderNumber() == entity.getOrderNumber()){
-                isDouble = true;
+        int position = entity.getOrderNumber(),
+            i = 1;
+
+        // Get all the stops for this trip in the right order and loop
+        for(Stop stop : stopDao.findAllByTripId(tripId)) {
+            // If the position of the counter is the same as the new position of the given entity, skip the spot to keep it free
+            if(i == position) {
+                i++;
             }
-            if(isDouble){
-                stop.setOrderNumber(stop.getOrderNumber()+1);
+
+            // Ignore the stop that is being edited because it will be put in the empty spot and otherwise the position generated here will be empty
+            if(stop.getId() != entity.getId()) {
+                stop.setOrderNumber(i++);
                 stopDao.update(stop);
             }
         }

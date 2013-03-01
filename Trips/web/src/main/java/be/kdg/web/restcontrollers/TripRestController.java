@@ -1,17 +1,14 @@
 package be.kdg.web.restcontrollers;
 
+import be.kdg.backend.services.interfaces.StopService;
 import be.kdg.backend.services.interfaces.TripService;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * User: Bart Verhavert
@@ -24,6 +21,10 @@ public class TripRestController {
     @Qualifier("tripService")
     TripService tripService;
 
+    @Autowired
+    @Qualifier("stopService")
+    StopService stopService;
+
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public String list() {
@@ -35,5 +36,18 @@ public class TripRestController {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         return "";
+    }
+
+    @RequestMapping(value = "/{id}/stops", method = RequestMethod.GET)
+    @ResponseBody
+    public String getStops(@PathVariable Integer id) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            return objectMapper.writeValueAsString(stopService.getStopsByTripId(id));
+        } catch (IOException e) {
+            return "[]";
+        }
     }
 }
