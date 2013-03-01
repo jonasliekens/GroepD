@@ -3,7 +3,11 @@ package dao;
 import be.kdg.backend.dao.interfaces.ParticipatedTripDao;
 import be.kdg.backend.dao.interfaces.TripDao;
 import be.kdg.backend.dao.interfaces.UserDao;
-import be.kdg.backend.entities.*;
+import be.kdg.backend.entities.ParticipatedTrip;
+import be.kdg.backend.entities.Stop;
+import be.kdg.backend.entities.Trip;
+import be.kdg.backend.entities.User;
+import be.kdg.backend.enums.TripType;
 import be.kdg.backend.utilities.StopComparator;
 import be.kdg.backend.utilities.Utilities;
 import org.junit.After;
@@ -16,7 +20,7 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created with IntelliJ IDEA 12.
