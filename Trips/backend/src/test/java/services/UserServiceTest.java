@@ -1,6 +1,7 @@
 package services;
 
 import be.kdg.backend.entities.User;
+import be.kdg.backend.exceptions.DataNotFoundException;
 import be.kdg.backend.exceptions.LoginInvalidException;
 import be.kdg.backend.services.interfaces.UserService;
 import be.kdg.backend.utilities.Utilities;
@@ -68,20 +69,20 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests {
     }
 
     @Test
-    public void checkFacebookLoginAfterMerge(){
+    public void checkFacebookLoginAfterMerge() throws DataNotFoundException, LoginInvalidException {
         User user = new User("soulscammer@gmail.com", "test", "Jonas", "Liekens", Utilities.makeDate("04/08/1991"));
         userService.addUser(user);
         user = userService.findUserByEMail(user.getEmail());
         userService.mergeUserWithFacebook(user.getId(), "100000420715358");
-        Assert.assertTrue(userService.checkLoginWithFacebook("100000420715358"));
+        Assert.assertNotNull(userService.checkLoginWithFacebook("100000420715358"));
     }
 
-    @Test
-    public void deleteUser(){
+    @Test(expected = DataNotFoundException.class)
+    public void deleteUser() throws DataNotFoundException {
         User user = new User("soulscammer@gmail.com", "test", "Jonas", "Liekens", Utilities.makeDate("04/08/1991"));
         userService.addUser(user);
         userService.remove(user);
-        Assert.assertTrue(userService.findUserByEMail(user.getEmail()) == null);
+        userService.findUserByEMail(user.getEmail());
     }
 
     @Test

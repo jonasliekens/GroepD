@@ -2,12 +2,12 @@ package be.kdg.backend.services.impl;
 
 import be.kdg.backend.dao.interfaces.UserDao;
 import be.kdg.backend.entities.User;
+import be.kdg.backend.exceptions.DataNotFoundException;
 import be.kdg.backend.exceptions.LoginInvalidException;
 import be.kdg.backend.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
 import java.util.List;
@@ -74,15 +74,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean checkLoginWithFacebook(String facebookId) {
+    public Integer checkLoginWithFacebook(String facebookId) throws LoginInvalidException{
         try {
-            if (userDao.findByFacebookId(facebookId) != null) {
-                return true;
-            } else {
-                return false;
-            }
+            User user = userDao.findByFacebookId(facebookId);
+            return user.getId();
         } catch (NoResultException e) {
-            return false;
+            throw new LoginInvalidException();
         }
     }
 
@@ -101,11 +98,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByEMail(String eMail) {
+    public User findUserByEMail(String eMail) throws DataNotFoundException {
         try{
             return userDao.findByEMail(eMail);
         }catch (NoResultException e){
-            return null;//Todo: geen null returne
+            throw new DataNotFoundException();
         }
     }
 
