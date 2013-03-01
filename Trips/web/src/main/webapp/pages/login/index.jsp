@@ -73,7 +73,6 @@
 
                     function getData(){
                         FB.api("/me?fields=id,first_name,last_name,birthday,email", function(response){
-                            alert('Welcome, ' + response.first_name + ' ' + response.last_name);
                             $.post(
                                     "rest/login/facebook",
                                     response,
@@ -81,7 +80,6 @@
 
                                     }
                             );
-                            alert("You are logged in now.")
                         });
                     }
                 </script>
