@@ -67,6 +67,13 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <c:if test="${fn:length(trips) == 0}">
+                                <tr>
+                                    <td class="no-records" colspan="6">
+                                        <spring:message code="trip.noTrips" />
+                                    </td>
+                                </tr>
+                            </c:if>
                             <c:forEach var="trip" items="${trips}" varStatus="loop">
                                 <tr>
                                     <td>

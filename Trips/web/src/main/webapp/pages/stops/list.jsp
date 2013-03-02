@@ -58,7 +58,13 @@
                             </tr>
                         </thead>
                         <tbody>
-
+                            <c:if test="${fn:length(stops) == 0}">
+                                <tr>
+                                    <td class="no-records" colspan="3">
+                                        <spring:message code="stop.noStops" />
+                                    </td>
+                                </tr>
+                            </c:if>
                             <c:forEach var="stop" items="${stops}">
                                 <tr>
                                     <td>

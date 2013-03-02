@@ -13,7 +13,6 @@
 }
 
 #main-menu {
-    margin-bottom: 20px;
     margin-left: 0;
     list-style: none;
 
@@ -53,4 +52,9 @@
 
 #map_error {
 	display: none;
+}
+
+td.no-records {
+    text-align: center;
+    color: $disabledTextColor;
 }
