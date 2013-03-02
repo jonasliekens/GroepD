@@ -34,7 +34,7 @@ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.spri
     <!-- Login Interceptor -->
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/web/*" />
+            <mvc:mapping path="/trips/*" />
             <bean class="be.kdg.web.interceptors.AuthenticationInterceptor" />
         </mvc:interceptor>
     </mvc:interceptors>
