@@ -95,8 +95,8 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJXL1bwZ0C3Hdus-DOgbxOGedijvCRpPc&sensor=true"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJXL1bwZ0C3Hdus-DOgbxOGedijvCRpPc&sensor=true&language=${pageContext.response.locale}"></script>
 
-    <script src="js/add-stop-maps.min.js"></script>
+    <script src="js/maps.stop.min.js"></script>
 </body>
 </html>

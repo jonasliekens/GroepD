@@ -1,13 +1,5 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <section id="header_section">
     <div class="container">
-        <div class="row-fluid">
-            <div class="span12">
-                <!--${pageContext.response.locale}-->
-                <a href="?lang=en">English</a> |
-                <a href="?lang=nl">Nederlands</a>
-            </div>
-        </div>
         <div class="row-fluid">
             <div class="span12">
                 <ul class="menu" id="main-menu">
@@ -21,13 +13,11 @@
                         <c:choose>
                             <c:when test="${sessionScope.userId > 0}">
                                 <a href="login/logout"><spring:message code="menu.logout"/></a>
-
                             </c:when>
                             <c:otherwise>
                                 <a href="login"><spring:message code="menu.login"/></a>
                             </c:otherwise>
                         </c:choose>
-
                     </li>
                 </ul>
             </div>

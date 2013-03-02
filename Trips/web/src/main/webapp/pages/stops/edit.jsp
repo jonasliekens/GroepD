@@ -11,7 +11,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-    <title>Edit a Trip</title>
+    <title>Edit a stop</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="description" content="">
@@ -26,8 +26,8 @@
     <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 </head>
 <body>
-<%@include file="../../template/header.jsp" %>
-<section>
+    <%@include file="../../template/header.jsp" %>
+
     <section>
         <div class="container">
             <div class="row-fluid">
@@ -41,10 +41,10 @@
                         <form:input path="description"/>
                         <form:errors path="description" cssClass="alert alert-error"/>
                         <form:label path="latitude"><spring:message code="stop.latitude" /></form:label>
-                        <form:input path="latitude"/>
+                        <form:input id="latitude" path="latitude"/>
                         <form:errors path="latitude" cssClass="alert alert-error"/>
                         <form:label path="longitude"><spring:message code="stop.longitude" /></form:label>
-                        <form:input path="longitude"/>
+                        <form:input id="longitude" path="longitude"/>
                         <form:errors path="longitude" cssClass="alert alert-error"/>
                         <form:label path="accuracy"><spring:message code="stop.accuracy" /></form:label>
                         <form:input path="accuracy"/>
@@ -66,8 +66,24 @@
                     </form:form>
                 </div>
             </div>
+            <div class="row-fluid">
+                <div class="span12">
+                    <div id="map_canvas" data-mode="edit"></div>
+                </div>
+            </div>
         </div>
     </section>
-</section>
+
+
+    <%@include file="../../template/footer.jsp" %>
+
+
+    <!-- The JavaScript files -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJXL1bwZ0C3Hdus-DOgbxOGedijvCRpPc&sensor=true&language=${pageContext.response.locale}"></script>
+
+    <script src="js/maps.stop.min.js"></script>
 </body>
 </html>

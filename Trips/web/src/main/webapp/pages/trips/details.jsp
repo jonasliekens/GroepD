@@ -42,6 +42,15 @@
     <%@include file="../../template/header.jsp" %>
 
 
+    <section id="trip-banner">
+        <div class="container">
+            <div class="row-fluid">
+                <div class="span12">
+                    <img src="http://lorempixel.com/1170/200/nature/" alt="The banner for this trip" />
+                </div>
+            </div>
+        </div>
+    </section>
     <section>
         <div class="container">
             <div class="row-fluid">
@@ -189,8 +198,8 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJXL1bwZ0C3Hdus-DOgbxOGedijvCRpPc&sensor=true"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJXL1bwZ0C3Hdus-DOgbxOGedijvCRpPc&sensor=true&language=${pageContext.response.locale}"></script>
 
-    <script src="js/trips-maps.min.js"></script>
+    <script src="js/maps.trip.min.js"></script>
 </body>
 </html>

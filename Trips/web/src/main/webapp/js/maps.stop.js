@@ -23,16 +23,25 @@
 			$inputLatitude = $("#latitude");
 			$inputLongitude = $("#longitude");
 
+			var editMode = $mapCanvas.data("mode") === "edit",
+				mapsCenter = editMode ? new google.maps.LatLng($inputLatitude.val(), $inputLongitude.val()) : new google.maps.LatLng(51.2192159, 4.4028818);
+
 			map = new google.maps.Map(
 				$mapCanvas.get(0),
 				{
-					center:				new google.maps.LatLng(51.2192159, 4.4028818),
+					center:				mapsCenter,
 					zoom:				9,
 					mapTypeId:			google.maps.MapTypeId.ROADMAP
 				}
 			);
 
 			google.maps.event.addListener(map, "click", mapClicked);
+
+			if(editMode) {
+				google.maps.event.trigger(map, "click", {
+					latLng:	mapsCenter
+				});
+			}
 		},
 
 		showMarkerPosition	= function(latLng) {
