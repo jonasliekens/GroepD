@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Nederlandse strings -->
 <resources>
+    <!-- App -->
     <string name="app_name">Trips</string>
-
     <string name="trips_name">Trips</string>
     <string name="alltrips_name">Alle Trips</string>
     <string name="mytrips_name">Mijn Trips</string>
     <string name="chat_name">Chat</string>
 
+    <!-- Common -->
+    <string name="network_noconnection">Geen internetverbinding gevonden. Gelieve Wi-Fi of een andere dataverbinding in te schakelen.</string>
+
     <!-- Login -->
     <string name="login_username">Gebruikersnaam</string>
     <string name="login_password">Wachtwoord</string>
     <string name="login_submit">Inloggen</string>
+    <string name="login_logout">Uitloggen</string>
+    <string name="login_error">Kon niet inloggen. De gebruikersnaam was niet gevonden of het wachtwoord was fout. Probeer opnieuw.</string>
 </resources>

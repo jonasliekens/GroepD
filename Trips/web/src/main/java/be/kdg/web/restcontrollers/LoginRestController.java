@@ -27,6 +27,7 @@ public class LoginRestController {
     private UserService userService;
 
     @RequestMapping(method = RequestMethod.POST)
+    @ResponseBody
     public String doLogin(@RequestParam String username, @RequestParam String password) {
         try {
             userService.checkLogin(username, password);

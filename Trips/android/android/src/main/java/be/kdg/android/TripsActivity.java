@@ -5,11 +5,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 import be.kdg.android.fragments.AllTripsFragment;
 import be.kdg.android.fragments.ChatFragment;
 import be.kdg.android.fragments.MyTripsFragment;
 import be.kdg.android.login.LoginActivity;
-import be.kdg.android.utilities.Constants;
+import be.kdg.android.utilities.Utilities;
 import de.akquinet.android.androlog.Log;
 
 /**
@@ -18,6 +22,7 @@ import de.akquinet.android.androlog.Log;
  */
 public class TripsActivity extends Activity {
     private SharedPreferences settings;
+    private SharedPreferences.Editor settingsEditor;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,10 +33,33 @@ public class TripsActivity extends Activity {
         initSettings();
         checkLogin();
         initControls();
+
+        if (!Utilities.isOnline(this.getApplicationContext())) {
+            Toast.makeText(this, R.string.network_noconnection, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void initSettings() {
-        settings = getSharedPreferences(Constants.PREFS_NAME, 0);
+        settings = getSharedPreferences(Utilities.PREFS_NAME, 0);
+        settingsEditor = settings.edit();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.menu_logout:
+                logout();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void initControls() {
@@ -65,16 +93,23 @@ public class TripsActivity extends Activity {
         boolean loggedIn = settings.getBoolean("loggedIn", false);
         if (!loggedIn) {
             Intent intent = new Intent(this, LoginActivity.class);
-            startActivityForResult(intent, Constants.LOGIN_REQUEST);
+            startActivityForResult(intent, Utilities.LOGIN_REQUEST);
         }
+    }
+
+    private void logout() {
+        settingsEditor.putBoolean("loggedIn", false);
+        settingsEditor.commit();
+        checkLogin();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK && requestCode == Constants.LOGIN_REQUEST) {
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putBoolean("loggedIn", true);
-            editor.commit();
+        if (resultCode == Activity.RESULT_OK && requestCode == Utilities.LOGIN_REQUEST) {
+            settingsEditor.putBoolean("loggedIn", true);
+            settingsEditor.commit();
+        } else {
+            finish();
         }
     }
 }

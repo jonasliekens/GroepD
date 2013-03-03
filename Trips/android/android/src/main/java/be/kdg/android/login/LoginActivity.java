@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import be.kdg.android.R;
+import be.kdg.android.utilities.Utilities;
 import de.akquinet.android.androlog.Log;
 
 import java.util.concurrent.ExecutionException;
@@ -24,9 +25,11 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        Log.v("TRIPS", "LoginActivity created");
-
         initControls();
+
+        if (!Utilities.isOnline(this.getApplicationContext())) {
+            Toast.makeText(this, R.string.network_noconnection, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void initControls() {
@@ -36,30 +39,38 @@ public class LoginActivity extends Activity {
     }
 
     public void login(View view) {
-        String username = txtUsername.getText().toString();
-        String password = txtPassword.getText().toString();
+        if (Utilities.isOnline(this.getApplicationContext())) {
+            String username = txtUsername.getText().toString();
+            String password = txtPassword.getText().toString();
 
-        String[] params = new String[2];
-        params[0] = username;
-        params[1] = password;
+            String[] params = new String[2];
+            params[0] = username;
+            params[1] = password;
 
-        LoginTask login = new LoginTask();
-        login.execute(params);
+            LoginTask login = new LoginTask();
+            login.execute(params);
 
-        try {
-            String result = login.get();
-            if (result.equals("true")) {
-                setResult(RESULT_OK);
+            try {
+                String result = login.get();
+                if (result.equals("true")) {
+                    setResult(RESULT_OK);
+                    finish();
+                } else {
+                    Toast.makeText(this, R.string.login_error, Toast.LENGTH_LONG).show();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (ExecutionException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (ExecutionException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } else {
+            Toast.makeText(this, R.string.network_noconnection, Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     public void onBackPressed() {
         setResult(RESULT_CANCELED);
+        finish();
     }
 }

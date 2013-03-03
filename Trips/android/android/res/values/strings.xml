@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Engelse strings -->
 <resources>
+    <!-- App -->
     <string name="app_name">Trips</string>
-
     <string name="trips_name">Trips</string>
     <string name="alltrips_name">All Trips</string>
     <string name="mytrips_name">My Trips</string>
     <string name="chat_name">Chat</string>
 
+    <!-- Common -->
+    <string name="network_noconnection">No Internet connection found. Please enable Wi-Fi or another data connection.</string>
+
     <!-- Login -->
     <string name="login_username">Username</string>
     <string name="login_password">Password</string>
-    <string name="login_submit">Login</string>
+    <string name="login_submit">Log in</string>
+    <string name="login_logout">Log out</string>
+    <string name="login_error">Could not log in. The username was not found or the password was wrong. Try again.</string>
 </resources>
