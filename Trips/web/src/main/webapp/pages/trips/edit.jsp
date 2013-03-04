@@ -27,8 +27,8 @@
 </head>
 <body>
 <%@include file="../../template/header.jsp" %>
-<section>
-    <section>
+
+    <section id="content">
         <div class="container">
             <div class="row-fluid">
                 <div class="span12">
@@ -67,6 +67,6 @@
             </div>
         </div>
     </section>
-</section>
+
 </body>
 </html>

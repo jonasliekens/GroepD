@@ -52,8 +52,9 @@
                     <div class="loginForm">
                         <h3><spring:message code="register.loginTitle"/></h3>
 
-                        <form:form cssClass="form-horizontal" action="login/checkLogin" method="post" modelAttribute="loginForm">
+                        <form:form cssClass="form-horizontal" method="post" modelAttribute="loginForm">
                             <form:errors cssClass="text-error" />
+
                             <div class="control-group">
                                 <form:label path="email" cssClass="control-label">${lblEmail}</form:label>
                                 <div class="controls">
@@ -74,6 +75,8 @@
                                 </div>
                             </div>
                         </form:form>
+
+                        <fb:login-button show-faces="true" width="200" max-rows="1" onlogin="getData()"></fb:login-button>
                     </div>
                 </div>
                 <div class="span6">
@@ -127,7 +130,6 @@
                                 </div>
                             </div>
                         </form:form>
-                        <fb:login-button show-faces="true" width="200" max-rows="1" onlogin="getData()"></fb:login-button>
                     </div>
                 </div>
             </div>

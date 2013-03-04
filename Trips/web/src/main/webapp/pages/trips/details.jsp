@@ -41,167 +41,168 @@
 
     <%@include file="../../template/header.jsp" %>
 
-
-    <section id="trip-banner">
-        <div class="container">
-            <div class="row-fluid">
-                <div class="span12">
-                    <img src="http://lorempixel.com/1170/200/nature/" alt="The banner for this trip" />
+    <section id="content">
+        <section id="trip-banner">
+            <div class="container">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <img src="http://lorempixel.com/1170/200/nature/" alt="The banner for this trip" />
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <section>
-        <div class="container">
-            <div class="row-fluid">
-                <div class="span12">
-                    <c:if test="${isAdmin}"><a class="btn" href="trips/participants/${trip.id}"><spring:message code="trip.showParticipants"/></a></c:if>
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>
-                                <spring:message code="trip.name"/>
-                            </th>
-                            <th>
-                                <spring:message code="trip.private"/>
-                            </th>
-                            <th>
-                                <spring:message code="trip.start"/>
-                            </th>
-                            <th>
-                                <spring:message code="trip.end"/>
-                            </th>
-                            <th>
-                                <spring:message code="trip.numberOfStops"/>
-                            </th>
-                            <th>
-                                <spring:message code="trip.participants"/>
-                            </th>
-                            <th>
-                                <!--Controls-->
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>
-                                ${trip.name}
-                            </td>
-                            <td>
-                                <c:if test="${trip.privateTrip == true}">
-                                    <spring:message code="common.yes"/>
-                                </c:if>
-                                <c:if test="${trip.privateTrip == false}">
-                                    <spring:message code="common.no"/>
-                                </c:if>
-                            </td>
-                            <td>
-                                <c:if test="${fn:length(stops) == 0}">
-                                    ${stops.get(0).latitude}, ${stops.get(0).longitude}
-                                </c:if>
-
-                            </td>
-                            <td>
-                                <c:if test="${fn:length(stops) == 0}">
-                                    ${stops.get(fn:length(trip.stops)-1).latitude}, ${stops.get(fn:length(trip.stops)-1).longitude}
-                                </c:if>
-
-                            </td>
-                            <td>
-                                ${fn:length(trip.stops)}
-                            </td>
-                            <td>
-                                ${fn:length(trip.participatedTrips)}
-                            </td>
-                            <td>
-                                <a href="trips/edit/${trip.id}"><spring:message code="control.edit"/></a>
-                                <a href="trips/delete/${trip.id}"><spring:message code="control.delete"/></a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <h5>
-                        <spring:message code="trip.stops"/>
-                    </h5>
-                    <c:if test="${isAdmin}">
-                        <a class="btn" href="trips/${trip.id}/stops/add"><spring:message code="control.add"/></a>
-                    </c:if>
-
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>
-                                <spring:message code="stop.name"/>
-                            </th>
-                            <th>
-                                <spring:message code="stop.orderNumber"/>
-                            </th>
-                            <th>
-                                <spring:message code="stop.description"/>
-                            </th>
-                            <th>
-                                <spring:message code="stop.latitude"/>
-                            </th>
-                            <th>
-                                <spring:message code="stop.longitude"/>
-                            </th>
-                            <th>
-                                <!--Controls-->
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:if test="${fn:length(stops) == 0}">
+        </section>
+        <section>
+            <div class="container">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <c:if test="${isAdmin}"><a class="btn" href="trips/participants/${trip.id}"><spring:message code="trip.showParticipants"/></a></c:if>
+                        <table class="table table-striped">
+                            <thead>
                             <tr>
-                                <td class="text-center muted" colspan="6">
-                                    <spring:message code="stop.noStops" />
+                                <th>
+                                    <spring:message code="trip.name"/>
+                                </th>
+                                <th>
+                                    <spring:message code="trip.private"/>
+                                </th>
+                                <th>
+                                    <spring:message code="trip.start"/>
+                                </th>
+                                <th>
+                                    <spring:message code="trip.end"/>
+                                </th>
+                                <th>
+                                    <spring:message code="trip.numberOfStops"/>
+                                </th>
+                                <th>
+                                    <spring:message code="trip.participants"/>
+                                </th>
+                                <th>
+                                    <!--Controls-->
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    ${trip.name}
+                                </td>
+                                <td>
+                                    <c:if test="${trip.privateTrip == true}">
+                                        <spring:message code="common.yes"/>
+                                    </c:if>
+                                    <c:if test="${trip.privateTrip == false}">
+                                        <spring:message code="common.no"/>
+                                    </c:if>
+                                </td>
+                                <td>
+                                    <c:if test="${fn:length(stops) == 0}">
+                                        ${stops.get(0).latitude}, ${stops.get(0).longitude}
+                                    </c:if>
+
+                                </td>
+                                <td>
+                                    <c:if test="${fn:length(stops) == 0}">
+                                        ${stops.get(fn:length(trip.stops)-1).latitude}, ${stops.get(fn:length(trip.stops)-1).longitude}
+                                    </c:if>
+
+                                </td>
+                                <td>
+                                    ${fn:length(trip.stops)}
+                                </td>
+                                <td>
+                                    ${fn:length(trip.participatedTrips)}
+                                </td>
+                                <td>
+                                    <a href="trips/edit/${trip.id}"><spring:message code="control.edit"/></a>
+                                    <a href="trips/delete/${trip.id}"><spring:message code="control.delete"/></a>
                                 </td>
                             </tr>
+                            </tbody>
+                        </table>
+                        <h5>
+                            <spring:message code="trip.stops"/>
+                        </h5>
+                        <c:if test="${isAdmin}">
+                            <a class="btn" href="trips/${trip.id}/stops/add"><spring:message code="control.add"/></a>
                         </c:if>
-                        <c:forEach var="stop" items="${stops}" varStatus="loop">
+
+                        <table class="table table-striped">
+                            <thead>
                             <tr>
-                                <td>
-                                    <a href="trips/${trip.id}/stops/details/${stop.id}">${stop.name}</a>
-                                </td>
-                                <td>
-                                        ${stop.orderNumber}
-                                </td>
-                                <td>
-                                        ${stop.description}
-                                </td>
-                                <td>
-                                        ${stop.latitude}
-                                </td>
-                                <td>
-                                        ${stop.longitude}
-                                </td>
-                                <td>
-                                    <a href="trips/${trip.id}/stops/edit/${stop.id}"><spring:message
-                                            code="control.edit"/></a>
-                                    <a href="trips/${trip.id}/stops/delete/${stop.id}"><spring:message
-                                            code="control.delete"/></a>
-                                </td>
+                                <th>
+                                    <spring:message code="stop.name"/>
+                                </th>
+                                <th>
+                                    <spring:message code="stop.orderNumber"/>
+                                </th>
+                                <th>
+                                    <spring:message code="stop.description"/>
+                                </th>
+                                <th>
+                                    <spring:message code="stop.latitude"/>
+                                </th>
+                                <th>
+                                    <spring:message code="stop.longitude"/>
+                                </th>
+                                <th>
+                                    <!--Controls-->
+                                </th>
                             </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            <c:if test="${fn:length(stops) == 0}">
+                                <tr>
+                                    <td class="text-center muted" colspan="6">
+                                        <spring:message code="stop.noStops" />
+                                    </td>
+                                </tr>
+                            </c:if>
+                            <c:forEach var="stop" items="${stops}" varStatus="loop">
+                                <tr>
+                                    <td>
+                                        <a href="trips/${trip.id}/stops/details/${stop.id}">${stop.name}</a>
+                                    </td>
+                                    <td>
+                                            ${stop.orderNumber}
+                                    </td>
+                                    <td>
+                                            ${stop.description}
+                                    </td>
+                                    <td>
+                                            ${stop.latitude}
+                                    </td>
+                                    <td>
+                                            ${stop.longitude}
+                                    </td>
+                                    <td>
+                                        <a href="trips/${trip.id}/stops/edit/${stop.id}"><spring:message
+                                                code="control.edit"/></a>
+                                        <a href="trips/${trip.id}/stops/delete/${stop.id}"><spring:message
+                                                code="control.delete"/></a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
 
-                    <c:if test="${sessionScope.userId > 0}">
-                        <a class="btn" href="trips/register/${trip.id}"><spring:message code="trip.register"/></a>
-                    </c:if>
+                        <c:if test="${sessionScope.userId > 0}">
+                            <a class="btn" href="trips/register/${trip.id}"><spring:message code="trip.register"/></a>
+                        </c:if>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span8">
+                        <div id="map_canvas" data-trip-id="${trip.id}"></div>
+                    </div>
+                    <div class="span4">
+                        <div id="map_error" class="alert alert-error"><spring:message code="trip.notEnoughStops"/></div>
+                        <div id="directionsPanel"></div>
+                    </div>
                 </div>
             </div>
-            <div class="row-fluid">
-                <div class="span8">
-                    <div id="map_canvas" data-trip-id="${trip.id}"></div>
-                </div>
-                <div class="span4">
-                    <div id="map_error" class="alert alert-error"><spring:message code="trip.notEnoughStops"/></div>
-                    <div id="directionsPanel"></div>
-                </div>
-            </div>
-        </div>
 
+        </section>
     </section>
 
 

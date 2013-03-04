@@ -51,8 +51,9 @@
                     </script>
                     <spring:message code="message.logout" />
                     <form method="post">
-                        <input type="submit" value="Yes" onclick="logout()">
-                        <button onclick="goToTrips()" type="button">No</button>
+                        <spring:message code="common.yes" var="btnYes" />
+                        <input type="submit" value="${btnYes}" onclick="logout()">
+                        <button onclick="goToTrips()" type="button"><spring:message code="common.no" /></button>
                     </form>
                 </div>
             </div>

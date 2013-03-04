@@ -12,6 +12,7 @@
                         <a href="${page}?lang=nl">Nederlands</a>
                     </li>
                 </ul>
+                <!--${page}-->
                 <!--${pageContext.response.locale}-->
             </div>
         </div>

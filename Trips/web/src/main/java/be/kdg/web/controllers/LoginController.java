@@ -35,75 +35,72 @@ public class LoginController {
     public String showPage(ModelMap model) {
         RegisterForm registerForm = new RegisterForm();
         LoginForm loginForm = new LoginForm();
+
         model.addAttribute("registerForm", registerForm);
         model.addAttribute("loginForm", loginForm);
+
         return "login/index";
     }
 
-    @RequestMapping(value = "/checkLogin", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public String checkLogin(ModelMap model, @ModelAttribute("loginForm") @Valid LoginForm loginForm, BindingResult result, SessionStatus status, HttpSession session) {
-        model.addAttribute("registerForm", new RegisterForm());
         try {
             if (!result.hasErrors()) {
+                // Throws LoginInvalidException when user not found
                 User user = userService.checkLogin(loginForm.getEmail(), loginForm.getPassword());
                 session.setAttribute("userId", user.getId());
-                //Redirect to loginWin? Why not /trips/list?
-                //return "login/loginWin";
+
                 return "redirect:/trips/";
             } else {
-                return returnToLoginIndex(result);
+                return returnToLoginIndex(model, result);
             }
         } catch (LoginInvalidException e) {
-            return returnToLoginIndex(result);
+            return returnToLoginIndex(model, result);
         }
     }
 
-    private String returnToLoginIndex(BindingResult result) {
+    private String returnToLoginIndex(ModelMap model, BindingResult result) {
+        model.addAttribute("registerForm", new RegisterForm());
         result.addError(new ObjectError("email", "Email or password invalid."));
+
         return "login/index";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String register(ModelMap model, @ModelAttribute("registerForm") @Valid RegisterForm registerForm, BindingResult result, SessionStatus status, HttpSession session) {
-        model.addAttribute("loginForm", new LoginForm());
         if (result.hasErrors()) {
+            model.addAttribute("loginForm", new LoginForm());
+
             return "login/index";
         } else {
             User user = new User(registerForm.getEmail(), registerForm.getPassword(), registerForm.getFirstname(), registerForm.getLastname(), registerForm.getBirthday());
             boolean userExisted = userService.addUser(user);
+
             if (userExisted) {
                 model.addAttribute("msg", "User already existed. You can login with your email and password.");
             } else {
                 model.addAttribute("msg", "User has been succesfully registered. You can now login with your provided email and password.");
                 session.setAttribute("userId", user.getId());
             }
+
             return "login/registercomplete";
         }
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String goToLogin() {
-        return doRedirect();
-    }
-
-    @RequestMapping(value = "/checklogin", method = RequestMethod.GET)
-    public String redirectFromCheckLogin() {
-        return doRedirect();
+        return "redirect:/login";
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logOut() {
-
         return "login/logout";
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public String logOut(HttpSession session) {
         session.removeAttribute("userId");
-        return "redirect:/";
-    }
 
-    private String doRedirect() {
-        return "redirect:/login";
+        return "redirect:/";
     }
 }
