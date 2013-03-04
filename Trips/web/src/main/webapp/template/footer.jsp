@@ -1,13 +1,15 @@
-<section id="footer_section">
+<c:set var="page" value="${requestScope['javax.servlet.forward.request_uri']}" />
+
+<section id="footer-section">
     <div class="container">
         <div class="row-fluid">
             <div class="span12">
                 <ul>
                     <li>
-                        <a href="?lang=en">English</a>
+                        <a href="${page}?lang=en">English</a>
                     </li>
                     <li>
-                        <a href="?lang=nl">Nederlands</a>
+                        <a href="${page}?lang=nl">Nederlands</a>
                     </li>
                 </ul>
                 <!--${pageContext.response.locale}-->

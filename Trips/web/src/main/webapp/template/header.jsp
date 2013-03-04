@@ -1,4 +1,4 @@
-<section id="header_section">
+<section id="header-section">
     <div class="container">
         <div class="row-fluid">
             <div class="span12">

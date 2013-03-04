@@ -4,12 +4,22 @@
 /* Import the color scheme */
 @import "color-scheme.scss";
 
+
+
+body {
+    background-color: $white;
+    /*background-image: url(../img/background/background-pattern.png);*/
+}
+
 /*
  *	Header
  */
 
 #header-section {
-
+    @include prefix(box-shadow, 0 0 7px #333);
+    background-color: $white;
+    position: relative;
+    z-index: 3;
 }
 
 #main-menu {
@@ -21,6 +31,11 @@
 
         a {
         	display: inline-block;
+            padding: 10px 15px;
+
+            &:hover {
+
+            }
         }
     }
 }
@@ -29,12 +44,17 @@
  *	Content
  */
 
+section {
+    
+}
+
 /*
  *	Footer
  */
 
 #footer-section {
-
+    position: relative;
+    z-index: 1;
 }
 
 /* Import the page specific css files */

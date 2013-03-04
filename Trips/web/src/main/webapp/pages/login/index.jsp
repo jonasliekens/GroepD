@@ -33,6 +33,14 @@
     <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
     <![endif]-->
 
+    <spring:message code="user.email" var="lblEmail" />
+    <spring:message code="user.password" var="lblPassword" />
+    <spring:message code="control.login" var="btnLogin" />
+    <spring:message code="user.firstname" var="lblFirstname" />
+    <spring:message code="user.lastname" var="lblLastname" />
+    <spring:message code="user.birthday" var="lblBirthday" />
+    <spring:message code="control.register" var="btnRegister"/>
+
     <div id="fb-root"></div>
 
     <%@include file="../../template/header.jsp" %>
@@ -41,62 +49,86 @@
         <div class="container">
             <div class="row-fluid">
                 <div class="span6">
-                    <h2><spring:message code="register.loginTitle"/></h2>
-                    <form:form action="login/checkLogin" method="post" modelAttribute="loginForm">
-                        <table>
-                            <form:errors/>
-                            <tr>
-                                <td><form:label path="email"/></td>
-                                <td><form:input path="email"/></td>
-                            </tr>
-                            <tr>
-                                <td><form:label path="password"/></td>
-                                <td><form:password path="password"/></td>
-                            </tr>
-                            <tr>
-                                <spring:message code="control.login" var="btnLogin"/>
-                                <td colspan="2"><input type="submit" value="${btnLogin}"/></td>
-                            </tr>
-                        </table>
-                    </form:form>
+                    <div class="loginForm">
+                        <h3><spring:message code="register.loginTitle"/></h3>
+
+                        <form:form cssClass="form-horizontal" action="login/checkLogin" method="post" modelAttribute="loginForm">
+                            <form:errors cssClass="text-error" />
+                            <div class="control-group">
+                                <form:label path="email" cssClass="control-label">${lblEmail}</form:label>
+                                <div class="controls">
+                                    <form:input path="email" placeholder="${lblEmail}"/>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <form:label path="password" cssClass="control-label">${lblPassword}</form:label>
+                                <div class="controls">
+                                    <form:password path="password" placeholder="${lblPassword}"/>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <div class="controls">
+                                    <input type="submit" class="btn" value="${btnLogin}"/>
+                                </div>
+                            </div>
+                        </form:form>
+                    </div>
                 </div>
                 <div class="span6">
-                    <h2><spring:message code="register.title"/></h2>
-                    <form:form action="login/register" method="post" modelAttribute="registerForm">
-                        <table>
-                            <tr>
-                                <td><form:label path="firstname"><spring:message code="user.firstname"/></form:label></td>
-                                <td><form:input path="firstname"/></td>
-                                <td><form:errors path="firstname"/></td>
-                            </tr>
-                            <tr>
-                                <td><form:label path="lastname"><spring:message code="user.lastname"/></form:label></td>
-                                <td><form:input path="lastname"/></td>
-                                <td><form:errors path="lastname"/></td>
-                            </tr>
-                            <tr>
-                                <td><form:label path="birthday"><spring:message code="user.birthday"/></form:label></td>
-                                <td><form:input path="birthday"/></td>
-                                <td><form:errors path="birthday"/></td>
-                            </tr>
-                            <tr>
-                                <td><form:label path="email"><spring:message code="user.email"/></form:label></td>
-                                <td><form:input path="email"/></td>
-                                <td><form:errors path="email"/></td>
-                            </tr>
-                            <tr>
-                                <td><form:label path="password"><spring:message code="user.password"/></form:label></td>
-                                <td><form:password path="password"/></td>
-                                <td><form:errors path="password"/></td>
-                            </tr>
+                    <div class="loginForm">
+                        <h3><spring:message code="register.title"/></h3>
 
-                            <tr>
-                                <spring:message code="control.register" var="btnRegister"/>
-                                <td colspan="3"><input type="submit" value="${btnRegister}"/></td>
-                            </tr>
-                        </table>
-                    </form:form>
-                    <fb:login-button show-faces="true" width="200" max-rows="1" onlogin="getData()"></fb:login-button>
+                        <form:form cssClass="form-horizontal" action="login/register" method="post" modelAttribute="registerForm">
+                            <div class="control-group">
+                                <form:label path="firstname" cssClass="control-label">${lblFirstname}</form:label>
+                                <div class="controls">
+                                    <form:input path="firstname" placeholder="${lblFirstname}" />
+                                    <form:errors path="firstname" cssClass="help-inline" />
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <form:label path="lastname" cssClass="control-label">${lblLastname}</form:label>
+                                <div class="controls">
+                                    <form:input path="lastname" placeholder="${lblLastname}" />
+                                    <form:errors path="lastname" cssClass="help-inline" />
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <form:label path="birthday" cssClass="control-label">${lblBirthday}</form:label>
+                                <div class="controls">
+                                    <form:input path="birthday" placeholder="${lblBirthday}" />
+                                    <form:errors path="birthday" cssClass="help-inline" />
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <form:label path="email" cssClass="control-label">${lblEmail}</form:label>
+                                <div class="controls">
+                                    <form:input path="email" placeholder="${lblEmail}" />
+                                    <form:errors path="email" cssClass="help-inline" />
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <form:label path="password" cssClass="control-label">${lblPassword}</form:label>
+                                <div class="controls">
+                                    <form:password path="password" placeholder="${lblPassword}" />
+                                    <form:errors path="password" cssClass="help-inline" />
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <div class="controls">
+                                    <input type="submit" class="btn" value="${btnRegister}"/>
+                                </div>
+                            </div>
+                        </form:form>
+                        <fb:login-button show-faces="true" width="200" max-rows="1" onlogin="getData()"></fb:login-button>
+                    </div>
                 </div>
             </div>
         </div>
