@@ -34,14 +34,15 @@
 
     <%@include file="../../template/header.jsp"%>
 
-
-    <div class="container">
-        <div class="row-fluid">
-            <div class="span12">
-                ${msg}
+    <section id="content">
+        <div class="container">
+            <div class="row-fluid">
+                <div class="span12">
+                    ${msg}
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
 
     <%@include file="../../template/footer.jsp"%>

@@ -60,7 +60,7 @@
                         <tbody>
                             <c:if test="${fn:length(stops) == 0}">
                                 <tr>
-                                    <td class="no-records" colspan="3">
+                                    <td class="text-center muted" colspan="3">
                                         <spring:message code="stop.noStops" />
                                     </td>
                                 </tr>

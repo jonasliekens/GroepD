@@ -63,7 +63,7 @@
                         <tbody>
                             <c:if test="${fn:length(trips) == 0}">
                                 <tr>
-                                    <td class="no-records" colspan="6">
+                                    <td class="text-center muted" colspan="6">
                                         <spring:message code="trip.noTrips" />
                                     </td>
                                 </tr>
