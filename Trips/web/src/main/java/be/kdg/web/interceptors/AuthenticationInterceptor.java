@@ -20,7 +20,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         String url = request.getRequestURL().toString();
-        response.sendRedirect("/web/login");
+        //response.sendRedirect("/web/login");
         return true;
     }
 }

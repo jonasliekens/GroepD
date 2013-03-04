@@ -52,21 +52,25 @@ public class TripController {
     @RequestMapping(method = RequestMethod.GET)
     public String list(ModelMap model) {
         model.addAttribute("trips", tripService.getTrips());
-
         return "trips/list";
     }
 
     @RequestMapping(value = "/details/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable Integer id, ModelMap model, HttpSession session) {
-        Trip trip =   tripService.get(id);
+        Trip trip = tripService.get(id);
         model.addAttribute("trip", trip);
         boolean isAdmin = false;
         User user;
-        model.addAttribute("stops", stopService.getStopsByTripId(id));
-        if (!(session.getAttribute("userId")==null)){
-            user = userService.get((Integer)session.getAttribute("userId"));
-            for (User u: trip.getAdmins()){
-                if (u.getId()== user.getId()){
+        if (!(trip.getStops().isEmpty())) {
+            model.addAttribute("stops", stopService.getStopsByTripId(id));
+        }
+        int userId = 0;
+        if (session.getAttribute("userId") != null) {
+            userId = (Integer) session.getAttribute("userId");
+        }
+        if (userId > 0) {
+            for (User u : trip.getAdmins()) {
+                if (u.getId() == userId) {
                     isAdmin = true;
                 }
             }
@@ -204,6 +208,7 @@ public class TripController {
     @RequestMapping(value = "/register/{id}", method = RequestMethod.POST)
     public String register(@PathVariable Integer id, HttpSession session) {
         Trip trip = tripService.get(id);
+
         User user = userService.get((Integer) session.getAttribute("userId"));
         ParticipatedTrip participatedTrip = new ParticipatedTrip();
         //participatedTripService.add(participatedTrip);
@@ -217,5 +222,31 @@ public class TripController {
     public String registeredTrips(ModelMap model, HttpSession session) {
         model.addAttribute("user", userService.get((Integer) session.getAttribute("userId")));
         return "trips/registered";
+    }
+
+    @RequestMapping(value = "/start/{participatedTripId}", method = RequestMethod.GET)
+    public String startTrip(@PathVariable Integer participatedTripId, ModelMap model, HttpSession session) {
+        ParticipatedTrip pTrip = participatedTripService.get(participatedTripId);
+        pTrip.setFinished(false);
+        pTrip.setStarted(true);
+        User user = userService.get((Integer) session.getAttribute("userId"));
+
+        participatedTripService.update(pTrip);
+        return "redirect:/trips/registered/";
+    }
+
+    @RequestMapping(value = "/stop/{participatedTripId}", method = RequestMethod.GET)
+    public String stopTrip(@PathVariable Integer participatedTripId, ModelMap model, HttpSession session) {
+        ParticipatedTrip pTrip = participatedTripService.get(participatedTripId);
+        pTrip.setStarted(false);
+        pTrip.setFinished(true);
+        participatedTripService.update(pTrip);
+        return "redirect:/trips/registered/";
+    }
+
+    @RequestMapping(value = "/participants/{id}", method = RequestMethod.GET)
+    public String participantsGet(@PathVariable Integer id, ModelMap model) {
+        model.addAttribute("participatedTrips", participatedTripService.getParticipatedTripsByTripId(id));
+        return "trips/participants";
     }
 }

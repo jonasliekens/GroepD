@@ -60,4 +60,12 @@ public class ParticipatedTripDaoImpl implements ParticipatedTripDao {
         Query query = entityManager.createQuery("select pt from ParticipatedTrip pt");
         return query.getResultList();
     }
+    @Override
+    public List<ParticipatedTrip> findAllByTripId(Integer id) {
+        entityManager.clear(); //Otherwise takes not updated but yet changed entities into the collection, now it works directly on the database
+        Query query = entityManager.createQuery("SELECT pt FROM ParticipatedTrip pt WHERE pt.trip.id = ?1");
+        query.setParameter(1, id);
+        List<ParticipatedTrip> participatedTrips = query.getResultList();
+        return participatedTrips;
+    }
 }

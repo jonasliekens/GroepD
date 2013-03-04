@@ -55,6 +55,7 @@
         <div class="container">
             <div class="row-fluid">
                 <div class="span12">
+                    <c:if test="${isAdmin}"><a class="btn" href="trips/participants/${trip.id}"><spring:message code="trip.showParticipants"/></a></c:if>
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -95,16 +96,22 @@
                                 </c:if>
                             </td>
                             <td>
+                                <c:if test="${fn:length(stops) == 0}">
+                                    ${stops.get(0).latitude}, ${stops.get(0).longitude}
+                                </c:if>
 
                             </td>
                             <td>
+                                <c:if test="${fn:length(stops) == 0}">
+                                    ${stops.get(fn:length(trip.stops)-1).latitude}, ${stops.get(fn:length(trip.stops)-1).longitude}
+                                </c:if>
 
                             </td>
                             <td>
                                 ${fn:length(trip.stops)}
                             </td>
                             <td>
-
+                                ${fn:length(trip.participatedTrips)}
                             </td>
                             <td>
                                 <a href="trips/edit/${trip.id}"><spring:message code="control.edit"/></a>

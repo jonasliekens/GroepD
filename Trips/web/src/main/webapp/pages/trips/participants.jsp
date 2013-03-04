@@ -1,25 +1,25 @@
 <%--
   Created by IntelliJ IDEA.
   User: Nick
-  Date: 28/02/13
-  Time: 3:26
+  Date: 4/03/13
+  Time: 3:30
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <!DOCTYPE html>
 <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js"> <!--<![endif]-->
+<html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Trips</title>
+    <title>Stops</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
@@ -38,67 +38,71 @@
     improve your experience.</p>
 <![endif]-->
 
-
 <%@include file="../../template/header.jsp" %>
 
 <section>
     <div class="container">
         <div class="row-fluid">
             <div class="span12">
-                <a href="trips/add"><spring:message code="control.add"/></a> <a href="trips/registered"><spring:message
-                    code="message.showusertrips.trip"/></a>
                 <table class="table table-striped">
                     <thead>
                     <tr>
                         <th>
-                            <spring:message code="trip.name"/>
+                            <spring:message code="user.firstname"/>
                         </th>
                         <th>
-                            <spring:message code="trip.private"/>
+                            <spring:message code="user.lastname"/>
                         </th>
                         <th>
-                            <spring:message code="trip.numberOfStops"/>
+                            <spring:message code="user.email"/>
                         </th>
                         <th>
                             <spring:message code="trip.started"/>
                         </th>
                         <th>
-                            <spring:message code="trip.showParticipants"/>
+                            <spring:message code="trip.finished"/>
                         </th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="participatedTrip" items="${user.participatedTrips}" varStatus="loop">
+                    <c:if test="${fn:length(participatedTrips) == 0}">
+                        <tr>
+                            <td class="no-records" colspan="5">
+                                <spring:message code="trip.noParticipants"/>
+                            </td>
+                        </tr>
+                    </c:if>
+                    <c:forEach var="participatedTrips" items="${participatedTrips}">
                         <tr>
                             <td>
-                                <a href="trips/details/${participatedTrip.trip.id}">${participatedTrip.trip.name}</a>
+                                    ${participatedTrips.user.firstName}
                             </td>
                             <td>
-                                <c:if test="${participatedTrip.trip.privateTrip == true}">
+                                    ${participatedTrips.user.lastName}
+                            </td>
+                            <td>
+                                    ${participatedTrips.user.email}
+                            </td>
+                            <td>
+                                    ${participatedTrips.started}
+                                <c:if test="${participatedTrips.started}">
                                     <spring:message code="common.yes"/>
                                 </c:if>
-                                <c:if test="${participatedTrip.trip.privateTrip == false}">
+                                <c:if test="${participatedTrips.started==false}">
                                     <spring:message code="common.no"/>
                                 </c:if>
-                            </td>
-                            <td>
-                            </td>
-                            <td>
-                                <c:if test="${participatedTrip.started}">
-                                    <a class="btn" href="trips/stop/${participatedTrip.id}"><spring:message
-                                            code="trip.stopTrip"/></a>
 
-                                </c:if>
-                                <c:if test="${participatedTrip.finished}">
-                                    <a class="btn" href="trips/start/${participatedTrip.id}"><spring:message
-                                            code="trip.startTrip"/></a>
-                                </c:if>
                             </td>
                             <td>
-                                <a class="btn" href="trips/participants/${participatedTrip.trip.id}"><spring:message
-                                        code="trip.showParticipants"/></a>
-                            </td>
+                                    ${participatedTrips.finished}
+                                <c:if test="${participatedTrips.finished}">
+                                    <spring:message code="common.yes"/>
+                                </c:if>
+                                <c:if test="${participatedTrips.finished==false}">
+                                    <spring:message code="common.no"/>
+                                </c:if>
 
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -110,12 +114,5 @@
 
 
 <%@include file="../../template/footer.jsp" %>
-
-
-<!-- The JavaScript files -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
-
-<script src="js/main.js"></script>
 </body>
 </html>

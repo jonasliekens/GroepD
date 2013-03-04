@@ -42,7 +42,7 @@
         <div class="container">
             <div class="row-fluid">
                 <div class="span12">
-                    <a href="trips/add"><spring:message code="control.add"/></a> <a href="trips/registered"><spring:message code="message.showusertrips.trip"/></a>
+                    <a href="trips/add"><spring:message code="control.add"/></a> <c:if test="${sessionScope.userId > 0}"><a href="trips/registered"><spring:message code="message.showusertrips.trip"/></a></c:if>
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -51,12 +51,6 @@
                                 </th>
                                 <th>
                                     <spring:message code="trip.private" />
-                                </th>
-                                <th>
-                                    <spring:message code="trip.start" />
-                                </th>
-                                <th>
-                                    <spring:message code="trip.end" />
                                 </th>
                                 <th>
                                     <spring:message code="trip.numberOfStops" />
@@ -86,12 +80,6 @@
                                         <c:if test="${trip.privateTrip == false}">
                                             <spring:message code="common.no" />
                                         </c:if>
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
                                     </td>
                                     <td>
                                         ${fn:length(trip.stops)}
