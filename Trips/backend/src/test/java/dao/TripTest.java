@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -88,6 +89,20 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
         tripDao.add(temp);
         temp = tripDao.findById(temp.getId());
         assertTrue(temp.getTripType().equals(TripType.LOOSE));
+    }
+
+    @Test
+    public void testGetPublicTrips(){
+        Trip privateTrip = newTrip();
+        privateTrip.setPrivateTrip(true);
+        Trip publicTrip = newTrip();
+
+        tripDao.add(privateTrip);
+        tripDao.add(publicTrip);
+
+        List<Trip> publicTrips = tripDao.getPublicTrips();
+        assertTrue(publicTrips.size() == 1);
+        assertFalse(publicTrips.get(0).getPrivateTrip());
     }
 
     @Test

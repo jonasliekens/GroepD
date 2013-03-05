@@ -50,9 +50,6 @@
                                     <spring:message code="trip.name" />
                                 </th>
                                 <th>
-                                    <spring:message code="trip.private" />
-                                </th>
-                                <th>
                                     <spring:message code="trip.numberOfStops" />
                                 </th>
                                 <th>
@@ -72,14 +69,6 @@
                                 <tr>
                                     <td>
                                         <a href="trips/details/${trip.id}">${trip.name}</a>
-                                    </td>
-                                    <td>
-                                        <c:if test="${trip.privateTrip == true}">
-                                            <spring:message code="common.yes" />
-                                        </c:if>
-                                        <c:if test="${trip.privateTrip == false}">
-                                            <spring:message code="common.no" />
-                                        </c:if>
                                     </td>
                                     <td>
                                         ${fn:length(trip.stops)}

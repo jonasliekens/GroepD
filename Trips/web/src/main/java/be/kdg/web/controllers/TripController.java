@@ -52,7 +52,7 @@ public class TripController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(ModelMap model) {
-        model.addAttribute("trips", tripService.getTrips());
+        model.addAttribute("trips", tripService.getPublicTrips());
         return "trips/list";
     }
 

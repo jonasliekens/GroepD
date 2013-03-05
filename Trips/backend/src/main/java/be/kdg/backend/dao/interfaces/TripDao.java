@@ -1,6 +1,9 @@
 package be.kdg.backend.dao.interfaces;
 
 import be.kdg.backend.entities.Trip;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,4 +13,6 @@ import be.kdg.backend.entities.Trip;
  * To change this template use File | Settings | File Templates.
  */
 public interface TripDao  extends GenericDao<Trip,Integer> {
+    @Transactional
+    List<Trip> getPublicTrips();
 }

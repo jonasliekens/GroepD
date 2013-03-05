@@ -12,4 +12,6 @@ import java.util.List;
 public interface TripService extends GenericService<Trip, Integer>{
     @Transactional
     public List<Trip> getTrips();
+    @Transactional
+    public List<Trip> getPublicTrips();
 }

@@ -57,8 +57,8 @@ public class Trip {
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
     private Set<Stop> stops;
 
-    private boolean communicationByChat;
-    private boolean communicationByLocation;
+    private Boolean communicationByChat;
+    private Boolean communicationByLocation;
 
     public Trip(){
         initLists();
@@ -125,14 +125,6 @@ public class Trip {
         this.name = name;
     }
 
-    public void setPrivateTrip(boolean privateTrip) {
-        this.privateTrip = privateTrip;
-    }
-
-    public void setPublished(boolean published) {
-        this.published = published;
-    }
-
     public void setNrDays(Integer nrDays) {
         this.nrDays = nrDays;
     }
@@ -194,7 +186,7 @@ public class Trip {
         return communicationByChat;
     }
 
-    public void setCommunicationByChat(boolean communicationByChat) {
+    public void setCommunicationByChat(Boolean communicationByChat) {
         this.communicationByChat = communicationByChat;
     }
 
@@ -202,7 +194,7 @@ public class Trip {
         return communicationByLocation;
     }
 
-    public void setCommunicationByLocation(boolean communicationByLocation) {
+    public void setCommunicationByLocation(Boolean communicationByLocation) {
         this.communicationByLocation = communicationByLocation;
     }
 

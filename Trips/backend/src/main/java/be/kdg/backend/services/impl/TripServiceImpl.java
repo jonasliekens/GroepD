@@ -45,4 +45,9 @@ public class TripServiceImpl implements TripService {
     public List<Trip> getTrips() {
         return tripDao.findAll();
     }
+
+    @Override
+    public List<Trip> getPublicTrips() {
+        return tripDao.getPublicTrips();
+    }
 }

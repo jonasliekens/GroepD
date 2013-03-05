@@ -58,4 +58,10 @@ public class  TripDaoImpl implements TripDao {
         Query query = entityManager.createQuery("select t from Trip t");
         return query.getResultList();
     }
+
+    @Override
+    public List<Trip> getPublicTrips() {
+        Query query = entityManager.createQuery("select t from Trip t where t.privateTrip = false");
+        return query.getResultList();
+    }
 }
