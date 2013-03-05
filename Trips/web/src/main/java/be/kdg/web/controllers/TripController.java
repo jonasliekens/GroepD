@@ -42,6 +42,7 @@ public class TripController {
     @Autowired
     @Qualifier("userService")
     UserService userService;
+
     @Autowired
     @Qualifier("participatedTripService")
     ParticipatedTripService participatedTripService;

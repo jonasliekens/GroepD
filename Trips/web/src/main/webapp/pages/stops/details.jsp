@@ -94,6 +94,7 @@
                         </td>
                         <td>
                             <a href="trips/${trip.id}/stops/addquestion/${stop.id}"><spring:message code="control.question"/></a>
+                            <a href="trips/${trip.id}/stops/addphoto/${stop.id}"><spring:message code="control.photo"/></a>
                             <a href="trips/${trip.id}/stops/edit/${stop.id}"><spring:message code="control.edit"/></a>
                             <a href="trips/${trip.id}/stops/delete/${stop.id}"><spring:message
                                     code="control.delete"/></a>

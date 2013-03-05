@@ -6,6 +6,7 @@ import be.kdg.backend.entities.Stop;
 import be.kdg.backend.services.interfaces.StopService;
 import be.kdg.backend.services.interfaces.TripService;
 import be.kdg.web.forms.AnswerForm;
+import be.kdg.web.forms.PhotoForm;
 import be.kdg.web.forms.QuestionForm;
 import be.kdg.web.forms.StopForm;
 import be.kdg.web.validators.AnswerValidator;
@@ -15,12 +16,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.mail.Multipart;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -239,6 +243,32 @@ public class StopController {
         stopService.update(stop,stop.getTrip().getId());
         return "redirect:/trips/"+id+"/stops/details/" + stopid;
     }
+
+    @RequestMapping(value = "trips/{id}/stops/addphoto/{stopid}", method = RequestMethod.GET)
+    public String addPhotoGet(@PathVariable Integer id, @PathVariable Integer stopid, ModelMap model) {
+        return "/stops/addphoto";
+    }
+
+    @RequestMapping(value="trips/{id}/stops/addphoto/{stopid}", method = RequestMethod.POST)
+    public ModelAndView upload(HttpServletRequest request, HttpServletResponse response, @RequestParam("file") MultipartFile f) {
+        if (f == null) {
+            return new ModelAndView("upload", "msg", "The file is null.");
+        }
+
+        return new ModelAndView("upload", "msg", "File ( " + f.getOriginalFilename() + ") successfully uploaded.");
+    }
+    /*
+    @RequestMapping(value = "trips/{id}/stops/addphoto/{stopid}", method = RequestMethod.POST)
+    public String addPhotoPost(@PathVariable Integer id, @PathVariable Integer stopid, @ModelAttribute("photoForm") PhotoForm photoForm, BindingResult result, ModelMap model) {
+
+        MultipartFile file = photoForm.getFile();
+        if(file == null){
+            return "/stops/addphoto";
+        }
+
+        return "redirect:/trips/"+id+"/stops/details/" + stopid;
+    }  */
+
     private List<String> setToList(Set<Stop> stops) {
         List<String> list = new ArrayList<String>();
         for(Stop stop : stops){
