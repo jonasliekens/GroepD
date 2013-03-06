@@ -3,8 +3,10 @@ package be.kdg.web.controllers;
 import be.kdg.backend.entities.User;
 import be.kdg.backend.exceptions.LoginInvalidException;
 import be.kdg.backend.services.interfaces.UserService;
+import be.kdg.web.forms.EditProfileForm;
 import be.kdg.web.forms.LoginForm;
 import be.kdg.web.forms.RegisterForm;
+import be.kdg.web.validators.EditProfileValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -102,5 +104,32 @@ public class LoginController {
         session.removeAttribute("userId");
 
         return "redirect:/";
+    }
+
+    @RequestMapping(value = "/editprofile", method = RequestMethod.GET)
+    public String editProfileGet(HttpSession session, ModelMap model) {
+        User user = userService.get((Integer) session.getAttribute("userId"));
+        EditProfileForm editProfileForm = new EditProfileForm();
+        editProfileForm.setBirthday(user.getBirthday());
+        editProfileForm.setFirstname(user.getFirstName());
+        editProfileForm.setLastname(user.getLastName());
+        model.addAttribute("editprofileform", editProfileForm);
+        return "users/profile";
+    }
+
+    @RequestMapping(value = "/editprofile", method = RequestMethod.POST)
+    public String editProfilePost(HttpSession session, BindingResult result, @ModelAttribute("editprofileform") @Valid EditProfileForm editProfileForm) {
+        EditProfileValidator editProfileValidator = new EditProfileValidator();
+        editProfileValidator.validate(editProfileForm, result);
+        if (result.hasErrors()) {
+            return "users/profile";
+        } else {
+            User user = userService.get((Integer) session.getAttribute("userId"));
+            user.setBirthday(editProfileForm.getBirthday());
+            user.setFirstName(editProfileForm.getFirstname());
+            user.setLastName(editProfileForm.getLastname());
+            userService.update(user);
+            return "users/profile";
+        }
     }
 }
