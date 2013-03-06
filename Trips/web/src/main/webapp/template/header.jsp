@@ -10,6 +10,9 @@
                         <a href="trips"><spring:message code="menu.trips"/></a>
                     </li>
                     <li>
+                        <a href="chats"><spring:message code="menu.chats"/></a>
+                    </li>
+                    <li>
                         <c:choose>
                             <c:when test="${sessionScope.userId > 0}">
                                 <a href="login/logout"><spring:message code="menu.logout"/></a>
