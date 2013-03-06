@@ -40,8 +40,11 @@ public class User {
     @NotNull
     private Date birthday;
 
-    @ManyToMany(cascade = CascadeType.MERGE,mappedBy="admins")
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy="admins")
     private Set<Trip> ownTrips;
+
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "participants")
+    private Set<Chat> chats;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy= "user")
     private Set<ParticipatedTrip> participatedTrips;
@@ -136,6 +139,14 @@ public class User {
 
     public void setOwnTrips(Set<Trip> ownTrips) {
         this.ownTrips = ownTrips;
+    }
+
+    public Set<Chat> getChats() {
+        return chats;
+    }
+
+    public void setChats(Set<Chat> chats) {
+        this.chats = chats;
     }
 
     public Set<ParticipatedTrip> getParticipatedTrips() {
