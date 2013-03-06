@@ -50,4 +50,10 @@ public class ParticipatedTripServiceImpl implements ParticipatedTripService {
     public List<ParticipatedTrip> getParticipatedTripsByTripId(Integer tripId) {
         return participatedTripDao.findAllByTripId(tripId);
     }
+
+    @Override
+    public List<ParticipatedTrip> getAllParticipatedTrips() {
+        return participatedTripDao.findAll();
+    }
+
 }

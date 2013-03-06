@@ -1,6 +1,7 @@
 package be.kdg.backend.dao.impl;
 
 import be.kdg.backend.dao.interfaces.TripDao;
+import be.kdg.backend.entities.ParticipatedTrip;
 import be.kdg.backend.entities.Trip;
 import org.springframework.stereotype.Repository;
 
@@ -35,6 +36,9 @@ public class  TripDaoImpl implements TripDao {
     public void remove(Trip entity) {
         entityManager.getTransaction().begin();
         entity=entityManager.find(Trip.class, entity.getId());
+        for (ParticipatedTrip pt : entity.getParticipatedTrips()){
+            entityManager.remove(pt);
+        }
         entityManager.remove(entity);
         entityManager.getTransaction().commit();
     }
