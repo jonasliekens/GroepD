@@ -1,4 +1,4 @@
-package dao;
+package utilities;
 
 import be.kdg.backend.utilities.Utilities;
 import org.junit.Assert;
