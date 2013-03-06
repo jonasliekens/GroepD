@@ -1,6 +1,8 @@
 package be.kdg.backend.services.impl;
 
+import be.kdg.backend.dao.interfaces.ParticipatedTripDao;
 import be.kdg.backend.dao.interfaces.UserDao;
+import be.kdg.backend.entities.ParticipatedTrip;
 import be.kdg.backend.entities.User;
 import be.kdg.backend.exceptions.DataNotFoundException;
 import be.kdg.backend.exceptions.LoginInvalidException;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.NoResultException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +28,10 @@ public class UserServiceImpl implements UserService {
     @Qualifier("userDaoImpl")
     @Autowired(required = true)
     private UserDao userDao;
+
+    @Qualifier("participatedTripDaoImpl")
+    @Autowired(required = true)
+    private ParticipatedTripDao participatedTripDao;
 
     @Override
     public void add(User entity) {
@@ -109,5 +116,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         return userDao.findAll();
+    }
+
+    @Override
+    public List<User> getUninvitedUsers(Integer tripId, Integer userId) {
+        List<User> users = new ArrayList<User>();
+        for(User user : userDao.findAll()){
+            for(ParticipatedTrip invitation : participatedTripDao.findAllByTripId(tripId)){
+                if(user.getId() != invitation.getUser().getId() && user.getId() != userId){
+                    users.add(user);
+                }
+            }
+        }
+        return users;
     }
 }

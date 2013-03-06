@@ -9,6 +9,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -45,8 +46,6 @@
     <div class="container">
         <div class="row-fluid">
             <div class="span12">
-                <a href="trips/add"><spring:message code="control.add"/></a> <a href="trips/registered"><spring:message
-                    code="message.showusertrips.trip"/></a>
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -60,7 +59,7 @@
                             <spring:message code="trip.numberOfStops"/>
                         </th>
                         <th>
-                            <spring:message code="trip.started"/>
+                            <spring:message code="trip.inviteUsers"/>
                         </th>
                         <th>
                             <spring:message code="trip.showParticipants"/>
@@ -68,34 +67,28 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="trip" items="${user.participatedTrips}" varStatus="loop">
+                    <c:forEach var="trip" items="${myTrips}" varStatus="loop">
                         <tr>
                             <td>
-                                <a href="trips/details/${trip.trip.id}">${trip.trip.name}</a>
+                                <a href="trips/details/${trip.id}">${trip.name}</a>
                             </td>
                             <td>
-                                <c:if test="${trip.trip.privateTrip == true}">
+                                <c:if test="${trip.privateTrip == true}">
                                     <spring:message code="common.yes"/>
                                 </c:if>
-                                <c:if test="${trip.trip.privateTrip == false}">
+                                <c:if test="${trip.privateTrip == false}">
                                     <spring:message code="common.no"/>
                                 </c:if>
                             </td>
                             <td>
+                                <p>${fn:length(trip.stops)}</p>
                             </td>
                             <td>
-                                <c:if test="${trip.started}">
-                                    <a class="btn" href="trips/stop/${trip.id}"><spring:message
-                                            code="trip.stopTrip"/></a>
-
-                                </c:if>
-                                <c:if test="${trip.finished}">
-                                    <a class="btn" href="trips/start/${trip.id}"><spring:message
-                                            code="trip.startTrip"/></a>
-                                </c:if>
+                                <a class="btn" href="trips/invite/${trip.id}"><spring:message
+                                        code="trip.inviteUsers"/></a>
                             </td>
                             <td>
-                                <a class="btn" href="trips/participants/${trip.trip.id}"><spring:message
+                                <a class="btn" href="trips/participants/${trip.id}"><spring:message
                                         code="trip.showParticipants"/></a>
                             </td>
 

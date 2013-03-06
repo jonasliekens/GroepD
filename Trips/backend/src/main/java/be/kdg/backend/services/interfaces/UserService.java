@@ -5,6 +5,7 @@ import be.kdg.backend.exceptions.DataNotFoundException;
 import be.kdg.backend.exceptions.LoginInvalidException;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +29,8 @@ public interface UserService extends GenericService<User, Integer>{
     public User findUserByEMail(String eMail) throws DataNotFoundException;
     @Transactional
     public List<User> getAllUsers();
+    @Transactional
+    public List<User> getUninvitedUsers(Integer tripId, Integer userId);
 
     @Override
     @Deprecated

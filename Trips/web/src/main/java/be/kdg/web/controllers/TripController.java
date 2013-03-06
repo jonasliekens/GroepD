@@ -250,4 +250,18 @@ public class TripController {
         model.addAttribute("participatedTrips", participatedTripService.getParticipatedTripsByTripId(id));
         return "trips/participants";
     }
+
+    @RequestMapping(value = "/own", method = RequestMethod.GET)
+    public String myTripsGet(ModelMap model, HttpSession session){
+        User user = userService.get((Integer) session.getAttribute("userId"));
+        model.addAttribute("myTrips", user.getOwnTrips());
+        return "trips/own";
+    }
+
+    @RequestMapping(value = "/invite/{id}", method = RequestMethod.GET)
+    public String inviteGet(@PathVariable Integer id, ModelMap model, HttpSession session){
+
+        model.addAttribute("users", userService.getUninvitedUsers(id, (Integer) session.getAttribute("userId")));
+        return "trips/invite";
+    }
 }

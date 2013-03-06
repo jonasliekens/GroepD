@@ -1,7 +1,10 @@
 package be.kdg.backend.dao.interfaces;
 
+import be.kdg.backend.entities.Trip;
 import be.kdg.backend.entities.User;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA 12.

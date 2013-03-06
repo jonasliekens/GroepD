@@ -119,7 +119,7 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
     public void testAddParticipantToTrip(){
         Trip trip = newTrip();
         tripDao.add(trip);
-        User user =new User("Admin@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
+        User user = new User("Admin@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
         userDao.add(user);
         trip.addAdmin(user);
         tripDao.update(trip);

@@ -1,6 +1,7 @@
 package be.kdg.backend.dao.interfaces;
 
 import be.kdg.backend.entities.ParticipatedTrip;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,5 +13,6 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface ParticipatedTripDao extends GenericDao<ParticipatedTrip,Integer>  {
+    @Transactional
     public List<ParticipatedTrip> findAllByTripId(Integer id);
 }

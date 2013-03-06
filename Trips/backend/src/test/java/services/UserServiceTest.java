@@ -1,5 +1,6 @@
 package services;
 
+import be.kdg.backend.entities.Trip;
 import be.kdg.backend.entities.User;
 import be.kdg.backend.exceptions.DataNotFoundException;
 import be.kdg.backend.exceptions.LoginInvalidException;
@@ -92,10 +93,34 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests {
 
     }
 
+    @Test
+    public void testGetUninvitedUsers(){
+        Trip trip = newTrip();
+        User user1 = new User("soulscammer@gmail.com", "test", "Jonas", "Liekens", Utilities.makeDate("04/08/1991"));
+        User user2 = new User("bartpraats@gmail.com", "test", "Bart", "Praats", Utilities.makeDate("04/08/1991"));
+        User user3 = new User("maartenkonings@gmail.com", "test", "Maarten", "Konings", Utilities.makeDate("04/08/1991"));
+
+        trip.addAdmin(user1);
+
+
+    }
+
     @After
     public void deleteAllUsers(){
         for(User user : userService.getAllUsers()){
             userService.remove(user);
         }
+    }
+
+    private Trip newTrip() {
+        Trip trip = new Trip();
+        trip.setName("A name");
+        trip.setPrivateTrip(false);
+        trip.setPublished(false);
+        trip.setNrDays(10);
+        trip.setNrHours(12);
+        trip.setCommunicationByChat(true);
+        trip.setCommunicationByLocation(true);
+        return trip;
     }
 }
