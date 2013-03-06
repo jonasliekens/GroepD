@@ -41,19 +41,15 @@ public class LoginRestController {
     @ResponseBody
     public String doLoginFacebook(@RequestParam String id, @RequestParam String first_name, @RequestParam String last_name, @RequestParam String birthday, @RequestParam String email, HttpSession session) {
         Integer userId;
-        System.out.println("FacebookREST INIT.");
         try {
-            System.out.println("Checking login.");
             userId = userService.checkLoginWithFacebook(id);
         } catch (LoginInvalidException e) {
             try {
-                System.out.println("Updating user.");
                 User user = userService.findUserByEMail(email);
                 userService.mergeUserWithFacebook(user.getId(), id);
                 userService.update(user);
                 userId = user.getId();
             } catch (DataNotFoundException e1) {
-                System.out.println("Adding User.");
                 String americanDate[] = birthday.split("/");
                 User user = new User(email, Utilities.newPass(10), first_name, last_name, Utilities.makeDate(americanDate[1] + "/" + americanDate[0] + "/" + americanDate[2]), id);
                 boolean userAdded = !userService.addUser(user);
