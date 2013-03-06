@@ -5,6 +5,7 @@ import be.kdg.backend.entities.Trip;
 import be.kdg.backend.entities.User;
 import be.kdg.backend.services.interfaces.ParticipatedTripService;
 import be.kdg.backend.services.interfaces.TripService;
+import be.kdg.backend.services.interfaces.UserService;
 import be.kdg.backend.utilities.Utilities;
 import org.junit.After;
 import org.junit.Test;
@@ -27,6 +28,8 @@ import static org.junit.Assert.assertTrue;
 public class ParticipatedTripServiceTest extends AbstractJUnit4SpringContextTests {
     @Autowired(required = true)
     ParticipatedTripService participatedTripService;
+    @Autowired(required = true)
+    UserService userService;
 
     @Autowired(required = true)
     TripService tripService;
@@ -60,11 +63,12 @@ public class ParticipatedTripServiceTest extends AbstractJUnit4SpringContextTest
         trip.setNrHours(12);
         trip.setCommunicationByChat(true);
         trip.setCommunicationByLocation(true);
+        tripService.add(trip);
         pt.setTrip(trip);
         participatedTripService.update(pt);
         participatedTripService.remove(pt);
         assertTrue(participatedTripService.get(pt.getId()) == null && tripService.get(pt.getTrip().getId()) != null);
-        tripService.remove(tripService.get(pt.getTrip().getId()));
+        tripService.remove(trip);
         assertTrue(tripService.get(pt.getTrip().getId()) == null);
     }
 
@@ -72,6 +76,7 @@ public class ParticipatedTripServiceTest extends AbstractJUnit4SpringContextTest
     public void testRemoveTripWithParticipatedTrip() {
         pt = newParticipatedTrip();
         User user = new User("soulscammer@gmail.com", "test", "Jonas", "Liekens", Utilities.makeDate("04/08/1991"));
+        userService.addUser(user);
         Trip trip = new Trip();
         trip.setName("A name");
         trip.setPrivateTrip(false);
@@ -80,7 +85,9 @@ public class ParticipatedTripServiceTest extends AbstractJUnit4SpringContextTest
         trip.setNrHours(12);
         trip.setCommunicationByChat(true);
         trip.setCommunicationByLocation(true);
-        //trip.addAdmin(user);
+        tripService.add(trip);
+        trip.addAdmin(user);
+        tripService.update(trip);
         Trip trip2 = new Trip();
         trip2.setName("A name 2");
         trip2.setPrivateTrip(false);
@@ -94,15 +101,18 @@ public class ParticipatedTripServiceTest extends AbstractJUnit4SpringContextTest
         participatedTripService.update(pt);
         ParticipatedTrip pt2 = new ParticipatedTrip();
         participatedTripService.add(pt2);
+        tripService.add(trip2);
+        trip2.addAdmin(user);
+        tripService.update(trip2);
         pt2.setTrip(trip2);
         trip2.addAdmin(pt.getUser());
-        pt2.setUser(pt.getUser());
+        pt2.setUser(user);
 
         participatedTripService.update(pt2);
-        trip = tripService.get((participatedTripService.get(pt.getId()).getTrip()).getId());
-        trip2 = tripService.get((participatedTripService.get(pt2.getId()).getTrip().getId()));
-        tripService.remove(trip);
-        assertTrue(tripService.get(trip.getId()) == null && tripService.get(trip2.getId())!=null);
+        trip = tripService.get(trip.getId());
+        trip2 = tripService.get(trip2.getId());
+        tripService.remove(pt.getTrip());
+        assertTrue(tripService.get(trip.getId()) == null && tripService.get(trip2.getId()) != null);
     }
 
     @Test
@@ -116,6 +126,7 @@ public class ParticipatedTripServiceTest extends AbstractJUnit4SpringContextTest
         trip.setNrHours(12);
         trip.setCommunicationByChat(true);
         trip.setCommunicationByLocation(true);
+        tripService.add(trip);
         pt.setTrip(trip);
         participatedTripService.update(pt);
         assertTrue(participatedTripService.getParticipatedTripsByTripId(trip.getId()) != null && tripService.get(pt.getTrip().getId()) != null);

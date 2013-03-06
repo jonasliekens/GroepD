@@ -24,11 +24,11 @@ public class ParticipatedTrip {
 
     private Boolean isConfirmed;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "tripId")
     Trip trip;
 
-    @ManyToOne(cascade =CascadeType.ALL)
+    @ManyToOne(cascade ={CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "userId")
     User user;
 

@@ -28,8 +28,13 @@ public class ParticipatedTripDaoImpl implements ParticipatedTripDao {
     @Override
     public void add(ParticipatedTrip entity) {
         entityManager.getTransaction().begin();
+        if (entity.getTrip() != null) {
         entity.setTrip(entityManager.find(Trip.class, entity.getTrip().getId()));
-        entity.setUser(entityManager.find(User.class, entity.getUser().getId()));
+        }
+        if (entity.getUser() != null) {
+            entity.setUser(entityManager.find(User.class, entity.getUser().getId()));
+        }
+
         entityManager.persist(entity);
         entityManager.getTransaction().commit();
     }
@@ -46,6 +51,12 @@ public class ParticipatedTripDaoImpl implements ParticipatedTripDao {
     @Override
     public void update(ParticipatedTrip entity) {
         entityManager.getTransaction().begin();
+        if (entity.getTrip() != null) {
+            entity.setTrip(entityManager.find(Trip.class, entity.getTrip().getId()));
+        }
+        if (entity.getUser() != null) {
+            entity.setUser(entityManager.find(User.class, entity.getUser().getId()));
+        }
         entityManager.merge(entity);
         entityManager.getTransaction().commit();
     }
