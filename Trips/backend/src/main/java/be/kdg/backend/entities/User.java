@@ -46,6 +46,9 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy= "user")
     private Set<ParticipatedTrip> participatedTrips;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy= "user")
+    private Set<Invitation> invitations;
+
     public User() {
         initLists();
     }
@@ -147,5 +150,13 @@ public class User {
     }
     public void addParticipatedTrips(ParticipatedTrip participatedTrip) {
         this.participatedTrips.add(participatedTrip);
+    }
+
+    public Set<Invitation> getInvitations() {
+        return invitations;
+    }
+
+    public void setInvitations(Set<Invitation> invitations) {
+        this.invitations = invitations;
     }
 }
