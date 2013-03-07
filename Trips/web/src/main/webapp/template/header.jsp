@@ -10,7 +10,7 @@
                         <a href="trips"><spring:message code="menu.trips"/></a>
                     </li>
                     <li>
-                        <a href="chats"><spring:message code="menu.chats"/></a>
+                        <a href="chat"><spring:message code="menu.chat"/></a>
                     </li>
                     <li>
                         <c:choose>

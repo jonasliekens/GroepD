@@ -122,22 +122,6 @@ public class ChatTest extends AbstractJUnit4SpringContextTests {
         assertTrue(chatDao.findAllChatsByUserId(user1.getId()).size() == 2);
     }
 
-//    @Test
-//    public void findChatByParticipants() {
-//        User user1 = new User("participant1@test.com", "blah", "blah", "blah", Utilities.makeDate("04/06/1992"));
-//        User user2 = new User("participant2@test.com", "blah2", "blah2", "blah2", Utilities.makeDate("04/06/1992"));
-//
-//        Chat chat = new Chat();
-//        chat.addParticipant(user1);
-//        chat.addParticipant(user2);
-//
-//        Set<User> participants = new HashSet<User>();
-//        participants.add(user1);
-//        participants.add(user2);
-//
-//        assertEquals(chat, chatDao.findChatByParticipants(participants));
-//    }
-
 //    //TODO: This @After class causes 3 tests to fail, when commented out everything works
 //    @After
 //    public void testRemoveChat() {

@@ -5,17 +5,19 @@ import be.kdg.backend.entities.Message;
 import be.kdg.backend.entities.User;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * User: Bart Verhavert
  * Date: 5/03/13 18:00
  */
 public interface ChatService extends GenericService<Chat, Integer> {
     @Transactional
-    public void sendMessage(Integer receiverId, Message message);
+    public void sendMessage(Integer chatId, Message message);
 
     @Transactional
-    public void findAllChatsByUserId(Integer id);
+    public List<Chat> findAllChatsByUserId(Integer id);
 
     @Transactional
-    public void findAllMessagesByChatId(Integer id);
+    public List<Message> findAllMessagesByChatId(Integer id);
 }

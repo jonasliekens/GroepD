@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * User: Bart Verhavert
  * Date: 5/03/13 18:01
@@ -26,7 +28,7 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void add(Chat entity) {
-
+        chatDao.add(entity);
     }
 
     @Override
@@ -41,34 +43,25 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public Chat get(Integer integer) {
-        return null;
+        return chatDao.findById(integer);
     }
 
     @Override
-    public void sendMessage(Integer receiverId, Message message) {
-        User receiver = userDao.findById(receiverId);
-
-        Chat chat = null; //TODO: Search for a chat between these users
-
-        // If there is no chat yet for these users, create a new one
-        if(chat == null) {
-            chat = new Chat();
-            chat.addParticipant(message.getSender());
-            chat.addParticipant(receiver);
-            chatDao.add(chat);
-        }
+    public void sendMessage(Integer chatId, Message message) {
+        Chat chat = this.get(chatId);
 
         chat.addMessage(message);
+
         chatDao.update(chat);
     }
 
     @Override
-    public void findAllChatsByUserId(Integer id) {
-
+    public List<Chat> findAllChatsByUserId(Integer id) {
+        return chatDao.findAllChatsByUserId(id);
     }
 
     @Override
-    public void findAllMessagesByChatId(Integer id) {
-
+    public List<Message> findAllMessagesByChatId(Integer id) {
+        return chatDao.findAllMessagesByChatId(id);
     }
 }

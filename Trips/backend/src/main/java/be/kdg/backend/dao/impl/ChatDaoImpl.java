@@ -76,11 +76,4 @@ public class ChatDaoImpl implements ChatDao {
         query.setParameter("id", id);
         return query.getResultList();
     }
-
-//    @Override
-//    public Chat findChatByParticipants(Set<User> participants) {
-//        Query query = entityManager.createQuery("SELECT c FROM Chat c WHERE c.participants = :participants");
-//        query.setParameter("participants", participants);
-//        return (Chat) query.getSingleResult();
-//    }
 }

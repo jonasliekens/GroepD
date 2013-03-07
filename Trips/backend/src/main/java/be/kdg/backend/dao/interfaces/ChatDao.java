@@ -17,6 +17,4 @@ public interface ChatDao extends GenericDao<Chat,Integer> {
     public List<Message> findAllMessagesByChatId(Integer id);
     @Transactional
     public List<Chat> findAllChatsByUserId(Integer id);
-//    @Transactional
-//    public Chat findChatByParticipants(Set<User> participants);
 }
