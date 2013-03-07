@@ -4,9 +4,9 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <TextView android:text="@string/alltrips_name"
-              android:padding="15dip"
-              android:textSize="18dip"
+    <ListView android:id="@android:id/list"
               android:layout_width="fill_parent"
-              android:layout_height="wrap_content"/>
+              android:layout_height="wrap_content"
+              android:divider="@android:color/transparent"
+              android:dividerHeight="5dp"/>
 </LinearLayout>

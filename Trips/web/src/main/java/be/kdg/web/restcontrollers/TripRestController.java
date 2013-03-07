@@ -1,5 +1,6 @@
 package be.kdg.web.restcontrollers;
 
+import be.kdg.backend.entities.Trip;
 import be.kdg.backend.services.interfaces.StopService;
 import be.kdg.backend.services.interfaces.TripService;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * User: Bart Verhavert
@@ -27,15 +29,8 @@ public class TripRestController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public String list() {
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writeValueAsString(tripService.getTrips());
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        return "";
+    public List<Trip> list() {
+        return tripService.getPublicTrips();
     }
 
     @RequestMapping(value = "/{id}/stops", method = RequestMethod.GET)

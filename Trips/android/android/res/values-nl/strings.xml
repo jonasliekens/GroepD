@@ -10,11 +10,18 @@
 
     <!-- Common -->
     <string name="network_noconnection">Geen internetverbinding gevonden. Gelieve Wi-Fi of een andere dataverbinding in te schakelen.</string>
+    <string name="downloading_progress_title">Downloaden...</string>
+    <string name="downloading_progress_desc">Bezig met downloaden van bestanden, een ogenblikje geduld alstublieft...</string>
 
     <!-- Login -->
     <string name="login_username">Gebruikersnaam</string>
     <string name="login_password">Wachtwoord</string>
     <string name="login_submit">Inloggen</string>
     <string name="login_logout">Uitloggen</string>
+    <string name="login_progress_title">Bezig met inloggen...</string>
+    <string name="login_progress_desc">Bezig met controleren van je gegevens...</string>
     <string name="login_error">Kon niet inloggen. De gebruikersnaam was niet gevonden of het wachtwoord was fout. Probeer opnieuw.</string>
+
+    <!-- All trips -->
+
 </resources>

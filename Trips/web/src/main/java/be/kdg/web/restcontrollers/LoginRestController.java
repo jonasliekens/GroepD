@@ -28,12 +28,12 @@ public class LoginRestController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public String doLogin(@RequestParam String username, @RequestParam String password) {
+    public User doLogin(@RequestParam String username, @RequestParam String password) {
         try {
-            userService.checkLogin(username, password);
-            return "true";
+            User user = userService.checkLogin(username, password);
+            return user;
         } catch (LoginInvalidException e) {
-            return "false";
+            return null;
         }
     }
 

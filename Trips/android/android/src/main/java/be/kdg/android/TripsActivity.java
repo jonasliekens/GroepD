@@ -12,7 +12,6 @@ import android.widget.Toast;
 import be.kdg.android.fragments.AllTripsFragment;
 import be.kdg.android.fragments.ChatFragment;
 import be.kdg.android.fragments.MyTripsFragment;
-import be.kdg.android.login.LoginActivity;
 import be.kdg.android.utilities.Utilities;
 import de.akquinet.android.androlog.Log;
 
