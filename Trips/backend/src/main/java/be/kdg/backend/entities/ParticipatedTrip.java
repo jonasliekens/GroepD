@@ -18,9 +18,9 @@ public class ParticipatedTrip {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Boolean isStarted;
+    private boolean isStarted;
 
-    private Boolean isFinished;
+    private boolean isFinished;
 
     private Boolean isConfirmed;
 
@@ -45,19 +45,19 @@ public class ParticipatedTrip {
         this.id = id;
     }
 
-    public Boolean isStarted() {
+    public boolean isStarted() {
         return isStarted;
     }
 
-    public void setStarted(Boolean started) {
+    public void setStarted(boolean started) {
         isStarted = started;
     }
 
-    public Boolean isFinished() {
+    public boolean isFinished() {
         return isFinished;
     }
 
-    public void setFinished(Boolean finished) {
+    public void setFinished(boolean finished) {
         isFinished = finished;
     }
 

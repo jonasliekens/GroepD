@@ -68,34 +68,34 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="trip" items="${user.participatedTrips}" varStatus="loop">
+                    <c:forEach var="participatedTrip" items="${user.participatedTrips}" varStatus="loop">
                         <tr>
                             <td>
-                                <a href="trips/details/${trip.trip.id}">${trip.trip.name}</a>
+                                <a href="trips/details/${participatedTrip.trip.id}">${participatedTrip.trip.name}</a>
                             </td>
                             <td>
-                                <c:if test="${trip.trip.privateTrip == true}">
+                                <c:if test="${participatedTrip.trip.privateTrip == true}">
                                     <spring:message code="common.yes"/>
                                 </c:if>
-                                <c:if test="${trip.trip.privateTrip == false}">
+                                <c:if test="${participatedTrip.trip.privateTrip == false}">
                                     <spring:message code="common.no"/>
                                 </c:if>
                             </td>
                             <td>
                             </td>
                             <td>
-                                <c:if test="${trip.started}">
-                                    <a class="btn" href="trips/stop/${trip.id}"><spring:message
+                                <c:if test="${participatedTrip.started}">
+                                    <a class="btn" href="trips/stop/${participatedTrip.id}"><spring:message
                                             code="trip.stopTrip"/></a>
 
                                 </c:if>
-                                <c:if test="${trip.finished}">
-                                    <a class="btn" href="trips/start/${trip.id}"><spring:message
+                                <c:if test="${participatedTrip.finished}">
+                                    <a class="btn" href="trips/start/${participatedTrip.id}"><spring:message
                                             code="trip.startTrip"/></a>
                                 </c:if>
                             </td>
                             <td>
-                                <a class="btn" href="trips/participants/${trip.trip.id}"><spring:message
+                                <a class="btn" href="trips/participants/${participatedTrip.trip.id}"><spring:message
                                         code="trip.showParticipants"/></a>
                             </td>
 
