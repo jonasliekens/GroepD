@@ -109,6 +109,7 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
     public void testAddAdminToTrip() {
         Trip temp = newTrip();
         User user = new User("Admin@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
+        userDao.add(user);
         temp.addAdmin(user);
         tripDao.add(temp);
         temp = tripDao.findById(temp.getId());

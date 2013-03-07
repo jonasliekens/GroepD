@@ -1,23 +1,19 @@
 package dao;
 
 import be.kdg.backend.dao.interfaces.ChatDao;
+import be.kdg.backend.dao.interfaces.UserDao;
 import be.kdg.backend.entities.Chat;
 import be.kdg.backend.entities.Message;
 import be.kdg.backend.entities.User;
 import be.kdg.backend.utilities.Utilities;
-import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * User: Bart Verhavert
@@ -29,6 +25,9 @@ public class ChatTest extends AbstractJUnit4SpringContextTests {
     @Autowired(required = true)
     private ChatDao chatDao;
 
+    @Qualifier("userDaoImpl")
+        @Autowired(required = true)
+        private UserDao userDao;
 
     @Test
     public void testAddChat() {
@@ -106,6 +105,8 @@ public class ChatTest extends AbstractJUnit4SpringContextTests {
     public void findAllChatsByUserId() {
         User user1 = new User("chat.test@test.com", "blah", "blah", "blah", Utilities.makeDate("04/06/1992"));
         User user2 = new User("chat2.test@test.com", "blah2", "blah2", "blah2", Utilities.makeDate("04/06/1992"));
+
+
 
         Chat chat1 = new Chat();
         Chat chat2 = new Chat();

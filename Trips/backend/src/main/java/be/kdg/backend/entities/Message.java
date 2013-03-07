@@ -22,7 +22,7 @@ public class Message {
     @NotNull
     private String message;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "userId")
     @NotNull
     private User sender;
