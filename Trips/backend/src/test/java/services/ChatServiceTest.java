@@ -6,12 +6,12 @@ import be.kdg.backend.entities.User;
 import be.kdg.backend.services.interfaces.ChatService;
 import be.kdg.backend.services.interfaces.UserService;
 import be.kdg.backend.utilities.Utilities;
+import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
-import javax.validation.constraints.AssertTrue;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
@@ -91,5 +91,12 @@ public class ChatServiceTest extends AbstractJUnit4SpringContextTests {
         this.chatService.add(chat2);
 
         assertTrue(this.chatService.findAllMessagesByChatId(chat1.getId()).size() == 2);
+    }
+
+    @After
+    public void removeAllChats(){
+        for (Chat ch: chatService.getAllChats()){
+            chatService.remove(ch);
+        }
     }
 }

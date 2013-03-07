@@ -2,11 +2,9 @@ package be.kdg.backend.dao.interfaces;
 
 import be.kdg.backend.entities.Chat;
 import be.kdg.backend.entities.Message;
-import be.kdg.backend.entities.User;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * User: Bart Verhavert
