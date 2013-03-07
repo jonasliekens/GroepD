@@ -57,6 +57,9 @@ public class Trip {
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
     private Set<Stop> stops;
 
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
+        private Set<Announcement> announcements;
+
     private Boolean communicationByChat;
     private Boolean communicationByLocation;
 
@@ -68,6 +71,7 @@ public class Trip {
         this.admins = new HashSet<User>();
         this.participatedTrips = new HashSet<ParticipatedTrip>();
         this.stops = new HashSet<Stop>();
+        this.announcements = new HashSet<Announcement>();
     }
 
     public void addStop(Stop stop) {
@@ -212,5 +216,18 @@ public class Trip {
 
     public void setTravelType(TravelType travelType) {
         this.travelType = travelType;
+    }
+
+    public Set<Announcement> getAnnouncements() {
+        return announcements;
+    }
+
+    public void setAnnouncements(Set<Announcement> announcements) {
+        this.announcements = announcements;
+    }
+
+    public void addAnnouncement(Announcement announcement) {
+        this.announcements.add(announcement);
+
     }
 }

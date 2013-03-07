@@ -75,7 +75,7 @@ public class ParticipatedTripServiceTest extends AbstractJUnit4SpringContextTest
     @Test
     public void testRemoveTripWithParticipatedTrip() {
         pt = newParticipatedTrip();
-        User user = new User("soulscammer@gmail.com", "test", "Jonas", "Liekens", Utilities.makeDate("04/08/1991"));
+        User user = new User("soulscammerdfsrgr@gmail.com", "test", "Jonas", "Liekens", Utilities.makeDate("04/08/1991"));
         userService.addUser(user);
         Trip trip = new Trip();
         trip.setName("A name");

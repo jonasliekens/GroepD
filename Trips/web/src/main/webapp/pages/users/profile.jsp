@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -43,11 +44,12 @@
 <spring:message code="user.firstname" var="lblFirstname"/>
 <spring:message code="user.lastname" var="lblLastname"/>
 <spring:message code="user.birthday" var="lblBirthday"/>
-<spring:message code="control.register" var="btnRegister"/>
+<spring:message code="control.edit" var="btnEdit"/>
 
 <div id="fb-root"></div>
 
 <%@include file="../../template/header.jsp" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <section id="content">
     <div class="container">
@@ -58,28 +60,41 @@
 
                     <form:form cssClass="form-horizontal" action="login/editprofile" method="post"
                                modelAttribute="editprofileform">
-                        <div class="control-group">
-                            <form:label path="firstname" cssClass="control-label">${lblFirstname}</form:label>
-                            <div class="controls">
-                                <form:input path="firstname" placeholder="${lblFirstname}"/>
-                                <form:errors path="firstname" cssClass="help-inline"/>
-                            </div>
+                    <div class="control-group">
+                        <form:label path="firstname" cssClass="control-label">${lblFirstname}</form:label>
+                        <div class="controls">
+                            <form:input path="firstname" placeholder="${lblFirstname}"/>
+                            <form:errors path="firstname" cssClass="help-inline"/>
                         </div>
+                    </div>
 
-                        <div class="control-group">
-                            <form:label path="lastname" cssClass="control-label">${lblLastname}</form:label>
-                            <div class="controls">
-                                <form:input path="lastname" placeholder="${lblLastname}"/>
-                                <form:errors path="lastname" cssClass="help-inline"/>
-                            </div>
+                    <div class="control-group">
+                        <form:label path="lastname" cssClass="control-label">${lblLastname}</form:label>
+                        <div class="controls">
+                            <form:input path="lastname" placeholder="${lblLastname}"/>
+                            <form:errors path="lastname" cssClass="help-inline"/>
                         </div>
+                    </div>
 
-                        <div class="control-group">
-                            <form:label path="birthday" cssClass="control-label">${lblBirthday}</form:label>
-                            <div class="controls">
-                                <form:input path="birthday" placeholder="${lblBirthday}"/>
-                                <form:errors path="birthday" cssClass="help-inline"/>
-                            </div>
+                    <div class="control-group">
+                        <form:label path="birthday" cssClass="control-label">${lblBirthday}</form:label>
+                        <div class="controls">
+                            <form:input path="birthday" placeholder="${lblBirthday}"/>
+                            <form:errors path="birthday" cssClass="help-inline"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <form:label path="receiveMails" cssClass="control-label"><spring:message code="user.receivemails"/></form:label>
+                        <div class="controls">
+                            <form:checkbox path="receiveMails"/>
+                            <form:errors path="receiveMails" cssClass="alert alert-error"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <form:label path="shareLocation" cssClass="control-label"><spring:message code="user.sharelocation"/></form:label>
+                        <div class="controls">
+                            <form:checkbox path="shareLocation"/>
+                            <form:errors path="shareLocation" cssClass="alert alert-error"/>
                         </div>
 
                         <div class="control-group">
@@ -88,11 +103,11 @@
                                 <input type="submit" value="${btnEdit}"/>
                             </div>
                         </div>
-                    </form:form>
+                        </form:form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 </section>
 
 <%@include file="../../template/footer.jsp" %>

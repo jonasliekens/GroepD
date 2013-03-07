@@ -20,6 +20,9 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 /**
@@ -108,6 +111,8 @@ public class LoginController {
 
     @RequestMapping(value = "/editprofile", method = RequestMethod.GET)
     public String editProfileGet(HttpSession session, ModelMap model) {
+
+
         User user = userService.get((Integer) session.getAttribute("userId"));
         EditProfileForm editProfileForm = new EditProfileForm();
         editProfileForm.setBirthday(user.getBirthday());
@@ -118,16 +123,20 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/editprofile", method = RequestMethod.POST)
-    public String editProfilePost(HttpSession session, BindingResult result, @ModelAttribute("editprofileform") @Valid EditProfileForm editProfileForm) {
+    public String editProfilePost(HttpSession session, @ModelAttribute("editprofileform") @Valid EditProfileForm editProfileForm, BindingResult result) {
         EditProfileValidator editProfileValidator = new EditProfileValidator();
         editProfileValidator.validate(editProfileForm, result);
         if (result.hasErrors()) {
             return "users/profile";
         } else {
             User user = userService.get((Integer) session.getAttribute("userId"));
-            user.setBirthday(editProfileForm.getBirthday());
+            Calendar cal = new GregorianCalendar();
+            cal.setTime(editProfileForm.getBirthday());
+            user.setBirthday(new Date(cal.getTimeInMillis()));
             user.setFirstName(editProfileForm.getFirstname());
             user.setLastName(editProfileForm.getLastname());
+            user.setReceiveMails(editProfileForm.isReceiveMails());
+            user.setShareLocation(editProfileForm.isShareLocation());
             userService.update(user);
             return "users/profile";
         }

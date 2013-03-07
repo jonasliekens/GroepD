@@ -1,5 +1,6 @@
 package be.kdg.web.controllers;
 
+import be.kdg.backend.entities.Announcement;
 import be.kdg.backend.entities.ParticipatedTrip;
 import be.kdg.backend.entities.Trip;
 import be.kdg.backend.entities.User;
@@ -9,7 +10,9 @@ import be.kdg.backend.services.interfaces.ParticipatedTripService;
 import be.kdg.backend.services.interfaces.StopService;
 import be.kdg.backend.services.interfaces.TripService;
 import be.kdg.backend.services.interfaces.UserService;
+import be.kdg.web.forms.AnnouncementForm;
 import be.kdg.web.forms.TripForm;
+import be.kdg.web.validators.AnnouncementValidator;
 import be.kdg.web.validators.TripValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -38,6 +41,10 @@ public class TripController {
     @Autowired
     @Qualifier("tripValidator")
     TripValidator tripValidator;
+
+    @Autowired
+    @Qualifier("announcementValidator")
+    AnnouncementValidator announcementValidator;
 
     @Autowired
     @Qualifier("userService")
@@ -76,6 +83,7 @@ public class TripController {
                 }
             }
             model.addAttribute("isAdmin", isAdmin);
+            model.addAttribute("announcements", tripService.get(id).getAnnouncements());
         }
         return "trips/details";
     }
@@ -252,16 +260,38 @@ public class TripController {
     }
 
     @RequestMapping(value = "/own", method = RequestMethod.GET)
-    public String myTripsGet(ModelMap model, HttpSession session){
+    public String myTripsGet(ModelMap model, HttpSession session) {
         User user = userService.get((Integer) session.getAttribute("userId"));
         model.addAttribute("myTrips", user.getOwnTrips());
         return "trips/own";
     }
 
     @RequestMapping(value = "/invite/{id}", method = RequestMethod.GET)
-    public String inviteGet(@PathVariable Integer id, ModelMap model, HttpSession session){
+    public String inviteGet(@PathVariable Integer id, ModelMap model, HttpSession session) {
 
         model.addAttribute("users", userService.getUninvitedUsers(id, (Integer) session.getAttribute("userId")));
         return "trips/invite";
     }
-}
+
+    @RequestMapping(value = "{id}/announcements/add", method = RequestMethod.GET)
+    public String addAnnouncementsGet(@PathVariable Integer id, ModelMap model) {
+        model.addAttribute("announcementform", new AnnouncementForm());
+        return "trips/addannouncement";
+    }
+
+    @RequestMapping(value = "{id}/announcements/add", method = RequestMethod.POST)
+    public String addAnnouncementsPost(@PathVariable Integer id, @ModelAttribute("announcementform") AnnouncementForm announcementForm, BindingResult result, HttpSession session) {
+        announcementValidator.validate(announcementForm, result);
+        if (result.hasErrors()) {
+            return "trips";
+        } else {
+            Announcement announcement = new Announcement();
+            announcement.setMessage(announcementForm.getMessage());
+            Trip trip = tripService.get(id);
+            trip.addAnnouncement(announcement);
+            tripService.update(trip);
+            return "redirect:/trips/details/"+id;
+        }
+
+        }
+    }
