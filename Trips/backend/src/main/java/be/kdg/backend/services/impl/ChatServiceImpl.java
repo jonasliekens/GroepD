@@ -4,7 +4,6 @@ import be.kdg.backend.dao.interfaces.ChatDao;
 import be.kdg.backend.dao.interfaces.UserDao;
 import be.kdg.backend.entities.Chat;
 import be.kdg.backend.entities.Message;
-import be.kdg.backend.entities.User;
 import be.kdg.backend.services.interfaces.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,12 +32,12 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public void remove(Chat entity) {
-
+        chatDao.remove(entity);
     }
 
     @Override
     public void update(Chat entity) {
-
+        chatDao.update(entity);
     }
 
     @Override
@@ -63,5 +62,10 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public List<Message> findAllMessagesByChatId(Integer id) {
         return chatDao.findAllMessagesByChatId(id);
+    }
+
+    @Override
+    public List<Chat> getAllChats() {
+        return chatDao.findAll();
     }
 }

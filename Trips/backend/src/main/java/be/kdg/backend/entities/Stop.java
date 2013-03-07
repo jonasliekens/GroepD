@@ -150,4 +150,5 @@ public class Stop {
     public void setTrip(Trip trip) {
         this.trip = trip;
     }
+
 }

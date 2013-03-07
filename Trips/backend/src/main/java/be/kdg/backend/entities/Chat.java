@@ -16,7 +16,7 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(name="T_CHAT_USER",
             joinColumns={@JoinColumn(name="chatId")},
             inverseJoinColumns={@JoinColumn(name="userId")})

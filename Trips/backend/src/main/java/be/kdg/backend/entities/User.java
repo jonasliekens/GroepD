@@ -40,6 +40,10 @@ public class User {
     @NotNull
     private Date birthday;
 
+    private boolean receiveMails;
+
+    private boolean shareLocation;
+
     @ManyToMany(cascade = CascadeType.ALL,mappedBy="admins")
     private Set<Trip> ownTrips;
 
@@ -158,5 +162,21 @@ public class User {
     }
     public void addParticipatedTrips(ParticipatedTrip participatedTrip) {
         this.participatedTrips.add(participatedTrip);
+    }
+
+    public boolean isReceiveMails() {
+        return receiveMails;
+    }
+
+    public void setReceiveMails(boolean receiveMails) {
+        this.receiveMails = receiveMails;
+    }
+
+    public boolean isShareLocation() {
+        return shareLocation;
+    }
+
+    public void setShareLocation(boolean shareLocation) {
+        this.shareLocation = shareLocation;
     }
 }
