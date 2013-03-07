@@ -1,17 +1,14 @@
 <%--
   Created by IntelliJ IDEA.
   User: bartverhavert
-  Date: 5/03/13
-  Time: 22:09
+  Date: 6/03/13
+  Time: 19:44
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
-<spring:message code="title.chats" var="title" />
-
 <!DOCTYPE html>
 <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -47,22 +44,49 @@
         <div class="container">
             <div class="row-fluid">
                 <div class="span4">
+                    <h4><spring:message code="chat.chats" /></h4>
                     <ul class="chats">
-                    <c:if test="${fn:length(chats) == 0}">
-                        <li class="text-center muted">
-                            <spring:message code="chat.noChats" />
-                        </li>
-                    </c:if>
-                    <c:forEach var="chat" items="chats">
-                        <li>
-
-                        </li>
-                    </c:forEach>
+                        <c:if test="${fn:length(chats) == 0}">
+                            <li class="text-center muted">
+                                <spring:message code="chat.noChats" />
+                            </li>
+                        </c:if>
+                        <c:forEach var="chat" items="${chats}">
+                            <li>
+                                <a href="chat/${chat.id}" class="chat">
+                                    Chat ...
+                                </a>
+                            </li>
+                        </c:forEach>
                     </ul>
                 </div>
                 <div class="span8">
-                    <div class="text-center muted">
-                        <spring:message code="chat.selectChat" />
+                    <h4>Bart Verhavert</h4>
+                    <ul class="messages">
+                        <c:if test="${fn:length(messages) == 0}">
+                            <li class="text-center muted">
+                                <spring:message code="chat.noMessages" />
+                            </li>
+                        </c:if>
+                        <c:forEach var="message" varStatus="iterator" items="${messages}">
+                            <li>
+                                <div class="info">
+                                    <span class="sender">${message.sender.firstName} ${message.sender.lastName}</span>
+                                    <span class="date">${message.date}</span>
+                                </div>
+                                <div class="message">
+                                    ${message.message}
+                                </div>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                    <div class="new-message">
+                        <form method="post">
+                            <spring:message code="chat.writeYourMessage" var="placeholder" />
+                            <spring:message code="control.send" var="btnSend" />
+                            <textarea name="message" rows="5" placeholder="${placeholder}"></textarea>
+                            <input type="submit" class="btn" value="${btnSend}">
+                        </form>
                     </div>
                 </div>
             </div>
