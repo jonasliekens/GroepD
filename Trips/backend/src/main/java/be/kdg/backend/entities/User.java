@@ -50,7 +50,8 @@ public class User {
     @ManyToMany(cascade = CascadeType.ALL,mappedBy="recievers")
     private Set<BroadcastMessage> broadcastMessages;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "participants")
+    //TODO: Remove eager loading, it fails on ChatServiceTest.testGetOrCreate() though
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "participants", fetch = FetchType.EAGER)
     private Set<Chat> chats;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy= "user")
@@ -80,9 +81,10 @@ public class User {
     }
 
     private void initLists(){
-        this.ownTrips = new HashSet<>();
-        this.participatedTrips = new HashSet<>();
-        this.broadcastMessages = new HashSet<>();
+        this.ownTrips = new HashSet<Trip>();
+        this.participatedTrips = new HashSet<ParticipatedTrip>();
+        this.chats = new HashSet<Chat>();
+        this.broadcastMessages = new HashSet<BroadcastMessage>();
     }
 
     public Integer getId() {

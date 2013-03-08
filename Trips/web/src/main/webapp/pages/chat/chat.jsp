@@ -18,7 +18,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>${title}</title>
+    <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
@@ -54,14 +54,24 @@
                         <c:forEach var="chat" items="${chats}">
                             <li>
                                 <a href="chat/${chat.id}" class="chat">
-                                    Chat ...
+                                    <c:forEach var="participant" items="${chat.participants}">
+                                        <c:if test="${participant.id != sessionScope.userId}">
+                                            ${participant.firstName} ${participant.lastName}
+                                        </c:if>
+                                    </c:forEach>
                                 </a>
                             </li>
                         </c:forEach>
                     </ul>
                 </div>
                 <div class="span8">
-                    <h4>Bart Verhavert</h4>
+                    <h4>
+                        <c:forEach var="participant" items="${participants}">
+                            <c:if test="${participant.id != sessionScope.userId}">
+                                ${participant.firstName} ${participant.lastName}
+                            </c:if>
+                        </c:forEach>
+                    </h4>
                     <ul class="messages">
                         <c:if test="${fn:length(messages) == 0}">
                             <li class="text-center muted">
