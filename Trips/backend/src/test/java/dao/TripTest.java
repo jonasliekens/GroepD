@@ -21,7 +21,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created with IntelliJ IDEA 12.
@@ -128,8 +130,11 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
         participatedTrip.setUser(user);
         participatedTrip.setTrip(trip);
         participatedTripDao.add(participatedTrip);
+        trip.addParticipatedTrip(participatedTrip);
         trip = tripDao.findById(participatedTrip.getTrip().getId());
         User user1 = userDao.findById(participatedTrip.getUser().getId());
+        //TODO: Lijst update niet. Blijft altijd 0
+        assertEquals(1, trip.getParticipatedTrips().size());
         assertTrue(user1.getEmail().equals(user.getEmail()));
     }
 

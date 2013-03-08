@@ -47,6 +47,9 @@ public class User {
     @ManyToMany(cascade = CascadeType.ALL,mappedBy="admins")
     private Set<Trip> ownTrips;
 
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy="recievers")
+    private Set<BroadcastMessage> broadcastMessages;
+
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "participants")
     private Set<Chat> chats;
 
@@ -77,8 +80,9 @@ public class User {
     }
 
     private void initLists(){
-        this.ownTrips = new HashSet<Trip>();
-        this.participatedTrips = new HashSet<ParticipatedTrip>();
+        this.ownTrips = new HashSet<>();
+        this.participatedTrips = new HashSet<>();
+        this.broadcastMessages = new HashSet<>();
     }
 
     public Integer getId() {
@@ -178,5 +182,19 @@ public class User {
 
     public void setShareLocation(boolean shareLocation) {
         this.shareLocation = shareLocation;
+    }
+
+    public Set<BroadcastMessage> getBroadcastMessages() {
+        return broadcastMessages;
+    }
+
+    public void setBroadcastMessages(Set<BroadcastMessage> broadcastMessages) {
+        this.broadcastMessages = broadcastMessages;
+    }
+
+    @Deprecated
+    //TODO: "detached entity passed to persist" exception on usage, use the dao getMessageByUserId instead
+    public void addBroadcastMessage(BroadcastMessage message) {
+        this.broadcastMessages.add(message);
     }
 }
