@@ -1,5 +1,7 @@
 package be.kdg.backend.dao.interfaces;
 
+import be.kdg.backend.entities.Announcement;
+import be.kdg.backend.entities.Equipment;
 import be.kdg.backend.entities.Trip;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,4 +17,12 @@ import java.util.List;
 public interface TripDao  extends GenericDao<Trip,Integer> {
     @Transactional
     List<Trip> getPublicTrips();
+
+    void removeAnnouncementFromTrip(Integer announcementId);
+
+    List<Announcement> getAnnouncementsByTripId(Integer tripId);
+
+    void removeEquipmentFromTrip(Integer equipmentId);
+
+    List<Equipment> getEquipmentByTrip(Integer tripId);
 }

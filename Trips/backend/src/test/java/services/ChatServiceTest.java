@@ -11,12 +11,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.constraints.AssertTrue;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -26,7 +22,6 @@ import static org.junit.Assert.assertTrue;
  * Date: 5/03/13 18:03
  */
 @ContextConfiguration(locations = "classpath*:/META-INF/applicationContext.xml")
-//TODO: extends AbstractTransactionalJUnit4SpringContextTests
 public class ChatServiceTest extends AbstractJUnit4SpringContextTests {
     @Autowired(required = true)
     ChatService chatService;
@@ -46,56 +41,16 @@ public class ChatServiceTest extends AbstractJUnit4SpringContextTests {
     }
 
     @Test
-    @Transactional
-    public void testGetOrCreate() {
-        User user1 = new User("testGetOrCreate1@test.com", "", "", "", Utilities.makeDate("04/06/1992"));
-        User user2 = new User("testGetOrCreate2@test.com", "", "", "", Utilities.makeDate("04/06/1992"));
-        User user3 = new User("testGetOrCreate3@test.com", "", "", "", Utilities.makeDate("04/06/1992"));
-
-        userService.addUser(user1);
-        userService.addUser(user2);
-        userService.addUser(user3);
-
-        List<User> list1 = new ArrayList<User>();
-        List<User> list2 = new ArrayList<User>();
-        List<User> list3 = new ArrayList<User>();
-
-        list1.add(user1);
-        list1.add(user2);
-
-        list2.add(user1);
-        list2.add(user3);
-
-        list3.add(user2);
-        list3.add(user3);
-
-        Chat chat1 = chatService.get(list1);
-        Chat chat2 = chatService.get(list2);
-        Chat chat3 = chatService.get(list3);
-
-        user1 = userService.get(user1.getId());
-        user2 = userService.get(user2.getId());
-        user3 = userService.get(user3.getId());
-
-        List<User> testList = new ArrayList<User>();
-        testList.add(user3);
-        testList.add(user1);
-        Chat testChat = chatService.get(testList);
-
-        assertEquals(chat2.getId(), testChat.getId());
-    }
-
-    @Test
     public void testSendMessage() {
         User user = new User("test.message.1@user.com", "blah", "blah", "blah", Utilities.makeDate("04/06/1992"));
         Message message = new Message("Test message", user, Utilities.makeDate("01/01/2013"));
         Chat chat = new Chat();
 
+        chat.addParticipant(user);
+
         chatService.add(chat);
 
         this.chatService.sendMessage(chat.getId(), message);
-
-        assertTrue(this.chatService.get(chat.getId()).getMessages().size() == 1);
     }
 
     @Test
@@ -138,10 +93,10 @@ public class ChatServiceTest extends AbstractJUnit4SpringContextTests {
         assertTrue(this.chatService.findAllMessagesByChatId(chat1.getId()).size() == 2);
     }
 
-//    @After
-//    public void removeAllChats(){
-//        for (Chat ch: chatService.getAllChats()){
-//            chatService.remove(ch);
-//        }
-//    }
+    @After
+    public void removeAllChats(){
+        for (Chat ch: chatService.getAllChats()){
+            chatService.remove(ch);
+        }
+    }
 }

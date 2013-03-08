@@ -3,6 +3,7 @@ package be.kdg.backend.entities;
 
 import be.kdg.backend.enums.TravelType;
 import be.kdg.backend.enums.TripType;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
@@ -27,10 +28,10 @@ public class Trip {
     @NotNull
     private String name;
 
-    @ManyToMany(cascade =CascadeType.MERGE)
-    @JoinTable(name="T_TRIP_ADMINS",
-            joinColumns={@JoinColumn(name="tripId")},
-            inverseJoinColumns={@JoinColumn(name="userId")})
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "T_TRIP_ADMINS",
+            joinColumns = {@JoinColumn(name = "tripId")},
+            inverseJoinColumns = {@JoinColumn(name = "userId")})
     private Set<User> admins;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "trip")
@@ -58,20 +59,23 @@ public class Trip {
     private Set<Stop> stops;
 
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
-        private Set<Announcement> announcements;
+    private Set<Announcement> announcements;
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
+    private Set<Equipment> equipmentSet;    //equipments is not a word
 
     private Boolean communicationByChat;
     private Boolean communicationByLocation;
 
-    public Trip(){
+    public Trip() {
         initLists();
     }
 
-    private void initLists(){
+    private void initLists() {
         this.admins = new HashSet<User>();
         this.participatedTrips = new HashSet<ParticipatedTrip>();
         this.stops = new HashSet<Stop>();
         this.announcements = new HashSet<Announcement>();
+        this.equipmentSet = new HashSet<Equipment>();
     }
 
     public void addStop(Stop stop) {
@@ -229,5 +233,17 @@ public class Trip {
     public void addAnnouncement(Announcement announcement) {
         this.announcements.add(announcement);
 
+    }
+
+    public void addEquipment(Equipment equipment) {
+        this.equipmentSet.add(equipment);
+    }
+
+    public Set<Equipment> getEquipmentSet() {
+        return equipmentSet;
+    }
+
+    public void setEquipmentSet(Set<Equipment> equipmentSet) {
+        this.equipmentSet = equipmentSet;
     }
 }

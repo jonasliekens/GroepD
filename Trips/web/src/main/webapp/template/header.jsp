@@ -13,7 +13,10 @@
                         <a href="chat"><spring:message code="menu.chat"/></a>
                     </li>
                     <li>
-                        <a href="login/editprofile"><spring:message code="menu.profile"/></a>
+                        <c:if test="${sessionScope.userId>0}">
+                            <a href="login/editprofile"><spring:message code="menu.profile"/></a>
+                        </c:if>
+
                     </li>
                     <li>
                         <c:choose>

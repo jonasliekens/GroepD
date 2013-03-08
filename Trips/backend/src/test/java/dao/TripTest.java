@@ -3,10 +3,7 @@ package dao;
 import be.kdg.backend.dao.interfaces.ParticipatedTripDao;
 import be.kdg.backend.dao.interfaces.TripDao;
 import be.kdg.backend.dao.interfaces.UserDao;
-import be.kdg.backend.entities.ParticipatedTrip;
-import be.kdg.backend.entities.Stop;
-import be.kdg.backend.entities.Trip;
-import be.kdg.backend.entities.User;
+import be.kdg.backend.entities.*;
 import be.kdg.backend.enums.TripType;
 import be.kdg.backend.utilities.StopComparator;
 import be.kdg.backend.utilities.Utilities;
@@ -21,9 +18,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created with IntelliJ IDEA 12.
@@ -158,6 +153,31 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
             }
         }
         assertTrue(correct);
+    }
+
+    @Test
+    public void testAddEquipmentToTrip() {
+        Trip trip = newTrip();
+        tripDao.add(trip);
+        Equipment equipment = new Equipment();
+        equipment.setDescription("Shovel");
+        equipment.setTrip(trip);
+        trip.addEquipment(equipment);
+        tripDao.update(trip);
+        assertTrue(tripDao.findById(trip.getId()).getEquipmentSet().size() > 0);
+    }
+
+    @Test
+    public void testRemoveEquipmentFromTrip() {
+        Trip trip = newTrip();
+        tripDao.add(trip);
+        Equipment equipment = new Equipment();
+        equipment.setDescription("Shovel");
+        equipment.setTrip(trip);
+        trip.addEquipment(equipment);
+        tripDao.update(trip);
+        tripDao.removeEquipmentFromTrip(((Equipment)trip.getEquipmentSet().toArray()[0]).getId());
+        assertTrue(tripDao.getEquipmentByTrip(trip.getId()).isEmpty());
     }
 
 

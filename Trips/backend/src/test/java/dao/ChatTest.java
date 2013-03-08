@@ -12,9 +12,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -108,6 +105,8 @@ public class ChatTest extends AbstractJUnit4SpringContextTests {
     public void findAllChatsByUserId() {
         User user1 = new User("chat.test@test.com", "blah", "blah", "blah", Utilities.makeDate("04/06/1992"));
         User user2 = new User("chat2.test@test.com", "blah2", "blah2", "blah2", Utilities.makeDate("04/06/1992"));
+
+
 
         Chat chat1 = new Chat();
         Chat chat2 = new Chat();

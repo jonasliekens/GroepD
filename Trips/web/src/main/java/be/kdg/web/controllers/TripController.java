@@ -1,9 +1,6 @@
 package be.kdg.web.controllers;
 
-import be.kdg.backend.entities.Announcement;
-import be.kdg.backend.entities.ParticipatedTrip;
-import be.kdg.backend.entities.Trip;
-import be.kdg.backend.entities.User;
+import be.kdg.backend.entities.*;
 import be.kdg.backend.enums.TravelType;
 import be.kdg.backend.enums.TripType;
 import be.kdg.backend.services.interfaces.ParticipatedTripService;
@@ -11,8 +8,10 @@ import be.kdg.backend.services.interfaces.StopService;
 import be.kdg.backend.services.interfaces.TripService;
 import be.kdg.backend.services.interfaces.UserService;
 import be.kdg.web.forms.AnnouncementForm;
+import be.kdg.web.forms.EquipmentForm;
 import be.kdg.web.forms.TripForm;
 import be.kdg.web.validators.AnnouncementValidator;
+import be.kdg.web.validators.EquipmentValidator;
 import be.kdg.web.validators.TripValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,7 +29,6 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
 
 /**
  * User: Bart Verhavert
@@ -39,28 +37,29 @@ import java.util.Map;
 @Controller
 @RequestMapping("/trips")
 public class TripController {
+
+    //SERVICES
     @Autowired
     @Qualifier("tripService")
-    TripService tripService;
-
-    @Autowired
-    @Qualifier("tripValidator")
-    TripValidator tripValidator;
-
-    @Autowired
-    @Qualifier("announcementValidator")
-    AnnouncementValidator announcementValidator;
-
+    private TripService tripService;
     @Autowired
     @Qualifier("userService")
-    UserService userService;
-
+    private UserService userService;
     @Autowired
     @Qualifier("participatedTripService")
-    ParticipatedTripService participatedTripService;
-
+    private ParticipatedTripService participatedTripService;
     @Autowired
-    StopService stopService;
+    private StopService stopService;
+    //VALIDATORS
+    @Autowired
+    @Qualifier("tripValidator")
+    private TripValidator tripValidator;
+    @Autowired
+    @Qualifier("announcementValidator")
+    private AnnouncementValidator announcementValidator;
+    @Autowired
+    @Qualifier("equipmentValidator")
+    private EquipmentValidator equipmentValidator;
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(ModelMap model) {
@@ -88,7 +87,8 @@ public class TripController {
                 }
             }
             model.addAttribute("isAdmin", isAdmin);
-            model.addAttribute("announcements", tripService.get(id).getAnnouncements());
+            model.addAttribute("announcements", tripService.getAnnouncementsByTripId(trip.getId()));
+            model.addAttribute("equipment", tripService.getEquipmentByTripId(trip.getId()));
         }
         return "trips/details";
     }
@@ -197,17 +197,14 @@ public class TripController {
         }
     }
 
-
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteTripConfirm(@PathVariable Integer id, ModelMap model) {
-
         model.addAttribute("trip", tripService.get(id));
-
         return "trips/delete";
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    public String deleteTip(@PathVariable Integer id) {
+    public String deleteTrip(@PathVariable Integer id, ModelMap model) {
 
         tripService.remove(tripService.get(id));
 
@@ -225,6 +222,7 @@ public class TripController {
 
         User user = userService.get((Integer) session.getAttribute("userId"));
         ParticipatedTrip participatedTrip = new ParticipatedTrip();
+        //participatedTripService.add(participatedTrip);
         participatedTrip.setUser(user);
         participatedTrip.setTrip(trip);
         participatedTrip.setConfirmed(true);
@@ -277,48 +275,45 @@ public class TripController {
         model.addAttribute("users", userService.getUninvitedUsers(id, (Integer) session.getAttribute("userId")));
         return "trips/invite";
     }
-
     @RequestMapping(value = "/invite/{id}", method = RequestMethod.POST)
-    public String invitePost(@PathVariable Integer id, ModelMap model, HttpSession session, HttpServletRequest request) {
-        List<Integer> userIdList = new ArrayList<Integer>();
-
-        for (Enumeration e = request.getParameterNames(); e.hasMoreElements(); ) {
-            userIdList.add(Integer.parseInt((String) e.nextElement()));
-        }
-
-        userService.createUserInvitations(userIdList, id);
-        return "redirect:/trips/own";
-    }
-
-    @RequestMapping(value = "/invitations", method = RequestMethod.GET)
-    public String invitationsGet(ModelMap model, HttpSession session) {
-        Integer userId = (Integer) session.getAttribute("userId");
-        model.addAttribute("invitations", participatedTripService.getInvitations(userId));
-        return "trips/invitations";
-    }
-
-    @RequestMapping(value = "/invitations/accept/{id}", method = RequestMethod.GET)
-    public String invitationsAcceptPost(@PathVariable Integer id, ModelMap model){
-        ParticipatedTrip pt = participatedTripService.get(id);
-        pt.setConfirmed(true);
-        participatedTripService.update(pt);
-        return "redirect:/trips/invitations";
-    }
-
-    @RequestMapping(value = "/invitations/deny/{id}", method = RequestMethod.GET)
-    public String invitationsDenyPost(@PathVariable Integer id, ModelMap model){
-        ParticipatedTrip pt = participatedTripService.get(id);
-        participatedTripService.remove(pt);
-        return "redirect:/trips/invitations";
-    }
-
+       public String invitePost(@PathVariable Integer id, ModelMap model, HttpSession session, HttpServletRequest request) {
+           List<Integer> userIdList = new ArrayList<Integer>();
+   
+           for (Enumeration e = request.getParameterNames(); e.hasMoreElements(); )
+               userIdList.add(Integer.parseInt((String) e.nextElement()));
+   
+           userService.createUserInvitations(userIdList, id);
+           return "redirect:/trips/own";
+       }
+   
+       @RequestMapping(value = "/invitations", method = RequestMethod.GET)
+       public String invitationsGet(ModelMap model, HttpSession session) {
+           Integer userId = (Integer) session.getAttribute("userId");
+           model.addAttribute("invitations", participatedTripService.getInvitations(userId));
+           return "trips/invitations";
+       }
+   
+       @RequestMapping(value = "/invitations/accept/{id}", method = RequestMethod.GET)
+       public String invitationsAcceptPost(@PathVariable Integer id, ModelMap model){
+           ParticipatedTrip pt = participatedTripService.get(id);
+           pt.setConfirmed(true);
+           participatedTripService.update(pt);
+           return "redirect:/trips/invitations";
+       }
+   
+       @RequestMapping(value = "/invitations/deny/{id}", method = RequestMethod.GET)
+       public String invitationsDenyPost(@PathVariable Integer id, ModelMap model){
+           ParticipatedTrip pt = participatedTripService.get(id);
+           participatedTripService.remove(pt);
+           return "redirect:/trips/invitations";
+       }
     @RequestMapping(value = "{id}/announcements/add", method = RequestMethod.GET)
     public String addAnnouncementsGet(@PathVariable Integer id, ModelMap model) {
         model.addAttribute("announcementform", new AnnouncementForm());
         return "trips/addannouncement";
     }
 
-    @RequestMapping(value = "{id}/announcements/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}/announcements/add", method = RequestMethod.POST)
     public String addAnnouncementsPost(@PathVariable Integer id, @ModelAttribute("announcementform") AnnouncementForm announcementForm, BindingResult result, HttpSession session) {
         announcementValidator.validate(announcementForm, result);
         if (result.hasErrors()) {
@@ -327,10 +322,45 @@ public class TripController {
             Announcement announcement = new Announcement();
             announcement.setMessage(announcementForm.getMessage());
             Trip trip = tripService.get(id);
+            announcement.setTrip(trip);
             trip.addAnnouncement(announcement);
             tripService.update(trip);
             return "redirect:/trips/details/" + id;
         }
 
     }
+
+    @RequestMapping(value = "/{id}/announcements/delete/{announcementid}", method = RequestMethod.GET)
+    public String deleteAnnouncement(@PathVariable Integer id,@PathVariable Integer announcementid, ModelMap model) {
+        tripService.removeAnnouncementFromTrip(announcementid);
+        return "redirect:/trips/details/" + id;
+    }
+
+    @RequestMapping(value = "/{id}/equipment/add", method = RequestMethod.GET)
+    public String addEquipmentGet(@PathVariable Integer id, ModelMap model) {
+        model.addAttribute("equipmentform", new EquipmentForm());
+        return "trips/addequipment";
+    }
+
+    @RequestMapping(value = "/{id}/equipment/add", method = RequestMethod.POST)
+    public String addEquipmentPost(@PathVariable Integer id,@ModelAttribute("equipmentform") EquipmentForm equipmentForm, BindingResult result, HttpSession session) {
+        equipmentValidator.validate(equipmentForm, result);
+        if (result.hasErrors()) {
+            return "trips";
+        } else {
+            Equipment equipment = new Equipment();
+            equipment.setDescription(equipmentForm.getDescription());
+            Trip trip = tripService.get(id);
+            equipment.setTrip(trip);
+            trip.addEquipment(equipment);
+            tripService.update(trip);
+            return "redirect:/trips/details/" + id;
+        }
+
+    }
+    @RequestMapping(value = "/{id}/equipment/delete/{equipmentid}", method = RequestMethod.GET)
+       public String deleteEquipment(@PathVariable Integer id,@PathVariable Integer equipmentid, ModelMap model) {
+           tripService.removeEquipmentFromTrip(equipmentid);
+           return "redirect:/trips/details/" + id;
+       }
 }

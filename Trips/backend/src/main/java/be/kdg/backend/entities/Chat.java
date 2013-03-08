@@ -62,21 +62,4 @@ public class Chat {
     public void setMessages(Set<Message> messages) {
         this.messages = messages;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Chat chat = (Chat) o;
-
-        if (!id.equals(chat.id)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
 }

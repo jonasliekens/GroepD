@@ -24,7 +24,7 @@ public class ParticipatedTripTest extends AbstractJUnit4SpringContextTests {
     @Qualifier("participatedTripDaoImpl")
     ParticipatedTripDao participatedTripDao;
     @Autowired(required = true)
-    @Qualifier("tripDaoImpl")
+        @Qualifier("tripDaoImpl")
     TripDao tripDao;
     ParticipatedTrip pt;
 

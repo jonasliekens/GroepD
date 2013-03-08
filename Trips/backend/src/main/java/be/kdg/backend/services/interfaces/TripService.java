@@ -1,5 +1,7 @@
 package be.kdg.backend.services.interfaces;
 
+import be.kdg.backend.entities.Announcement;
+import be.kdg.backend.entities.Equipment;
 import be.kdg.backend.entities.Trip;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,4 +16,12 @@ public interface TripService extends GenericService<Trip, Integer>{
     public List<Trip> getTrips();
     @Transactional
     public List<Trip> getPublicTrips();
+
+    void removeAnnouncementFromTrip(Integer announcementId);
+
+    List<Announcement> getAnnouncementsByTripId(Integer tripId);
+
+    List<Equipment> getEquipmentByTripId(Integer tripId);
+
+    void removeEquipmentFromTrip(Integer equipmentId);
 }

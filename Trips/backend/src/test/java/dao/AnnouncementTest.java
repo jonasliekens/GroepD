@@ -41,6 +41,13 @@ public class AnnouncementTest extends AbstractJUnit4SpringContextTests {
         assertTrue(((Announcement)trip.getAnnouncements().toArray()[0]).getMessage().equals("Edit Announcement"));
     }
 
+    @Test
+    public void testRemoveAnnouncementFromTrip(){
+        createNewAnnouncementWithTrip();
+        tripDao.removeAnnouncementFromTrip(((Announcement)trip.getAnnouncements().toArray()[0]).getId());
+        assertTrue(tripDao.getAnnouncementsByTripId(trip.getId()).size() == 0);
+    }
+
     @After
     public void removeAllTrips(){
         for (Trip trip: tripDao.findAll()){
@@ -60,6 +67,7 @@ public class AnnouncementTest extends AbstractJUnit4SpringContextTests {
         trip.setCommunicationByLocation(true);
         tripDao.add(trip);
         announcement.setMessage("TestAnnouncement");
+        announcement.setTrip(trip);
         trip.addAnnouncement(announcement);
         tripDao.update(trip);
     }

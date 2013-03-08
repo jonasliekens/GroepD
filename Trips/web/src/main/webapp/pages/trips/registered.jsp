@@ -89,7 +89,7 @@
                                             code="trip.stopTrip"/></a>
 
                                 </c:if>
-                                <c:if test="${participatedTrip.finished}">
+                                <c:if test="${participatedTrip.finished || participatedTrip.started==false}">
                                     <a class="btn" href="trips/start/${participatedTrip.id}"><spring:message
                                             code="trip.startTrip"/></a>
                                 </c:if>
