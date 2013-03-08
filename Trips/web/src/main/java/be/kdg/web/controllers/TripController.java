@@ -25,7 +25,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
 
 /**
  * User: Bart Verhavert
@@ -202,7 +207,7 @@ public class TripController {
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    public String deleteTip(@PathVariable Integer id, ModelMap model) {
+    public String deleteTip(@PathVariable Integer id) {
 
         tripService.remove(tripService.get(id));
 
@@ -220,9 +225,9 @@ public class TripController {
 
         User user = userService.get((Integer) session.getAttribute("userId"));
         ParticipatedTrip participatedTrip = new ParticipatedTrip();
-        //participatedTripService.add(participatedTrip);
         participatedTrip.setUser(user);
         participatedTrip.setTrip(trip);
+        participatedTrip.setConfirmed(true);
         participatedTripService.add(participatedTrip);
         return "redirect:/trips/details/" + id;
     }
@@ -253,9 +258,9 @@ public class TripController {
         return "redirect:/trips/registered/";
     }
 
-    @RequestMapping(value = "/participants/{id}", method = RequestMethod.GET)
-    public String participantsGet(@PathVariable Integer id, ModelMap model) {
-        model.addAttribute("participatedTrips", participatedTripService.getParticipatedTripsByTripId(id));
+    @RequestMapping(value = "/participants/{tripId}", method = RequestMethod.GET)
+    public String participantsGet(@PathVariable Integer tripId, ModelMap model) {
+        model.addAttribute("participatedTrips", participatedTripService.getConfirmedParticipatedTripsByTripId(tripId));
         return "trips/participants";
     }
 
@@ -271,6 +276,40 @@ public class TripController {
 
         model.addAttribute("users", userService.getUninvitedUsers(id, (Integer) session.getAttribute("userId")));
         return "trips/invite";
+    }
+
+    @RequestMapping(value = "/invite/{id}", method = RequestMethod.POST)
+    public String invitePost(@PathVariable Integer id, ModelMap model, HttpSession session, HttpServletRequest request) {
+        List<Integer> userIdList = new ArrayList<Integer>();
+
+        for (Enumeration e = request.getParameterNames(); e.hasMoreElements(); ) {
+            userIdList.add(Integer.parseInt((String) e.nextElement()));
+        }
+
+        userService.createUserInvitations(userIdList, id);
+        return "redirect:/trips/own";
+    }
+
+    @RequestMapping(value = "/invitations", method = RequestMethod.GET)
+    public String invitationsGet(ModelMap model, HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        model.addAttribute("invitations", participatedTripService.getInvitations(userId));
+        return "trips/invitations";
+    }
+
+    @RequestMapping(value = "/invitations/accept/{id}", method = RequestMethod.GET)
+    public String invitationsAcceptPost(@PathVariable Integer id, ModelMap model){
+        ParticipatedTrip pt = participatedTripService.get(id);
+        pt.setConfirmed(true);
+        participatedTripService.update(pt);
+        return "redirect:/trips/invitations";
+    }
+
+    @RequestMapping(value = "/invitations/deny/{id}", method = RequestMethod.GET)
+    public String invitationsDenyPost(@PathVariable Integer id, ModelMap model){
+        ParticipatedTrip pt = participatedTripService.get(id);
+        participatedTripService.remove(pt);
+        return "redirect:/trips/invitations";
     }
 
     @RequestMapping(value = "{id}/announcements/add", method = RequestMethod.GET)
@@ -290,8 +329,8 @@ public class TripController {
             Trip trip = tripService.get(id);
             trip.addAnnouncement(announcement);
             tripService.update(trip);
-            return "redirect:/trips/details/"+id;
+            return "redirect:/trips/details/" + id;
         }
 
-        }
     }
+}

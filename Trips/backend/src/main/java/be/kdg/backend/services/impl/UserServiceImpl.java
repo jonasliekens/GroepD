@@ -1,6 +1,7 @@
 package be.kdg.backend.services.impl;
 
 import be.kdg.backend.dao.interfaces.ParticipatedTripDao;
+import be.kdg.backend.dao.interfaces.TripDao;
 import be.kdg.backend.dao.interfaces.UserDao;
 import be.kdg.backend.entities.ParticipatedTrip;
 import be.kdg.backend.entities.User;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA 12.
@@ -29,6 +31,10 @@ public class UserServiceImpl implements UserService {
     @Autowired(required = true)
     private UserDao userDao;
 
+    @Qualifier("tripDaoImpl")
+    @Autowired(required = true)
+    private TripDao tripDao;
+
     @Qualifier("participatedTripDaoImpl")
     @Autowired(required = true)
     private ParticipatedTripDao participatedTripDao;
@@ -40,10 +46,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean addUser(User user) {
-        try{
+        try {
             userDao.findByEMail(user.getEmail());
             return true;
-        }catch (NoResultException e){
+        } catch (NoResultException e) {
             userDao.add(user);
             return false;
         }
@@ -70,18 +76,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean mergeUserWithFacebook(Integer id, String facebookId) {
-        try{
+        try {
             User user = userDao.findById(id);
             user.setFacebookID(facebookId);
             userDao.update(user);
             return true;
-        }catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
 
     @Override
-    public Integer checkLoginWithFacebook(String facebookId) throws LoginInvalidException{
+    public Integer checkLoginWithFacebook(String facebookId) throws LoginInvalidException {
         try {
             User user = userDao.findByFacebookId(facebookId);
             return user.getId();
@@ -91,7 +97,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User checkLogin(String email, String password) throws LoginInvalidException{
+    public User checkLogin(String email, String password) throws LoginInvalidException {
         try {
             User user = userDao.findByEMail(email);
             if (user.getPassword().equals(password)) {
@@ -106,9 +112,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByEMail(String eMail) throws DataNotFoundException {
-        try{
+        try {
             return userDao.findByEMail(eMail);
-        }catch (NoResultException e){
+        } catch (NoResultException e) {
             throw new DataNotFoundException();
         }
     }
@@ -120,14 +126,36 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getUninvitedUsers(Integer tripId, Integer userId) {
-        List<User> users = new ArrayList<User>();
-        for(User user : userDao.findAll()){
-            for(ParticipatedTrip invitation : participatedTripDao.findAllByTripId(tripId)){
-                if(user.getId() != invitation.getUser().getId() && user.getId() != userId){
-                    users.add(user);
+        List<User> uninvitedUsers = new ArrayList<User>();
+        List<ParticipatedTrip> participatedTripsByTripId = participatedTripDao.findAllByTripId(tripId);
+        Boolean isInvited;
+
+        for (User user : userDao.findAll()) {
+            //Exclude trip owner
+            if (user.getId() != userId) {
+                isInvited = false;
+                //Loop through participatedtrips to check if the user is already invited or participating
+                for (ParticipatedTrip pt : participatedTripsByTripId) {
+                    if (user.getId() == pt.getUser().getId()) {
+                        isInvited = true;
+                    }
+                }
+                if (!isInvited) {
+                    uninvitedUsers.add(user);
                 }
             }
         }
-        return users;
+        return uninvitedUsers;
+    }
+
+    @Override
+    public void createUserInvitations(List<Integer> userIdList, Integer tripId) {
+        for (Integer userId : userIdList) {
+            ParticipatedTrip participatedTrip = new ParticipatedTrip();
+            participatedTrip.setConfirmed(false);
+            participatedTrip.setTrip(tripDao.findById(tripId));
+            participatedTrip.setUser(userDao.findById(userId));
+            participatedTripDao.add(participatedTrip);
+        }
     }
 }

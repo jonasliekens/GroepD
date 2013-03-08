@@ -54,14 +54,12 @@
                             <spring:message code="user.lastname"/>
                         </th>
                         <th>
-                            <spring:message code="user.email"/>
-                        </th>
-                        <th>
                             <spring:message code="trip.started"/>
                         </th>
                         <th>
                             <spring:message code="trip.finished"/>
                         </th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -72,36 +70,34 @@
                             </td>
                         </tr>
                     </c:if>
-                    <c:forEach var="participatedTrips" items="${participatedTrips}">
+                    <c:forEach var="participatedTrip" items="${participatedTrips}">
                         <tr>
                             <td>
-                                    ${participatedTrips.user.firstName}
+                                    ${participatedTrip.user.firstName}
                             </td>
                             <td>
-                                    ${participatedTrips.user.lastName}
+                                    ${participatedTrip.user.lastName}
                             </td>
                             <td>
-                                    ${participatedTrips.user.email}
-                            </td>
-                            <td>
-                                    ${participatedTrips.started}
-                                <c:if test="${participatedTrips.started}">
+                                <c:if test="${participatedTrip.started}">
                                     <spring:message code="common.yes"/>
                                 </c:if>
-                                <c:if test="${participatedTrips.started==false}">
+                                <c:if test="${participatedTrip.started==false}">
                                     <spring:message code="common.no"/>
                                 </c:if>
 
                             </td>
                             <td>
-                                    ${participatedTrips.finished}
-                                <c:if test="${participatedTrips.finished}">
+                                <c:if test="${participatedTrip.finished}">
                                     <spring:message code="common.yes"/>
                                 </c:if>
-                                <c:if test="${participatedTrips.finished==false}">
+                                <c:if test="${participatedTrip.finished==false}">
                                     <spring:message code="common.no"/>
                                 </c:if>
 
+                            </td>
+                            <td>
+                                <a href="chat/user/${participatedTrip.user.id}"><spring:message code="chat.chat"/></a>
                             </td>
                         </tr>
                     </c:forEach>

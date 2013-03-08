@@ -72,7 +72,7 @@
                                         ${user.lastName}
                                     </td>
                                     <td>
-                                        <input type="checkbox"/>
+                                        <input type="checkbox" name="${user.id}"/>
                                     </td>
                                 </tr>
                             </c:forEach>

@@ -15,4 +15,8 @@ import java.util.List;
 public interface ParticipatedTripDao extends GenericDao<ParticipatedTrip,Integer>  {
     @Transactional
     public List<ParticipatedTrip> findAllByTripId(Integer id);
+    @Transactional
+    List<ParticipatedTrip> getInvitations(Integer userId);
+    @Transactional
+    List<ParticipatedTrip> findAllConfirmedByTripId(Integer tripId);
 }

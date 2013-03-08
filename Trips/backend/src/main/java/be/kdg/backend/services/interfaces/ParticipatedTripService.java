@@ -19,4 +19,8 @@ public interface ParticipatedTripService extends GenericService<ParticipatedTrip
     public List<ParticipatedTrip> getParticipatedTripsByTripId(Integer tripId);
     @Transactional
     public List<ParticipatedTrip> getAllParticipatedTrips();
+    @Transactional
+    public List<ParticipatedTrip>getInvitations(Integer userId);
+    @Transactional
+    public List<ParticipatedTrip> getConfirmedParticipatedTripsByTripId(Integer tripId);
 }
