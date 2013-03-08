@@ -20,13 +20,15 @@ import java.util.List;
  */
 public class Utilities {
     public static final String PREFS_NAME = "TripsPreferences";
-    //    public static final String SERVER_ADDRESS = "http://192.168.0.196:8080/web";
+    public static final long TRIPS_RELOAD_TIME = 5 * 60 * 1000; // 5 minutes
+
+    //        public static final String SERVER_ADDRESS = "http://192.168.0.196:8080/web";
     public static final String SERVER_ADDRESS = "http://192.168.113.1:8080/web";
 
     public static final String LOGIN_ADDRESS = SERVER_ADDRESS + "/rest/login";
     public static final int LOGIN_REQUEST = 0;
 
-    public static final String  TRIPS_ADDRESS = SERVER_ADDRESS + "/rest/trips";
+    public static final String TRIPS_ADDRESS = SERVER_ADDRESS + "/rest/trips";
 
     private static ConnectivityManager connectivityManager;
     private static Gson gson;
@@ -71,7 +73,8 @@ public class Utilities {
     public static List<Trip> getTrips(String json) {
         createGson();
         try {
-            List<Trip> trips = gson.fromJson(json, new TypeToken<List<Trip>>(){}.getType());
+            List<Trip> trips = gson.fromJson(json, new TypeToken<List<Trip>>() {
+            }.getType());
             return trips;
         } catch (Exception e) {
             e.printStackTrace();

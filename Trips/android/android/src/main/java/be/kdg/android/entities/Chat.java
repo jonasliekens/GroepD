@@ -1,5 +1,6 @@
 package be.kdg.android.entities;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,7 +8,7 @@ import java.util.Set;
  * User: Bart Verhavert
  * Date: 5/03/13 13:32
  */
-public class Chat {
+public class Chat implements Serializable {
     private Integer id;
     private Set<User> participants;
     private Set<Message> messages;

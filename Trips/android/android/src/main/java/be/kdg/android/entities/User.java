@@ -1,5 +1,6 @@
 package be.kdg.android.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +12,7 @@ import java.util.Set;
  * Time: 13:54
  * Copyright @ Soulware.be
  */
-public class User {
+public class User implements Serializable {
     private Integer id;
     private String email;
     private String password;

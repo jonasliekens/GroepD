@@ -31,6 +31,9 @@ public class TripsActivity extends Activity {
 
         initSettings();
         checkLogin();
+    }
+
+    private void startApp() {
         initControls();
 
         if (!Utilities.isOnline(this.getApplicationContext())) {
@@ -66,6 +69,8 @@ public class TripsActivity extends Activity {
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         // actionBar.setDisplayShowTitleEnabled(false);
 
+        actionBar.removeAllTabs();
+
         ActionBar.Tab tab = actionBar
                 .newTab()
                 .setText(R.string.alltrips_name)
@@ -93,6 +98,8 @@ public class TripsActivity extends Activity {
         if (!loggedIn) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivityForResult(intent, Utilities.LOGIN_REQUEST);
+        } else {
+            startApp();
         }
     }
 
@@ -107,6 +114,7 @@ public class TripsActivity extends Activity {
         if (resultCode == Activity.RESULT_OK && requestCode == Utilities.LOGIN_REQUEST) {
             settingsEditor.putBoolean("loggedIn", true);
             settingsEditor.commit();
+            startApp();
         } else {
             finish();
         }

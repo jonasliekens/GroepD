@@ -1,5 +1,6 @@
 package be.kdg.android.entities;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,7 +12,7 @@ import java.util.Set;
  * Copyright @ Soulware.be
  */
 
-public class Question {
+public class Question implements Serializable {
     private Integer id;
     private String question;
     private Set<Answer> answers;

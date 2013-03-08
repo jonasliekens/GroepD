@@ -9,9 +9,10 @@
     <string name="chat_name">Chat</string>
 
     <!-- Common -->
+    <string name="common_refresh">Vernieuwen</string>
     <string name="network_noconnection">Geen internetverbinding gevonden. Gelieve Wi-Fi of een andere dataverbinding in te schakelen.</string>
     <string name="downloading_progress_title">Downloaden...</string>
-    <string name="downloading_progress_desc">Bezig met downloaden van bestanden, een ogenblikje geduld alstublieft...</string>
+    <string name="downloading_progress_desc">Bezig met downloaden van informatie, een ogenblikje geduld alstublieft...</string>
 
     <!-- Login -->
     <string name="login_username">Gebruikersnaam</string>

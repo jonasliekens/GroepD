@@ -9,9 +9,10 @@
     <string name="chat_name">Chat</string>
 
     <!-- Common -->
+    <string name="common_refresh">Refresh</string>
     <string name="network_noconnection">No Internet connection found. Please enable Wi-Fi or another data connection.</string>
     <string name="downloading_progress_title">Downloading...</string>
-    <string name="downloading_progress_desc">Downloading files, just a moment please...</string>
+    <string name="downloading_progress_desc">Downloading information, just a moment please...</string>
 
     <!-- Login -->
     <string name="login_username">Username</string>

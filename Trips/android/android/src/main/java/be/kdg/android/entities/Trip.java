@@ -3,6 +3,7 @@ package be.kdg.android.entities;
 import be.kdg.android.enums.TravelType;
 import be.kdg.android.enums.TripType;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,7 +14,7 @@ import java.util.Set;
  * Time: 16:09
  * Copyright @ Soulware.be
  */
-public class Trip {
+public class Trip implements Serializable {
     private Integer id;
     private String name;
     private Set<User> admins;

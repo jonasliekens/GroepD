@@ -1,5 +1,7 @@
 package be.kdg.android.entities;
 
+import java.io.Serializable;
+
 /**
  * Created with IntelliJ IDEA 12.
  * User: Jonas Liekens
@@ -7,7 +9,7 @@ package be.kdg.android.entities;
  * Time: 14:29
  * Copyright @ Soulware.be
  */
-public class Picture {
+public class Picture implements Serializable {
     private Integer id;
     private String url;
     private String description;

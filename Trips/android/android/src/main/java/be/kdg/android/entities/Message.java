@@ -5,9 +5,10 @@ package be.kdg.android.entities;
  * Date: 5/03/13 13:28
  */
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Message {
+public class Message implements Serializable {
     private Integer id;
     private String message;
     private User sender;

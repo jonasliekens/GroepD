@@ -3,12 +3,10 @@ package be.kdg.android.fragments;
 import android.app.ListFragment;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.view.*;
 import android.widget.ListView;
 import be.kdg.android.R;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import be.kdg.android.entities.Trip;
 import be.kdg.android.networking.RestHttpConnection;
 import be.kdg.android.utilities.Utilities;
@@ -21,8 +19,13 @@ import java.util.List;
  * Date: 26/02/13 11:30
  */
 public class AllTripsFragment extends ListFragment {
-    private ListView listView;
     private TripsListAdapter tripsListAdapter;
+    private List<Trip> trips;
+
+    public AllTripsFragment() {
+        setRetainInstance(false);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,18 +36,38 @@ public class AllTripsFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        if (savedInstanceState == null) {
+            downloadList();
+        }
+    }
+
+    private void downloadList() {
         AllTripsTask allTripsTask = new AllTripsTask();
         allTripsTask.execute();
     }
 
-    private void fillList(List<Trip> trips) {
+    private void fillList() {
         try {
-        //listView = (ListView) getView().findViewById(R.id.alltrips_list);
-        tripsListAdapter = new TripsListAdapter(getActivity(), trips.toArray(new Trip[trips.size()]));
-        //listView.setAdapter(tripsListAdapter);
-        setListAdapter(tripsListAdapter);
+            tripsListAdapter = new TripsListAdapter(getActivity(), trips.toArray(new Trip[trips.size()]));
+            setListAdapter(tripsListAdapter);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.trips_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_refresh:
+                downloadList();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -53,7 +76,7 @@ public class AllTripsFragment extends ListFragment {
 
         @Override
         protected void onPreExecute() {
-            progressDialog = ProgressDialog.show(getActivity(), getString(R.string.downloading_progress_title),getString(R.string.downloading_progress_desc), true, false);
+            progressDialog = ProgressDialog.show(getActivity(), getString(R.string.downloading_progress_title), getString(R.string.downloading_progress_desc), true, false);
         }
 
         @Override
@@ -76,7 +99,8 @@ public class AllTripsFragment extends ListFragment {
         @Override
         protected void onPostExecute(List<Trip> trips) {
             progressDialog.dismiss();
-            fillList(trips);
+            AllTripsFragment.this.trips = trips;
+            fillList();
         }
     }
 }

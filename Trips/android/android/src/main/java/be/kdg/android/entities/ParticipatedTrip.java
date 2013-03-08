@@ -1,5 +1,7 @@
 package be.kdg.android.entities;
 
+import java.io.Serializable;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Bart
@@ -8,7 +10,7 @@ package be.kdg.android.entities;
  * To change this template use File | Settings | File Templates.
  */
 
-public class ParticipatedTrip {
+public class ParticipatedTrip implements Serializable {
     private Integer id;
     private Boolean isStarted;
     private Boolean isFinished;

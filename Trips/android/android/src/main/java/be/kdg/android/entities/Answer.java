@@ -1,5 +1,7 @@
 package be.kdg.android.entities;
 
+import java.io.Serializable;
+
 /**
  * Created with IntelliJ IDEA 12.
  * User: Jonas Liekens
@@ -7,7 +9,7 @@ package be.kdg.android.entities;
  * Time: 14:34
  * Copyright @ Soulware.be
  */
-public class Answer {
+public class Answer implements Serializable {
     private Integer id;
     private String answer;
     private Boolean isCorrect;
