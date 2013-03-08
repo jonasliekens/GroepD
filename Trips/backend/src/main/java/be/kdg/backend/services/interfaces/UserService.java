@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA 12.
@@ -31,6 +32,8 @@ public interface UserService extends GenericService<User, Integer>{
     public List<User> getAllUsers();
     @Transactional
     public List<User> getUninvitedUsers(Integer tripId, Integer userId);
+    @Transactional
+    public void createUserInvitations(List<Integer> userIdList, Integer tripId);
 
     @Override
     @Deprecated

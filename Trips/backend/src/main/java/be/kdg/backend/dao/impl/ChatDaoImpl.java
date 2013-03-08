@@ -3,7 +3,6 @@ package be.kdg.backend.dao.impl;
 import be.kdg.backend.dao.interfaces.ChatDao;
 import be.kdg.backend.entities.Chat;
 import be.kdg.backend.entities.Message;
-import be.kdg.backend.entities.User;
 import be.kdg.backend.utilities.MessageComparator;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 /**
  * User: Bart Verhavert

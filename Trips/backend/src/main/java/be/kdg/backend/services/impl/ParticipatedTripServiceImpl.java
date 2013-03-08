@@ -56,4 +56,13 @@ public class ParticipatedTripServiceImpl implements ParticipatedTripService {
         return participatedTripDao.findAll();
     }
 
+    @Override
+    public List<ParticipatedTrip> getInvitations(Integer userId) {
+        return participatedTripDao.getInvitations(userId);
+    }
+
+    @Override
+    public List<ParticipatedTrip> getConfirmedParticipatedTripsByTripId(Integer tripId) {
+        return participatedTripDao.findAllConfirmedByTripId(tripId);
+    }
 }

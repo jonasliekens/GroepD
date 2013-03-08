@@ -47,11 +47,18 @@ public class User {
     @ManyToMany(cascade = CascadeType.ALL,mappedBy="admins")
     private Set<Trip> ownTrips;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "participants")
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy="recievers")
+    private Set<BroadcastMessage> broadcastMessages;
+
+    //TODO: Remove eager loading, it fails on ChatServiceTest.testGetOrCreate() though
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "participants", fetch = FetchType.EAGER)
     private Set<Chat> chats;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy= "user")
     private Set<ParticipatedTrip> participatedTrips;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+    private Set<Message> messages;
 
     public User() {
         initLists();
@@ -79,6 +86,9 @@ public class User {
     private void initLists(){
         this.ownTrips = new HashSet<Trip>();
         this.participatedTrips = new HashSet<ParticipatedTrip>();
+        this.chats = new HashSet<Chat>();
+        this.broadcastMessages = new HashSet<BroadcastMessage>();
+        this.messages = new HashSet<Message>();
     }
 
     public Integer getId() {
@@ -178,5 +188,19 @@ public class User {
 
     public void setShareLocation(boolean shareLocation) {
         this.shareLocation = shareLocation;
+    }
+
+    public Set<BroadcastMessage> getBroadcastMessages() {
+        return broadcastMessages;
+    }
+
+    public void setBroadcastMessages(Set<BroadcastMessage> broadcastMessages) {
+        this.broadcastMessages = broadcastMessages;
+    }
+
+    @Deprecated
+    //TODO: "detached entity passed to persist" exception on usage, use the dao getMessageByUserId instead
+    public void addBroadcastMessage(BroadcastMessage message) {
+        this.broadcastMessages.add(message);
     }
 }
