@@ -1,6 +1,7 @@
 package be.kdg.backend.dao.interfaces;
 
 import be.kdg.backend.entities.BroadcastMessage;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,6 +13,8 @@ import java.util.List;
  * Copyright @ Soulware.be
  */
 public interface BroadcastDao extends GenericDao<BroadcastMessage, Integer> {
+    @Transactional
     public List<BroadcastMessage> findMessagesByUserId(Integer userId);
+    @Transactional
     public void confirmMessage(Integer userId, Integer messageId);
 }
