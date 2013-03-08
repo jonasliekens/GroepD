@@ -46,7 +46,7 @@ public class BroadcastMessage {
         this.message = message;
         this.trip = trip;
         this.date = date;
-        this.recievers = new HashSet<>();
+        this.recievers = new HashSet<User>();
     }
 
     public Integer getId() {
