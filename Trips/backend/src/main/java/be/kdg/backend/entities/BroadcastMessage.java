@@ -77,6 +77,12 @@ public class BroadcastMessage {
         this.recievers.add(user);
     }
 
+    public void removeReciever(User user){
+        if(this.recievers.contains(user)){
+            this.recievers.remove(user);
+        }
+    }
+
     public Trip getTrip() {
         return trip;
     }

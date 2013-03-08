@@ -2,6 +2,8 @@ package be.kdg.backend.dao.impl;
 
 import be.kdg.backend.dao.interfaces.BroadcastDao;
 import be.kdg.backend.entities.BroadcastMessage;
+import be.kdg.backend.entities.ParticipatedTrip;
+import be.kdg.backend.entities.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -36,6 +38,10 @@ public class BroadCastDaoImpl implements BroadcastDao {
     public void add(BroadcastMessage entity) {
         entityManager.getTransaction().begin();
         entityManager.persist(entity);
+        for (ParticipatedTrip trip : entity.getTrip().getParticipatedTrips()) {
+            entity.addReciever(trip.getUser());
+        }
+        entityManager.merge(entity);
         entityManager.getTransaction().commit();
     }
 
@@ -48,7 +54,6 @@ public class BroadCastDaoImpl implements BroadcastDao {
     }
 
     @Override
-    @Deprecated
     public void update(BroadcastMessage entity) {
         entityManager.getTransaction().begin();
         entityManager.merge(entity);
@@ -66,5 +71,16 @@ public class BroadCastDaoImpl implements BroadcastDao {
     public List<BroadcastMessage> findAll() {
         Query query = entityManager.createQuery("select b from BroadcastMessage b");
         return query.getResultList();
+    }
+
+    @Override
+    public void confirmMessage(Integer userId, Integer messageId) throws NoResultException{
+        User user = entityManager.find(User.class, userId);
+        BroadcastMessage message = findById(messageId);
+        message.removeReciever(user);
+        update(message);
+        if(message.getRecievers().size() == 0){
+            remove(message);
+        }
     }
 }

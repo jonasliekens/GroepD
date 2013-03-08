@@ -1,20 +1,19 @@
-package dao;
+package services;
 
-import be.kdg.backend.dao.impl.ParticipatedTripDaoImpl;
-import be.kdg.backend.dao.interfaces.BroadcastDao;
-import be.kdg.backend.dao.interfaces.TripDao;
-import be.kdg.backend.dao.interfaces.UserDao;
 import be.kdg.backend.entities.BroadcastMessage;
 import be.kdg.backend.entities.ParticipatedTrip;
 import be.kdg.backend.entities.Trip;
 import be.kdg.backend.entities.User;
+import be.kdg.backend.services.interfaces.BroadcastService;
+import be.kdg.backend.services.interfaces.ParticipatedTripService;
+import be.kdg.backend.services.interfaces.TripService;
+import be.kdg.backend.services.interfaces.UserService;
 import be.kdg.backend.utilities.Utilities;
 import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
@@ -24,27 +23,23 @@ import java.util.Date;
 /**
  * Created with IntelliJ IDEA 12.
  * User: Jonas Liekens
- * Date: 6/03/13
- * Time: 11:21
+ * Date: 8/03/13
+ * Time: 12:06
  * Copyright @ Soulware.be
  */
 @ContextConfiguration(locations = "classpath*:/META-INF/applicationContext.xml")
-public class BroadcastTest extends AbstractJUnit4SpringContextTests {
-    @Qualifier("broadCastDaoImpl")
-    @Autowired(required = true)
-    private BroadcastDao broadcastDao;
+public class BroadcastServiceTest extends AbstractJUnit4SpringContextTests {
+    @Autowired
+    private BroadcastService broadcastService;
 
-    @Qualifier("tripDaoImpl")
     @Autowired(required = true)
-    private TripDao tripDao;
+    ParticipatedTripService participatedTripService;
 
-    @Qualifier("participatedTripDaoImpl")
     @Autowired(required = true)
-    private ParticipatedTripDaoImpl participatedTripDao;
+    UserService userService;
 
-    @Qualifier("userDaoImpl")
     @Autowired(required = true)
-    private UserDao userDao;
+    TripService tripService;
 
     private BroadcastMessage message;
     private Trip trip;
@@ -52,94 +47,95 @@ public class BroadcastTest extends AbstractJUnit4SpringContextTests {
     private User user1;
 
     @Before
-    public void addMessage(){
+    public void addBroadcastMessage(){
         trip = newTrip();
-        tripDao.add(trip);
+        tripService.add(trip);
         user = new User("test@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
         user1 = new User("test2@test.be", "lala", "test2", "test2", Utilities.makeDate("04/02/1992"));
-        userDao.add(user);
-        userDao.add(user1);
+        userService.addUser(user);
+        userService.addUser(user1);
         ParticipatedTrip participatedTrip = new ParticipatedTrip();
         participatedTrip.setUser(user);
         participatedTrip.setTrip(trip);
         ParticipatedTrip participatedTrip1 = new ParticipatedTrip();
         participatedTrip1.setUser(user1);
         participatedTrip1.setTrip(trip);
-        participatedTripDao.add(participatedTrip);
-        participatedTripDao.add(participatedTrip1);
+        participatedTripService.add(participatedTrip);
+        participatedTripService.add(participatedTrip1);
         trip.addParticipatedTrip(participatedTrip);
         trip.addParticipatedTrip(participatedTrip1);
-        trip = tripDao.findById(trip.getId());
-        Assert.assertEquals(2,trip.getParticipatedTrips().size());
+        trip = tripService.get(trip.getId());
+        Assert.assertEquals(2, trip.getParticipatedTrips().size());
         message = new BroadcastMessage("Hell yeah!", trip, new Date());
-        broadcastDao.add(message);
+        broadcastService.add(message);
         BroadcastMessage message1 = new BroadcastMessage("Hell yeah to you too!", trip, new Date());
-        broadcastDao.add(message1);
+        broadcastService.add(message1);
     }
 
     @Test
-    public void getBroadcastMessage(){
-        Assert.assertTrue(broadcastDao.findById(message.getId()).getMessage().equals("Hell yeah!"));
+    public void testFind(){
+       BroadcastMessage message = broadcastService.get(this.message.getId());
+       Assert.assertTrue(message.getMessage().equals("Hell yeah!"));
     }
 
     @Test
     public void testRecievers(){
-        message = broadcastDao.findById(message.getId());
+        message = broadcastService.get(message.getId());
         Assert.assertEquals(2, message.getRecievers().size());
     }
 
     @Test(expected = NoResultException.class)
     public void addFindAndRemoveMessage(){
         BroadcastMessage message1 = new BroadcastMessage("Test", trip, new Date());
-        broadcastDao.add(message1);
-        Assert.assertNotNull(broadcastDao.findById(message1.getId()));
-        broadcastDao.remove(message1);
-        message1 = broadcastDao.findById(message1.getId());
+        broadcastService.add(message1);
+        Assert.assertNotNull(broadcastService.get(message1.getId()));
+        broadcastService.remove(message1);
+        message1 = broadcastService.get(message1.getId());
     }
 
     @Test
     public void findMessagesByUserId(){
-        Assert.assertEquals(2, broadcastDao.findMessagesByUserId(user.getId()).size());
+        Assert.assertEquals(2, broadcastService.getUserBroadcastMessages(user.getId()).size());
     }
 
     @Test
     public void confirmMessage(){
-        broadcastDao.confirmMessage(user.getId(), message.getId());
+        broadcastService.confirmMessage(user.getId(), message.getId());
         Assert.assertEquals(1, message.getRecievers().size());
     }
 
     @Test
     public void getAll(){
-        Assert.assertEquals(2, broadcastDao.findAll().size());
+        Assert.assertEquals(2, broadcastService.getAllBroadcastMessages().size());
     }
 
     @Test(expected = NoResultException.class)
     public void allMessagesConfirmed(){
-        broadcastDao.confirmMessage(user.getId(), message.getId());
-        broadcastDao.confirmMessage(user1.getId(), message.getId());
-        broadcastDao.findById(message.getId());
+        broadcastService.confirmMessage(user.getId(), message.getId());
+        broadcastService.confirmMessage(user1.getId(), message.getId());
+        broadcastService.get(message.getId());
     }
 
     @After
     public void removeAll(){
-        for(BroadcastMessage broadcastMessage : broadcastDao.findAll()){
+        for(BroadcastMessage broadcastMessage : broadcastService.getAllBroadcastMessages()){
             removeMessage(broadcastMessage);
         }
-        Assert.assertEquals(0, broadcastDao.findAll().size());
+        Assert.assertEquals(0, broadcastService.getAllBroadcastMessages().size());
 
-        for(Trip trip: tripDao.findAll()){
-            tripDao.remove(trip);
+        for(Trip trip: tripService.getTrips()){
+            tripService.remove(trip);
         }
-        Assert.assertEquals(0, tripDao.findAll().size());
+        Assert.assertEquals(0, tripService.getTrips().size());
 
-        for(User user: userDao.findAll()){
-            userDao.remove(user);
+        for(User user: userService.getAllUsers()){
+            userService.remove(user);
         }
-        Assert.assertEquals(0, userDao.findAll().size());
+        Assert.assertEquals(0, userService.getAllUsers().size());
     }
 
     private void removeMessage(BroadcastMessage message) {
-        broadcastDao.remove(message);
+        broadcastService.remove(message);
     }
 
     private Trip newTrip() {
@@ -153,4 +149,5 @@ public class BroadcastTest extends AbstractJUnit4SpringContextTests {
         trip.setCommunicationByLocation(true);
         return trip;
     }
+
 }

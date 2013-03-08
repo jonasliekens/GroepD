@@ -13,4 +13,5 @@ import java.util.List;
  */
 public interface BroadcastDao extends GenericDao<BroadcastMessage, Integer> {
     public List<BroadcastMessage> findMessagesByUserId(Integer userId);
+    public void confirmMessage(Integer userId, Integer messageId);
 }
