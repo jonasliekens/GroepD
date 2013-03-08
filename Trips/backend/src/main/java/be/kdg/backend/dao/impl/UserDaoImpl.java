@@ -1,7 +1,6 @@
 package be.kdg.backend.dao.impl;
 
 import be.kdg.backend.dao.interfaces.UserDao;
-import be.kdg.backend.entities.Trip;
 import be.kdg.backend.entities.User;
 import org.springframework.stereotype.Repository;
 
@@ -35,6 +34,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void remove(User user) {
         entityManager.getTransaction().begin();
+        entityManager.clear();
         user = entityManager.find(User.class, user.getId());
         entityManager.remove(user);
         entityManager.getTransaction().commit();
