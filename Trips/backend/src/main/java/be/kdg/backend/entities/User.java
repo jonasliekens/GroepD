@@ -57,9 +57,6 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy= "user")
     private Set<ParticipatedTrip> participatedTrips;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<Message> messages;
-
     public User() {
         initLists();
     }
@@ -88,7 +85,6 @@ public class User {
         this.participatedTrips = new HashSet<ParticipatedTrip>();
         this.chats = new HashSet<Chat>();
         this.broadcastMessages = new HashSet<BroadcastMessage>();
-        this.messages = new HashSet<Message>();
     }
 
     public Integer getId() {

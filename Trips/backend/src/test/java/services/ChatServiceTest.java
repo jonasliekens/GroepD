@@ -11,9 +11,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.constraints.AssertTrue;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,7 +44,6 @@ public class ChatServiceTest extends AbstractJUnit4SpringContextTests {
     }
 
     @Test
-    @Transactional
     public void testGetOrCreate() {
         User user1 = new User("testGetOrCreate1@test.com", "", "", "", Utilities.makeDate("04/06/1992"));
         User user2 = new User("testGetOrCreate2@test.com", "", "", "", Utilities.makeDate("04/06/1992"));
@@ -138,10 +135,13 @@ public class ChatServiceTest extends AbstractJUnit4SpringContextTests {
         assertTrue(this.chatService.findAllMessagesByChatId(chat1.getId()).size() == 2);
     }
 
-//    @After
-//    public void removeAllChats(){
-//        for (Chat ch: chatService.getAllChats()){
-//            chatService.remove(ch);
-//        }
-//    }
+    @After
+    public void removeAllChats(){
+       for (Chat ch: chatService.getAllChats()){
+            chatService.remove(ch);
+        }
+        for (User u:userService.getAllUsers()){
+            userService.remove(u);
+        }
+   }
 }
