@@ -10,7 +10,7 @@
               android:layout_alignParentLeft="true"
               android:layout_marginTop="10dp"
               android:layout_marginLeft="10dp"
-              style="@style/TextAppearanceMedium"/>
+              style="@android:style/TextAppearance.Holo.Large"/>
     <TextView android:id="@+id/list_trip_date"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
