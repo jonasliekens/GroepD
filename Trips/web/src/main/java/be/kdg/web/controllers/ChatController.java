@@ -52,12 +52,13 @@ public class ChatController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-    public String addMessageToChat(@PathVariable Integer id, @RequestParam String text, ModelMap model, HttpSession session) {
-        Message message = new Message(text, userService.get((Integer) session.getAttribute("userId")), new Date());
+    public String addMessageToChat(@PathVariable Integer id, @RequestParam String message, ModelMap model, HttpSession session) {
+        Message m = new Message(message, userService.get((Integer) session.getAttribute("userId")), new Date());
 
-        chatService.sendMessage(id, message);
+        chatService.sendMessage(id, m);
 
         model.addAttribute("chats", chatService.findAllChatsByUserId((Integer) session.getAttribute("userId")));
+        model.addAttribute("participants", chatService.get(id).getParticipants());
         model.addAttribute("messages", chatService.findAllMessagesByChatId(id));
 
         return "chat/chat";
