@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class AllTripsFragment extends ListFragment {
     private TripsListAdapter tripsListAdapter;
-    private List<Trip> trips;
+    private Trip[] trips;
     private Long lastUpdate = 0L;
 
     @Override
@@ -56,7 +56,7 @@ public class AllTripsFragment extends ListFragment {
 
     private void fillList() {
         try {
-            tripsListAdapter = new TripsListAdapter(getActivity(), trips.toArray(new Trip[trips.size()]));
+            tripsListAdapter = new TripsListAdapter(getActivity(), trips);
             setListAdapter(tripsListAdapter);
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,7 +65,7 @@ public class AllTripsFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Trip trip = trips.get(position);
+        Trip trip = trips[position];
         Intent intent = new Intent(getActivity(), TripActivity.class);
         intent.putExtra("trip", trip);
         startActivity(intent);
@@ -125,7 +125,7 @@ public class AllTripsFragment extends ListFragment {
         @Override
         protected void onPostExecute(List<Trip> trips) {
             progressDialog.dismiss();
-            AllTripsFragment.this.trips = trips;
+            AllTripsFragment.this.trips = trips.toArray(new Trip[trips.size()]);
             lastUpdate = System.currentTimeMillis();
             fillList();
         }

@@ -2,8 +2,6 @@ package be.kdg.android.activities;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -54,7 +52,7 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.menu_logout:
                 logout();
                 return true;
@@ -66,29 +64,28 @@ public class MainActivity extends Activity {
     private void initControls() {
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        // actionBar.setDisplayShowTitleEnabled(false);
 
         actionBar.removeAllTabs();
 
         ActionBar.Tab tab = actionBar
                 .newTab()
-                .setText(R.string.alltrips_name)
-                .setIcon(R.drawable.icon_alltrips_tab)
-                .setTabListener(new TripsTabListener<AllTripsFragment>(this, "all_trips_layout", AllTripsFragment.class));
+                .setText(R.string.all_trips_tab_name)
+                .setIcon(R.drawable.icon_all_trips_tab)
+                .setTabListener(new CustomTabListener<AllTripsFragment>(this, "all_trips_layout", AllTripsFragment.class));
         actionBar.addTab(tab);
 
         tab = actionBar
                 .newTab()
-                .setText(R.string.mytrips_name)
-                .setIcon(R.drawable.icon_mytrips_tab)
-                .setTabListener(new TripsTabListener<MyTripsFragment>(this, "my_trips_layout", MyTripsFragment.class));
+                .setText(R.string.my_trips_tab_name)
+                .setIcon(R.drawable.icon_my_trips_tab)
+                .setTabListener(new CustomTabListener<MyTripsFragment>(this, "my_trips_layout", MyTripsFragment.class));
         actionBar.addTab(tab);
 
         tab = actionBar
                 .newTab()
-                .setText(R.string.chat_name)
+                .setText(R.string.chat_tab_name)
                 .setIcon(getResources().getDrawable(R.drawable.icon_chat_tab))
-                .setTabListener(new TripsTabListener<ChatFragment>(this, "chat_layout", ChatFragment.class));
+                .setTabListener(new CustomTabListener<ChatFragment>(this, "chat_layout", ChatFragment.class));
         actionBar.addTab(tab);
     }
 
@@ -116,44 +113,6 @@ public class MainActivity extends Activity {
             startApp();
         } else {
             finish();
-        }
-    }
-
-    public class TripsTabListener<T extends Fragment> implements ActionBar.TabListener {
-        private Fragment mFragment;
-        private final Activity mActivity;
-        private final String mTag;
-        private final Class<T> mClass;
-
-        public TripsTabListener(Activity activity, String tag, Class<T> mClass) {
-            this.mActivity = activity;
-            this.mTag = tag;
-            this.mClass = mClass;
-        }
-
-        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-            Fragment currentFragment = mActivity.getFragmentManager().findFragmentByTag(mTag);
-
-            if (mFragment == null && currentFragment == null) {
-                mFragment = Fragment.instantiate(mActivity, mClass.getName());
-                ft.add(android.R.id.content, mFragment, mTag);
-            } else if (mFragment != null) {
-                //ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
-                ft.attach(mFragment);
-            } else if (currentFragment != null) {
-                ft.attach(currentFragment);
-                mFragment = currentFragment;
-            }
-        }
-
-        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-            if (mFragment != null) {
-                ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
-                ft.detach(mFragment);
-            }
-        }
-
-        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
         }
     }
 }

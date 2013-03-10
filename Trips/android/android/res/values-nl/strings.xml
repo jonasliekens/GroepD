@@ -4,9 +4,11 @@
     <!-- App -->
     <string name="app_name">Trips</string>
     <string name="trips_name">Trips</string>
-    <string name="alltrips_name">Alle Trips</string>
-    <string name="mytrips_name">Mijn Trips</string>
-    <string name="chat_name">Chat</string>
+    <string name="all_trips_tab_name">Alle Trips</string>
+    <string name="my_trips_tab_name">Mijn Trips</string>
+    <string name="chat_tab_name">Chat</string>
+    <string name="stop_list_tab_name">Lijst</string>
+    <string name="stop_map_tab_name">Map</string>
 
     <!-- Common -->
     <string name="common_refresh">Vernieuwen</string>

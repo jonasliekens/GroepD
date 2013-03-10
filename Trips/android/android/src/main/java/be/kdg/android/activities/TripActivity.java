@@ -1,5 +1,6 @@
 package be.kdg.android.activities;
 
+import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,42 +8,54 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import be.kdg.android.R;
-import be.kdg.android.entities.Stop;
 import be.kdg.android.entities.Trip;
+import be.kdg.android.fragments.AllTripsFragment;
+import be.kdg.android.fragments.StopListFragment;
+import be.kdg.android.fragments.StopMapFragment;
 import be.kdg.android.listadapters.StopsListAdapter;
-import com.google.android.gms.maps.MapFragment;
 
 /**
  * User: Sander
  * Date: 10/03/13 13:51
  */
 public class TripActivity extends ListActivity {
-    private StopsListAdapter stopsListAdapter;
     private Trip trip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.trip_layout);
-
-        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         trip = (Trip) getIntent().getSerializableExtra("trip");
-        setTitle(trip.getName());
 
-        // Test!
-        MapFragment fragment = new MapFragment();
-
-        fillList();
+        initControls();
     }
 
-    private void fillList() {
-        try {
-            stopsListAdapter = new StopsListAdapter(this, trip.getStops().toArray(new Stop[trip.getStops().size()]));
-            setListAdapter(stopsListAdapter);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void initControls() {
+        setTitle(trip.getName());
+
+        final ActionBar actionBar = getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        actionBar.removeAllTabs();
+
+        ActionBar.Tab tab = actionBar
+                .newTab()
+                .setText(R.string.stop_list_tab_name)
+                .setIcon(R.drawable.icon_all_trips_tab)
+                .setTabListener(new CustomTabListener<StopListFragment>(this, "stop_list_layout", StopListFragment.class));
+        actionBar.addTab(tab);
+
+        tab = actionBar
+                .newTab()
+                .setText(R.string.stop_map_tab_name)
+                .setIcon(R.drawable.icon_map_tab)
+                .setTabListener(new CustomTabListener<StopMapFragment>(this, "", StopMapFragment.class));
+        actionBar.addTab(tab);
+    }
+
+    public final Trip getTrip() {
+        return trip;
     }
 
     @Override

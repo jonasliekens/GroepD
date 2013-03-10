@@ -22,8 +22,8 @@ public class Utilities {
     public static final String PREFS_NAME = "TripsPreferences";
     public static final long TRIPS_RELOAD_TIME = 5 * 60 * 1000; // 5 minutes
 
-    public static final String SERVER_ADDRESS = "http://192.168.0.195:8080/web";
-//    public static final String SERVER_ADDRESS = "http://192.168.0.196:8080/web";
+//    public static final String SERVER_ADDRESS = "http://192.168.0.195:8080/web";
+    public static final String SERVER_ADDRESS = "http://192.168.0.196:8080/web";
 //    public static final String SERVER_ADDRESS = "http://192.168.113.1:8080/web";
 
     public static final String LOGIN_ADDRESS = SERVER_ADDRESS + "/rest/login";
