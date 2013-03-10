@@ -10,7 +10,8 @@
 
     <!-- Common -->
     <string name="common_refresh">Refresh</string>
-    <string name="network_noconnection">No Internet connection found. Please enable Wi-Fi or another data connection.</string>
+    <string name="network_noconnection">No Internet connection found. Please enable Wi-Fi or another data connection.
+    </string>
     <string name="downloading_progress_title">Downloading...</string>
     <string name="downloading_progress_desc">Downloading information, just a moment please...</string>
 
@@ -21,8 +22,16 @@
     <string name="login_logout">Log out</string>
     <string name="login_progress_title">Logging in...</string>
     <string name="login_progress_desc">Checking your credentials...</string>
-    <string name="login_error">Could not log in. The username was not found or the password was wrong. Try again.</string>
+    <string name="login_error">Could not log in. The username was not found or the password was wrong. Try again.
+    </string>
 
-    <!-- All trips -->
+    <!-- Trips -->
+    <plurals name="trips_stops_count">
+        <item quantity="one">1 stop</item>
+        <item quantity="other">%d stops</item>
+    </plurals>
+    <string name="trips_list_empty">No trips found.</string>
 
+    <!-- Stops -->
+    <string name="stops_list_empty">No stops found.</string>
 </resources>

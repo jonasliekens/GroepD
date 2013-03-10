@@ -10,9 +10,12 @@
 
     <!-- Common -->
     <string name="common_refresh">Vernieuwen</string>
-    <string name="network_noconnection">Geen internetverbinding gevonden. Gelieve Wi-Fi of een andere dataverbinding in te schakelen.</string>
+    <string name="network_noconnection">Geen internetverbinding gevonden. Gelieve Wi-Fi of een andere dataverbinding in
+        te schakelen.
+    </string>
     <string name="downloading_progress_title">Downloaden...</string>
-    <string name="downloading_progress_desc">Bezig met downloaden van informatie, een ogenblikje geduld alstublieft...</string>
+    <string name="downloading_progress_desc">Bezig met downloaden van informatie, een ogenblikje geduld alstublieft...
+    </string>
 
     <!-- Login -->
     <string name="login_username">Gebruikersnaam</string>
@@ -21,8 +24,18 @@
     <string name="login_logout">Uitloggen</string>
     <string name="login_progress_title">Bezig met inloggen...</string>
     <string name="login_progress_desc">Bezig met controleren van je gegevens...</string>
-    <string name="login_error">Kon niet inloggen. De gebruikersnaam was niet gevonden of het wachtwoord was fout. Probeer opnieuw.</string>
+    <string name="login_error">Kon niet inloggen. De gebruikersnaam was niet gevonden of het wachtwoord was fout.
+        Probeer opnieuw.
+    </string>
 
-    <!-- All trips -->
+    <!-- Trips -->
+    <plurals name="trips_stops_count">
+        <item quantity="one">1 stopplaats</item>
+        <item quantity="other">%d stopplaatsen</item>
+    </plurals>
+    <string name="trips_list_empty">Geen trips gevonden.</string>
+
+    <!-- Stops -->
+    <string name="stops_list_empty">Geen stopplaatsen gevonden.</string>
 
 </resources>

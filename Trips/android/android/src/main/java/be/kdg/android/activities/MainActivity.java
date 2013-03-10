@@ -1,4 +1,4 @@
-package be.kdg.android;
+package be.kdg.android.activities;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
+import be.kdg.android.R;
 import be.kdg.android.fragments.AllTripsFragment;
 import be.kdg.android.fragments.ChatFragment;
 import be.kdg.android.fragments.MyTripsFragment;
@@ -20,7 +21,7 @@ import be.kdg.android.utilities.Utilities;
  * User: Sander
  * Date: 24/02/13 - 18:41
  */
-public class TripsActivity extends Activity {
+public class MainActivity extends Activity {
     private SharedPreferences settings;
     private SharedPreferences.Editor settingsEditor;
 
@@ -73,21 +74,21 @@ public class TripsActivity extends Activity {
                 .newTab()
                 .setText(R.string.alltrips_name)
                 .setIcon(R.drawable.icon_alltrips_tab)
-                .setTabListener(new TripsTabListener<AllTripsFragment>(this, "alltrips", AllTripsFragment.class));
+                .setTabListener(new TripsTabListener<AllTripsFragment>(this, "all_trips_layout", AllTripsFragment.class));
         actionBar.addTab(tab);
 
         tab = actionBar
                 .newTab()
                 .setText(R.string.mytrips_name)
                 .setIcon(R.drawable.icon_mytrips_tab)
-                .setTabListener(new TripsTabListener<MyTripsFragment>(this, "mytrips", MyTripsFragment.class));
+                .setTabListener(new TripsTabListener<MyTripsFragment>(this, "my_trips_layout", MyTripsFragment.class));
         actionBar.addTab(tab);
 
         tab = actionBar
                 .newTab()
                 .setText(R.string.chat_name)
                 .setIcon(getResources().getDrawable(R.drawable.icon_chat_tab))
-                .setTabListener(new TripsTabListener<ChatFragment>(this, "chat", ChatFragment.class));
+                .setTabListener(new TripsTabListener<ChatFragment>(this, "chat_layout", ChatFragment.class));
         actionBar.addTab(tab);
     }
 

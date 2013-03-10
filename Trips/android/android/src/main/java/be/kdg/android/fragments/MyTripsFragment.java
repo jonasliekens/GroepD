@@ -14,6 +14,6 @@ import be.kdg.android.R;
 public class MyTripsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.mytrips, container, false);
+        return inflater.inflate(R.layout.my_trips_layout, container, false);
     }
 }

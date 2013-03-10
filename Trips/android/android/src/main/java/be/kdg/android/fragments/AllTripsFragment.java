@@ -2,12 +2,15 @@ package be.kdg.android.fragments;
 
 import android.app.ListFragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.*;
-import android.widget.Toast;
+import android.widget.ListView;
 import be.kdg.android.R;
 import android.os.Bundle;
+import be.kdg.android.activities.TripActivity;
 import be.kdg.android.entities.Trip;
+import be.kdg.android.listadapters.TripsListAdapter;
 import be.kdg.android.networking.RestHttpConnection;
 import be.kdg.android.utilities.Utilities;
 
@@ -27,7 +30,7 @@ public class AllTripsFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setRetainInstance(true);
         setHasOptionsMenu(true);
-        return inflater.inflate(R.layout.alltrips, container, false);
+        return inflater.inflate(R.layout.all_trips_layout, container, false);
     }
 
     @Override
@@ -58,6 +61,14 @@ public class AllTripsFragment extends ListFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        Trip trip = trips.get(position);
+        Intent intent = new Intent(getActivity(), TripActivity.class);
+        intent.putExtra("trip", trip);
+        startActivity(intent);
     }
 
     @Override
