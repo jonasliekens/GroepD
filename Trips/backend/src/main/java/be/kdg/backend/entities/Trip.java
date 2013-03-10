@@ -3,6 +3,7 @@ package be.kdg.backend.entities;
 
 import be.kdg.backend.enums.TravelType;
 import be.kdg.backend.enums.TripType;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -32,6 +33,7 @@ public class Trip {
     @JoinTable(name = "T_TRIP_ADMINS",
             joinColumns = {@JoinColumn(name = "tripId")},
             inverseJoinColumns = {@JoinColumn(name = "userId")})
+    @JsonIgnore
     private Set<User> admins;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "trip")

@@ -8,13 +8,15 @@
               android:inputType="textEmailAddress"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
-              android:hint="@string/login_username"/>
+              android:hint="@string/login_username"
+              android:text="sander@trips.com"/>
     <EditText android:id="@+id/login_password"
               android:inputType="textPassword"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:layout_below="@id/login_username"
-              android:hint="@string/login_password"/>
+              android:hint="@string/login_password"
+              android:text="lalalala"/>
     <Button android:id="@+id/login_submit"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

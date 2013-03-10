@@ -4,7 +4,7 @@ import android.app.ListFragment;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.view.*;
-import android.widget.ListView;
+import android.widget.Toast;
 import be.kdg.android.R;
 import android.os.Bundle;
 import be.kdg.android.entities.Trip;
@@ -21,14 +21,12 @@ import java.util.List;
 public class AllTripsFragment extends ListFragment {
     private TripsListAdapter tripsListAdapter;
     private List<Trip> trips;
-
-    public AllTripsFragment() {
-        setRetainInstance(false);
-        setHasOptionsMenu(true);
-    }
+    private Long lastUpdate = 0L;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setRetainInstance(true);
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.alltrips, container, false);
     }
 
@@ -36,14 +34,21 @@ public class AllTripsFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (savedInstanceState == null) {
-            downloadList();
+        if (savedInstanceState != null && trips != null) {
+            lastUpdate = savedInstanceState.getLong("lastUpdate");
         }
+
+        downloadList();
     }
 
     private void downloadList() {
-        AllTripsTask allTripsTask = new AllTripsTask();
-        allTripsTask.execute();
+        Long now = System.currentTimeMillis();
+        if ((now - lastUpdate) > Utilities.TRIPS_RELOAD_TIME) {
+            AllTripsTask allTripsTask = new AllTripsTask();
+            allTripsTask.execute();
+        } else {
+            fillList();
+        }
     }
 
     private void fillList() {
@@ -64,10 +69,20 @@ public class AllTripsFragment extends ListFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_refresh:
+                lastUpdate = 0L;
                 downloadList();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (lastUpdate < System.currentTimeMillis()) {
+            outState.putLong("lastUpdate", lastUpdate);
         }
     }
 
@@ -100,6 +115,7 @@ public class AllTripsFragment extends ListFragment {
         protected void onPostExecute(List<Trip> trips) {
             progressDialog.dismiss();
             AllTripsFragment.this.trips = trips;
+            lastUpdate = System.currentTimeMillis();
             fillList();
         }
     }

@@ -2,6 +2,8 @@ package be.kdg.android;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,7 +15,6 @@ import be.kdg.android.fragments.AllTripsFragment;
 import be.kdg.android.fragments.ChatFragment;
 import be.kdg.android.fragments.MyTripsFragment;
 import be.kdg.android.utilities.Utilities;
-import de.akquinet.android.androlog.Log;
 
 /**
  * User: Sander
@@ -25,9 +26,6 @@ public class TripsActivity extends Activity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-
-        Log.v("TRIPS", "TripsActivity created");
 
         initSettings();
         checkLogin();
@@ -117,6 +115,44 @@ public class TripsActivity extends Activity {
             startApp();
         } else {
             finish();
+        }
+    }
+
+    public class TripsTabListener<T extends Fragment> implements ActionBar.TabListener {
+        private Fragment mFragment;
+        private final Activity mActivity;
+        private final String mTag;
+        private final Class<T> mClass;
+
+        public TripsTabListener(Activity activity, String tag, Class<T> mClass) {
+            this.mActivity = activity;
+            this.mTag = tag;
+            this.mClass = mClass;
+        }
+
+        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+            Fragment currentFragment = mActivity.getFragmentManager().findFragmentByTag(mTag);
+
+            if (mFragment == null && currentFragment == null) {
+                mFragment = Fragment.instantiate(mActivity, mClass.getName());
+                ft.add(android.R.id.content, mFragment, mTag);
+            } else if (mFragment != null) {
+                //ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+                ft.attach(mFragment);
+            } else if (currentFragment != null) {
+                ft.attach(currentFragment);
+                mFragment = currentFragment;
+            }
+        }
+
+        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+            if (mFragment != null) {
+                ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+                ft.detach(mFragment);
+            }
+        }
+
+        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
         }
     }
 }

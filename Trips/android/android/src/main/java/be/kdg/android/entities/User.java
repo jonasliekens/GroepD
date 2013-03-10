@@ -21,6 +21,8 @@ public class User implements Serializable {
     private String facebookID;
     private Date birthday;
     private Set<Trip> ownTrips;
+    private Set<BroadcastMessage> broadcastMessages;
+    private Set<Chat> chats;
     private Set<ParticipatedTrip> participatedTrips;
 
     public User() {
@@ -124,5 +126,21 @@ public class User implements Serializable {
     }
     public void addParticipatedTrips(ParticipatedTrip participatedTrip) {
         this.participatedTrips.add(participatedTrip);
+    }
+
+    public Set<BroadcastMessage> getBroadcastMessages() {
+        return broadcastMessages;
+    }
+
+    public void setBroadcastMessages(Set<BroadcastMessage> broadcastMessages) {
+        this.broadcastMessages = broadcastMessages;
+    }
+
+    public Set<Chat> getChats() {
+        return chats;
+    }
+
+    public void setChats(Set<Chat> chats) {
+        this.chats = chats;
     }
 }

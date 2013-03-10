@@ -13,7 +13,8 @@
                  android:theme="@android:style/Theme.Holo.Light"
                  android:installLocation="preferExternal">
         <activity android:name=".TripsActivity"
-                  android:label="@string/trips_name">
+                  android:label="@string/trips_name"
+                  android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

@@ -25,7 +25,6 @@ import java.util.List;
 public class LoginActivity extends Activity {
     private EditText txtUsername;
     private EditText txtPassword;
-    private Button btnLogin;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +40,6 @@ public class LoginActivity extends Activity {
     private void initControls() {
         txtUsername = (EditText) findViewById(R.id.login_username);
         txtPassword = (EditText) findViewById(R.id.login_password);
-        btnLogin = (Button) findViewById(R.id.login_submit);
     }
 
     public void login(View view) {
