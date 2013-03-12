@@ -12,9 +12,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -46,6 +43,7 @@ public class ChatTest extends AbstractJUnit4SpringContextTests {
         chatDao.add(chat);
 
         User user = new User("Admin@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
+        userDao.add(user);
         chat.addParticipant(user);
         chatDao.update(chat);
 
@@ -58,7 +56,7 @@ public class ChatTest extends AbstractJUnit4SpringContextTests {
         chatDao.add(chat);
 
         User user = new User("Admin@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
-
+        userDao.add(user);
         Message message = new Message("Blah", user, Utilities.makeDate("01/01/2012"));
         chat.addMessage(message);
         chat.addParticipant(user);
@@ -72,7 +70,7 @@ public class ChatTest extends AbstractJUnit4SpringContextTests {
         Chat chat1 = new Chat();
         Chat chat2 = new Chat();
         User user = new User("blablabla@blablabla.com", "lala", "test", "test", Utilities.makeDate("04/06/1992"));
-
+        userDao.add(user);
         chat1.addMessage(new Message("blah 1", user, Utilities.makeDate("01/01/2013")));
         chat1.addMessage(new Message("blah 2", user, Utilities.makeDate("02/01/2013")));
         chat2.addMessage(new Message("blah 3", user, Utilities.makeDate("03/02/1992")));
@@ -90,7 +88,7 @@ public class ChatTest extends AbstractJUnit4SpringContextTests {
     public void testMessagesOrder() {
         Chat chat1 = new Chat();
         User user = new User("blablabla@blablabla.bla", "lala", "test", "test", Utilities.makeDate("04/06/1992"));
-
+        userDao.add(user);
         Message message1 = new Message("blah 1", user, Utilities.makeDate("01/01/2013"));
         Message message2 = new Message("blah 2", user, Utilities.makeDate("02/02/2013"));
 
@@ -108,7 +106,8 @@ public class ChatTest extends AbstractJUnit4SpringContextTests {
     public void findAllChatsByUserId() {
         User user1 = new User("chat.test@test.com", "blah", "blah", "blah", Utilities.makeDate("04/06/1992"));
         User user2 = new User("chat2.test@test.com", "blah2", "blah2", "blah2", Utilities.makeDate("04/06/1992"));
-
+        userDao.add(user1);
+        userDao.add(user2);
         Chat chat1 = new Chat();
         Chat chat2 = new Chat();
         Chat chat3 = new Chat();

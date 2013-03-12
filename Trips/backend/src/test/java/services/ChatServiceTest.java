@@ -85,10 +85,12 @@ public class ChatServiceTest extends AbstractJUnit4SpringContextTests {
     @Test
     public void testSendMessage() {
         User user = new User("test.message.1@user.com", "blah", "blah", "blah", Utilities.makeDate("04/06/1992"));
+        userService.addUser(user);
         Message message = new Message("Test message", user, Utilities.makeDate("01/01/2013"));
         Chat chat = new Chat();
 
         chatService.add(chat);
+        chat.addParticipant(user);
 
         this.chatService.sendMessage(chat.getId(), message);
 
@@ -98,7 +100,9 @@ public class ChatServiceTest extends AbstractJUnit4SpringContextTests {
     @Test
     public void testFindAllChatsByUserId() {
         User user1 = new User("testFindAllChatsByUserId1@test.com", "", "", "", Utilities.makeDate("04/06/1992"));
+        userService.addUser(user1);
         User user2 = new User("testFindAllChatsByUserId2@test.com", "", "", "", Utilities.makeDate("04/06/1992"));
+        userService.addUser(user2);
 
         Chat chat1 = new Chat();
         Chat chat2 = new Chat();
@@ -118,6 +122,7 @@ public class ChatServiceTest extends AbstractJUnit4SpringContextTests {
     @Test
     public void testFindAllMessagesByChatId() {
         User user = new User("testFindAllMessagesByChatId@test.com", "", "", "", Utilities.makeDate("04/06/1992"));
+        userService.addUser(user);
         Chat chat1 = new Chat();
         Chat chat2 = new Chat();
 
