@@ -1,5 +1,6 @@
 package be.kdg.web.controllers;
 
+import be.kdg.backend.entities.Chat;
 import be.kdg.backend.entities.Message;
 import be.kdg.backend.entities.User;
 import be.kdg.backend.services.interfaces.ChatService;
@@ -53,10 +54,13 @@ public class ChatController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public String addMessageToChat(@PathVariable Integer id, @RequestParam String message, ModelMap model, HttpSession session) {
-        Message m = new Message(message, userService.get((Integer) session.getAttribute("userId")), new Date());
-
-        chatService.sendMessage(id, m);
-
+        User user = userService.get((Integer) session.getAttribute("userId"));
+        Message m = new Message(message, user, new Date());
+        Chat chat = chatService.get(id);
+        //chatService.sendMessage(id, m);
+        m.setChat(chat);
+        user.addMessage(m);
+        userService.update(user);
         model.addAttribute("chats", chatService.findAllChatsByUserId((Integer) session.getAttribute("userId")));
         model.addAttribute("participants", chatService.get(id).getParticipants());
         model.addAttribute("messages", chatService.findAllMessagesByChatId(id));

@@ -17,12 +17,12 @@ public class Chat {
     private Integer id;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(name="T_CHAT_USER",
-            joinColumns={@JoinColumn(name="chatId")},
-            inverseJoinColumns={@JoinColumn(name="userId")})
+    @JoinTable(name = "T_CHAT_USER",
+            joinColumns = {@JoinColumn(name = "chatId")},
+            inverseJoinColumns = {@JoinColumn(name = "userId")})
     private Set<User> participants;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.MERGE)
     @JoinColumn(name = "chatId")
     private Set<Message> messages;
 
@@ -69,14 +69,18 @@ public class Chat {
         if (o == null || getClass() != o.getClass()) return false;
 
         Chat chat = (Chat) o;
-
-        if (!id.equals(chat.id)) return false;
+        if (id==null){return false;}else{
+        if (!id.equals(chat.id)) return false;}
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        if (id == null) {
+            return 0;
+        } else {
+            return id.hashCode();
+        }
     }
 }

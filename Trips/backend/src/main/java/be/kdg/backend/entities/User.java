@@ -57,6 +57,9 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy= "user")
     private Set<ParticipatedTrip> participatedTrips;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy= "sender")
+        private Set<Message> messages;
+
     public User() {
         initLists();
     }
@@ -85,6 +88,7 @@ public class User {
         this.participatedTrips = new HashSet<ParticipatedTrip>();
         this.chats = new HashSet<Chat>();
         this.broadcastMessages = new HashSet<BroadcastMessage>();
+        this.messages = new HashSet<Message>();
     }
 
     public Integer getId() {
@@ -198,5 +202,21 @@ public class User {
     //TODO: "detached entity passed to persist" exception on usage, use the dao getMessageByUserId instead
     public void addBroadcastMessage(BroadcastMessage message) {
         this.broadcastMessages.add(message);
+    }
+
+    public void addChat(Chat chat){
+        this.chats.add(chat);
+    }
+
+    public Set<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Set<Message> messages) {
+        this.messages = messages;
+    }
+
+    public void addMessage(Message message){
+        this.messages.add(message);
     }
 }

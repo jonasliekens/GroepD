@@ -9,10 +9,8 @@ import be.kdg.backend.services.interfaces.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -80,12 +78,13 @@ public class ChatServiceImpl implements ChatService {
         //TODO: For group conversations we have to change the else into an if because the previous if statement can still remove all the chats from the list
         else {
             chat = new Chat();
-            chatDao.add(chat);
-
             for(User user : users) {
                 chat.addParticipant(user);
+                user.addChat(chat);
+
             }
-            chatDao.update(chat);
+            users.get(0).addChat(chat);
+            userDao.update(users.get(0));
         }
 
         return chat;
@@ -94,7 +93,7 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public void sendMessage(Integer chatId, Message message) {
         Chat chat = chatDao.findById(chatId);
-
+        message.setChat(chat);
         chat.addMessage(message);
 
         chatDao.update(chat);

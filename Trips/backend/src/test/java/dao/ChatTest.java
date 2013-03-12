@@ -32,37 +32,40 @@ public class ChatTest extends AbstractJUnit4SpringContextTests {
     @Test
     public void testAddChat() {
         Chat chat = new Chat();
-        chatDao.add(chat);
+        User user = new User ("Admin@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
+        userDao.add(user);
+        chat.addParticipant(user);
+        user.addChat(chat);
+        userDao.update(user);
 
-        assertTrue(chatDao.findById(chat.getId()) != null);
+        assertTrue(chatDao.findAllChatsByUserId(user.getId()).isEmpty()==false);
     }
 
     @Test
     public void testAddUsers() {
         Chat chat = new Chat();
-        chatDao.add(chat);
-
         User user = new User("Admin@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
         userDao.add(user);
         chat.addParticipant(user);
-        chatDao.update(chat);
+        user.addChat(chat);
+        userDao.update(user);
 
-        assertTrue(chatDao.findById(chat.getId()).getParticipants().size() == 1);
+        assertTrue(((Chat)(chatDao.findAllChatsByUserId(user.getId()).toArray()[0])).getParticipants().size() == 1);
     }
 
     @Test
     public void testAddMessages() {
         Chat chat = new Chat();
-        chatDao.add(chat);
 
         User user = new User("Admin@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
         userDao.add(user);
         Message message = new Message("Blah", user, Utilities.makeDate("01/01/2012"));
         chat.addMessage(message);
         chat.addParticipant(user);
-        chatDao.update(chat);
+        user.addChat(chat);
+        userDao.update(user);
 
-        assertTrue(chatDao.findById(chat.getId()).getMessages().size() == 1);
+        assertTrue(((Chat)(chatDao.findAllChatsByUserId(user.getId()).toArray()[0])).getMessages().size() == 1);
     }
 
     @Test
@@ -78,10 +81,12 @@ public class ChatTest extends AbstractJUnit4SpringContextTests {
         chat1.addParticipant(user);
         chat2.addParticipant(user);
 
-        chatDao.add(chat1);
-        chatDao.add(chat2);
+        user.addChat(chat1);
 
-        assertTrue(chatDao.findAllMessagesByChatId(chat1.getId()).size() == 2);
+        userDao.update(user);
+        user.addChat(chat2);
+        userDao.update(user);
+        assertTrue(((Chat)(chatDao.findAllChatsByUserId(user.getId()).toArray()[0])).getMessages().size() == 2);
     }
 
     @Test
@@ -96,10 +101,9 @@ public class ChatTest extends AbstractJUnit4SpringContextTests {
         chat1.addMessage(message1);
 
         chat1.addParticipant(user);
-
-        chatDao.add(chat1);
-
-        assertEquals(chatDao.findAllMessagesByChatId(chat1.getId()).get(0), message1);
+        user.addChat(chat1);
+         userDao.update(user);
+        assertEquals(chatDao.findAllMessagesByChatId(((Chat)chatDao.findAllChatsByUserId(user.getId()).toArray()[0]).getId()).get(0).getMessage(), message1.getMessage());
     }
 
     @Test
@@ -116,9 +120,11 @@ public class ChatTest extends AbstractJUnit4SpringContextTests {
         chat2.addParticipant(user1);
         chat3.addParticipant(user2);
 
-        chatDao.add(chat1);
-        chatDao.add(chat2);
-        chatDao.add(chat3);
+        user1.addChat(chat1);
+        user1.addChat(chat2);
+        user2.addChat(chat3);
+        userDao.update(user1);
+        userDao.update(user2);
 
         assertTrue(chatDao.findAllChatsByUserId(user1.getId()).size() == 2);
     }

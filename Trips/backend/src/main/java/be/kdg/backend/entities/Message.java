@@ -18,14 +18,16 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Type(type="text")
+    @Type(type = "text")
     @NotNull
     private String message;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne()
     @JoinColumn(name = "userId")
-    @NotNull
     private User sender;
+    @ManyToOne()
+    @JoinColumn(name = "chatId")
+    private Chat chat;
 
     @NotNull
     private Date date;
@@ -69,5 +71,13 @@ public class Message {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Chat getChat() {
+        return chat;
+    }
+
+    public void setChat(Chat chat) {
+        this.chat = chat;
     }
 }

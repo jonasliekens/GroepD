@@ -79,7 +79,7 @@ public class ChatServiceTest extends AbstractJUnit4SpringContextTests {
         testList.add(user1);
         Chat testChat = chatService.get(testList);
 
-        assertEquals(chat2.getId(), testChat.getId());
+        assertTrue(user1.getChats().contains(testChat));
     }
 
     @Test
@@ -89,12 +89,15 @@ public class ChatServiceTest extends AbstractJUnit4SpringContextTests {
         Message message = new Message("Test message", user, Utilities.makeDate("01/01/2013"));
         Chat chat = new Chat();
 
-        chatService.add(chat);
         chat.addParticipant(user);
+        chat.addMessage(message);
+        user.addMessage(message);
+        user.addChat(chat);
 
-        this.chatService.sendMessage(chat.getId(), message);
+        userService.update(user);
+        //chatService.sendMessage(((Chat)user.getChats().toArray()[0]).getId(), message);
 
-        assertTrue(this.chatService.get(chat.getId()).getMessages().size() == 1);
+        assertTrue(((Chat)user.getChats().toArray()[0]).getMessages().size() == 1);
     }
 
     @Test
@@ -111,12 +114,13 @@ public class ChatServiceTest extends AbstractJUnit4SpringContextTests {
         chat1.addParticipant(user1);
         chat2.addParticipant(user1);
         chat3.addParticipant(user2);
+        user1.addChat(chat1);
+        user1.addChat(chat2);
+        user2.addChat(chat3);
+        userService.update(user1);
+        userService.update(user2);
 
-        this.chatService.add(chat1);
-        this.chatService.add(chat2);
-        this.chatService.add(chat3);
-
-        assertTrue(this.chatService.findAllChatsByUserId(user1.getId()).size() == 2);
+        assertTrue(chatService.findAllChatsByUserId(user1.getId()).size() == 2);
     }
 
     @Test
@@ -124,7 +128,6 @@ public class ChatServiceTest extends AbstractJUnit4SpringContextTests {
         User user = new User("testFindAllMessagesByChatId@test.com", "", "", "", Utilities.makeDate("04/06/1992"));
         userService.addUser(user);
         Chat chat1 = new Chat();
-        Chat chat2 = new Chat();
 
         Message message1 = new Message("Blah 1", user, new Date());
         Message message2 = new Message("Blah 2", user, new Date());
@@ -132,21 +135,21 @@ public class ChatServiceTest extends AbstractJUnit4SpringContextTests {
 
         chat1.addMessage(message1);
         chat1.addMessage(message2);
-        chat2.addMessage(message3);
+        chat1.addParticipant(user);
+        user.addChat(chat1);
+        userService.update(user);
 
-        this.chatService.add(chat1);
-        this.chatService.add(chat2);
 
-        assertTrue(this.chatService.findAllMessagesByChatId(chat1.getId()).size() == 2);
+        assertTrue(chatService.findAllMessagesByChatId(((Chat)user.getChats().toArray()[0]).getId()).size() == 2);
     }
 
     @After
-    public void removeAllChats(){
-       for (Chat ch: chatService.getAllChats()){
+    public void removeAllChats() {
+        for (Chat ch : chatService.getAllChats()) {
             chatService.remove(ch);
         }
-        for (User u:userService.getAllUsers()){
+        for (User u : userService.getAllUsers()) {
             userService.remove(u);
         }
-   }
+    }
 }
