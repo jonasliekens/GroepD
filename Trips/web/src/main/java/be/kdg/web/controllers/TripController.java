@@ -24,11 +24,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
 
+import javax.mail.*;
+import javax.mail.Message;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * User: Bart Verhavert
@@ -60,6 +65,24 @@ public class TripController {
     @Autowired
     @Qualifier("equipmentValidator")
     private EquipmentValidator equipmentValidator;
+
+    private Properties m_properties = new Properties();
+
+    private Session m_Session = Session.getInstance(m_properties, new Authenticator() {
+        protected PasswordAuthentication getPasswordAuthentication() {
+            return new PasswordAuthentication("noreply.trips@gmail.com", "tripsadmin123"); // username and the password
+        }
+    });
+
+    public TripController() {
+        m_properties.put("mail.smtp.host", "smtp.gmail.com");
+        m_properties.put("mail.smtp.socketFactory.port", "465");
+        m_properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        m_properties.put("mail.smtp.auth", "true");
+        m_properties.put("mail.smtp.port", "465");
+        m_properties.put("mail.debug", "false");
+        m_properties.put("mail.smtp.ssl.enable", "true");
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(ModelMap model) {
@@ -275,38 +298,69 @@ public class TripController {
         model.addAttribute("users", userService.getUninvitedUsers(id, (Integer) session.getAttribute("userId")));
         return "trips/invite";
     }
+
     @RequestMapping(value = "/invite/{id}", method = RequestMethod.POST)
-       public String invitePost(@PathVariable Integer id, ModelMap model, HttpSession session, HttpServletRequest request) {
-           List<Integer> userIdList = new ArrayList<Integer>();
-   
-           for (Enumeration e = request.getParameterNames(); e.hasMoreElements(); )
-               userIdList.add(Integer.parseInt((String) e.nextElement()));
-   
-           userService.createUserInvitations(userIdList, id);
-           return "redirect:/trips/own";
-       }
-   
-       @RequestMapping(value = "/invitations", method = RequestMethod.GET)
-       public String invitationsGet(ModelMap model, HttpSession session) {
-           Integer userId = (Integer) session.getAttribute("userId");
-           model.addAttribute("invitations", participatedTripService.getInvitations(userId));
-           return "trips/invitations";
-       }
-   
-       @RequestMapping(value = "/invitations/accept/{id}", method = RequestMethod.GET)
-       public String invitationsAcceptPost(@PathVariable Integer id, ModelMap model){
-           ParticipatedTrip pt = participatedTripService.get(id);
-           pt.setConfirmed(true);
-           participatedTripService.update(pt);
-           return "redirect:/trips/invitations";
-       }
-   
-       @RequestMapping(value = "/invitations/deny/{id}", method = RequestMethod.GET)
-       public String invitationsDenyPost(@PathVariable Integer id, ModelMap model){
-           ParticipatedTrip pt = participatedTripService.get(id);
-           participatedTripService.remove(pt);
-           return "redirect:/trips/invitations";
-       }
+    public String invitePost(@PathVariable Integer id, ModelMap model, HttpSession session, HttpServletRequest request) {
+        List<Integer> userIdList = new ArrayList<Integer>();
+
+        for (Enumeration e = request.getParameterNames(); e.hasMoreElements(); )
+            userIdList.add(Integer.parseInt((String) e.nextElement()));
+
+        try {
+            MimeMessage m_simpleMessage = new MimeMessage(m_Session);
+
+            InternetAddress m_fromAddress = new InternetAddress("noreply.trips@gmail.com");
+            m_simpleMessage.setSubject("Trip Invitation");
+            m_simpleMessage.setFrom(m_fromAddress);
+            User sender = userService.get((Integer) session.getAttribute("userId"));
+            Trip trip = tripService.get(id);
+
+            for (Integer userId : userIdList) {
+                User receiver = userService.get(userId);
+                InternetAddress m_toAddress = new InternetAddress(receiver.getEmail());
+                m_simpleMessage.setRecipient(Message.RecipientType.TO, m_toAddress);
+
+                StringBuilder msgBody = new StringBuilder();
+                msgBody.append(String.format("Dear %s %s\n\nYou are invited by %s to participate the trip: %s.\n" +
+                        "To confirm your invitation go to: http://localhost:8080/web/trips/invitations\n" +
+                        "Make sure you are logged in before going to the link above.\n\n" +
+                        "This is an automated email. You can not reply to this email.", receiver.getFirstName(), receiver.getLastName(), sender.getFirstName() + " " + sender.getLastName(), trip.getName()));
+
+                m_simpleMessage.setContent(msgBody.toString(), "text/plain");
+
+                Transport.send(m_simpleMessage);
+            }
+
+        } catch (MessagingException ex) {
+            ex.printStackTrace();
+        }
+
+        userService.createUserInvitations(userIdList, id);
+        return "redirect:/trips/own";
+    }
+
+    @RequestMapping(value = "/invitations", method = RequestMethod.GET)
+    public String invitationsGet(ModelMap model, HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("userId");
+        model.addAttribute("invitations", participatedTripService.getInvitations(userId));
+        return "trips/invitations";
+    }
+
+    @RequestMapping(value = "/invitations/accept/{id}", method = RequestMethod.GET)
+    public String invitationsAcceptPost(@PathVariable Integer id, ModelMap model) {
+        ParticipatedTrip pt = participatedTripService.get(id);
+        pt.setConfirmed(true);
+        participatedTripService.update(pt);
+        return "redirect:/trips/invitations";
+    }
+
+    @RequestMapping(value = "/invitations/deny/{id}", method = RequestMethod.GET)
+    public String invitationsDenyPost(@PathVariable Integer id, ModelMap model) {
+        ParticipatedTrip pt = participatedTripService.get(id);
+        participatedTripService.remove(pt);
+        return "redirect:/trips/invitations";
+    }
+
     @RequestMapping(value = "{id}/announcements/add", method = RequestMethod.GET)
     public String addAnnouncementsGet(@PathVariable Integer id, ModelMap model) {
         model.addAttribute("announcementform", new AnnouncementForm());
@@ -319,9 +373,41 @@ public class TripController {
         if (result.hasErrors()) {
             return "trips";
         } else {
+
+            Trip trip = tripService.get(id);
+            User sender = userService.get((Integer) session.getAttribute("userId"));
+
+            try {
+                MimeMessage m_simpleMessage = new MimeMessage(m_Session);
+                InternetAddress m_fromAddress = new InternetAddress("noreply.trips@gmail.com");
+                m_simpleMessage.setSubject("Trip Announcement");
+                m_simpleMessage.setFrom(m_fromAddress);
+
+                for (ParticipatedTrip pt : participatedTripService.getConfirmedParticipatedTripsByTripId(id)) {
+
+                    User receiver = pt.getUser();
+
+                    InternetAddress m_toAddress = new InternetAddress(receiver.getEmail());
+                    m_simpleMessage.setRecipient(Message.RecipientType.TO, m_toAddress);
+
+                    StringBuilder msgBody = new StringBuilder();
+                    msgBody.append(String.format("Dear %s %s\n\n%s %s placed an announcement for trip: %s.\n\n" +
+                            "%s\n\n" +
+                            "To view the announcement go to: http://localhost:8080/web/trips/details/%d\n" +
+                            "Make sure you are logged in before going to the link above.\n\n" +
+                            "This is an automated email. You can not reply to this email.", receiver.getFirstName(), receiver.getLastName(), sender.getFirstName(), sender.getLastName(), trip.getName(), announcementForm.getMessage(), id));
+
+                    m_simpleMessage.setContent(msgBody.toString(), "text/plain");
+
+                    Transport.send(m_simpleMessage);
+                }
+
+            } catch (MessagingException ex) {
+                ex.printStackTrace();
+            }
+
             Announcement announcement = new Announcement();
             announcement.setMessage(announcementForm.getMessage());
-            Trip trip = tripService.get(id);
             announcement.setTrip(trip);
             trip.addAnnouncement(announcement);
             tripService.update(trip);
@@ -331,7 +417,7 @@ public class TripController {
     }
 
     @RequestMapping(value = "/{id}/announcements/delete/{announcementid}", method = RequestMethod.GET)
-    public String deleteAnnouncement(@PathVariable Integer id,@PathVariable Integer announcementid, ModelMap model) {
+    public String deleteAnnouncement(@PathVariable Integer id, @PathVariable Integer announcementid, ModelMap model) {
         tripService.removeAnnouncementFromTrip(announcementid);
         return "redirect:/trips/details/" + id;
     }
@@ -343,7 +429,7 @@ public class TripController {
     }
 
     @RequestMapping(value = "/{id}/equipment/add", method = RequestMethod.POST)
-    public String addEquipmentPost(@PathVariable Integer id,@ModelAttribute("equipmentform") EquipmentForm equipmentForm, BindingResult result, HttpSession session) {
+    public String addEquipmentPost(@PathVariable Integer id, @ModelAttribute("equipmentform") EquipmentForm equipmentForm, BindingResult result, HttpSession session) {
         equipmentValidator.validate(equipmentForm, result);
         if (result.hasErrors()) {
             return "trips";
@@ -358,9 +444,10 @@ public class TripController {
         }
 
     }
+
     @RequestMapping(value = "/{id}/equipment/delete/{equipmentid}", method = RequestMethod.GET)
-       public String deleteEquipment(@PathVariable Integer id,@PathVariable Integer equipmentid, ModelMap model) {
-           tripService.removeEquipmentFromTrip(equipmentid);
-           return "redirect:/trips/details/" + id;
-       }
+    public String deleteEquipment(@PathVariable Integer id, @PathVariable Integer equipmentid, ModelMap model) {
+        tripService.removeEquipmentFromTrip(equipmentid);
+        return "redirect:/trips/details/" + id;
+    }
 }
