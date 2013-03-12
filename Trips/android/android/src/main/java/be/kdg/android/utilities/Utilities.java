@@ -5,6 +5,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import be.kdg.android.entities.Trip;
 import be.kdg.android.entities.User;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
@@ -19,18 +24,24 @@ import java.util.List;
  * Date: 26/02/13 15:38
  */
 public class Utilities {
+    // Basic settings
     public static final String PREFS_NAME = "TripsPreferences";
     public static final long TRIPS_RELOAD_TIME = 5 * 60 * 1000; // 5 minutes
 
-//    public static final String SERVER_ADDRESS = "http://192.168.0.195:8080/web";
-    public static final String SERVER_ADDRESS = "http://192.168.0.196:8080/web";
+    // IP-addresses
+    public static final String SERVER_ADDRESS = "http://192.168.0.195:8080/web";
+//    public static final String SERVER_ADDRESS = "http://192.168.0.196:8080/web";
 //    public static final String SERVER_ADDRESS = "http://192.168.113.1:8080/web";
 
+    // RestControllers
     public static final String LOGIN_ADDRESS = SERVER_ADDRESS + "/rest/login";
     public static final int LOGIN_REQUEST = 0;
-
     public static final String TRIPS_ADDRESS = SERVER_ADDRESS + "/rest/trips";
 
+    // Google Maps
+    public static final LatLng ANTWERP = new LatLng(51.2192159, 4.4028818);
+
+    // Networking
     private static ConnectivityManager connectivityManager;
     private static Gson gson;
 
@@ -80,5 +91,22 @@ public class Utilities {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static CameraUpdate getCameraUpdate(LatLng target, int zoom) {
+        CameraPosition cameraPositition = new CameraPosition.Builder()
+                .target(target)
+                .zoom(zoom)
+                .build();
+
+        return CameraUpdateFactory.newCameraPosition(cameraPositition);
+    }
+
+    public static MarkerOptions getMarker(LatLng position, String title, String description) {
+        return new MarkerOptions()
+                .position(position)
+                .title(title)
+                .snippet(description)
+                .draggable(false);
     }
 }
