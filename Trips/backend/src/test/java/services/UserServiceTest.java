@@ -1,9 +1,12 @@
 package services;
 
+import be.kdg.backend.entities.ParticipatedTrip;
 import be.kdg.backend.entities.Trip;
 import be.kdg.backend.entities.User;
 import be.kdg.backend.exceptions.DataNotFoundException;
 import be.kdg.backend.exceptions.LoginInvalidException;
+import be.kdg.backend.services.interfaces.ParticipatedTripService;
+import be.kdg.backend.services.interfaces.TripService;
 import be.kdg.backend.services.interfaces.UserService;
 import be.kdg.backend.utilities.Utilities;
 import org.junit.After;
@@ -12,6 +15,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
+
+import javax.validation.constraints.AssertTrue;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA 12.
@@ -25,6 +32,12 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests {
 
     @Autowired(required = true)
     UserService userService;
+
+    @Autowired(required = true)
+    ParticipatedTripService participatedTripService;
+
+    @Autowired(required = true)
+    TripService tripService;
 
     @Test
     public void addUser() {
@@ -87,22 +100,48 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests {
     }
 
     @Test
-    public void testAddTripToUser(){
-        User user = new User("soulscammer@gmail.com", "test", "Jonas", "Liekens", Utilities.makeDate("04/08/1991"));
-        userService.addUser(user);
-
-    }
-
-    @Test
-    public void testGetUninvitedUsers(){
+     public void testGetUninvitedUsers(){
         Trip trip = newTrip();
+        tripService.add(trip);
+
         User user1 = new User("soulscammer@gmail.com", "test", "Jonas", "Liekens", Utilities.makeDate("04/08/1991"));
         User user2 = new User("bartpraats@gmail.com", "test", "Bart", "Praats", Utilities.makeDate("04/08/1991"));
         User user3 = new User("maartenkonings@gmail.com", "test", "Maarten", "Konings", Utilities.makeDate("04/08/1991"));
 
+        userService.addUser(user1);
+        userService.addUser(user2);
+        userService.addUser(user3);
+
         trip.addAdmin(user1);
+        ParticipatedTrip pt = new ParticipatedTrip();
+        pt.setTrip(trip);
+        pt.setUser(user2);
+        participatedTripService.add(pt);
 
+        Assert.assertTrue(userService.getUninvitedUsers(trip.getId(), user1.getId()).get(0).getId() == user3.getId());
+    }
 
+    @Test
+    public void testCreateUserInvitations(){
+        List<Integer> userIds = new ArrayList<Integer>();
+
+        Trip trip = newTrip();
+        tripService.add(trip);
+
+        User user1 = new User("soulscammer@gmail.com", "test", "Jonas", "Liekens", Utilities.makeDate("04/08/1991"));
+        User user2 = new User("bartpraats@gmail.com", "test", "Bart", "Praats", Utilities.makeDate("04/08/1991"));
+        User user3 = new User("maartenkonings@gmail.com", "test", "Maarten", "Konings", Utilities.makeDate("04/08/1991"));
+
+        userService.addUser(user1);
+        userIds.add(user1.getId());
+        userService.addUser(user2);
+        userIds.add(user2.getId());
+        userService.addUser(user3);
+        userIds.add(user3.getId());
+
+        userService.createUserInvitations(userIds, trip.getId());
+
+        Assert.assertTrue(participatedTripService.getAllParticipatedTrips().size() == 3);
     }
 
     @After

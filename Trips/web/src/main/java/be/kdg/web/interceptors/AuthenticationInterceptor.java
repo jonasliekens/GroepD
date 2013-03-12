@@ -19,8 +19,9 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        String url = request.getRequestURL().toString();
-        //response.sendRedirect("/web/login");
+        if(request.getSession().getAttribute("userId") == null){
+            response.sendRedirect("/web/login");
+        }
         return true;
     }
 }

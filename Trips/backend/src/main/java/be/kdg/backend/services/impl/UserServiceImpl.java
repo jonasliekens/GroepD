@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService {
                 isInvited = false;
                 //Loop through participatedtrips to check if the user is already invited or participating
                 for (ParticipatedTrip pt : participatedTripsByTripId) {
-                    if (user.getId() == pt.getUser().getId()) {
+                    if (user.getId().equals(pt.getUser().getId())) {
                         isInvited = true;
                     }
                 }
