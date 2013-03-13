@@ -80,9 +80,9 @@ public class ParticipatedTripDaoImpl implements ParticipatedTripDao {
     }
 
     @Override
-    public List<ParticipatedTrip> findAllByUserId(Integer userId) {
+    public List<ParticipatedTrip> findAllConfirmedByUserId(Integer userId) {
         entityManager.clear(); //Otherwise takes not updated but yet changed entities into the collection, now it works directly on the database
-        Query query = entityManager.createQuery("SELECT pt FROM ParticipatedTrip pt WHERE pt.user.id = ?1");
+        Query query = entityManager.createQuery("SELECT pt FROM ParticipatedTrip pt WHERE pt.user.id = ?1 AND pt.isConfirmed = true");
         query.setParameter(1, userId);
         return query.getResultList();
     }

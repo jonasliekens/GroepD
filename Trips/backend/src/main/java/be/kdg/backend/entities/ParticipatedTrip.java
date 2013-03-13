@@ -33,6 +33,7 @@ public class ParticipatedTrip {
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "userId")
+    @JsonIgnore
     User user;
 
     public ParticipatedTrip() {

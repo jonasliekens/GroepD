@@ -20,5 +20,5 @@ public interface ParticipatedTripDao extends GenericDao<ParticipatedTrip,Integer
     @Transactional
     List<ParticipatedTrip> findAllConfirmedByTripId(Integer tripId);
     @Transactional
-    List<ParticipatedTrip> findAllByUserId(Integer userId);
+    List<ParticipatedTrip> findAllConfirmedByUserId(Integer userId);
 }
