@@ -91,7 +91,6 @@
                                 <a class="btn" href="trips/participants/${trip.id}"><spring:message
                                         code="trip.showParticipants"/></a>
                             </td>
-
                         </tr>
                     </c:forEach>
                     </tbody>

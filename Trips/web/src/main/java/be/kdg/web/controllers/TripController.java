@@ -3,11 +3,9 @@ package be.kdg.web.controllers;
 import be.kdg.backend.entities.*;
 import be.kdg.backend.enums.TravelType;
 import be.kdg.backend.enums.TripType;
-import be.kdg.backend.services.interfaces.ParticipatedTripService;
-import be.kdg.backend.services.interfaces.StopService;
-import be.kdg.backend.services.interfaces.TripService;
-import be.kdg.backend.services.interfaces.UserService;
+import be.kdg.backend.services.interfaces.*;
 import be.kdg.web.forms.AnnouncementForm;
+import be.kdg.web.forms.BroadcastForm;
 import be.kdg.web.forms.EquipmentForm;
 import be.kdg.web.forms.TripForm;
 import be.kdg.web.validators.AnnouncementValidator;
@@ -30,10 +28,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Properties;
+import javax.validation.Valid;
+import java.util.*;
 
 /**
  * User: Bart Verhavert
@@ -55,6 +51,9 @@ public class TripController {
     private ParticipatedTripService participatedTripService;
     @Autowired
     private StopService stopService;
+    @Autowired
+    @Qualifier("broadcastService")
+    private BroadcastService broadcastService;
     //VALIDATORS
     @Autowired
     @Qualifier("tripValidator")
@@ -111,6 +110,9 @@ public class TripController {
             model.addAttribute("isAdmin", isAdmin);
             model.addAttribute("announcements", tripService.getAnnouncementsByTripId(trip.getId()));
             model.addAttribute("equipment", tripService.getEquipmentByTripId(trip.getId()));
+            BroadcastForm form = new BroadcastForm();
+            form.setTripId(id);
+            model.addAttribute("broadcastForm", form);
         }
         return "trips/details";
     }
@@ -447,5 +449,13 @@ public class TripController {
     public String deleteEquipment(@PathVariable Integer id, @PathVariable Integer equipmentid, ModelMap model) {
         tripService.removeEquipmentFromTrip(equipmentid);
         return "redirect:/trips/details/" + id;
+    }
+
+    @RequestMapping(value="/addBroadcast", method = RequestMethod.POST)
+    public String addBroadcastMessage(@ModelAttribute("broadcastForm") @Valid BroadcastForm broadcastForm, ModelMap model, HttpSession session){
+        System.out.println("tripId=" + broadcastForm.getTripId().toString());
+        BroadcastMessage message = new BroadcastMessage(broadcastForm.getMessage(), tripService.get(broadcastForm.getTripId()), new Date());
+        broadcastService.add(message);
+        return "redirect:/trips/details/" + broadcastForm.getTripId();
     }
 }

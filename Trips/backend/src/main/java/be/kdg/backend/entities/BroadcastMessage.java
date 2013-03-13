@@ -90,4 +90,12 @@ public class BroadcastMessage {
     public void setTrip(Trip trip) {
         this.trip = trip;
     }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }

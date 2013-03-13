@@ -9,6 +9,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -133,6 +134,30 @@
     </tr>
     </tbody>
 </table>
+<c:if test="${isAdmin}">
+    <h5>
+        <spring:message code="trips.broadcast"/>
+    </h5>
+    <spring:message code="control.send" var="btnSend"/>
+
+    <form:form action="trips/addBroadcast" method="post" modelAttribute="broadcastForm">
+        <form:errors cssClass="text-error"/>
+
+        <form:hidden path="tripId"/>
+
+        <div class="control-group">
+            <div class="controls">
+                <form:textarea path="message"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" class="btn" value="${btnSend}"/>
+            </div>
+        </div>
+    </form:form>
+</c:if>
 <h5>
     <spring:message code="trip.equipment"/>
 </h5>
