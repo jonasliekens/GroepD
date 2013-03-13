@@ -2,13 +2,14 @@ package be.kdg.android.fragments;
 
 import android.app.ListFragment;
 import android.app.ProgressDialog;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.view.*;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import be.kdg.android.R;
-import android.os.Bundle;
-import be.kdg.android.activities.TripActivity;
 import be.kdg.android.entities.Trip;
 import be.kdg.android.listadapters.TripsListAdapter;
 import be.kdg.android.networking.RestHttpConnection;
@@ -19,39 +20,35 @@ import java.util.List;
 
 /**
  * User: Sander
- * Date: 26/02/13 11:30
+ * Date: 26/02/13 11:35
  */
-public class AllTripsFragment extends ListFragment {
+public class RegisteredTripsFragment extends ListFragment {
     private TripsListAdapter tripsListAdapter;
     private Trip[] trips;
-    private Long lastUpdate = 0L;
+    private SharedPreferences settings;
+
+    private void initSettings() {
+        settings = getActivity().getSharedPreferences(Utilities.PREFS_NAME, 0);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setRetainInstance(true);
         setHasOptionsMenu(true);
-        return inflater.inflate(R.layout.all_trips_layout, container, false);
+        return inflater.inflate(R.layout.registered_trips_layout, container, false);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (savedInstanceState != null && trips != null) {
-            lastUpdate = savedInstanceState.getLong("lastUpdate");
-        }
-
+        initSettings();
         downloadList();
     }
 
     private void downloadList() {
-        Long now = System.currentTimeMillis();
-        if ((now - lastUpdate) > Utilities.TRIPS_RELOAD_TIME) {
-            AllTripsTask allTripsTask = new AllTripsTask();
-            allTripsTask.execute();
-        } else {
-            fillList();
-        }
+        RegisteredTripsTask registeredTripsTask = new RegisteredTripsTask();
+        registeredTripsTask.execute();
     }
 
     private void fillList() {
@@ -65,39 +62,30 @@ public class AllTripsFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Trip trip = trips[position];
-        Intent intent = new Intent(getActivity(), TripActivity.class);
-        intent.putExtra("trip", trip);
-        startActivity(intent);
+//        Trip trip = trips[position];
+//        Intent intent = new Intent(getActivity(), TripActivity.class);
+//        intent.putExtra("trip", trip);
+//        startActivity(intent);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.trips_menu, menu);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        inflater.inflate(R.menu.trips_menu, menu);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.menu_refresh:
+//                lastUpdate = 0L;
+//                downloadList();
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_refresh:
-                lastUpdate = 0L;
-                downloadList();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        if (lastUpdate < System.currentTimeMillis()) {
-            outState.putLong("lastUpdate", lastUpdate);
-        }
-    }
-
-    public class AllTripsTask extends AsyncTask<String, String, List<Trip>> {
+    public class RegisteredTripsTask extends AsyncTask<String, String, List<Trip>> {
         private ProgressDialog progressDialog;
 
         @Override
@@ -109,7 +97,7 @@ public class AllTripsFragment extends ListFragment {
         protected List<Trip> doInBackground(String... data) {
             try {
                 RestHttpConnection restHttpConnection = new RestHttpConnection();
-                String result = restHttpConnection.doGet(Utilities.ALL_TRIPS_ADDRESS);
+                String result = restHttpConnection.doGet(String.format(Utilities.REGISTERED_TRIPS_ADDRESS, settings.getInt("userId", 0)));
 
                 if (!(result.equals("null") || result.isEmpty())) {
                     List<Trip> trips = Utilities.getTrips(result);
@@ -125,8 +113,7 @@ public class AllTripsFragment extends ListFragment {
         @Override
         protected void onPostExecute(List<Trip> trips) {
             progressDialog.dismiss();
-            AllTripsFragment.this.trips = trips.toArray(new Trip[trips.size()]);
-            lastUpdate = System.currentTimeMillis();
+            RegisteredTripsFragment.this.trips = trips.toArray(new Trip[trips.size()]);
             fillList();
         }
     }

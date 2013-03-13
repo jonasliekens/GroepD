@@ -20,7 +20,6 @@ public class User implements Serializable {
     private String lastName;
     private String facebookID;
     private Date birthday;
-    private Set<Trip> ownTrips;
     private Set<BroadcastMessage> broadcastMessages;
     private Set<Chat> chats;
     private Set<ParticipatedTrip> participatedTrips;
@@ -49,7 +48,6 @@ public class User implements Serializable {
     }
 
     private void initLists(){
-        this.ownTrips = new HashSet<Trip>();
         this.participatedTrips = new HashSet<ParticipatedTrip>();
     }
 
@@ -107,14 +105,6 @@ public class User implements Serializable {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
-    }
-
-    public Set<Trip> getOwnTrips() {
-        return ownTrips;
-    }
-
-    public void setOwnTrips(Set<Trip> ownTrips) {
-        this.ownTrips = ownTrips;
     }
 
     public Set<ParticipatedTrip> getParticipatedTrips() {

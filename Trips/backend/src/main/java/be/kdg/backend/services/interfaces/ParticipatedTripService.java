@@ -14,8 +14,6 @@ import java.util.List;
  */
 public interface ParticipatedTripService extends GenericService<ParticipatedTrip, Integer> {
     @Transactional
-    public List<ParticipatedTrip> getParticipatedTrips();
-    @Transactional
     public List<ParticipatedTrip> getParticipatedTripsByTripId(Integer tripId);
     @Transactional
     public List<ParticipatedTrip> getAllParticipatedTrips();
@@ -23,4 +21,6 @@ public interface ParticipatedTripService extends GenericService<ParticipatedTrip
     public List<ParticipatedTrip>getInvitations(Integer userId);
     @Transactional
     public List<ParticipatedTrip> getConfirmedParticipatedTripsByTripId(Integer tripId);
+
+    List<ParticipatedTrip> getParticipatedTripsByUserId(Integer userId);
 }

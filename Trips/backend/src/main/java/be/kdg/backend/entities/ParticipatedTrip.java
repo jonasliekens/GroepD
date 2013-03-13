@@ -1,5 +1,7 @@
 package be.kdg.backend.entities;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
 
 /**
@@ -12,7 +14,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "T_PARTICIPATEDTRIP")
-public class  ParticipatedTrip {
+public class ParticipatedTrip {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,9 +28,10 @@ public class  ParticipatedTrip {
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "tripId")
+    @JsonIgnore
     Trip trip;
 
-    @ManyToOne(cascade ={CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "userId")
     User user;
 

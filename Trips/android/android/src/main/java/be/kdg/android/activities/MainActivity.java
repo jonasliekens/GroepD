@@ -10,9 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 import be.kdg.android.R;
-import be.kdg.android.fragments.AllTripsFragment;
-import be.kdg.android.fragments.ChatFragment;
-import be.kdg.android.fragments.MyTripsFragment;
+import be.kdg.android.fragments.*;
 import be.kdg.android.utilities.Utilities;
 
 /**
@@ -83,10 +81,18 @@ public class MainActivity extends Activity {
 
         tab = actionBar
                 .newTab()
-                .setText(R.string.chat_tab_name)
-                .setIcon(getResources().getDrawable(R.drawable.icon_chat_tab))
-                .setTabListener(new CustomTabListener<ChatFragment>(this, "chat_layout", ChatFragment.class));
+                .setText(R.string.registered_trips_tab_name)
+                .setIcon(R.drawable.icon_my_trips_tab)
+                .setTabListener(new CustomTabListener<RegisteredTripsFragment>(this, "registered_trips_layout", RegisteredTripsFragment.class));
         actionBar.addTab(tab);
+
+        tab = actionBar
+                .newTab()
+                .setText(R.string.invited_trips_tab_name)
+                .setIcon(R.drawable.icon_my_trips_tab)
+                .setTabListener(new CustomTabListener<InvitedTripsFragment>(this, "invited_trips_layout", InvitedTripsFragment.class));
+        actionBar.addTab(tab);
+
     }
 
     private void checkLogin() {

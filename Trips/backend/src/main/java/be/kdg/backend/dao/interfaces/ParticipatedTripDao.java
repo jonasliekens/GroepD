@@ -19,4 +19,6 @@ public interface ParticipatedTripDao extends GenericDao<ParticipatedTrip,Integer
     List<ParticipatedTrip> getInvitations(Integer userId);
     @Transactional
     List<ParticipatedTrip> findAllConfirmedByTripId(Integer tripId);
+    @Transactional
+    List<ParticipatedTrip> findAllByUserId(Integer userId);
 }

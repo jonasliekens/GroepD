@@ -37,6 +37,7 @@ public class Trip {
     private Set<User> admins;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "trip")
+    @JsonIgnore
     private Set<ParticipatedTrip> participatedTrips;
 
     @NotNull

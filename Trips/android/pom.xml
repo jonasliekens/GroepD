@@ -16,7 +16,6 @@
 
     <modules>
         <module>android</module>
-        <module>android-it</module>
     </modules>
 
     <properties>

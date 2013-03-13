@@ -10,6 +10,7 @@ import android.widget.ListView;
 import be.kdg.android.R;
 import be.kdg.android.entities.Trip;
 import be.kdg.android.fragments.AllTripsFragment;
+import be.kdg.android.fragments.ChatFragment;
 import be.kdg.android.fragments.StopListFragment;
 import be.kdg.android.fragments.StopMapFragment;
 import be.kdg.android.listadapters.StopsListAdapter;
@@ -51,6 +52,13 @@ public class TripActivity extends ListActivity {
                 .setText(R.string.stop_map_tab_name)
                 .setIcon(R.drawable.icon_map_tab)
                 .setTabListener(new CustomTabListener<StopMapFragment>(this, "", StopMapFragment.class));
+        actionBar.addTab(tab);
+
+        tab = actionBar
+                .newTab()
+                .setText(R.string.chat_tab_name)
+                .setIcon(getResources().getDrawable(R.drawable.icon_chat_tab))
+                .setTabListener(new CustomTabListener<ChatFragment>(this, "chat_layout", ChatFragment.class));
         actionBar.addTab(tab);
     }
 

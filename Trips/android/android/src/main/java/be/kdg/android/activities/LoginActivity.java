@@ -2,6 +2,7 @@ package be.kdg.android.activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -25,16 +26,24 @@ import java.util.List;
 public class LoginActivity extends Activity {
     private EditText txtUsername;
     private EditText txtPassword;
+    private SharedPreferences settings;
+    private SharedPreferences.Editor settingsEditor;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
 
         initControls();
+        initSettings();
 
         if (!Utilities.isOnline(this.getApplicationContext())) {
             Toast.makeText(this, R.string.network_noconnection, Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void initSettings() {
+        settings = getSharedPreferences(Utilities.PREFS_NAME, 0);
+        settingsEditor = settings.edit();
     }
 
     private void initControls() {
@@ -102,6 +111,9 @@ public class LoginActivity extends Activity {
             if (user == null) {
                 Toast.makeText(LoginActivity.this, R.string.login_error, Toast.LENGTH_LONG).show();
             } else {
+                settingsEditor.putInt("userId", user.getId());
+                settingsEditor.commit();
+
                 setResult(RESULT_OK);
                 finish();
             }
