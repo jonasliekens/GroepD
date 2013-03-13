@@ -24,4 +24,6 @@ public interface TripService extends GenericService<Trip, Integer>{
     List<Equipment> getEquipmentByTripId(Integer tripId);
 
     void removeEquipmentFromTrip(Integer equipmentId);
+
+    List<Trip> findOwnTripsByUserId(Integer userId);
 }

@@ -71,4 +71,9 @@ public class TripServiceImpl implements TripService {
     public void removeEquipmentFromTrip(Integer equipmentId) {
         tripDao.removeEquipmentFromTrip(equipmentId);
     }
+
+    @Override
+    public List<Trip> findOwnTripsByUserId(Integer userId){
+        return tripDao.findOwnTripsByUserId(userId);
+    }
 }

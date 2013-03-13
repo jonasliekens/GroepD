@@ -44,9 +44,6 @@ public class User {
 
     private boolean shareLocation;
 
-    @ManyToMany(cascade = CascadeType.ALL,mappedBy="admins")
-    private Set<Trip> ownTrips;
-
     @ManyToMany(cascade = CascadeType.ALL,mappedBy="recievers")
     private Set<BroadcastMessage> broadcastMessages;
 
@@ -84,7 +81,6 @@ public class User {
     }
 
     private void initLists(){
-        this.ownTrips = new HashSet<Trip>();
         this.participatedTrips = new HashSet<ParticipatedTrip>();
         this.chats = new HashSet<Chat>();
         this.broadcastMessages = new HashSet<BroadcastMessage>();
@@ -145,14 +141,6 @@ public class User {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
-    }
-
-    public Set<Trip> getOwnTrips() {
-        return ownTrips;
-    }
-
-    public void setOwnTrips(Set<Trip> ownTrips) {
-        this.ownTrips = ownTrips;
     }
 
     public Set<Chat> getChats() {

@@ -180,6 +180,17 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
         assertTrue(tripDao.getEquipmentByTrip(trip.getId()).isEmpty());
     }
 
+    @Test
+    public void testGetOwnTrips(){
+        Trip trip = newTrip();
+        User user = new User("Admin@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
+        userDao.add(user);
+        trip.getAdmins().add(user);
+        tripDao.add(trip);
+
+        assertTrue(tripDao.findOwnTripsByUserId(user.getId()).size() > 0);
+    }
+
 
     @After
     public void testRemoveTrips() {

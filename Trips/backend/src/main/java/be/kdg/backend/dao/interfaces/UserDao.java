@@ -14,5 +14,5 @@ public interface UserDao extends GenericDao<User, Integer>{
     @Transactional
     public User findByEMail(String mail);
     @Transactional
-    public User findByFacebookId(String facebookId);
+    public User findByFacebookId(String facebookId);;
 }

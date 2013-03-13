@@ -287,8 +287,7 @@ public class TripController {
 
     @RequestMapping(value = "/own", method = RequestMethod.GET)
     public String myTripsGet(ModelMap model, HttpSession session) {
-        User user = userService.get((Integer) session.getAttribute("userId"));
-        model.addAttribute("myTrips", user.getOwnTrips());
+        model.addAttribute("myTrips", tripService.findOwnTripsByUserId((Integer) session.getAttribute("userId")));
         return "trips/own";
     }
 

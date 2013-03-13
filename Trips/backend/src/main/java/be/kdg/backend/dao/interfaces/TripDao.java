@@ -25,4 +25,6 @@ public interface TripDao  extends GenericDao<Trip,Integer> {
     void removeEquipmentFromTrip(Integer equipmentId);
 
     List<Equipment> getEquipmentByTrip(Integer tripId);
+
+    List<Trip> findOwnTripsByUserId(Integer userId);
 }
