@@ -55,8 +55,20 @@
 <div class="container">
 <div class="row-fluid">
 <div class="span12">
-<c:if test="${isAdmin}"><a class="btn" href="trips/participants/${trip.id}"><spring:message
-        code="trip.showParticipants"/></a></c:if>
+<c:if test="${isAdmin}">
+    <a class="btn" href="trips/participants/${trip.id}"><spring:message code="trip.showParticipants"/></a>
+</c:if>
+
+<a class="btn" href="trip/${trip.id}/expenses">
+    <c:choose>
+        <c:when test="${isAdmin}">
+            <spring:message code="trip.showExpenses" />
+        </c:when>
+        <c:otherwise>
+            <spring:message code="trip.showMyExpenses" />
+        </c:otherwise>
+    </c:choose>
+</a>
 <table class="table table-striped">
     <thead>
     <tr>

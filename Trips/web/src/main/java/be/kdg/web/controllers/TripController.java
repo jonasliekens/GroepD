@@ -104,11 +104,10 @@ public class TripController {
             userId = (Integer) session.getAttribute("userId");
         }
         if (userId > 0) {
-            for (User u : trip.getAdmins()) {
-                if (u.getId() == userId) {
-                    isAdmin = true;
-                }
+            if(trip.getAdmins().contains(userService.get(userId))) {
+                isAdmin = true;
             }
+
             model.addAttribute("isAdmin", isAdmin);
             model.addAttribute("announcements", tripService.getAnnouncementsByTripId(trip.getId()));
             model.addAttribute("equipment", tripService.getEquipmentByTripId(trip.getId()));
