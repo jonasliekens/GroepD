@@ -3,7 +3,6 @@ package dao;
 import be.kdg.backend.dao.interfaces.StopDao;
 import be.kdg.backend.entities.Answer;
 import be.kdg.backend.entities.Question;
-import be.kdg.backend.entities.Picture;
 import be.kdg.backend.entities.Stop;
 import org.junit.After;
 import org.junit.Test;
@@ -12,7 +11,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,36 +30,25 @@ public class StopTest extends AbstractJUnit4SpringContextTests {
     private StopDao stopDao;
 
     @Test
-    public void testAddPicture(){
-        Stop temp = newStop();
-        Picture picture = new Picture();
-        picture.setUrl("https://www.facebook.com/");
-        picture.setDescription("Facebook");
-        temp.addPicture(picture);
-        stopDao.add(temp);
-        assertTrue(stopDao.findById(temp.getId()).getPictures().size() > 0);
-    }
-
-    @Test
     public void testAddMultipleChoice(){
         Stop temp = newStop();
         Question question = new Question();
-        question.setQuestion("Wat werpt Brabo?");
+        question.setQuestion("What does Brabo throw?");
 
         Question question2 = new Question();
-        question2.setQuestion("Wordt ik mee verwijderd?");
+        question2.setQuestion("deleted?");
 
         Answer answer = new Answer();
         answer.setCorrect(true);
-        answer.setAnswer("Een Hand");
+        answer.setAnswer("a hand");
 
         Answer answer2 = new Answer();
         answer2.setCorrect(false);
-        answer2.setAnswer("Een Voet");
+        answer2.setAnswer("a foot");
 
         Answer answer3 = new Answer();
         answer3.setCorrect(false);
-        answer3.setAnswer("Een Hoofd");
+        answer3.setAnswer("a head");
 
         question.addAnswer(answer);
         question.addAnswer(answer2);

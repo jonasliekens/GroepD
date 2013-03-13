@@ -11,16 +11,16 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public class PhotoForm {
 
-    private MultipartFile file;
+    private MultipartFile photo;
 
     public PhotoForm() {
     }
 
-    public MultipartFile getFile() {
-        return file;
+    public MultipartFile getPhoto() {
+        return photo;
     }
 
-    public void setFile(MultipartFile file) {
-        this.file = file;
+    public void setPhoto(MultipartFile photo) {
+        this.photo = photo;
     }
 }
