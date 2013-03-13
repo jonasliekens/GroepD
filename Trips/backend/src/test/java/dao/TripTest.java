@@ -183,12 +183,16 @@ public class TripTest extends AbstractJUnit4SpringContextTests {
     @Test
     public void testGetOwnTrips(){
         Trip trip = newTrip();
-        User user = new User("Admin@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
-        userDao.add(user);
-        trip.getAdmins().add(user);
+        User user1 = new User("Admin@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
+        User user2 = new User("Admin2@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
+        userDao.add(user1);
+        userDao.add(user2);
+        trip.getAdmins().add(user1);
         tripDao.add(trip);
 
-        assertTrue(tripDao.findOwnTripsByUserId(user.getId()).size() > 0);
+        assertTrue(tripDao.findOwnTripsByUserId(user1.getId()).size() == 1);
+        assertTrue(tripDao.findOwnTripsByUserId(user2.getId()).size() == 0);
+
     }
 
 

@@ -107,17 +107,8 @@ public class TripDaoImpl implements TripDao {
     @Override
     public List<Trip> findOwnTripsByUserId(Integer userId){
         Query query;
-        List<Integer> adminsId = new ArrayList<>();
-        query = entityManager.createQuery("select admins from Trip");
-        List<User> admins = query.getResultList();
-
-        for(User user : admins){
-            adminsId.add(user.getId());
-        }
-
-        query = entityManager.createQuery("select t from Trip t where ?1 IN ?2");
+        query = entityManager.createQuery("select t from Trip t JOIN t.admins u where u.id = ?1");
         query.setParameter(1, userId);
-        query.setParameter(2, adminsId);
         List<Trip> trips = query.getResultList();
         return trips;
     }
