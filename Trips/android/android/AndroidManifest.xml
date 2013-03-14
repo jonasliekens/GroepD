@@ -37,6 +37,12 @@
                   android:excludeFromRecents="true"/>
 
         <activity android:name=".activities.TripActivity"
+                  android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <!--android:parentActivityName=".activities.MainActivity"-->
+        <activity android:name=".activities.RegisteredTripActivity"
+                  android:configChanges="keyboardHidden|orientation|screenSize"/>
+
+        <activity android:name=".activities.InvitationActivity"
                   android:parentActivityName=".activities.MainActivity"
                   android:configChanges="keyboardHidden|orientation|screenSize"/>
 

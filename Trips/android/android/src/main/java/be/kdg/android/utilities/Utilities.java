@@ -40,6 +40,7 @@ public class Utilities {
     public static final String MY_TRIPS_ADDRESS = SERVER_ADDRESS + "/rest/trips/mytrips/%d";
     public static final String REGISTERED_TRIPS_ADDRESS = SERVER_ADDRESS + "/rest/trips/registeredtrips/%d";
     public static final String INVITED_TRIPS_ADDRESS = SERVER_ADDRESS + "/rest/trips/invitations/%d";
+    public static final String START_TRIP_ADDRESS = SERVER_ADDRESS + "/rest/trips/registeredtrips/start/";
 
     // Google Maps
     public static final LatLng ANTWERP = new LatLng(51.2192159, 4.4028818);

@@ -38,4 +38,9 @@
 
     <!-- Stops -->
     <string name="stops_list_empty">No stops found.</string>
+    <string name="trips_start">Start trip</string>
+
+    <!-- Invitations -->
+    <string name="invitation_accept">Accept</string>
+    <string name="invitation_decline">Decline</string>
 </resources>

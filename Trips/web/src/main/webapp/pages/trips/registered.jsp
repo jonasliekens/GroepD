@@ -45,8 +45,7 @@
     <div class="container">
         <div class="row-fluid">
             <div class="span12">
-                <a href="trips/add"><spring:message code="control.add"/></a> <a href="trips/registered"><spring:message
-                    code="message.showusertrips.trip"/></a>
+                <c:if test="${sessionScope.userId != null}"> <a href="trips/add"><spring:message code="control.add"/></a> <a href="trips/own"><spring:message code="message.showmytrips.trip"/></a> <a href="trips/registered"><spring:message code="message.showusertrips.trip"/></a> <a href="trips/invitations"><spring:message code="message.showinvitations.trip"/></a></c:if>
                 <table class="table table-striped">
                     <thead>
                     <tr>

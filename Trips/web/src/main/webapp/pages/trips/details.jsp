@@ -56,9 +56,13 @@
 <div class="container">
 <div class="row-fluid">
 <div class="span12">
+<c:if test="${sessionScope.userId > 0}">
+    <a class="btn" href="trips/register/${trip.id}"><spring:message code="trip.register"/></a>
+</c:if>
 <c:if test="${isAdmin}">
     <a class="btn" href="trips/participants/${trip.id}"><spring:message code="trip.showParticipants"/></a>
 </c:if>
+
 
 <a class="btn" href="trip/${trip.id}/expenses">
     <c:choose>
@@ -296,9 +300,7 @@
     </tbody>
 </table>
 
-<c:if test="${sessionScope.userId > 0}">
-    <a class="btn" href="trips/register/${trip.id}"><spring:message code="trip.register"/></a>
-</c:if>
+
 </div>
 </div>
 <div class="row-fluid">

@@ -4,22 +4,22 @@ import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import be.kdg.android.R;
 import be.kdg.android.entities.Trip;
-import be.kdg.android.fragments.AllTripsFragment;
 import be.kdg.android.fragments.ChatFragment;
 import be.kdg.android.fragments.StopListFragment;
 import be.kdg.android.fragments.StopMapFragment;
-import be.kdg.android.listadapters.StopsListAdapter;
 
 /**
  * User: Sander
  * Date: 10/03/13 13:51
  */
-public class TripActivity extends ListActivity {
+public class InvitationActivity extends ListActivity {
     private Trip trip;
 
     @Override
@@ -60,8 +60,10 @@ public class TripActivity extends ListActivity {
     }
 
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);    //To change body of overridden methods use File | Settings | File Templates.
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.invitation_menu, menu);
+        return true;
     }
 
     @Override
@@ -75,8 +77,14 @@ public class TripActivity extends ListActivity {
                 startActivity(parentActivityIntent);
                 finish();
                 return true;
+            case R.id.menu_invite_accept:
+                return true;
+            case R.id.menu_invite_decline:
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 }

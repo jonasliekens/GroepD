@@ -2,6 +2,7 @@ package be.kdg.android.fragments;
 
 import android.app.ListFragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,12 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import be.kdg.android.R;
+import be.kdg.android.activities.RegisteredTripActivity;
 import be.kdg.android.entities.Trip;
 import be.kdg.android.listadapters.TripsListAdapter;
 import be.kdg.android.networking.RestHttpConnection;
 import be.kdg.android.utilities.Utilities;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -62,10 +67,10 @@ public class RegisteredTripsFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-//        Trip trip = trips[position];
-//        Intent intent = new Intent(getActivity(), TripActivity.class);
-//        intent.putExtra("trip", trip);
-//        startActivity(intent);
+        Trip trip = trips[position];
+        Intent intent = new Intent(getActivity(), RegisteredTripActivity.class);
+        intent.putExtra("trip", trip);
+        startActivity(intent);
     }
 
 //    @Override

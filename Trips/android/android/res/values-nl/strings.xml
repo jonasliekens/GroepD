@@ -41,5 +41,9 @@
 
     <!-- Stops -->
     <string name="stops_list_empty">Geen stopplaatsen gevonden.</string>
+    <string name="trips_start">Start trip</string>
 
+    <!-- Invitations -->
+    <string name="invitation_accept">Accepteren</string>
+    <string name="invitation_decline">Weigeren</string>
 </resources>
