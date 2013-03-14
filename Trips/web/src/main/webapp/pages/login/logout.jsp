@@ -48,6 +48,7 @@
                     <script>
                         window.fbAsyncInit = function () {
                             initFB();
+                            logout();
                         };
                     </script>
                     <spring:message code="message.logout" />

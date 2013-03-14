@@ -19,7 +19,7 @@ function initFB(){
 
 function checkLoginStatus(){
     FB.getLoginStatus(function(response) {
-        if (response.status === 'connected') {
+        if (response.status == 'connected') {
             // User logged into FB and authorized
             getData();
         }
@@ -41,8 +41,12 @@ function getData(){
 }
 
 function logout(){
-    FB.logout(function(response) {
-        // user is now logged out
+    FB.getLoginStatus(function(response) {
+        if (response.status == 'connected') {
+            // User logged into FB and authorized
+            FB.logout(function(response){
+            });
+        }
     });
 }
 
