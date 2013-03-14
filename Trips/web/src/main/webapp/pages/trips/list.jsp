@@ -52,9 +52,6 @@
                                 <th>
                                     <spring:message code="trip.numberOfStops" />
                                 </th>
-                                <th>
-                                    <!--Controls-->
-                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,10 +69,6 @@
                                     </td>
                                     <td>
                                         ${fn:length(trip.stops)}
-                                    </td>
-                                    <td>
-                                        <a href="trips/edit/${trip.id}"><spring:message code="control.edit" /></a>
-                                        <a href="trips/delete/${trip.id}"><spring:message code="control.delete" /></a>
                                     </td>
                                 </tr>
                             </c:forEach>
