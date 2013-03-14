@@ -77,7 +77,7 @@
                             </div>
                         </form:form>
 
-                        <fb:login-button show-faces="true" width="200" max-rows="1" onlogin="getData()"></fb:login-button>
+                        <fb:login-button show-faces="true" width="200" max-rows="1" onlogin="getData()" perms="email,user_birthday,publish_actions"></fb:login-button>
                     </div>
                 </div>
                 <div class="span6">
