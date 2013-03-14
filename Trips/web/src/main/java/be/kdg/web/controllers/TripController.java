@@ -317,18 +317,20 @@ public class TripController {
 
             for (Integer userId : userIdList) {
                 User receiver = userService.get(userId);
-                InternetAddress m_toAddress = new InternetAddress(receiver.getEmail());
-                m_simpleMessage.setRecipient(Message.RecipientType.TO, m_toAddress);
+                if (receiver.isReceiveMails()) {
+                    InternetAddress m_toAddress = new InternetAddress(receiver.getEmail());
+                    m_simpleMessage.setRecipient(Message.RecipientType.TO, m_toAddress);
 
-                StringBuilder msgBody = new StringBuilder();
-                msgBody.append(String.format("Dear %s %s\n\nYou are invited by %s to participate the trip: %s.\n" +
-                        "To confirm your invitation go to: http://localhost:8080/web/trips/invitations\n" +
-                        "Make sure you are logged in before going to the link above.\n\n" +
-                        "This is an automated email. You can not reply to this email.", receiver.getFirstName(), receiver.getLastName(), sender.getFirstName() + " " + sender.getLastName(), trip.getName()));
+                    StringBuilder msgBody = new StringBuilder();
+                    msgBody.append(String.format("Dear %s %s\n\nYou are invited by %s to participate the trip: %s.\n" +
+                            "To confirm your invitation go to: http://localhost:8080/web/trips/invitations\n" +
+                            "Make sure you are logged in before going to the link above.\n\n" +
+                            "This is an automated email. You can not reply to this email.", receiver.getFirstName(), receiver.getLastName(), sender.getFirstName() + " " + sender.getLastName(), trip.getName()));
 
-                m_simpleMessage.setContent(msgBody.toString(), "text/plain");
+                    m_simpleMessage.setContent(msgBody.toString(), "text/plain");
 
-                Transport.send(m_simpleMessage);
+                    Transport.send(m_simpleMessage);
+                }
             }
 
         } catch (MessagingException ex) {
@@ -384,22 +386,23 @@ public class TripController {
                 m_simpleMessage.setFrom(m_fromAddress);
 
                 for (ParticipatedTrip pt : participatedTripService.getConfirmedParticipatedTripsByTripId(id)) {
+                    if (pt.getUser().isReceiveMails()) {
+                        User receiver = pt.getUser();
 
-                    User receiver = pt.getUser();
+                        InternetAddress m_toAddress = new InternetAddress(receiver.getEmail());
+                        m_simpleMessage.setRecipient(Message.RecipientType.TO, m_toAddress);
 
-                    InternetAddress m_toAddress = new InternetAddress(receiver.getEmail());
-                    m_simpleMessage.setRecipient(Message.RecipientType.TO, m_toAddress);
+                        StringBuilder msgBody = new StringBuilder();
+                        msgBody.append(String.format("Dear %s %s\n\n%s %s placed an announcement for trip: %s.\n\n" +
+                                "%s\n\n" +
+                                "To view the announcement go to: http://localhost:8080/web/trips/details/%d\n" +
+                                "Make sure you are logged in before going to the link above.\n\n" +
+                                "This is an automated email. You can not reply to this email.", receiver.getFirstName(), receiver.getLastName(), sender.getFirstName(), sender.getLastName(), trip.getName(), announcementForm.getMessage(), id));
 
-                    StringBuilder msgBody = new StringBuilder();
-                    msgBody.append(String.format("Dear %s %s\n\n%s %s placed an announcement for trip: %s.\n\n" +
-                            "%s\n\n" +
-                            "To view the announcement go to: http://localhost:8080/web/trips/details/%d\n" +
-                            "Make sure you are logged in before going to the link above.\n\n" +
-                            "This is an automated email. You can not reply to this email.", receiver.getFirstName(), receiver.getLastName(), sender.getFirstName(), sender.getLastName(), trip.getName(), announcementForm.getMessage(), id));
+                        m_simpleMessage.setContent(msgBody.toString(), "text/plain");
 
-                    m_simpleMessage.setContent(msgBody.toString(), "text/plain");
-
-                    Transport.send(m_simpleMessage);
+                        Transport.send(m_simpleMessage);
+                    }
                 }
 
             } catch (MessagingException ex) {
