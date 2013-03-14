@@ -19,7 +19,7 @@ public class Stop {
     @NotNull
     private String name;
 
-    @Column(columnDefinition="text")
+    @Column(columnDefinition = "text")
     private String description;
 
     @NotNull
@@ -35,11 +35,10 @@ public class Stop {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "stopId")
-    private Set<Picture> pictures;
-
+    private Set<Question> questions;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "stopId")
-    private Set<Question> questions;
+    private Set<Photo> photos;
 
     @ManyToOne
     @JoinColumn(name = "tripId")
@@ -58,9 +57,9 @@ public class Stop {
         this.orderNumber = orderNumber;
     }
 
-    private void initLists(){
+    private void initLists() {
         this.questions = new HashSet<Question>();
-        this.pictures = new HashSet<Picture>();
+        this.photos = new HashSet<Photo>();
     }
 
     public Integer getId() {
@@ -95,11 +94,7 @@ public class Stop {
         this.description = description;
     }
 
-    public void addPicture(Picture picture){
-        this.pictures.add(picture);
-    }
-
-    public void addQuestion(Question question){
+    public void addQuestion(Question question) {
         this.questions.add(question);
     }
 
@@ -127,14 +122,6 @@ public class Stop {
         this.accuracy = accuracy;
     }
 
-    public Set<Picture> getPictures() {
-        return pictures;
-    }
-
-    public void setPictures(Set<Picture> pictures) {
-        this.pictures = pictures;
-    }
-
     public Set<Question> getQuestions() {
         return questions;
     }
@@ -151,4 +138,14 @@ public class Stop {
         this.trip = trip;
     }
 
+    public Set<Photo> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(Set<Photo> photos) {
+        this.photos = photos;
+    }
+    public void addPhoto(Photo photo){
+        this.photos.add(photo);
+    }
 }

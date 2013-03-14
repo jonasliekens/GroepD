@@ -65,7 +65,18 @@ public class TripRestController {
     @RequestMapping(value = "registeredtrips/{id}", method = RequestMethod.GET)
     @ResponseBody
     public List<Trip> getRegisteredTrips(@PathVariable Integer id) {
-        List<ParticipatedTrip> participatedTrips = participatedTripService.getParticipatedTripsByUserId(id);
+        List<ParticipatedTrip> participatedTrips = participatedTripService.getConfirmedParticipatedTripsByUserId(id);
+        return getTripsFromParticipatedTrips(participatedTrips);
+    }
+
+    @RequestMapping(value = "invitations/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Trip> getInvitations(@PathVariable Integer id) {
+        List<ParticipatedTrip> participatedTrips = participatedTripService.getInvitations(id);
+        return getTripsFromParticipatedTrips(participatedTrips);
+    }
+
+    private List<Trip> getTripsFromParticipatedTrips(List<ParticipatedTrip> participatedTrips) {
         List<Trip> trips = new ArrayList<Trip>();
 
         for(ParticipatedTrip pt : participatedTrips) {
