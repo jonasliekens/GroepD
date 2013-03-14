@@ -2,6 +2,7 @@ package dao;
 
 import be.kdg.backend.dao.interfaces.StopDao;
 import be.kdg.backend.entities.Answer;
+import be.kdg.backend.entities.Photo;
 import be.kdg.backend.entities.Question;
 import be.kdg.backend.entities.Stop;
 import org.junit.After;
@@ -76,6 +77,18 @@ public class StopTest extends AbstractJUnit4SpringContextTests {
             stopDao.remove(stop);
         }
         assertFalse(stopDao.findAll().size() > 0);
+    }
+
+    @Test
+    public void testAddPhotoToStop(){
+        Stop stop = newStop();
+        stopDao.add(stop);
+        Photo photo = new Photo();
+        photo.setUrl("http://i.imgur.com/99vw8Zs.gif");
+        photo.setStop(stop);
+        stop.addPhoto(photo);
+        stopDao.update(stop);
+        assertTrue(stopDao.findById(stop.getId()).getPhotos().size() >0);
     }
 
     private Stop newStop(){

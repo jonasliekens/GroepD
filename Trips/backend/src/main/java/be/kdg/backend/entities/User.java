@@ -56,6 +56,9 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy= "sender")
         private Set<Message> messages;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+        private Set<Expense> expenses;
+
 
     public User() {
         initLists();
@@ -206,6 +209,14 @@ public class User {
 
     public void addMessage(Message message){
         this.messages.add(message);
+    }
+
+    public Set<Expense> getExpenses() {
+        return expenses;
+    }
+
+    public void setExpenses(Set<Expense> expenses) {
+        this.expenses = expenses;
     }
 
     @Override
