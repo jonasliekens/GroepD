@@ -53,20 +53,18 @@
                     <div class="loginForm">
                         <h3><spring:message code="register.loginTitle"/></h3>
 
-                        <form:form cssClass="form-horizontal" method="post" modelAttribute="loginForm">
-                            <form:errors cssClass="text-error" />
-
+                        <form method="post" action="j_spring_security_check">
                             <div class="control-group">
-                                <form:label path="email" cssClass="control-label">${lblEmail}</form:label>
+                                <label for="email" class="control-label">${lblEmail}</label>
                                 <div class="controls">
-                                    <form:input path="email" placeholder="${lblEmail}"/>
+                                    <input id="email" type="text" name="j_username" placeholder="${lblEmail}" />
                                 </div>
                             </div>
 
                             <div class="control-group">
-                                <form:label path="password" cssClass="control-label">${lblPassword}</form:label>
+                                <label for="password" class="control-label">${lblPassword}</label>
                                 <div class="controls">
-                                    <form:password path="password" placeholder="${lblPassword}"/>
+                                    <input id="password" type="text" name="j_password" placeholder="${lblPassword}" />
                                 </div>
                             </div>
 
@@ -75,7 +73,7 @@
                                     <input type="submit" class="btn" value="${btnLogin}"/>
                                 </div>
                             </div>
-                        </form:form>
+                        </form>
 
                         <fb:login-button show-faces="true" width="200" max-rows="1" onlogin="getData()" perms="email,user_birthday,publish_actions"></fb:login-button>
                     </div>
