@@ -15,19 +15,10 @@ public class Photo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotNull
-    @Column(columnDefinition="blob")
-    private byte[] file;
+    private String url;
     @ManyToOne()
     @JoinColumn(name = "stopId")
     private Stop stop;
-
-    public byte[] getFile() {
-        return file;
-    }
-
-    public void setFile(byte[] file) {
-        this.file = file;
-    }
 
     public Stop getStop() {
         return stop;
@@ -43,5 +34,13 @@ public class Photo {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

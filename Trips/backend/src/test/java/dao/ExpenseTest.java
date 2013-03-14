@@ -50,8 +50,8 @@ public class ExpenseTest extends AbstractJUnit4SpringContextTests {
 
     @After
     public void afterTest() {
-        tripDao.remove(trip);
         userDao.remove(user);
+        tripDao.remove(trip);
     }
 
     @Test

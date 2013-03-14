@@ -65,7 +65,8 @@ public class Trip {
     private Set<Announcement> announcements;
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
     private Set<Equipment> equipmentSet;    //equipments is not a word
-
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
+        private Set<Expense> expenses;
     private Boolean communicationByChat;
     private Boolean communicationByLocation;
 
@@ -248,5 +249,13 @@ public class Trip {
 
     public void setEquipmentSet(Set<Equipment> equipmentSet) {
         this.equipmentSet = equipmentSet;
+    }
+
+    public Set<Expense> getExpenses() {
+        return expenses;
+    }
+
+    public void setExpenses(Set<Expense> expenses) {
+        this.expenses = expenses;
     }
 }

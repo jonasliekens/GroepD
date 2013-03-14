@@ -1,12 +1,11 @@
 package services;
 
+import be.kdg.backend.entities.Photo;
 import be.kdg.backend.entities.Stop;
 import be.kdg.backend.entities.Trip;
 import be.kdg.backend.services.interfaces.StopService;
 import be.kdg.backend.services.interfaces.TripService;
 import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -14,7 +13,7 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created with IntelliJ IDEA.
@@ -33,7 +32,7 @@ public class StopServiceTest extends AbstractJUnit4SpringContextTests {
     TripService tripService;
 
     @Test
-    public void testAddStop(){
+    public void testAddStop() {
         Trip trip = newTrip();
         tripService.add(trip);
         Stop stop = newStop(1, trip);
@@ -42,7 +41,7 @@ public class StopServiceTest extends AbstractJUnit4SpringContextTests {
     }
 
     @Test
-    public void testUpdateStop(){
+    public void testUpdateStop() {
         Trip trip = newTrip();
         tripService.add(trip);
         Stop stop = newStop(2, trip);
@@ -54,7 +53,7 @@ public class StopServiceTest extends AbstractJUnit4SpringContextTests {
     }
 
     @Test
-    public void testDeleteStop(){
+    public void testDeleteStop() {
         Trip trip = newTrip();
         tripService.add(trip);
         Stop stop = newStop(3, trip);
@@ -65,7 +64,7 @@ public class StopServiceTest extends AbstractJUnit4SpringContextTests {
     }
 
     @Test
-    public void testAddStopBetween(){
+    public void testAddStopBetween() {
         Trip trip = newTrip();
         tripService.add(trip);
 
@@ -85,7 +84,7 @@ public class StopServiceTest extends AbstractJUnit4SpringContextTests {
     }
 
     @Test
-    public void testStopComparator(){
+    public void testStopComparator() {
         Trip trip = newTrip();
         tripService.add(trip);
 
@@ -103,7 +102,7 @@ public class StopServiceTest extends AbstractJUnit4SpringContextTests {
     }
 
     @Test
-    public void testUpdateStopBetween(){
+    public void testUpdateStopBetween() {
         Trip trip = newTrip();
         tripService.add(trip);
 
@@ -125,7 +124,7 @@ public class StopServiceTest extends AbstractJUnit4SpringContextTests {
     }
 
     @Test
-    public void testDeleteStopBetween(){
+    public void testDeleteStopBetween() {
         Trip trip = newTrip();
         tripService.add(trip);
 
@@ -144,9 +143,24 @@ public class StopServiceTest extends AbstractJUnit4SpringContextTests {
         assertTrue(stops.get(2).getName().equals(stop4.getName()));
     }
 
+    @Test
+    public void testAddPhotoToStop() {
+        Trip trip = newTrip();
+        tripService.add(trip);
+        Stop stop = newStop(0,trip);
+        Photo photo = new Photo();
+        photo.setUrl("http://i.imgur.com/99vw8Zs.gif");
+        photo.setStop(stop);
+        stop.addPhoto(photo);
+        stop.setTrip(trip);
+        trip.addStop(stop);
+        tripService.update(trip);
+        assertTrue(stopService.getStopsByTripId(trip.getId()).get(0).getPhotos().size() > 0);
+    }
+
     @After
-    public void removeTripsWithStops(){
-        for(Trip trip : tripService.getTrips()){
+    public void removeTripsWithStops() {
+        for (Trip trip : tripService.getTrips()) {
             tripService.remove(trip);
         }
     }
@@ -161,7 +175,7 @@ public class StopServiceTest extends AbstractJUnit4SpringContextTests {
         return trip;
     }
 
-    private Stop newStop(Integer order, Trip trip){
+    private Stop newStop(Integer order, Trip trip) {
         Stop stop = new Stop();
         stop.setLatitude(12342.245);
         stop.setLongitude(15572.245);
