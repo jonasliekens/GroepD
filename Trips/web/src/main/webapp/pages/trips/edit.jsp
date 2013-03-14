@@ -57,8 +57,6 @@
                         <form:select path="travelType">
                             <form:options items="${travelTypes}"/>
                         </form:select>
-
-                        <a href="trips/${trip.id}/stops"><spring:message code="trip.stops" /></a>
                         <br/>
                         <spring:message code="control.edit" var="btnEdit"></spring:message>
                         <input type="submit" value="${btnEdit}"/>
