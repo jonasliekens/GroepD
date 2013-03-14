@@ -76,6 +76,14 @@ public class TripRestController {
         return getTripsFromParticipatedTrips(participatedTrips);
     }
 
+    @RequestMapping(value = "registeredtrips/start", method = RequestMethod.POST)
+    public void startTrip(@RequestParam Integer tripId, @RequestParam Integer userId){
+        ParticipatedTrip pt = participatedTripService.getParticipatedTrip(tripId, userId);
+        pt.setStarted(true);
+        participatedTripService.update(pt);
+
+    }
+
     private List<Trip> getTripsFromParticipatedTrips(List<ParticipatedTrip> participatedTrips) {
         List<Trip> trips = new ArrayList<Trip>();
 

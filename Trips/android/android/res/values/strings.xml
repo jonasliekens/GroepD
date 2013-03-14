@@ -38,4 +38,5 @@
 
     <!-- Stops -->
     <string name="stops_list_empty">No stops found.</string>
+    <string name="trips_start">Start trip</string>
 </resources>

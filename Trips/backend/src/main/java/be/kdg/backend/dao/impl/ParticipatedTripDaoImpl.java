@@ -101,4 +101,12 @@ public class ParticipatedTripDaoImpl implements ParticipatedTripDao {
         query.setParameter(1, userId);
         return query.getResultList();
     }
+
+    @Override
+    public ParticipatedTrip find(Integer tripId, Integer userId) {
+        Query query = entityManager.createQuery("SELECT pt FROM ParticipatedTrip pt WHERE pt.user.id = ?1 AND pt.trip.id = ?2 AND pt.isConfirmed = true AND pt.isStarted = false");
+        query.setParameter(1, userId);
+        query.setParameter(2, tripId);
+        return (ParticipatedTrip) query.getSingleResult();
+    }
 }

@@ -2,25 +2,39 @@ package be.kdg.android.activities;
 
 import android.app.ActionBar;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import be.kdg.android.R;
 import be.kdg.android.entities.Trip;
-import be.kdg.android.fragments.AllTripsFragment;
 import be.kdg.android.fragments.ChatFragment;
 import be.kdg.android.fragments.StopListFragment;
 import be.kdg.android.fragments.StopMapFragment;
-import be.kdg.android.listadapters.StopsListAdapter;
+import be.kdg.android.networking.RestHttpConnection;
+import be.kdg.android.utilities.Utilities;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: Sander
  * Date: 10/03/13 13:51
  */
-public class TripActivity extends ListActivity {
+public class RegisteredTripActivity extends ListActivity {
     private Trip trip;
+
+    private SharedPreferences settings;
+    private SharedPreferences.Editor settingsEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +42,13 @@ public class TripActivity extends ListActivity {
 
         trip = (Trip) getIntent().getSerializableExtra("trip");
 
+        initSettings();
         initControls();
+    }
+
+    private void initSettings() {
+        settings = getSharedPreferences(Utilities.PREFS_NAME, 0);
+        settingsEditor = settings.edit();
     }
 
     private void initControls() {
@@ -53,6 +73,13 @@ public class TripActivity extends ListActivity {
                 .setIcon(R.drawable.icon_map_tab)
                 .setTabListener(new CustomTabListener<StopMapFragment>(this, "", StopMapFragment.class));
         actionBar.addTab(tab);
+
+        tab = actionBar
+                .newTab()
+                .setText(R.string.chat_tab_name)
+                .setIcon(getResources().getDrawable(R.drawable.icon_chat_tab))
+                .setTabListener(new CustomTabListener<ChatFragment>(this, "chat_layout", ChatFragment.class));
+        actionBar.addTab(tab);
     }
 
     public final Trip getTrip() {
@@ -75,8 +102,46 @@ public class TripActivity extends ListActivity {
                 startActivity(parentActivityIntent);
                 finish();
                 return true;
+            case R.id.trip_start_menu:
+
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.registered_menu, menu);
+        return true;
+    }
+
+    public class StartTripsTask extends AsyncTask<String, String, Void> {
+        private ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = ProgressDialog.show(RegisteredTripActivity.this, getString(R.string.downloading_progress_title), getString(R.string.downloading_progress_desc), true, false);
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            try {
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                Integer tripId = trip.getId();
+                Integer userId = settings.getInt("userId", 0);
+
+                params.add(new BasicNameValuePair("tripId", tripId.toString()));
+                params.add(new BasicNameValuePair("userId", userId.toString()));
+
+                RestHttpConnection restHttpConnection = new RestHttpConnection();
+                restHttpConnection.doPost(Utilities.START_TRIP_ADDRESS, params);
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
     }
 }

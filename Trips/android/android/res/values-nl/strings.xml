@@ -41,5 +41,6 @@
 
     <!-- Stops -->
     <string name="stops_list_empty">Geen stopplaatsen gevonden.</string>
+    <string name="trips_start">Start trip</string>
 
 </resources>
