@@ -2,6 +2,7 @@ package be.kdg.android.fragments;
 
 import android.app.ListFragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import be.kdg.android.R;
+import be.kdg.android.activities.InvitationActivity;
 import be.kdg.android.entities.Trip;
 import be.kdg.android.listadapters.TripsListAdapter;
 import be.kdg.android.networking.RestHttpConnection;
@@ -42,6 +44,8 @@ public class InvitedTripsFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        this.getListView().setItemsCanFocus(false);
+
         initSettings();
         downloadList();
     }
@@ -60,13 +64,13 @@ public class InvitedTripsFragment extends ListFragment {
         }
     }
 
-//    @Override
-//    public void onListItemClick(ListView l, View v, int position, long id) {
-//        Trip trip = trips[position];
-//        Intent intent = new Intent(getActivity(), TripActivity.class);
-//        intent.putExtra("trip", trip);
-//        startActivity(intent);
-//    }
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        Trip trip = trips[position];
+        Intent intent = new Intent(getActivity(), InvitationActivity.class);
+        intent.putExtra("trip", trip);
+        startActivity(intent);
+    }
 
 //    @Override
 //    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
