@@ -69,7 +69,7 @@
 
     <http use-expressions="true">
         <form-login login-page="/login/required" authentication-failure-url="/login/failed" authentication-success-handler-ref="authenticationSuccessHandler" />
-        <logout logout-success-url="/login" />
+        <logout invalidate-session="true" logout-success-url="/" />
     </http>
 
 

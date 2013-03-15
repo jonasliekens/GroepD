@@ -51,12 +51,11 @@
                             logout();
                         };
                     </script>
+
                     <spring:message code="message.logout" />
-                    <form method="post">
-                        <spring:message code="common.yes" var="btnYes" />
-                        <input type="submit" value="${btnYes}" onclick="logout()">
-                        <button onclick="goToTrips()" type="button"><spring:message code="common.no" /></button>
-                    </form>
+
+                    <a href="j_spring_security_logout" class="btn">Yes</a>
+                    <a href="trips" class="btn">No</a>
                 </div>
             </div>
         </div>

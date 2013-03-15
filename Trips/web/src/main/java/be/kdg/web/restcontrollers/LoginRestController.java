@@ -5,8 +5,12 @@ import be.kdg.backend.exceptions.DataNotFoundException;
 import be.kdg.backend.exceptions.LoginInvalidException;
 import be.kdg.backend.services.interfaces.UserService;
 import be.kdg.backend.utilities.Utilities;
+import be.kdg.web.security.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * User: Bart Verhavert
@@ -25,6 +31,10 @@ public class LoginRestController {
     @Autowired
     @Qualifier("userService")
     private UserService userService;
+
+    @Autowired
+    @Qualifier("userDetailsService")
+    private CustomUserDetailsService userDetailsService;
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
@@ -40,25 +50,42 @@ public class LoginRestController {
     @RequestMapping(value = "/facebook", method = RequestMethod.POST)
     @ResponseBody
     public String doLoginFacebook(@RequestParam String id, @RequestParam String first_name, @RequestParam String last_name, @RequestParam String birthday, @RequestParam String email, HttpSession session) {
-        Integer userId;
+        //TODO: Rewrite, for example only 1 call in the try
+        User user;
+
         try {
-            userId = userService.checkLoginWithFacebook(id);
-        } catch (LoginInvalidException e) {
+            user = userService.get(userService.checkLoginWithFacebook(id));
+        }
+
+        catch (LoginInvalidException e) {
             try {
-                User user = userService.findUserByEMail(email);
+                user = userService.findUserByEMail(email);
                 userService.mergeUserWithFacebook(user.getId(), id);
                 userService.update(user);
-                userId = user.getId();
-            } catch (DataNotFoundException e1) {
+            }
+
+            catch (DataNotFoundException e1) {
                 String americanDate[] = birthday.split("/");
-                User user = new User(email, Utilities.newPass(10), first_name, last_name, Utilities.makeDate(americanDate[1] + "/" + americanDate[0] + "/" + americanDate[2]), id);
+                //TODO: Try catch verbeteren?
+                try {
+                    user = new User(email, Utilities.getEncryptPassword(Utilities.newPass(10)), first_name, last_name, Utilities.makeDate(americanDate[1] + "/" + americanDate[0] + "/" + americanDate[2]), id);
+                } catch (NoSuchAlgorithmException e2) {
+                    return "false";
+                } catch (UnsupportedEncodingException e2) {
+                    return "false";
+                }
                 boolean userAdded = !userService.addUser(user);
                 System.out.println("userAdded="+userAdded);
-                userId = user.getId();
             }
         }
-        System.out.println("setting userId SessionAtt to " + userId);
-        session.setAttribute("userId", userId);
+
+        // Log the user in into Spring Security
+        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(userDetails, " ", userDetails.getAuthorities()));
+
+        // Log the user in into the session
+        session.setAttribute("userId", user.getId());
+
         return "true";
     }
 }

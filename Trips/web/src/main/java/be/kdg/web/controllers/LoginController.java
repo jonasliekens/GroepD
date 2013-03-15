@@ -7,9 +7,13 @@ import be.kdg.backend.utilities.Utilities;
 import be.kdg.web.forms.EditProfileForm;
 import be.kdg.web.forms.LoginForm;
 import be.kdg.web.forms.RegisterForm;
+import be.kdg.web.security.CustomUserDetailsService;
 import be.kdg.web.validators.EditProfileValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -38,8 +42,14 @@ public class LoginController {
     @Qualifier("userService")
     private UserService userService;
 
+    @Autowired
+    @Qualifier("userDetailsService")
+    private CustomUserDetailsService userDetailsService;
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String showPage(ModelMap model) {
+        //TODO: If the user is already logged in, redirect to another page or to logout
+
         model.addAttribute("registerForm", new RegisterForm());
         model.addAttribute("loginForm", new LoginForm());
 
@@ -110,6 +120,10 @@ public class LoginController {
             } else {
                 model.addAttribute("msg", "User has been succesfully registered. You can now login with your provided email and password.");
                 session.setAttribute("userId", user.getId());
+
+                // Log the user in into Spring Security
+                UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
+                SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(userDetails, " ", userDetails.getAuthorities()));
             }
 
             return "login/registercomplete";
