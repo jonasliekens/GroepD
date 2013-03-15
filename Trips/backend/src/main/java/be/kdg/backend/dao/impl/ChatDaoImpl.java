@@ -40,6 +40,7 @@ public class ChatDaoImpl implements ChatDao {
 
     @Override
     public void update(Chat entity) {
+        //entityManager.clear();
         entityManager.getTransaction().begin();
         entityManager.merge(entity);
         entityManager.getTransaction().commit();

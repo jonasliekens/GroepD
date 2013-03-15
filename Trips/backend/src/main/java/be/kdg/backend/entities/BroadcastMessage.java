@@ -53,10 +53,6 @@ public class BroadcastMessage {
         return id;
     }
 
-    private void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getMessage() {
         return message;
     }
@@ -69,9 +65,6 @@ public class BroadcastMessage {
         return recievers;
     }
 
-    public void setRecievers(Set<User> recievers) {
-        this.recievers = recievers;
-    }
 
     public void addReciever(User user){
         this.recievers.add(user);
@@ -97,5 +90,14 @@ public class BroadcastMessage {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public void setRecievers(Set<User> recievers) {
+        this.recievers = recievers;
+    }
+
+    public void setId(Integer id) {
+
+        this.id = id;
     }
 }

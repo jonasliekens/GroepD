@@ -20,9 +20,9 @@ public class ParticipatedTrip {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private boolean isStarted;
+    private Boolean isStarted;
 
-    private boolean isFinished;
+    private Boolean isFinished;
 
     private Boolean isConfirmed;
 
@@ -36,6 +36,10 @@ public class ParticipatedTrip {
     @JsonIgnore
     User user;
 
+    private Double latitude;
+
+    private Double longitude;
+
     public ParticipatedTrip() {
         this.isStarted = false;
         this.isFinished = false;
@@ -45,23 +49,20 @@ public class ParticipatedTrip {
         return id;
     }
 
-    private void setId(Integer id) {
-        this.id = id;
-    }
 
-    public boolean isStarted() {
+    public Boolean isStarted() {
         return isStarted;
     }
 
-    public void setStarted(boolean started) {
+    public void setStarted(Boolean started) {
         isStarted = started;
     }
 
-    public boolean isFinished() {
+    public Boolean isFinished() {
         return isFinished;
     }
 
-    public void setFinished(boolean finished) {
+    public void setFinished(Boolean finished) {
         isFinished = finished;
     }
 
@@ -87,5 +88,33 @@ public class ParticipatedTrip {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Boolean getStarted() {
+        return isStarted;
+    }
+
+    public Boolean getFinished() {
+        return isFinished;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }

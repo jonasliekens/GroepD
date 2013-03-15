@@ -24,15 +24,8 @@ public class Answer {
     @NotNull
     private Boolean isCorrect;
 
-    public Answer() {
-    }
-
     public Integer getId() {
         return id;
-    }
-
-    private void setId(Integer id) {
-        this.id = id;
     }
 
     public String getAnswer() {
@@ -49,5 +42,17 @@ public class Answer {
 
     public void setCorrect(boolean correct) {
         isCorrect = correct;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setCorrect(Boolean correct) {
+        isCorrect = correct;
+    }
+
+    public Boolean getCorrect() {
+        return isCorrect;
     }
 }

@@ -29,10 +29,6 @@ public class Equipment {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -47,5 +43,9 @@ public class Equipment {
 
     public void setTrip(Trip trip) {
         this.trip = trip;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

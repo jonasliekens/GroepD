@@ -148,4 +148,5 @@ public class Stop {
     public void addPhoto(Photo photo){
         this.photos.add(photo);
     }
+
 }

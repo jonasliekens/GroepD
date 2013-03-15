@@ -24,10 +24,6 @@ public class Announcement {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getMessage() {
         return message;
     }
@@ -43,4 +39,9 @@ public class Announcement {
     public void setTrip(Trip trip) {
         this.trip = trip;
     }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
 }

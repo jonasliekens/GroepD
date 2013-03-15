@@ -53,4 +53,5 @@ public class Photo {
     public void setTargetName(String targetName) {
         this.targetName = targetName;
     }
+
 }

@@ -3,8 +3,12 @@ package be.kdg.android.activities;
 import android.app.ActionBar;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,6 +23,7 @@ import be.kdg.android.fragments.StopListFragment;
 import be.kdg.android.fragments.StopMapFragment;
 import be.kdg.android.networking.RestHttpConnection;
 import be.kdg.android.utilities.Utilities;
+import de.akquinet.android.androlog.Log;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -129,6 +134,11 @@ public class RegisteredTripActivity extends ListActivity {
         @Override
         protected Void doInBackground(String... strings) {
             try {
+                Log.v("TRIPS", "start service");
+                Intent serviceIntent = new Intent();
+                serviceIntent.setAction("be.kdg.android.services.LocationService");
+                startService(serviceIntent);
+
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 Integer tripId = trip.getId();
                 Integer userId = settings.getInt("userId", 0);
