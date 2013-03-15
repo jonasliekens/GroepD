@@ -1,12 +1,13 @@
 package be.kdg.backend.dao.impl;
 
 import be.kdg.backend.dao.interfaces.StopDao;
+import be.kdg.backend.entities.Photo;
 import be.kdg.backend.entities.Stop;
 import be.kdg.backend.utilities.StopComparator;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,7 +37,6 @@ public class StopDaoImpl implements StopDao {
     @Override
     public void remove(Stop entity) {
         entityManager.getTransaction().begin();
-        entity=entityManager.find(Stop.class, entity.getId());
         entityManager.remove(entity);
         entityManager.getTransaction().commit();
     }
@@ -55,6 +55,7 @@ public class StopDaoImpl implements StopDao {
 
     @Override
     public List<Stop> findAll() {
+        entityManager.clear();
         Query query = entityManager.createQuery("select s from Stop s");
         return query.getResultList();
     }
@@ -68,5 +69,23 @@ public class StopDaoImpl implements StopDao {
         Collections.sort(stops, new StopComparator());
 
         return stops;
+    }
+
+    @Override
+    public List<Photo> findPhotosByStopId(Integer stopId) {
+        Query query = entityManager.createQuery("Select p FROM Photo p WHERE p.stop.id = ?1");
+        query.setParameter(1,stopId);
+        List<Photo> photos = query.getResultList();
+        return photos;
+    }
+
+    @Override
+    public void removePhotoByPhotoId(Integer photoId) {
+        entityManager.clear();
+        entityManager.getTransaction().begin();
+        Query query = entityManager.createQuery("Delete FROM Photo p WHERE p.id = ?1");
+        query.setParameter(1,photoId);
+        query.executeUpdate();
+        entityManager.getTransaction().commit();
     }
 }
