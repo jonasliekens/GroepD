@@ -4,6 +4,9 @@ import be.kdg.backend.utilities.Utilities;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+
 import static junit.framework.Assert.assertEquals;
 
 /**
@@ -17,7 +20,16 @@ import static junit.framework.Assert.assertEquals;
 public class UtilitiesTest {
     @Test
     public void testPasswordHash() {
-        String hash = Utilities.encryptPassword("hahayoucantreadthis123456");
+        String hash = null;
+
+        try {
+            hash = Utilities.getEncryptPassword("hahayoucantreadthis123456");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
         assertEquals(hash, "986a78574b78edb9c480835b582991d1c561caf7262794132950ca3edd3bcc5a");
     }
 
@@ -25,6 +37,7 @@ public class UtilitiesTest {
     public void testRandomPassword(){
         String pass1 = Utilities.newPass(8);
         String pass2 = Utilities.newPass(8);
+
         Assert.assertNotEquals(pass1, pass2);
     }
 

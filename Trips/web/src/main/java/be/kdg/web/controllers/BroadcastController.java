@@ -3,6 +3,7 @@ package be.kdg.web.controllers;
 import be.kdg.backend.services.interfaces.BroadcastService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 @RequestMapping("/broadcast")
+@Secured("ROLE_USER")
 public class BroadcastController {
     @Autowired
     @Qualifier("broadcastService")

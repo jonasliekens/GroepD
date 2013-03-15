@@ -43,6 +43,8 @@
 
 
     <!-- Security -->
+    <global-method-security secured-annotations="enabled" /> <!-- Enable the @Secured annotations -->
+
     <beans:bean id="passwordEncoder" class="be.kdg.web.security.CustomPasswordEncoder"/>
     <beans:bean id="userDetailsService" class="be.kdg.web.security.CustomUserDetailsService"/>
     <beans:bean id="authenticationSuccessHandler" class="be.kdg.web.security.CustomAuthenticationSuccessHandler"/>
@@ -66,19 +68,9 @@
     </beans:bean>
 
     <http use-expressions="true">
-        <form-login login-page="/login" authentication-failure-url="/login/incorrect" authentication-success-handler-ref="authenticationSuccessHandler" />
+        <form-login login-page="/login/required" authentication-failure-url="/login/failed" authentication-success-handler-ref="authenticationSuccessHandler" />
         <logout logout-success-url="/login" />
     </http>
-
-
-
-    <!-- Login Interceptor -->
-    <!--<mvc:interceptors>-->
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/trips/*" />-->
-            <!--<beans:bean class="be.kdg.web.interceptors.AuthenticationInterceptor" />-->
-        <!--</mvc:interceptor>-->
-    <!--</mvc:interceptors>-->
 
 
 
@@ -87,13 +79,17 @@
         <beans:property name="maxUploadSize" value="3145728"/>
     </beans:bean>
 
-    <beans:bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-    	<beans:property name="exceptionMappings">
-    		<beans:props>
-    			<beans:prop key="java.lang.Exception">GenericExceptionPage</beans:prop>
-    		</beans:props>
-    	</beans:property>
-    </beans:bean>
+
+
+    <!-- Catch exceptions and show a generic exeptions page -->
+    <!-- LETS THE SPRING SECURITY @SECURED ANOTATION RETURN THE 404 PAGE INSTEAD OF GOING TO THE LOGIN PAGE -->
+    <!--<beans:bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">-->
+    	<!--<beans:property name="exceptionMappings">-->
+    		<!--<beans:props>-->
+    			<!--<beans:prop key="java.lang.Exception">GenericExceptionPage</beans:prop>-->
+    		<!--</beans:props>-->
+    	<!--</beans:property>-->
+    <!--</beans:bean>-->
 
 
 

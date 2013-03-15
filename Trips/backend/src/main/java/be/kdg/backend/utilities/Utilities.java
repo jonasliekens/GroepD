@@ -17,26 +17,22 @@ import java.util.Random;
  */
 public class Utilities {
 
-    public static String encryptPassword(String password){
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            md.update(password.getBytes("UTF-8"));
-            byte[] digest = md.digest();
-            StringBuffer sb = new StringBuffer();
-            for(byte b : digest){
-                sb.append(Integer.toHexString(b & 0xff));
-            }
-            return sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+    public static String getEncryptPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(password.getBytes("UTF-8"));
+        byte[] digest = md.digest();
+        StringBuffer sb = new StringBuffer();
+
+        for(byte b : digest){
+            sb.append(Integer.toHexString(b & 0xff));
         }
-        return "";
+
+        return sb.toString();
     }
 
     public static Date makeDate(String date){
         try {
+            //TODO: Use regex to support multiple input strings: dd-mm-yyyy or dd/mm/yyyy or dd.mm.yyyy
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             return sdf.parse(date);
         } catch (ParseException e) {

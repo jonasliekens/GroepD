@@ -14,7 +14,7 @@
                     </li>
                     <c:if test="${sessionScope.userId>0}">
                         <li>
-                            <a href="login/editprofile"><spring:message code="menu.profile"/></a>
+                            <a href="editprofile"><spring:message code="menu.profile"/></a>
                         </li>
                         <li>
                             <a href="broadcast"><spring:message code="menu.messages"/></a>
@@ -23,7 +23,7 @@
                     <li>
                         <c:choose>
                             <c:when test="${sessionScope.userId>0}">
-                                <a href="login/logout"><spring:message code="menu.logout"/></a>
+                                <a href="logout"><spring:message code="menu.logout"/></a>
                             </c:when>
                             <c:otherwise>
                                 <a href="login"><spring:message code="menu.login"/></a>

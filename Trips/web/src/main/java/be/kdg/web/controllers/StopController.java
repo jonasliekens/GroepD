@@ -12,6 +12,7 @@ import be.kdg.web.validators.AnswerValidator;
 import be.kdg.web.validators.QuestionValidator;
 import be.kdg.web.validators.StopValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -35,6 +36,7 @@ import java.util.Set;
 public class StopController {
     @Autowired
     StopService stopService;
+
     @Autowired
     TripService tripService;
 
@@ -54,6 +56,7 @@ public class StopController {
         return "/stops/list";
     }
 
+    @Secured("ROLE_USER")
     @RequestMapping(value = "/trips/{id}/stops/add", method = RequestMethod.GET)
     public String add(@PathVariable Integer id, ModelMap model) {
         model.addAttribute("stopForm", new StopForm());
@@ -66,6 +69,7 @@ public class StopController {
         return "/stops/add";
     }
 
+    @Secured("ROLE_USER")
     @RequestMapping(value = "/trips/{id}/stops/add", method = RequestMethod.POST)
     public String addStop(@PathVariable Integer id, @ModelAttribute("stopForm") StopForm stopForm, BindingResult result, SessionStatus status) {
 
@@ -100,6 +104,7 @@ public class StopController {
         }
     }
 
+    @Secured("ROLE_USER")
     @RequestMapping(value = "trips/{id}/stops/edit/{stopid}", method = RequestMethod.GET)
     public String edit(@PathVariable Integer id, @PathVariable Integer stopid, ModelMap model) {
         Stop stop = stopService.get(stopid);
@@ -133,6 +138,7 @@ public class StopController {
         return "/stops/edit";
     }
 
+    @Secured("ROLE_USER")
     @RequestMapping(value = "/trips/{id}/stops/edit/{stopid}", method = RequestMethod.POST)
     public String editTrip(@PathVariable Integer id, @PathVariable Integer stopid, @ModelAttribute("stopForm") StopForm stopForm, BindingResult result, SessionStatus status) {
         stopValidator.validate(stopForm, result);
@@ -177,6 +183,7 @@ public class StopController {
         }
     }
 
+    @Secured("ROLE_USER")
     @RequestMapping(value = "trips/{id}/stops/delete/{stopid}", method = RequestMethod.GET)
     public String deleteStopConfirm(@PathVariable Integer id, @PathVariable Integer stopid, ModelMap model) {
         model.addAttribute("trip", tripService.get(id));
@@ -184,6 +191,7 @@ public class StopController {
         return "/stops/delete";
     }
 
+    @Secured("ROLE_USER")
     @RequestMapping(value = "trips/{id}/stops/delete/{stopid}", method = RequestMethod.POST)
     public String deleteStop(@PathVariable Integer id, @PathVariable Integer stopid, ModelMap model) {
 
@@ -199,12 +207,14 @@ public class StopController {
         return "/stops/details";
     }
 
+    @Secured("ROLE_USER")
     @RequestMapping(value = "trips/{id}/stops/addquestion/{stopid}", method = RequestMethod.GET)
     public String addInfoGet(@PathVariable Integer id, @PathVariable Integer stopid, ModelMap model) {
         model.addAttribute("questionForm", new QuestionForm());
         return "/stops/addquestion";
     }
 
+    @Secured("ROLE_USER")
     @RequestMapping(value = "trips/{id}/stops/addquestion/{stopid}", method = RequestMethod.POST)
     public String addInfoPost(@PathVariable Integer id, @PathVariable Integer stopid,@ModelAttribute("questionForm") QuestionForm questionForm, BindingResult result, ModelMap model) {
         questionValidator.validate(questionForm, result);
@@ -216,11 +226,14 @@ public class StopController {
         return "redirect:/trips/"+id+"/stops/details/" + stopid;
     }
 
+    @Secured("ROLE_USER")
     @RequestMapping(value = "trips/{id}/stops/addanswer/{stopid}/{questionid}", method = RequestMethod.GET)
     public String addAnswerGet(@PathVariable Integer id, @PathVariable Integer stopid,@PathVariable Integer questionid, ModelMap model) {
         model.addAttribute("answerForm", new AnswerForm());
         return "/stops/addanswer";
     }
+
+    @Secured("ROLE_USER")
     @RequestMapping(value = "trips/{id}/stops/addanswer/{stopid}/{questionid}", method = RequestMethod.POST)
     public String addAnswerPost(@PathVariable Integer id, @PathVariable Integer stopid,@PathVariable Integer questionid,@ModelAttribute("answerForm") AnswerForm answerForm, BindingResult result, ModelMap model) {
         answerValidator.validate(answerForm, result);

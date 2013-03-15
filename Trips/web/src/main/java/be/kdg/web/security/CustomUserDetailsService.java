@@ -1,7 +1,8 @@
 package be.kdg.web.security;
 
-import be.kdg.backend.dao.interfaces.UserDao;
 import be.kdg.backend.entities.User;
+import be.kdg.backend.exceptions.DataNotFoundException;
+import be.kdg.backend.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,16 +19,21 @@ import java.util.List;
  * Date: 14/03/13 12:49
  */
 public class CustomUserDetailsService implements UserDetailsService {
-    @Qualifier("userDaoImpl")
+    @Qualifier("userService")
     @Autowired(required = true)
-    private UserDao userDao;
+    private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        //TODO: UserDao or UserService?
-        User user = userDao.findByEMail(email);
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        //TODO: Try catch goe zo?
+        User user = null;
+        try {
+            user = userService.findUserByEMail(email);
+        } catch (DataNotFoundException e) {
 
+        }
+
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), true, true, true, true, authorities);

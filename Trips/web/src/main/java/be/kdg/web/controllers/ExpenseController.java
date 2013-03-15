@@ -9,6 +9,7 @@ import be.kdg.backend.services.interfaces.UserService;
 import be.kdg.web.forms.ExpenseForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpSession;
  * Date: 12/03/13 14:36
  */
 @Controller
+@Secured("ROLE_USER")
 public class ExpenseController {
     @Autowired
     @Qualifier("expenseService")

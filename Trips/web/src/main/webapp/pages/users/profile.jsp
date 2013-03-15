@@ -58,7 +58,7 @@
                 <div class="loginForm">
                     <h3><spring:message code="editprofile.title"/></h3>
 
-                    <form:form cssClass="form-horizontal" action="login/editprofile" method="post"
+                    <form:form cssClass="form-horizontal" action="editprofile" method="post"
                                modelAttribute="editprofileform">
                     <div class="control-group">
                         <form:label path="firstname" cssClass="control-label">${lblFirstname}</form:label>

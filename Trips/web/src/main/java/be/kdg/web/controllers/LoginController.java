@@ -3,6 +3,7 @@ package be.kdg.web.controllers;
 import be.kdg.backend.entities.User;
 import be.kdg.backend.exceptions.LoginInvalidException;
 import be.kdg.backend.services.interfaces.UserService;
+import be.kdg.backend.utilities.Utilities;
 import be.kdg.web.forms.EditProfileForm;
 import be.kdg.web.forms.LoginForm;
 import be.kdg.web.forms.RegisterForm;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -30,39 +33,53 @@ import java.util.GregorianCalendar;
  * Date: 19/02/13 14:08
  */
 @Controller
-@RequestMapping("/login")
 public class LoginController {
     @Autowired
     @Qualifier("userService")
     private UserService userService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String showPage(ModelMap model) {
-        RegisterForm registerForm = new RegisterForm();
-        LoginForm loginForm = new LoginForm();
-
-        model.addAttribute("registerForm", registerForm);
-        model.addAttribute("loginForm", loginForm);
+        model.addAttribute("registerForm", new RegisterForm());
+        model.addAttribute("loginForm", new LoginForm());
 
         return "login/index";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String checkLogin(ModelMap model, @ModelAttribute("loginForm") @Valid LoginForm loginForm, BindingResult result, SessionStatus status, HttpSession session) {
-        try {
-            if (!result.hasErrors()) {
-                // Throws LoginInvalidException when user not found
-                User user = userService.checkLogin(loginForm.getEmail(), loginForm.getPassword());
-                session.setAttribute("userId", user.getId());
+    @RequestMapping(value = "/login/failed", method = RequestMethod.GET)
+    public String loginFailed(ModelMap model) {
+        model.addAttribute("registerForm", new RegisterForm());
+        model.addAttribute("loginForm", new LoginForm());
+        model.addAttribute("error", "FAILED");
 
-                return "redirect:/trips/";
-            } else {
-                return returnToLoginIndex(model, result);
-            }
-        } catch (LoginInvalidException e) {
-            return returnToLoginIndex(model, result);
-        }
+        return "login/index";
     }
+
+    @RequestMapping(value = "/login/required", method = RequestMethod.GET)
+    public String loginRequired(ModelMap model) {
+        model.addAttribute("registerForm", new RegisterForm());
+        model.addAttribute("loginForm", new LoginForm());
+        model.addAttribute("error", "REQUIRED");
+
+        return "login/index";
+    }
+
+//    @RequestMapping(value = "/login", method = RequestMethod.POST)
+//    public String checkLogin(ModelMap model, @ModelAttribute("loginForm") @Valid LoginForm loginForm, BindingResult result, SessionStatus status, HttpSession session) {
+//        try {
+//            if (!result.hasErrors()) {
+//                // Throws LoginInvalidException when user not found
+//                User user = userService.checkLogin(loginForm.getEmail(), loginForm.getPassword());
+//                session.setAttribute("userId", user.getId());
+//
+//                return "redirect:/trips/";
+//            } else {
+//                return returnToLoginIndex(model, result);
+//            }
+//        } catch (LoginInvalidException e) {
+//            return returnToLoginIndex(model, result);
+//        }
+//    }
 
     private String returnToLoginIndex(ModelMap model, BindingResult result) {
         model.addAttribute("registerForm", new RegisterForm());
@@ -78,7 +95,14 @@ public class LoginController {
 
             return "login/index";
         } else {
-            User user = new User(registerForm.getEmail(), registerForm.getPassword(), registerForm.getFirstname(), registerForm.getLastname(), registerForm.getBirthday());
+            User user = null;
+            try {
+                user = new User(registerForm.getEmail(), Utilities.getEncryptPassword(registerForm.getPassword()), registerForm.getFirstname(), registerForm.getLastname(), registerForm.getBirthday());
+            } catch (NoSuchAlgorithmException e) {
+                return "exceptions/GenericException";
+            } catch (UnsupportedEncodingException e) {
+                return "exceptions/GenericException";
+            }
             boolean userExisted = userService.addUser(user);
 
             if (userExisted) {

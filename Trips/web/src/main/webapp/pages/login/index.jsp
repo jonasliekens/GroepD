@@ -48,12 +48,29 @@
 
     <section id="content">
         <div class="container">
+            <c:if test="${not empty error}">
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="alert alert-error">
+                        <c:choose>
+                            <c:when test="${error == 'FAILED'}">
+                                FAILED
+                            </c:when>
+                            <c:when test="${error == 'REQUIRED'}">
+                                REQUIRED
+                            </c:when>
+                        </c:choose>
+                    </div>
+                </div>
+            </div>
+            </c:if>
+
             <div class="row-fluid">
                 <div class="span6">
                     <div class="loginForm">
                         <h3><spring:message code="register.loginTitle"/></h3>
 
-                        <form method="post" action="j_spring_security_check">
+                        <form class="form-horizontal" method="post" action="j_spring_security_check">
                             <div class="control-group">
                                 <label for="email" class="control-label">${lblEmail}</label>
                                 <div class="controls">
@@ -64,7 +81,7 @@
                             <div class="control-group">
                                 <label for="password" class="control-label">${lblPassword}</label>
                                 <div class="controls">
-                                    <input id="password" type="text" name="j_password" placeholder="${lblPassword}" />
+                                    <input id="password" type="password" name="j_password" placeholder="${lblPassword}" />
                                 </div>
                             </div>
 
@@ -82,7 +99,7 @@
                     <div class="loginForm">
                         <h3><spring:message code="register.title"/></h3>
 
-                        <form:form cssClass="form-horizontal" action="login/register" method="post" modelAttribute="registerForm">
+                        <form:form cssClass="form-horizontal" action="register" method="post" modelAttribute="registerForm">
                             <div class="control-group">
                                 <form:label path="firstname" cssClass="control-label">${lblFirstname}</form:label>
                                 <div class="controls">
