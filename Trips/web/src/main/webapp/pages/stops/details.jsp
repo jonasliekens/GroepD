@@ -93,8 +93,10 @@
                             ${stop.orderNumber}
                         </td>
                         <td>
-                            <a href="trips/${trip.id}/stops/addquestion/${stop.id}"><spring:message code="control.question"/></a>
-                            <a href="trips/${trip.id}/stops/addphoto/${stop.id}"><spring:message code="control.photo"/></a>
+                            <a href="trips/${trip.id}/stops/addquestion/${stop.id}"><spring:message
+                                    code="control.question"/></a>
+                            <a href="trips/${trip.id}/stops/addphoto/${stop.id}"><spring:message
+                                    code="control.photo"/></a>
                             <a href="trips/${trip.id}/stops/edit/${stop.id}"><spring:message code="control.edit"/></a>
                             <a href="trips/${trip.id}/stops/delete/${stop.id}"><spring:message
                                     code="control.delete"/></a>
@@ -112,25 +114,25 @@
                     </thead>
                     <tbody>
                     <c:forEach var="question" items="${stop.questions}">
-                    <tr>
-                        <td>
-                            ${question.question}
-                        </td>
-                        <td>
-                            <table class="table table-striped">
-                                <thead>
+                        <tr>
+                            <td>
+                                    ${question.question}
+                            </td>
+                            <td>
+                                <table class="table table-striped">
+                                    <thead>
                                     <th>
                                         <spring:message code="stop.answer"/>
                                     </th>
                                     <th>
                                         <spring:message code="stop.iscorrect"/>
                                     </th>
-                                </thead>
-                                <tbody>
+                                    </thead>
+                                    <tbody>
                                     <c:forEach var="answer" items="${question.answers}">
                                         <tr>
                                             <td>
-                                                ${answer.answer}
+                                                    ${answer.answer}
                                             </td>
                                             <td>
                                                 <c:if test="${answer.correct == true}">
@@ -142,12 +144,36 @@
                                             </td>
                                         </tr>
                                     </c:forEach>
-                                </tbody>
-                            </table>
-                            <a href="trips/${trip.id}/stops/addanswer/${stop.id}/${question.id}"><spring:message code="control.answer"/></a>
-                        </td>
+                                    </tbody>
+                                </table>
+                                <a href="trips/${trip.id}/stops/addanswer/${stop.id}/${question.id}"><spring:message
+                                        code="control.answer"/></a>
+                            </td>
 
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            <spring:message code="stop.question"/>
+                        </th>
                     </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="photo" items="${photos}">
+                        <tr>
+                            <td>
+                                    ${photo.targetName}
+                            </td>
+                            <td>
+                                <a href="trips/${trip.id}/stops/deletephoto/${stop.id}/${photo.id}"><spring:message
+                                        code="control.delete"/></a>
+                            </td>
+
+                        </tr>
                     </c:forEach>
                     </tbody>
                 </table>

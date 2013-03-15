@@ -62,7 +62,7 @@ public class StopController {
         model.addAttribute("stopForm", new StopForm());
 
         HashMap<Integer, String> stops = new HashMap<Integer, String>();
-        for(Stop stop : tripService.get(id).getStops()){
+        for (Stop stop : tripService.get(id).getStops()) {
             stops.put(stop.getOrderNumber(), stop.getName());
         }
         model.addAttribute("stops", stops);
@@ -91,16 +91,16 @@ public class StopController {
             if (stopForm.getOrderOption().equals("first")) {
                 stop.setOrderNumber(1);
             } else if (stopForm.getOrderOption().equals("last")) {
-                stop.setOrderNumber(tripService.get(id).getStops().size()+1);
+                stop.setOrderNumber(tripService.get(id).getStops().size() + 1);
             } else if (stopForm.getOrderOption().equals("after")) {
 
                 //stop.setOrderNumber(stopForm.getSelectedStop().getKey()+1);
-                stop.setOrderNumber(stopForm.getOrderNumber()+1);
+                stop.setOrderNumber(stopForm.getOrderNumber() + 1);
             }
 
             stopService.add(stop, id);
 
-            return "redirect:/trips/details/"+id;
+            return "redirect:/trips/details/" + id;
         }
     }
 
@@ -118,19 +118,19 @@ public class StopController {
 
         // Make a key value pair for the dropdown
         HashMap<Integer, String> stops = new HashMap<Integer, String>();
-        for(Stop tempStop : stopService.getStopsByTripId(id)){
+        for (Stop tempStop : stopService.getStopsByTripId(id)) {
             stops.put(tempStop.getOrderNumber(), tempStop.getName());
         }
         model.addAttribute("stops", stops);
 
-        if(stopService.get(stopid).getOrderNumber() == stopService.getStopsByTripId(id).get(0).getOrderNumber()){
+        if (stopService.get(stopid).getOrderNumber() == stopService.getStopsByTripId(id).get(0).getOrderNumber()) {
             stopForm.setOrderOption("first");
-        } else if(stopService.get(stopid).getOrderNumber() == stopService.getStopsByTripId(id).get(stopService.getStopsByTripId(id).size()-1).getOrderNumber()){
+        } else if (stopService.get(stopid).getOrderNumber() == stopService.getStopsByTripId(id).get(stopService.getStopsByTripId(id).size() - 1).getOrderNumber()) {
             stopForm.setOrderOption("last");
         } else {
             int index = stopService.getStopsByTripId(id).indexOf(stopService.get(stopid));
             stopForm.setOrderOption("after");
-            stopForm.setOrderNumber(stopService.getStopsByTripId(id).get(index-1).getOrderNumber());
+            stopForm.setOrderNumber(stopService.getStopsByTripId(id).get(index - 1).getOrderNumber());
         }
 
         model.addAttribute("stopForm", stopForm);
@@ -145,9 +145,7 @@ public class StopController {
 
         if (result.hasErrors()) {
             return "stops";
-        }
-
-        else {
+        } else {
             status.setComplete();
 
             Stop stop = stopService.get(stopid);
@@ -159,16 +157,14 @@ public class StopController {
             stop.setAccuracy(stopForm.getAccuracy());
 
             // First position
-            if(stopForm.getOrderOption().equals("first")) {
+            if (stopForm.getOrderOption().equals("first")) {
                 stop.setOrderNumber(1);
             }
             // After
-            else if(stopForm.getOrderOption().equals("after")) {
-                if(stopForm.getOrderNumber() < stop.getOrderNumber()) {
+            else if (stopForm.getOrderOption().equals("after")) {
+                if (stopForm.getOrderNumber() < stop.getOrderNumber()) {
                     stop.setOrderNumber(stopForm.getOrderNumber() + 1);
-                }
-
-                else {
+                } else {
                     stop.setOrderNumber(stopForm.getOrderNumber());
                 }
             }
@@ -204,6 +200,7 @@ public class StopController {
     public String detailsStop(@PathVariable Integer id, @PathVariable Integer stopid, ModelMap model) {
         model.addAttribute("trip", tripService.get(id));
         model.addAttribute("stop", stopService.get(stopid));
+        model.addAttribute("photos", stopService.getStopsByTripId(stopid));
         return "/stops/details";
     }
 
@@ -216,32 +213,32 @@ public class StopController {
 
     @Secured("ROLE_USER")
     @RequestMapping(value = "trips/{id}/stops/addquestion/{stopid}", method = RequestMethod.POST)
-    public String addInfoPost(@PathVariable Integer id, @PathVariable Integer stopid,@ModelAttribute("questionForm") QuestionForm questionForm, BindingResult result, ModelMap model) {
+    public String addInfoPost(@PathVariable Integer id, @PathVariable Integer stopid, @ModelAttribute("questionForm") QuestionForm questionForm, BindingResult result, ModelMap model) {
         questionValidator.validate(questionForm, result);
         Stop stop = stopService.get(stopid);
         Question question = new Question();
         question.setQuestion(questionForm.getQuestion());
         stop.addQuestion(question);
-        stopService.update(stop,stop.getTrip().getId());
-        return "redirect:/trips/"+id+"/stops/details/" + stopid;
+        stopService.update(stop, stop.getTrip().getId());
+        return "redirect:/trips/" + id + "/stops/details/" + stopid;
     }
 
     @Secured("ROLE_USER")
     @RequestMapping(value = "trips/{id}/stops/addanswer/{stopid}/{questionid}", method = RequestMethod.GET)
-    public String addAnswerGet(@PathVariable Integer id, @PathVariable Integer stopid,@PathVariable Integer questionid, ModelMap model) {
+    public String addAnswerGet(@PathVariable Integer id, @PathVariable Integer stopid, @PathVariable Integer questionid, ModelMap model) {
         model.addAttribute("answerForm", new AnswerForm());
         return "/stops/addanswer";
     }
 
     @Secured("ROLE_USER")
     @RequestMapping(value = "trips/{id}/stops/addanswer/{stopid}/{questionid}", method = RequestMethod.POST)
-    public String addAnswerPost(@PathVariable Integer id, @PathVariable Integer stopid,@PathVariable Integer questionid,@ModelAttribute("answerForm") AnswerForm answerForm, BindingResult result, ModelMap model) {
+    public String addAnswerPost(@PathVariable Integer id, @PathVariable Integer stopid, @PathVariable Integer questionid, @ModelAttribute("answerForm") AnswerForm answerForm, BindingResult result, ModelMap model) {
         answerValidator.validate(answerForm, result);
         Stop stop = stopService.get(stopid);
         Set<Question> questions = stop.getQuestions();
         Question question = new Question();
-        for(Question q:questions){
-            if (q.getId().equals(questionid)){
+        for (Question q : questions) {
+            if (q.getId().equals(questionid)) {
                 question = q;
                 break;
             }
@@ -250,13 +247,20 @@ public class StopController {
         answer.setAnswer(answerForm.getAnswer());
         answer.setCorrect(answerForm.isIscorrect());
         question.addAnswer(answer);
-        stopService.update(stop,stop.getTrip().getId());
-        return "redirect:/trips/"+id+"/stops/details/" + stopid;
+        stopService.update(stop, stop.getTrip().getId());
+        return "redirect:/trips/" + id + "/stops/details/" + stopid;
+    }
+
+    @Secured("ROLE_USER")
+    @RequestMapping(value = "trips/{id}/stops/deletephoto/{stopid}/{photoid}", method = RequestMethod.GET)
+    public String deletePhotoGet(@PathVariable Integer id, @PathVariable Integer stopid, @PathVariable Integer photoid, ModelMap model) {
+        stopService.removePhotoByPhotoId(photoid);
+        return "redirect:/trips/" + id + "/stops/details/" + stopid;
     }
 
     private List<String> setToList(Set<Stop> stops) {
         List<String> list = new ArrayList<String>();
-        for(Stop stop : stops){
+        for (Stop stop : stops) {
             list.add(stop.getName());
         }
         return list;
