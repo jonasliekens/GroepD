@@ -57,4 +57,12 @@ public class Question {
         return answers;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setAnswers(Set<Answer> answers) {
+        this.answers = answers;
+    }
+
 }

@@ -80,4 +80,5 @@ public class Message {
     public void setChat(Chat chat) {
         this.chat = chat;
     }
+
 }

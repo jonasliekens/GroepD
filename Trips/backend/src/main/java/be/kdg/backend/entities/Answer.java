@@ -43,4 +43,16 @@ public class Answer {
     public void setCorrect(boolean correct) {
         isCorrect = correct;
     }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setCorrect(Boolean correct) {
+        isCorrect = correct;
+    }
+
+    public Boolean getCorrect() {
+        return isCorrect;
+    }
 }

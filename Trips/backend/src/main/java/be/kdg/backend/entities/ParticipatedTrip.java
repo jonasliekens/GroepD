@@ -89,4 +89,32 @@ public class ParticipatedTrip {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public Boolean getStarted() {
+        return isStarted;
+    }
+
+    public Boolean getFinished() {
+        return isFinished;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
 }

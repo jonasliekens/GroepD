@@ -91,4 +91,13 @@ public class BroadcastMessage {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public void setRecievers(Set<User> recievers) {
+        this.recievers = recievers;
+    }
+
+    public void setId(Integer id) {
+
+        this.id = id;
+    }
 }

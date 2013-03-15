@@ -39,4 +39,9 @@ public class Announcement {
     public void setTrip(Trip trip) {
         this.trip = trip;
     }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
 }

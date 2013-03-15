@@ -83,4 +83,5 @@ public class Chat {
             return id.hashCode();
         }
     }
+
 }
