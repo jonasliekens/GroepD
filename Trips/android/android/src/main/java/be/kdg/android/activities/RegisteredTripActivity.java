@@ -22,6 +22,7 @@ import be.kdg.android.fragments.ChatFragment;
 import be.kdg.android.fragments.StopListFragment;
 import be.kdg.android.fragments.StopMapFragment;
 import be.kdg.android.networking.RestHttpConnection;
+import be.kdg.android.services.LocationService;
 import be.kdg.android.utilities.Utilities;
 import de.akquinet.android.androlog.Log;
 import org.apache.http.NameValuePair;
@@ -134,9 +135,7 @@ public class RegisteredTripActivity extends ListActivity {
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                Log.v("TRIPS", "start service");
-                Intent serviceIntent = new Intent();
-                serviceIntent.setAction("be.kdg.android.services.LocationService");
+                Intent serviceIntent = new Intent(RegisteredTripActivity.this, LocationService.class);
                 startService(serviceIntent);
 
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
