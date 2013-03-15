@@ -107,9 +107,10 @@ public class TripRestController {
         return "true";
     }
 
-    @RequestMapping(value = "/participants/started", method = RequestMethod.POST)
+    @RequestMapping(value = "/participants/started", method = RequestMethod.GET)
     @ResponseBody
-    public List<ParticipatedTrip> getStartedParticipants(@RequestParam Integer tripId){
+    public List<ParticipatedTrip> getStartedParticipants(@RequestParam Integer tripId) {
+        //TODO: Security check: check if the user is a participant or admin of this trip
         return participatedTripService.getStartedParticipatedTripsByTripId(tripId);
     }
 }

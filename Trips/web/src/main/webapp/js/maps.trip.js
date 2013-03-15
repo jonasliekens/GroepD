@@ -9,6 +9,9 @@
 		directionsTravelMode = google.maps.TravelMode.WALKING,
 		mapsCenterLocationOnLoad = new google.maps.LatLng(51.2192159, 4.4028818), // Antwerp
 
+		interval,
+		intervalTime = 5000,
+
 
 
 	/*
@@ -38,8 +41,11 @@
 			directionsDisplay.setMap(map);
 			directionsDisplay.setPanel($("#directionsPanel").get(0));
 
-			console.log("rest/trips/" + $mapCanvas.data("trip-id") + "/stops");
 			$.getJSON("rest/trips/" + $mapCanvas.data("trip-id") + "/stops", calculateRoute);
+
+			// Show the locations of the users that have started the trip
+			refreshParticipantsLocations();
+			interval = setInterval(refreshParticipantsLocations, intervalTime);
 		},
 
 		calculateRoute	= function(stops) {
@@ -75,10 +81,22 @@
 					if(status === google.maps.DirectionsStatus.OK) {
 						directionsDisplay.setDirections(response);
 					}
-
-					console.log(status);
 				}
 			);
+		},
+
+		refreshParticipantsLocations	= function() {
+			$.getJSON(
+				"rest/trips/participants/started",
+				{
+					"tripId"	: $mapCanvas.data("trip-id")
+				},
+				showParticipantsLocations
+			);
+		},
+
+		showParticipantsLocations		= function(data) {
+			console.log(data);
 		};
 
 	$(initialize);
