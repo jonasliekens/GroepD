@@ -49,9 +49,6 @@ public class ParticipatedTrip {
         return id;
     }
 
-    private void setId(Integer id) {
-        this.id = id;
-    }
 
     public Boolean isStarted() {
         return isStarted;

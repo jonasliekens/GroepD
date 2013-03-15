@@ -24,15 +24,8 @@ public class Answer {
     @NotNull
     private Boolean isCorrect;
 
-    public Answer() {
-    }
-
     public Integer getId() {
         return id;
-    }
-
-    private void setId(Integer id) {
-        this.id = id;
     }
 
     public String getAnswer() {

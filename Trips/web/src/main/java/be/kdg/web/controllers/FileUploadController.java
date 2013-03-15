@@ -55,6 +55,7 @@ public class FileUploadController extends SimpleFormController {
     private String secretKey = "06894d75a3781f60193e428b814103f823a8753b";
 
     private String url = "https://vws.vuforia.com";
+    private Stop stop;
 
     MultipartFile multipartFile;
     @Autowired
@@ -84,7 +85,7 @@ public class FileUploadController extends SimpleFormController {
 
     @RequestMapping(value = "trips/{id}/stops/addphoto/{stopid}", method = RequestMethod.POST)
     public String create(@PathVariable Integer id, @PathVariable Integer stopid, HttpServletRequest request, @ModelAttribute("fileuploadForm") PhotoForm photoForm, BindingResult result) {
-        Stop stop = stopService.get(stopid);
+        stop = stopService.get(stopid);
         if (result.hasErrors()) {
             for (ObjectError error : result.getAllErrors()) {
                 System.err.println("Error: " + error.getCode() + " - " + error.getDefaultMessage());
@@ -142,7 +143,7 @@ public class FileUploadController extends SimpleFormController {
         requestBody.put("width", 320.0); // Mandatory
         requestBody.put("image", Base64.encodeBase64String(image)); // Mandatory
         requestBody.put("active_flag", 1); // Optional
-        requestBody.put("application_metadata", Base64.encodeBase64String("Vuforia test metadata".getBytes())); // Optional
+        requestBody.put("application_metadata", Base64.encodeBase64String((stop.getId()+"").getBytes())); // Optional
 
     }
 
