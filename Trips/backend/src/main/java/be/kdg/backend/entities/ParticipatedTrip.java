@@ -20,9 +20,9 @@ public class ParticipatedTrip {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private boolean isStarted;
+    private Boolean isStarted;
 
-    private boolean isFinished;
+    private Boolean isFinished;
 
     private Boolean isConfirmed;
 
@@ -35,6 +35,10 @@ public class ParticipatedTrip {
     @JoinColumn(name = "userId")
     @JsonIgnore
     User user;
+
+    private Double latitude;
+
+    private Double longitude;
 
     public ParticipatedTrip() {
         this.isStarted = false;
@@ -49,19 +53,19 @@ public class ParticipatedTrip {
         this.id = id;
     }
 
-    public boolean isStarted() {
+    public Boolean isStarted() {
         return isStarted;
     }
 
-    public void setStarted(boolean started) {
+    public void setStarted(Boolean started) {
         isStarted = started;
     }
 
-    public boolean isFinished() {
+    public Boolean isFinished() {
         return isFinished;
     }
 
-    public void setFinished(boolean finished) {
+    public void setFinished(Boolean finished) {
         isFinished = finished;
     }
 
