@@ -1,8 +1,6 @@
 package be.kdg.web.restcontrollers;
 
-import be.kdg.backend.entities.ParticipatedTrip;
-import be.kdg.backend.entities.Trip;
-import be.kdg.backend.entities.User;
+import be.kdg.backend.entities.*;
 import be.kdg.backend.services.interfaces.ParticipatedTripService;
 import be.kdg.backend.services.interfaces.StopService;
 import be.kdg.backend.services.interfaces.TripService;
@@ -82,6 +80,12 @@ public class TripRestController {
         pt.setStarted(true);
         participatedTripService.update(pt);
         return "true";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "stops/stop/picture", method = RequestMethod.GET)
+    public Stop getStopById(@RequestParam Integer id){
+        return stopService.get(id);
     }
 
     private List<Trip> getTripsFromParticipatedTrips(List<ParticipatedTrip> participatedTrips) {

@@ -95,7 +95,7 @@ public class LocationService extends Service {
     private void initializeLocationManager() {
         Log.v("TRIPS", "in initialization");
         if (locationManager == null) {
-            locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+            locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
         }
     }
 }
