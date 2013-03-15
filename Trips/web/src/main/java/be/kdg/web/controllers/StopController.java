@@ -200,7 +200,7 @@ public class StopController {
     public String detailsStop(@PathVariable Integer id, @PathVariable Integer stopid, ModelMap model) {
         model.addAttribute("trip", tripService.get(id));
         model.addAttribute("stop", stopService.get(stopid));
-        model.addAttribute("photos", stopService.getStopsByTripId(stopid));
+        model.addAttribute("photos", stopService.get(stopid).getPhotos());
         return "/stops/details";
     }
 

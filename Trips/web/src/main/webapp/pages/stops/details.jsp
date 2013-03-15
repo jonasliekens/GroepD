@@ -158,7 +158,7 @@
                     <thead>
                     <tr>
                         <th>
-                            <spring:message code="stop.question"/>
+                            <spring:message code="stop.photos"/>
                         </th>
                     </tr>
                     </thead>
