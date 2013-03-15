@@ -100,6 +100,7 @@ public class FileUploadController extends SimpleFormController {
                 //photo.setFile(multipartFile.getBytes());
                 photo.setTargetId(postTarget());
                 photo.setStop(stop);
+                photo.setTargetName("test");
                 stop.addPhoto(photo);
                 stopService.update(stop, id);
             } catch (Exception e) {
