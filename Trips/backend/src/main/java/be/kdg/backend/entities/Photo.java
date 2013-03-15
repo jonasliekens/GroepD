@@ -15,10 +15,12 @@ public class Photo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotNull
-    private String url;
+    private String targetId;
     @ManyToOne()
     @JoinColumn(name = "stopId")
     private Stop stop;
+    @NotNull
+        private String targetName;
 
     public Stop getStop() {
         return stop;
@@ -36,11 +38,19 @@ public class Photo {
         this.id = id;
     }
 
-    public String getUrl() {
-        return url;
+    public String getTargetId() {
+        return targetId;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setTargetId(String targetId) {
+        this.targetId = targetId;
+    }
+
+    public String getTargetName() {
+        return targetName;
+    }
+
+    public void setTargetName(String targetName) {
+        this.targetName = targetName;
     }
 }

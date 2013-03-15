@@ -149,7 +149,8 @@ public class StopServiceTest extends AbstractJUnit4SpringContextTests {
         tripService.add(trip);
         Stop stop = newStop(0,trip);
         Photo photo = new Photo();
-        photo.setUrl("http://i.imgur.com/99vw8Zs.gif");
+        photo.setTargetId("1234");
+        photo.setTargetName("test");
         photo.setStop(stop);
         stop.addPhoto(photo);
         stop.setTrip(trip);

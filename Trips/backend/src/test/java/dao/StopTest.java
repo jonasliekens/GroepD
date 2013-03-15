@@ -84,7 +84,8 @@ public class StopTest extends AbstractJUnit4SpringContextTests {
         Stop stop = newStop();
         stopDao.add(stop);
         Photo photo = new Photo();
-        photo.setUrl("http://i.imgur.com/99vw8Zs.gif");
+        photo.setTargetId("1234");
+        photo.setTargetName("Test");
         photo.setStop(stop);
         stop.addPhoto(photo);
         stopDao.update(stop);

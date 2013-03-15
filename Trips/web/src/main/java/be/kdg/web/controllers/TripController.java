@@ -182,13 +182,13 @@ public class TripController {
         model.addAttribute("tripForm", tripForm);
         model.addAttribute("trip", trip);
 
-        List<String> tripValues = new ArrayList<>();
+        List<String> tripValues = new ArrayList<String>();
         for(TripType tt : TripType.values()){
             tripValues.add(tt.toString().toLowerCase());
         }
         model.addAttribute("tripTypes", tripValues);
 
-        List<String> travelTypes = new ArrayList<>();
+        List<String> travelTypes = new ArrayList<String>();
         for(TravelType tt : TravelType.values()){
             travelTypes.add(tt.toString().toLowerCase());
         }

@@ -8,7 +8,6 @@ import be.kdg.backend.services.interfaces.TripService;
 import be.kdg.backend.services.interfaces.UserService;
 import be.kdg.backend.utilities.Utilities;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -118,7 +117,7 @@ public class ParticipatedTripServiceTest extends AbstractJUnit4SpringContextTest
         pt.setConfirmed(true);
         participatedTripService.add(pt);
 
-        Assert.assertTrue(participatedTripService.getConfirmedParticipatedTripsByTripId(trip.getId()).get(0).getId() == pt.getId());
+        assertTrue(participatedTripService.getConfirmedParticipatedTripsByTripId(trip.getId()).get(0).getId().equals(pt.getId()));
     }
 
     @Test
