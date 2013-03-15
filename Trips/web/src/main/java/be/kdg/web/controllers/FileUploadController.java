@@ -56,6 +56,7 @@ public class FileUploadController extends SimpleFormController {
 
     private String url = "https://vws.vuforia.com";
     private Stop stop;
+    private String tempName="";
 
     MultipartFile multipartFile;
     @Autowired
@@ -100,15 +101,15 @@ public class FileUploadController extends SimpleFormController {
                 Photo photo = new Photo();
                 //photo.setFile(multipartFile.getBytes());
                 photo.setTargetId(postTarget());
+                photo.setTargetName(tempName);
                 photo.setStop(stop);
-                photo.setTargetName("test");
                 stop.addPhoto(photo);
                 stopService.update(stop, id);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return "redirect:/trips/" + id + "/stops/details/" + stopid;
+        return "redirect:/trips/details/" + id;
     }
 
     private String postTarget() throws URISyntaxException, ClientProtocolException, IOException, JSONException {
@@ -140,6 +141,7 @@ public class FileUploadController extends SimpleFormController {
         }
         byte[] image = multipartFile.getBytes();
         requestBody.put("name", multipartFile.getOriginalFilename()); // Mandatory
+        tempName=multipartFile.getOriginalFilename();
         requestBody.put("width", 320.0); // Mandatory
         requestBody.put("image", Base64.encodeBase64String(image)); // Mandatory
         requestBody.put("active_flag", 1); // Optional
