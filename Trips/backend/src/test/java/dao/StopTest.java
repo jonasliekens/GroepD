@@ -31,7 +31,7 @@ public class StopTest extends AbstractJUnit4SpringContextTests {
     private StopDao stopDao;
 
     @Test
-    public void testAddMultipleChoice(){
+    public void testAddMultipleChoice() {
         Stop temp = newStop();
         Question question = new Question();
         question.setQuestion("What does Brabo throw?");
@@ -61,7 +61,7 @@ public class StopTest extends AbstractJUnit4SpringContextTests {
     }
 
     @Test
-    public void testUpdateOrderNumber(){
+    public void testUpdateOrderNumber() {
         Stop stop = newStop();
         stopDao.add(stop);
         stop = stopDao.findById(stop.getId());
@@ -72,15 +72,15 @@ public class StopTest extends AbstractJUnit4SpringContextTests {
     }
 
     @After
-    public void deleteStops(){
-        for(Stop stop : stopDao.findAll()){
+    public void deleteStops() {
+        for (Stop stop : stopDao.findAll()) {
             stopDao.remove(stop);
         }
         assertFalse(stopDao.findAll().size() > 0);
     }
 
     @Test
-    public void testAddPhotoToStop(){
+    public void testAddPhotoToStop() {
         Stop stop = newStop();
         stopDao.add(stop);
         Photo photo = new Photo();
@@ -89,10 +89,43 @@ public class StopTest extends AbstractJUnit4SpringContextTests {
         photo.setStop(stop);
         stop.addPhoto(photo);
         stopDao.update(stop);
-        assertTrue(stopDao.findById(stop.getId()).getPhotos().size() >0);
+        assertTrue(stopDao.findById(stop.getId()).getPhotos().size() > 0);
     }
 
-    private Stop newStop(){
+    @Test
+    public void testGetAllPhotosByStopId() {
+        Stop stop = newStop();
+        stopDao.add(stop);
+        Photo photo = new Photo();
+        photo.setTargetId("1234");
+        photo.setTargetName("Test");
+        photo.setStop(stop);
+        stop.addPhoto(photo);
+        Photo photo2 = new Photo();
+        photo2.setTargetId("1234");
+        photo2.setTargetName("Test");
+        photo2.setStop(stop);
+        stop.addPhoto(photo2);
+        stopDao.update(stop);
+        assertTrue(stopDao.findPhotosByStopId(stop.getId()).size() == 2);
+    }
+
+    @Test
+    public void testDeletePhotoByPhotoId() {
+        Stop stop = newStop();
+        stopDao.add(stop);
+        Photo photo = new Photo();
+        photo.setTargetId("1234");
+        photo.setTargetName("Test");
+        photo.setStop(stop);
+        stop.addPhoto(photo);
+        stopDao.update(stop);
+        stopDao.removePhotoByPhotoId(stopDao.findPhotosByStopId(stop.getId()).get(0).getId());
+        assertTrue(stopDao.findPhotosByStopId(stop.getId()).isEmpty());
+
+    }
+
+    private Stop newStop() {
         Stop stop = new Stop();
         stop.setDescription("Het standbeeld van Brabo in antwerpen");
         stop.setName("Brabo");

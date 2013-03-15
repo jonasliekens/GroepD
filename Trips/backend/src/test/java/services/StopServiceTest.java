@@ -147,7 +147,7 @@ public class StopServiceTest extends AbstractJUnit4SpringContextTests {
     public void testAddPhotoToStop() {
         Trip trip = newTrip();
         tripService.add(trip);
-        Stop stop = newStop(0,trip);
+        Stop stop = newStop(0, trip);
         Photo photo = new Photo();
         photo.setTargetId("1234");
         photo.setTargetName("test");
@@ -158,6 +158,46 @@ public class StopServiceTest extends AbstractJUnit4SpringContextTests {
         tripService.update(trip);
         assertTrue(stopService.getStopsByTripId(trip.getId()).get(0).getPhotos().size() > 0);
     }
+
+    @Test
+    public void testGetAllPhotosByStopId() {
+        Trip trip = newTrip();
+        tripService.add(trip);
+        Stop stop = newStop(0, trip);
+        Photo photo = new Photo();
+        photo.setTargetId("1234");
+        photo.setTargetName("Test");
+        photo.setStop(stop);
+        stop.addPhoto(photo);
+        Photo photo2 = new Photo();
+        photo2.setTargetId("1234");
+        photo2.setTargetName("Test");
+        photo2.setStop(stop);
+        stop.addPhoto(photo2);
+        stop.setTrip(trip);
+        trip.addStop(stop);
+        tripService.update(trip);
+        assertTrue(stopService.findPhotosByStopId(stopService.getStopsByTripId(trip.getId()).get(0).getId()).size() == 2);
+    }
+
+    @Test
+    public void testDeletePhotoByPhotoId() {
+        Trip trip = newTrip();
+        tripService.add(trip);
+        Stop stop = newStop(0, trip);
+        Photo photo = new Photo();
+        photo.setTargetId("1234");
+        photo.setTargetName("Test");
+        photo.setStop(stop);
+        stop.addPhoto(photo);
+        stop.setTrip(trip);
+        trip.addStop(stop);
+        tripService.update(trip);
+        stopService.removePhotoByPhotoId(stopService.findPhotosByStopId(stopService.getStopsByTripId(trip.getId()).get(0).getId()).get(0).getId());
+        assertTrue(stopService.findPhotosByStopId(stop.getId()).isEmpty());
+
+    }
+
 
     @After
     public void removeTripsWithStops() {
