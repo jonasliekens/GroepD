@@ -14,31 +14,27 @@ public class CustomPasswordEncoder implements PasswordEncoder {
     //TODO: Write the stacktrace to the logfiles with log4j and maybe improve the catches with a suited error to the user?
     @Override
     public String encodePassword(String password, Object o) {
-//        try {
-//            return Utilities.getEncryptPassword(password);
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//        }
-//
-//        return null;
+        try {
+            return Utilities.getEncryptPassword(password);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
-        return password;
+        return null;
     }
 
     @Override
     public boolean isPasswordValid(String encryptedPassword, String password, Object o) {
-//        try {
-//            return encryptedPassword.equals(Utilities.getEncryptPassword(password));
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//        }
-//
-//        return false;
+        try {
+            return encryptedPassword.equals(Utilities.getEncryptPassword(password));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
-        return encryptedPassword.equals(password);
+        return false;
     }
 }

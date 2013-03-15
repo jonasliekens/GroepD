@@ -54,10 +54,10 @@
                     <div class="alert alert-error">
                         <c:choose>
                             <c:when test="${error == 'FAILED'}">
-                                FAILED
+                                <spring:message code="login.failed" />
                             </c:when>
                             <c:when test="${error == 'REQUIRED'}">
-                                REQUIRED
+                                <spring:message code="login.required" />
                             </c:when>
                         </c:choose>
                     </div>

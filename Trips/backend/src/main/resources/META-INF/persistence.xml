@@ -11,7 +11,7 @@
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost/groepD"/>
             <property name="hibernate.connection.username" value="groepD"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
         </properties>
     </persistence-unit>
 </persistence>
