@@ -2,6 +2,7 @@ package be.kdg.backend.services.impl;
 
 import be.kdg.backend.dao.interfaces.StopDao;
 import be.kdg.backend.dao.interfaces.TripDao;
+import be.kdg.backend.entities.Photo;
 import be.kdg.backend.entities.Stop;
 import be.kdg.backend.entities.Trip;
 import be.kdg.backend.services.interfaces.StopService;
@@ -43,6 +44,10 @@ public class StopServiceImpl implements StopService {
         fixOrderNumbers(entity, tripId);
         stopDao.update(entity);
     }
+    @Override
+    public void update(Stop entity) {
+        stopDao.update(entity);
+    }
 
     @Override
     public void remove(Stop entity) {
@@ -58,17 +63,17 @@ public class StopServiceImpl implements StopService {
 
     private void fixOrderNumbers(Stop entity, Integer tripId) {
         int position = entity.getOrderNumber(),
-            i = 1;
+                i = 1;
 
         // Get all the stops for this trip in the right order and loop
-        for(Stop stop : stopDao.findAllByTripId(tripId)) {
+        for (Stop stop : stopDao.findAllByTripId(tripId)) {
             // If the position of the counter is the same as the new position of the given entity, skip the spot to keep it free
-            if(i == position) {
+            if (i == position) {
                 i++;
             }
 
             // Ignore the stop that is being edited because it will be put in the empty spot and otherwise the position generated here will be empty
-            if(stop.getId() != entity.getId()) {
+            if (stop.getId() != entity.getId()) {
                 stop.setOrderNumber(i++);
                 stopDao.update(stop);
             }
@@ -78,5 +83,15 @@ public class StopServiceImpl implements StopService {
     @Override
     public List<Stop> getStopsByTripId(Integer tripId) {
         return stopDao.findAllByTripId(tripId);
+    }
+
+    @Override
+    public List<Photo> findPhotosByStopId(Integer stopId) {
+        return stopDao.findPhotosByStopId(stopId);
+    }
+
+    @Override
+    public void removePhotoByPhotoId(Integer photoId) {
+        stopDao.removePhotoByPhotoId(photoId);
     }
 }

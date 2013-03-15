@@ -1,5 +1,6 @@
 package be.kdg.backend.dao.interfaces;
 
+import be.kdg.backend.entities.Photo;
 import be.kdg.backend.entities.Stop;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,4 +16,8 @@ import java.util.List;
 public interface StopDao extends GenericDao<Stop,Integer>  {
     @Transactional
     public List<Stop> findAllByTripId(Integer id);
+    @Transactional
+    public List<Photo> findPhotosByStopId(Integer stopId);
+
+    void removePhotoByPhotoId(Integer photoId);
 }

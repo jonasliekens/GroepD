@@ -1,5 +1,6 @@
 package be.kdg.backend.services.interfaces;
 
+import be.kdg.backend.entities.Photo;
 import be.kdg.backend.entities.Stop;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,4 +29,11 @@ public interface StopService {
 
     @Transactional
     List<Stop> getStopsByTripId(Integer tripId);
+
+    @Transactional
+    List<Photo> findPhotosByStopId(Integer stopId);
+
+    void removePhotoByPhotoId(Integer photoId);
+    @Transactional
+    void update(Stop stop);
 }
