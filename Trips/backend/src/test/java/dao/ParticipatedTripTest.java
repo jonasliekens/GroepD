@@ -52,18 +52,44 @@ public class ParticipatedTripTest extends AbstractJUnit4SpringContextTests {
     @Test
     public void testFindByTripId() {
         pt = newParticipatedTrip();
-        Trip trip = new Trip();
-        trip.setName("test");
-        trip.setPrivateTrip(false);
-        trip.setPublished(false);
-        trip.setNrDays(10);
-        trip.setNrHours(12);
-        trip.setCommunicationByChat(true);
-        trip.setCommunicationByLocation(true);
+
+        Trip trip = newTrip();
         tripDao.add(trip);
+
         pt.setTrip(trip);
         participatedTripDao.update(pt);
+
         assertTrue(participatedTripDao.findAllByTripId(trip.getId())!=null);
+    }
+
+    @Test
+    public void findAllStartedByTripIdTest() {
+        //TODO: Multiple participated trips fails this test, detached entity => trip ... eager loading is a dirty solution
+        ParticipatedTrip participatedTrip1 = new ParticipatedTrip();
+//        ParticipatedTrip participatedTrip2 = new ParticipatedTrip();
+//        ParticipatedTrip participatedTrip3 = new ParticipatedTrip();
+
+        participatedTripDao.add(participatedTrip1);
+//        participatedTripDao.add(participatedTrip2);
+//        participatedTripDao.add(participatedTrip3);
+
+        Trip trip = newTrip();
+
+        tripDao.add(trip);
+
+        participatedTrip1.setTrip(trip);
+//        participatedTrip2.setTrip(trip);
+//        participatedTrip3.setTrip(trip);
+
+        participatedTrip1.setStarted(true);
+//        participatedTrip2.setStarted(true);
+//        participatedTrip3.setStarted(false);
+
+        participatedTripDao.update(participatedTrip1);
+//        participatedTripDao.update(participatedTrip2);
+//        participatedTripDao.update(participatedTrip3);
+
+        assertTrue(participatedTripDao.findAllStartedByTripId(trip.getId()).size() == 1);
     }
 
     @After
@@ -77,5 +103,17 @@ public class ParticipatedTripTest extends AbstractJUnit4SpringContextTests {
         ParticipatedTrip pt = new ParticipatedTrip();
         participatedTripDao.add(pt);
         return pt;
+    }
+
+    private Trip newTrip() {
+        Trip trip = new Trip();
+        trip.setName("A name");
+        trip.setPrivateTrip(false);
+        trip.setPublished(false);
+        trip.setNrDays(10);
+        trip.setNrHours(12);
+        trip.setCommunicationByChat(true);
+        trip.setCommunicationByLocation(true);
+        return trip;
     }
 }

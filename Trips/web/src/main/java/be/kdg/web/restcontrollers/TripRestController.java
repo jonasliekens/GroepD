@@ -94,12 +94,18 @@ public class TripRestController {
         return trips;
     }
 
-    @RequestMapping(value = "/trip/participant/location", method = RequestMethod.POST)
+    @RequestMapping(value = "/participant/location", method = RequestMethod.POST)
     public String sendLocation(@RequestParam Integer tripId, @RequestParam Integer userId, @RequestParam Double latitude, @RequestParam Double longitude){
         ParticipatedTrip pt = participatedTripService.getParticipatedTrip(tripId, userId);
         pt.setLatitude(latitude);
         pt.setLongitude(longitude);
         participatedTripService.update(pt);
         return "true";
+    }
+
+    @RequestMapping(value = "/participants/started", method = RequestMethod.POST)
+    @ResponseBody
+    public List<ParticipatedTrip> getStartedParticipants(@RequestParam Integer tripId){
+        return participatedTripService.getStartedParticipatedTripsByTripId(tripId);
     }
 }

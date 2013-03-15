@@ -109,4 +109,12 @@ public class ParticipatedTripDaoImpl implements ParticipatedTripDao {
         query.setParameter(2, tripId);
         return (ParticipatedTrip) query.getSingleResult();
     }
+
+    @Override
+    public List<ParticipatedTrip> findAllStartedByTripId(Integer tripId) {
+        entityManager.clear();
+        Query query = entityManager.createQuery("SELECT pt FROM ParticipatedTrip pt WHERE pt.trip.id = ?1 AND pt.isStarted = true");
+        query.setParameter(1, tripId);
+        return query.getResultList();
+    }
 }

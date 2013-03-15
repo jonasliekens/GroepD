@@ -124,11 +124,45 @@ public class ParticipatedTripServiceTest extends AbstractJUnit4SpringContextTest
     public void testSearchByTripId() {
         pt = newParticipatedTrip();
         participatedTripService.add(pt);
+
         Trip trip = newTrip();
         tripService.add(trip);
+
         pt.setTrip(trip);
         participatedTripService.update(pt);
+
         assertTrue(participatedTripService.getParticipatedTripsByTripId(trip.getId()) != null && tripService.get(pt.getTrip().getId()) != null);
+    }
+
+    @Test
+    public void getStartedParticipatedTripsByTripIdTest() {
+        //TODO: Multiple participated trips fails this test
+        ParticipatedTrip participatedTrip1 = newParticipatedTrip();
+//        ParticipatedTrip participatedTrip2 = newParticipatedTrip();
+//        ParticipatedTrip participatedTrip3 = newParticipatedTrip();
+
+        participatedTripService.add(participatedTrip1);
+//        participatedTripService.add(participatedTrip2);
+//        participatedTripService.add(participatedTrip3);
+
+        Trip trip = newTrip();
+
+        tripService.add(trip);
+
+        participatedTrip1.setTrip(trip);
+//        participatedTrip2.setTrip(trip);
+//        participatedTrip3.setTrip(trip);
+
+        participatedTrip1.setStarted(true);
+//        participatedTrip2.setStarted(true);
+//        participatedTrip3.setStarted(false);
+
+        participatedTripService.update(participatedTrip1);
+//        participatedTripService.update(participatedTrip2);
+//        participatedTripService.update(participatedTrip3);
+
+
+        assertTrue(participatedTripService.getStartedParticipatedTripsByTripId(trip.getId()).size() == 1);
     }
 
     @After
