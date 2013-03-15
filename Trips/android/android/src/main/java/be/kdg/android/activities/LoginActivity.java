@@ -16,6 +16,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,7 +87,7 @@ public class LoginActivity extends Activity {
             try {
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 String username = data[0];
-                String password = data[1]; // sha-256!
+                String password = Utilities.getEncryptPassword(data[1]); // sha-256!
                 params.add(new BasicNameValuePair("username", username));
                 params.add(new BasicNameValuePair("password", password));
 
@@ -99,6 +100,8 @@ public class LoginActivity extends Activity {
                 }
             } catch (IOException e) {
               e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
             }
 
             return null;

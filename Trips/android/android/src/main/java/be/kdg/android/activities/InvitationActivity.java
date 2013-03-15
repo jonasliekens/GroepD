@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 import be.kdg.android.R;
 import be.kdg.android.entities.Trip;
 import be.kdg.android.fragments.ChatFragment;
@@ -78,13 +79,22 @@ public class InvitationActivity extends ListActivity {
                 finish();
                 return true;
             case R.id.menu_invite_accept:
+                accept();
                 return true;
             case R.id.menu_invite_decline:
+                decline();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    private void accept() {
 
+        Toast.makeText(this, "accept", Toast.LENGTH_LONG).show();
+    }
+
+    private void decline() {
+        Toast.makeText(this, "decline", Toast.LENGTH_LONG).show();
+    }
 }

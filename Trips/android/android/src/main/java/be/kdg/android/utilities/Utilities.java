@@ -13,7 +13,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -40,7 +43,7 @@ public class Utilities {
     public static final String MY_TRIPS_ADDRESS = SERVER_ADDRESS + "/rest/trips/mytrips/%d";
     public static final String REGISTERED_TRIPS_ADDRESS = SERVER_ADDRESS + "/rest/trips/registeredtrips/%d";
     public static final String INVITED_TRIPS_ADDRESS = SERVER_ADDRESS + "/rest/trips/invitations/%d";
-    public static final String START_TRIP_ADDRESS = SERVER_ADDRESS + "/rest/trips/registeredtrips/start/";
+    public static final String START_TRIP_ADDRESS = SERVER_ADDRESS + "/rest/trips/registeredtrips/start";
 
     // Google Maps
     public static final LatLng ANTWERP = new LatLng(51.2192159, 4.4028818);
@@ -112,5 +115,18 @@ public class Utilities {
                 .title(title)
                 .snippet(description)
                 .draggable(false);
+    }
+
+    public static String getEncryptPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(password.getBytes("UTF-8"));
+        byte[] digest = md.digest();
+        StringBuffer sb = new StringBuffer();
+
+        for(byte b : digest){
+            sb.append(Integer.toHexString(b & 0xff));
+        }
+
+        return sb.toString();
     }
 }

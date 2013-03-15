@@ -37,7 +37,7 @@ public class TripRestController {
     @Qualifier("participatedTripService")
     private ParticipatedTripService participatedTripService;
 
-    @RequestMapping(value = "alltrips", method = RequestMethod.GET)
+    @RequestMapping(value = "/alltrips", method = RequestMethod.GET)
     @ResponseBody
     public List<Trip> getAllTrips() {
         return tripService.getPublicTrips();
@@ -56,32 +56,32 @@ public class TripRestController {
         }
     }
 
-    @RequestMapping(value = "mytrips/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/mytrips/{id}", method = RequestMethod.GET)
     @ResponseBody
     public List<Trip> getMyTrips(@PathVariable Integer id) {
         return tripService.findOwnTripsByUserId(id);
     }
 
-    @RequestMapping(value = "registeredtrips/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/registeredtrips/{id}", method = RequestMethod.GET)
     @ResponseBody
     public List<Trip> getRegisteredTrips(@PathVariable Integer id) {
         List<ParticipatedTrip> participatedTrips = participatedTripService.getConfirmedParticipatedTripsByUserId(id);
         return getTripsFromParticipatedTrips(participatedTrips);
     }
 
-    @RequestMapping(value = "invitations/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/invitations/{id}", method = RequestMethod.GET)
     @ResponseBody
     public List<Trip> getInvitations(@PathVariable Integer id) {
         List<ParticipatedTrip> participatedTrips = participatedTripService.getInvitations(id);
         return getTripsFromParticipatedTrips(participatedTrips);
     }
 
-    @RequestMapping(value = "registeredtrips/start", method = RequestMethod.POST)
-    public void startTrip(@RequestParam Integer tripId, @RequestParam Integer userId){
+    @RequestMapping(value = "/registeredtrips/start", method = RequestMethod.POST)
+    public String startTrip(@RequestParam Integer tripId, @RequestParam Integer userId){
         ParticipatedTrip pt = participatedTripService.getParticipatedTrip(tripId, userId);
         pt.setStarted(true);
         participatedTripService.update(pt);
-
+        return "true";
     }
 
     private List<Trip> getTripsFromParticipatedTrips(List<ParticipatedTrip> participatedTrips) {

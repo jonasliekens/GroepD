@@ -103,7 +103,9 @@ public class RegisteredTripActivity extends ListActivity {
                 finish();
                 return true;
             case R.id.trip_start_menu:
-
+                StartTripTask startTripTask = new StartTripTask();
+                startTripTask.execute();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -116,7 +118,7 @@ public class RegisteredTripActivity extends ListActivity {
         return true;
     }
 
-    public class StartTripsTask extends AsyncTask<String, String, Void> {
+    public class StartTripTask extends AsyncTask<String, String, Void> {
         private ProgressDialog progressDialog;
 
         @Override
@@ -135,13 +137,16 @@ public class RegisteredTripActivity extends ListActivity {
                 params.add(new BasicNameValuePair("userId", userId.toString()));
 
                 RestHttpConnection restHttpConnection = new RestHttpConnection();
-                restHttpConnection.doPost(Utilities.START_TRIP_ADDRESS, params);
-
-
+                String result = restHttpConnection.doPostWithResult(Utilities.START_TRIP_ADDRESS, params);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            progressDialog.dismiss();
         }
     }
 }
