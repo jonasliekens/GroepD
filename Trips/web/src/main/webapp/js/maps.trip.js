@@ -1,4 +1,4 @@
-(function($, google) {
+(function($, google, undefined) {
 	/*
 	 *	Variables
 	 */
@@ -11,6 +11,8 @@
 
 		interval,
 		intervalTime = 5000,
+
+		markers = [],
 
 
 
@@ -96,7 +98,25 @@
 		},
 
 		showParticipantsLocations		= function(data) {
-			console.log(data);
+			var position;
+
+			for(var i = 0; i < data.length; i++) {
+				// Create the position of the marker
+				position = new google.maps.LatLng(data[i].latitude, data[i].longitude);
+
+				// Create the marker if it doesn't exist yet
+				if(markers[data[i].id] === undefined) {
+					markers[data[i].id] = new google.maps.Marker({
+						position :	position,
+						map :		map
+					});
+				}
+
+				// Otherwise update the position
+				else {
+					markers[data[i].id].setPosition(position);
+				}
+			}
 		};
 
 	$(initialize);

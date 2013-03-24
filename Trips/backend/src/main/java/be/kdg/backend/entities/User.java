@@ -27,6 +27,7 @@ public class User {
     private String email;
 
     @NotNull
+    //TODO: JSONIGNORE?
     private String password;
 
     @NotNull

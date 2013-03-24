@@ -9,10 +9,10 @@
                     <li>
                         <a href="trips"><spring:message code="menu.trips"/></a>
                     </li>
-                    <li>
-                        <a href="chat"><spring:message code="menu.chat"/></a>
-                    </li>
                     <c:if test="${sessionScope.userId>0}">
+                        <li>
+                            <a href="chat"><spring:message code="menu.chat"/></a>
+                        </li>
                         <li>
                             <a href="editprofile"><spring:message code="menu.profile"/></a>
                         </li>
