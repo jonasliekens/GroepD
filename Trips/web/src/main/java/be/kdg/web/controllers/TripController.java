@@ -37,7 +37,7 @@ import java.util.*;
  * Date: 21/02/13 14:02
  */
 @Controller
-@RequestMapping("/trips")
+@RequestMapping("/")
 public class TripController {
 
     //SERVICES
@@ -90,7 +90,7 @@ public class TripController {
         return "trips/list";
     }
 
-    @RequestMapping(value = "/details/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/trips/details/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable Integer id, ModelMap model, HttpSession session) {
         Trip trip = tripService.get(id);
         model.addAttribute("trip", trip);
@@ -119,7 +119,7 @@ public class TripController {
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/trips/add", method = RequestMethod.GET)
     public String addTripForm(ModelMap model) {
         model.addAttribute("tripForm", new TripForm());
         model.addAttribute("tripTypes", TripType.values());
@@ -128,7 +128,7 @@ public class TripController {
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/trips/add", method = RequestMethod.POST)
     public String addTrip(@ModelAttribute("tripForm") TripForm tripForm, BindingResult result, SessionStatus status, HttpSession session) {
         tripValidator.validate(tripForm, result);
 
@@ -171,7 +171,7 @@ public class TripController {
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/trips/edit/{id}", method = RequestMethod.GET)
     public String edit(@PathVariable Integer id, ModelMap model) {
         Trip trip = tripService.get(id);
         TripForm tripForm = new TripForm();
@@ -201,7 +201,7 @@ public class TripController {
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/trips/edit/{id}", method = RequestMethod.POST)
     public String editTrip(@PathVariable Integer id, @ModelAttribute("tripForm") TripForm tripForm, BindingResult result, SessionStatus status) {
         tripValidator.validate(tripForm, result);
         if (result.hasErrors()) {
@@ -237,14 +237,14 @@ public class TripController {
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/trips/delete/{id}", method = RequestMethod.GET)
     public String deleteTripConfirm(@PathVariable Integer id, ModelMap model) {
         model.addAttribute("trip", tripService.get(id));
         return "trips/delete";
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/trips/delete/{id}", method = RequestMethod.POST)
     public String deleteTrip(@PathVariable Integer id, ModelMap model) {
 
         tripService.remove(tripService.get(id));
@@ -253,13 +253,13 @@ public class TripController {
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/register/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/trips/register/{id}", method = RequestMethod.GET)
     public String registerForTrip(@PathVariable Integer id) {
         return "trips/register";
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/register/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/trips/register/{id}", method = RequestMethod.POST)
     public String register(@PathVariable Integer id, HttpSession session) {
         Trip trip = tripService.get(id);
 
@@ -274,14 +274,14 @@ public class TripController {
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/registered", method = RequestMethod.GET)
+    @RequestMapping(value = "/trips/registered", method = RequestMethod.GET)
     public String registeredTrips(ModelMap model, HttpSession session) {
         model.addAttribute("user", userService.get((Integer) session.getAttribute("userId")));
         return "trips/registered";
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/start/{participatedTripId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/trips/start/{participatedTripId}", method = RequestMethod.GET)
     public String startTrip(@PathVariable Integer participatedTripId, ModelMap model, HttpSession session) {
         ParticipatedTrip pTrip = participatedTripService.get(participatedTripId);
         pTrip.setFinished(false);
@@ -293,7 +293,7 @@ public class TripController {
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/stop/{participatedTripId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/trips/stop/{participatedTripId}", method = RequestMethod.GET)
     public String stopTrip(@PathVariable Integer participatedTripId, ModelMap model, HttpSession session) {
         ParticipatedTrip pTrip = participatedTripService.get(participatedTripId);
         pTrip.setStarted(false);
@@ -303,21 +303,21 @@ public class TripController {
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/participants/{tripId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/trips/participants/{tripId}", method = RequestMethod.GET)
     public String participantsGet(@PathVariable Integer tripId, ModelMap model) {
         model.addAttribute("participatedTrips", participatedTripService.getConfirmedParticipatedTripsByTripId(tripId));
         return "trips/participants";
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/own", method = RequestMethod.GET)
+    @RequestMapping(value = "/trips/own", method = RequestMethod.GET)
     public String myTripsGet(ModelMap model, HttpSession session) {
         model.addAttribute("myTrips", tripService.findOwnTripsByUserId((Integer) session.getAttribute("userId")));
         return "trips/own";
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/invite/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/trips/invite/{id}", method = RequestMethod.GET)
     public String inviteGet(@PathVariable Integer id, ModelMap model, HttpSession session) {
 
         model.addAttribute("users", userService.getUninvitedUsers(id, (Integer) session.getAttribute("userId")));
@@ -325,7 +325,7 @@ public class TripController {
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/invite/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/trips/invite/{id}", method = RequestMethod.POST)
     public String invitePost(@PathVariable Integer id, ModelMap model, HttpSession session, HttpServletRequest request) {
         List<Integer> userIdList = new ArrayList<Integer>();
 
@@ -368,7 +368,7 @@ public class TripController {
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/invitations", method = RequestMethod.GET)
+    @RequestMapping(value = "/trips/invitations", method = RequestMethod.GET)
     public String invitationsGet(ModelMap model, HttpSession session) {
         Integer userId = (Integer) session.getAttribute("userId");
         model.addAttribute("invitations", participatedTripService.getInvitations(userId));
@@ -376,7 +376,7 @@ public class TripController {
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/invitations/accept/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/trips/invitations/accept/{id}", method = RequestMethod.GET)
     public String invitationsAcceptPost(@PathVariable Integer id, ModelMap model) {
         ParticipatedTrip pt = participatedTripService.get(id);
         pt.setConfirmed(true);
@@ -385,7 +385,7 @@ public class TripController {
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/invitations/deny/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/trips/invitations/deny/{id}", method = RequestMethod.GET)
     public String invitationsDenyPost(@PathVariable Integer id, ModelMap model) {
         ParticipatedTrip pt = participatedTripService.get(id);
         participatedTripService.remove(pt);
@@ -393,14 +393,14 @@ public class TripController {
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "{id}/announcements/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/trips/{id}/announcements/add", method = RequestMethod.GET)
     public String addAnnouncementsGet(@PathVariable Integer id, ModelMap model) {
         model.addAttribute("announcementform", new AnnouncementForm());
         return "trips/addannouncement";
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/{id}/announcements/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/trips/{id}/announcements/add", method = RequestMethod.POST)
     public String addAnnouncementsPost(@PathVariable Integer id, @ModelAttribute("announcementform") AnnouncementForm announcementForm, BindingResult result, HttpSession session) {
         announcementValidator.validate(announcementForm, result);
         if (result.hasErrors()) {
@@ -451,21 +451,21 @@ public class TripController {
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/{id}/announcements/delete/{announcementid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/trips/{id}/announcements/delete/{announcementid}", method = RequestMethod.GET)
     public String deleteAnnouncement(@PathVariable Integer id, @PathVariable Integer announcementid, ModelMap model) {
         tripService.removeAnnouncementFromTrip(announcementid);
         return "redirect:/trips/details/" + id;
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/{id}/equipment/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/trips/{id}/equipment/add", method = RequestMethod.GET)
     public String addEquipmentGet(@PathVariable Integer id, ModelMap model) {
         model.addAttribute("equipmentform", new EquipmentForm());
         return "trips/addequipment";
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/{id}/equipment/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/trips/{id}/equipment/add", method = RequestMethod.POST)
     public String addEquipmentPost(@PathVariable Integer id, @ModelAttribute("equipmentform") EquipmentForm equipmentForm, BindingResult result, HttpSession session) {
         equipmentValidator.validate(equipmentForm, result);
         if (result.hasErrors()) {
@@ -483,14 +483,14 @@ public class TripController {
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value = "/{id}/equipment/delete/{equipmentid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/trips/{id}/equipment/delete/{equipmentid}", method = RequestMethod.GET)
     public String deleteEquipment(@PathVariable Integer id, @PathVariable Integer equipmentid, ModelMap model) {
         tripService.removeEquipmentFromTrip(equipmentid);
         return "redirect:/trips/details/" + id;
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(value="/addBroadcast", method = RequestMethod.POST)
+    @RequestMapping(value = "/trips/addBroadcast", method = RequestMethod.POST)
     public String addBroadcastMessage(@ModelAttribute("broadcastForm") @Valid BroadcastForm broadcastForm, ModelMap model, HttpSession session){
         System.out.println("tripId=" + broadcastForm.getTripId().toString());
         BroadcastMessage message = new BroadcastMessage(broadcastForm.getMessage(), tripService.get(broadcastForm.getTripId()), new Date());

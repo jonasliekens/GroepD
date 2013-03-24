@@ -29,7 +29,6 @@
     <link rel="stylesheet" href="css/main.css">
 
     <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-    <script src="js/facebook.js"></script>
 </head>
 <body>
 <!--[if lt IE 7]>
@@ -45,17 +44,11 @@
             <div class="span12">
                 <div class="alert alert-error">
                     <div id="fb-root"></div>
-                    <script>
-                        window.fbAsyncInit = function () {
-                            initFB();
-                            logout();
-                        };
-                    </script>
 
                     <spring:message code="message.logout" />
 
-                    <a href="j_spring_security_logout" class="btn">Yes</a>
-                    <a href="trips" class="btn">No</a>
+                    <a href="j_spring_security_logout" id="logout" class="btn">Yes</a>
+                    <a href="" class="btn">No</a>
                 </div>
             </div>
         </div>
@@ -70,6 +63,16 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 
-<script src="js/main.js"></script>
+<script src="js/facebook.min.js"></script>
+
+<script>
+    $(function() {
+        $("#logout").on("click", logout);
+    });
+
+    window.fbAsyncInit = function () {
+        initFB();
+    };
+</script>
 </body>
 </html>

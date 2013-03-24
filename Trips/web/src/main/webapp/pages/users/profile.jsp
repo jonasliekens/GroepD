@@ -58,8 +58,7 @@
                 <div class="loginForm">
                     <h3><spring:message code="editprofile.title"/></h3>
 
-                    <form:form cssClass="form-horizontal" action="editprofile" method="post"
-                               modelAttribute="editprofileform">
+                    <form:form cssClass="form-horizontal" method="post" modelAttribute="editprofileform">
                     <div class="control-group">
                         <form:label path="firstname" cssClass="control-label">${lblFirstname}</form:label>
                         <div class="controls">
@@ -83,6 +82,7 @@
                             <form:errors path="birthday" cssClass="help-inline"/>
                         </div>
                     </div>
+
                     <div class="control-group">
                         <form:label path="receiveMails" cssClass="control-label"><spring:message code="user.receivemails"/></form:label>
                         <div class="controls">
@@ -90,24 +90,26 @@
                             <form:errors path="receiveMails" cssClass="alert alert-error"/>
                         </div>
                     </div>
+
                     <div class="control-group">
                         <form:label path="shareLocation" cssClass="control-label"><spring:message code="user.sharelocation"/></form:label>
                         <div class="controls">
                             <form:checkbox path="shareLocation"/>
                             <form:errors path="shareLocation" cssClass="alert alert-error"/>
                         </div>
-
-                        <div class="control-group">
-                            <div class="controls">
-                                <spring:message code="control.edit" var="btnEdit"></spring:message>
-                                <input type="submit" value="${btnEdit}"/>
-                            </div>
-                        </div>
-                        </form:form>
                     </div>
+
+                    <div class="control-group">
+                        <div class="controls">
+                            <spring:message code="control.edit" var="btnEdit"></spring:message>
+                            <input class="btn" type="submit" value="${btnEdit}"/>
+                        </div>
+                    </div>
+                    </form:form>
                 </div>
             </div>
         </div>
+    </div>
 </section>
 
 <%@include file="../../template/footer.jsp" %>

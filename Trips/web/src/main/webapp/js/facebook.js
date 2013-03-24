@@ -33,7 +33,7 @@ function getData(){
             response,
             function(data) {
                 if(data == "true"){
-                    goToTrips();
+                    window.location="";
                 }
             }
         );
@@ -50,6 +50,4 @@ function logout(){
     });
 }
 
-function goToTrips(){
-    window.location="trips/";
-}
+

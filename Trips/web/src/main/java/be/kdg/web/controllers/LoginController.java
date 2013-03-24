@@ -147,7 +147,7 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @RequestMapping(value = "/editprofile", method = RequestMethod.GET)
+    @RequestMapping(value = "/profile/edit", method = RequestMethod.GET)
     public String editProfileGet(HttpSession session, ModelMap model) {
 
 
@@ -160,7 +160,7 @@ public class LoginController {
         return "users/profile";
     }
 
-    @RequestMapping(value = "/editprofile", method = RequestMethod.POST)
+    @RequestMapping(value = "/profile/edit", method = RequestMethod.POST)
     public String editProfilePost(HttpSession session, @ModelAttribute("editprofileform") @Valid EditProfileForm editProfileForm, BindingResult result) {
         EditProfileValidator editProfileValidator = new EditProfileValidator();
         editProfileValidator.validate(editProfileForm, result);
