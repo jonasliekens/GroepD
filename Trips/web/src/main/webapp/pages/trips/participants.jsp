@@ -97,7 +97,34 @@
 
                             </td>
                             <td>
-                                <a href="chat/user/${participatedTrip.user.id}"><spring:message code="chat.chat"/></a>
+                                <c:set var="blocked" value="false"/>
+                                <c:forEach var="blockedUser" items="${participatedTrip.user.blockedUsers}">
+                                    <c:if test="${blockedUser.id eq user.id}">
+                                        <c:set var="blocked" value="true"/>
+                                    </c:if>
+                                </c:forEach>
+                                <c:if test="${blocked == false and user.id != participatedTrip.user.id}">
+                                    <a class="btn" href="chat/user/${participatedTrip.user.id}"><spring:message
+                                            code="chat.chat"/></a>
+                                </c:if>
+
+                                <c:set var="contains" value="false"/>
+                                <c:forEach var="blockedUser" items="${user.blockedUsers}">
+                                    <c:if test="${blockedUser.id eq participatedTrip.user.id and user.id != participatedTrip.user.id}">
+                                        <c:set var="contains" value="true"/>
+                                    </c:if>
+                                </c:forEach>
+                                <c:if test="${contains == false and user.id != participatedTrip.user.id}">
+                                    <a class="btn"
+                                       href="trips/${participatedTrip.trip.id}/block/${participatedTrip.user.id}"><spring:message
+                                            code="chat.block"/></a>
+                                </c:if>
+
+                                <c:if test="${contains}">
+                                    <a class="btn"
+                                       href="trips/${participatedTrip.trip.id}/unblock/${participatedTrip.user.id}"><spring:message
+                                            code="chat.unblock"/></a>
+                                </c:if>
                             </td>
                         </tr>
                     </c:forEach>

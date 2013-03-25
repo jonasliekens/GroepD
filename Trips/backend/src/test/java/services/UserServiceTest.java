@@ -10,15 +10,15 @@ import be.kdg.backend.services.interfaces.TripService;
 import be.kdg.backend.services.interfaces.UserService;
 import be.kdg.backend.utilities.Utilities;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
-import javax.validation.constraints.AssertTrue;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.*;
 
 /**
  * Created with IntelliJ IDEA 12.
@@ -42,7 +42,7 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests {
     @Test
     public void addUser() {
         User user = new User("soulscammer@gmail.com", "test", "Jonas", "Liekens", Utilities.makeDate("04/08/1991"));
-        Assert.assertFalse(userService.addUser(user));
+        assertFalse(userService.addUser(user));
     }
 
     @Test
@@ -51,32 +51,32 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests {
         userService.addUser(userFirst);
         User userDouble = new User("soulscammer@gmail.com", "test", "Jonas", "Liekens", Utilities.makeDate("04/08/1991"));
         boolean userExisted = userService.addUser(userDouble);
-        Assert.assertTrue(userExisted);
+        assertTrue(userExisted);
     }
 
     @Test
     public void checkCorrectLogin() throws LoginInvalidException {
         User user = new User("soulscammer@gmail.com", "test", "Jonas", "Liekens", Utilities.makeDate("04/08/1991"));
         userService.addUser(user);
-        Assert.assertNotNull(userService.checkLogin("soulscammer@gmail.com", "test"));
+        assertNotNull(userService.checkLogin("soulscammer@gmail.com", "test"));
     }
 
     @Test(expected = LoginInvalidException.class)
-    public void checkFalseLoginMail() throws LoginInvalidException{
+    public void checkFalseLoginMail() throws LoginInvalidException {
         User user = new User("soulscammer@gmail.com", "test", "Jonas", "Liekens", Utilities.makeDate("04/08/1991"));
         userService.addUser(user);
         userService.checkLogin("soulscammer@gmail.com", "bla");
     }
 
     @Test(expected = LoginInvalidException.class)
-    public void checkFalseLoginPass() throws LoginInvalidException{
+    public void checkFalseLoginPass() throws LoginInvalidException {
         User user = new User("soulscammer@gmail.com", "test", "Jonas", "Liekens", Utilities.makeDate("04/08/1991"));
         userService.addUser(user);
         userService.checkLogin("fail@gmail.com", "test");
     }
 
     @Test(expected = LoginInvalidException.class)
-    public void checkFalseLoginEverything() throws LoginInvalidException{
+    public void checkFalseLoginEverything() throws LoginInvalidException {
         User user = new User("soulscammer@gmail.com", "test", "Jonas", "Liekens", Utilities.makeDate("04/08/1991"));
         userService.addUser(user);
         userService.checkLogin("fail@gmail.com", "bla");
@@ -88,7 +88,7 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests {
         userService.addUser(user);
         user = userService.findUserByEMail(user.getEmail());
         userService.mergeUserWithFacebook(user.getId(), "100000420715358");
-        Assert.assertNotNull(userService.checkLoginWithFacebook("100000420715358"));
+        assertNotNull(userService.checkLoginWithFacebook("100000420715358"));
     }
 
     @Test(expected = DataNotFoundException.class)
@@ -100,7 +100,7 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests {
     }
 
     @Test
-     public void testGetUninvitedUsers(){
+    public void testGetUninvitedUsers() {
         Trip trip = newTrip();
         tripService.add(trip);
 
@@ -118,11 +118,11 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests {
         pt.setUser(user2);
         participatedTripService.add(pt);
 
-        Assert.assertTrue(userService.getUninvitedUsers(trip.getId(), user1.getId()).get(0).getId() == user3.getId());
+        assertTrue(userService.getUninvitedUsers(trip.getId(), user1.getId()).get(0).getId() == user3.getId());
     }
 
     @Test
-    public void testCreateUserInvitations(){
+    public void testCreateUserInvitations() {
         List<Integer> userIds = new ArrayList<Integer>();
 
         Trip trip = newTrip();
@@ -141,12 +141,35 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests {
 
         userService.createUserInvitations(userIds, trip.getId());
 
-        Assert.assertTrue(participatedTripService.getAllParticipatedTrips().size() == 3);
+        assertTrue(participatedTripService.getAllParticipatedTrips().size() == 3);
+    }
+
+    @Test
+    public void testBlockUser() {
+        User user = new User("soulscammer@gmail.com", "test", "Jonas", "Liekens", Utilities.makeDate("04/08/1991"));
+        userService.addUser(user);
+        User block = new User("bartpraats@gmail.com", "test", "Bart", "Praats", Utilities.makeDate("04/08/1991"));
+        userService.addUser(block);
+        user.addBlockedUser(block);
+        userService.update(user);
+        assertTrue(userService.get(user.getId()).getBlockedUsers().size() == 1);
+    }
+
+    @Test
+    public void testRemoveBlockedUser() {
+        User user = new User("soulscammer@gmail.com", "test", "Jonas", "Liekens", Utilities.makeDate("04/08/1991"));
+        userService.addUser(user);
+        User block = new User("bartpraats@gmail.com", "test", "Bart", "Praats", Utilities.makeDate("04/08/1991"));
+        userService.addUser(block);
+        user.addBlockedUser(block);
+        userService.update(user);
+        userService.removeBlockedUser(user.getId(), block.getId());
+        assertTrue(userService.get(user.getId()).getBlockedUsers().size() == 0);
     }
 
     @After
-    public void deleteAllUsers(){
-        for(User user : userService.getAllUsers()){
+    public void deleteAllUsers() {
+        for (User user : userService.getAllUsers()) {
             userService.remove(user);
         }
     }

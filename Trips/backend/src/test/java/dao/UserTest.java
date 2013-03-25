@@ -72,6 +72,25 @@ public class UserTest extends AbstractJUnit4SpringContextTests {
         removeUser(temp);
     }
 
+    @Test
+    public void testBlockUser() {
+        User user = newUser();
+        User block = newUser();
+        user.addBlockedUser(block);
+        userDao.update(user);
+        assertTrue(userDao.findById(user.getId()).getBlockedUsers().size() == 1);
+    }
+
+    @Test
+    public void testRemoveBlockedUser() {
+        User user = newUser();
+        User block = newUser();
+        user.addBlockedUser(block);
+        userDao.update(user);
+        userDao.removeBlockedUser(user.getId(), block.getId());
+        assertTrue(userDao.findById(user.getId()).getBlockedUsers().size() == 0);
+    }
+
     private void removeUser(User temp) {
         userDao.remove(temp);
     }

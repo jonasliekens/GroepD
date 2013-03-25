@@ -75,7 +75,7 @@ public class ChatController {
         List<User> users = new ArrayList<User>();
         users.add(userService.get(id));
         users.add(userService.get((Integer) session.getAttribute("userId")));
-
-        return "redirect:/chat/" + chatService.get(users).getId();
+        Chat chat = chatService.get(users);
+        return "redirect:/chat/" + chat.getId();
     }
 }

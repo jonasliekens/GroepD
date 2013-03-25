@@ -44,6 +44,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void removeBlockedUser(Integer userId, Integer blockedId) {
+        userDao.removeBlockedUser(userId, blockedId);
+    }
+
+    @Override
     public boolean addUser(User user) {
         try {
             userDao.findByEMail(user.getEmail());

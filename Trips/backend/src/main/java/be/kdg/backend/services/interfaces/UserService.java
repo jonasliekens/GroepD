@@ -5,9 +5,7 @@ import be.kdg.backend.exceptions.DataNotFoundException;
 import be.kdg.backend.exceptions.LoginInvalidException;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA 12.
@@ -38,4 +36,6 @@ public interface UserService extends GenericService<User, Integer>{
     @Override
     @Deprecated
     void add(User entity);
+    @Transactional
+    void removeBlockedUser(Integer userId, Integer blockedId);
 }

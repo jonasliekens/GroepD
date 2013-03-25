@@ -107,7 +107,7 @@ public class TripController {
             userId = (Integer) session.getAttribute("userId");
         }
         if (userId > 0) {
-            if(trip.getAdmins().contains(userService.get(userId))) {
+            if (trip.getAdmins().contains(userService.get(userId))) {
                 isAdmin = true;
             }
 
@@ -190,13 +190,13 @@ public class TripController {
         model.addAttribute("trip", trip);
 
         List<String> tripValues = new ArrayList<String>();
-        for(TripType tt : TripType.values()){
+        for (TripType tt : TripType.values()) {
             tripValues.add(tt.toString().toLowerCase());
         }
         model.addAttribute("tripTypes", tripValues);
 
         List<String> travelTypes = new ArrayList<String>();
-        for(TravelType tt : TravelType.values()){
+        for (TravelType tt : TravelType.values()) {
             travelTypes.add(tt.toString().toLowerCase());
         }
         model.addAttribute("travelTypes", travelTypes);
@@ -307,8 +307,9 @@ public class TripController {
 
     @Secured("ROLE_USER")
     @RequestMapping(value = "/trips/participants/{tripId}", method = RequestMethod.GET)
-    public String participantsGet(@PathVariable Integer tripId, ModelMap model) {
+    public String participantsGet(@PathVariable Integer tripId, ModelMap model, HttpSession session) {
         model.addAttribute("participatedTrips", participatedTripService.getConfirmedParticipatedTripsByTripId(tripId));
+        model.addAttribute("user", userService.get((Integer)session.getAttribute("userId")));
         return "trips/participants";
     }
 
@@ -495,10 +496,26 @@ public class TripController {
 
     @Secured("ROLE_USER")
     @RequestMapping(value = "/trips/addBroadcast", method = RequestMethod.POST)
-    public String addBroadcastMessage(@ModelAttribute("broadcastForm") @Valid BroadcastForm broadcastForm, ModelMap model, HttpSession session){
+    public String addBroadcastMessage(@ModelAttribute("broadcastForm") @Valid BroadcastForm broadcastForm, ModelMap model, HttpSession session) {
         System.out.println("tripId=" + broadcastForm.getTripId().toString());
         BroadcastMessage message = new BroadcastMessage(broadcastForm.getMessage(), tripService.get(broadcastForm.getTripId()), new Date());
         broadcastService.add(message);
         return "redirect:/trips/details/" + broadcastForm.getTripId();
     }
+
+    @RequestMapping(value = "/trips/{tripid}/block/{id}", method = RequestMethod.GET)
+    public String blockUser(@PathVariable Integer id, @PathVariable Integer tripid, HttpSession session) {
+        User blockUser = userService.get(id);
+        User user = userService.get((Integer) session.getAttribute("userId"));
+        user.addBlockedUser(blockUser);
+        userService.update(user);
+        return "redirect:/trips/participants/" + tripid;
+    }
+    @RequestMapping(value = "/trips/{tripid}/unblock/{id}", method = RequestMethod.GET)
+        public String unblockUser(@PathVariable Integer id, @PathVariable Integer tripid, HttpSession session) {
+            User blockedUser = userService.get(id);
+            User user = userService.get((Integer) session.getAttribute("userId"));
+            userService.removeBlockedUser(user.getId(),blockedUser.getId());
+            return "redirect:/trips/participants/" + tripid;
+        }
 }

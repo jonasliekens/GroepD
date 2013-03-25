@@ -15,4 +15,6 @@ public interface UserDao extends GenericDao<User, Integer>{
     public User findByEMail(String mail);
     @Transactional
     public User findByFacebookId(String facebookId);;
+
+    void removeBlockedUser(Integer userId, Integer blockId);
 }

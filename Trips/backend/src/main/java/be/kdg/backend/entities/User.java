@@ -45,20 +45,22 @@ public class User {
 
     private boolean shareLocation;
 
-    @ManyToMany(cascade = CascadeType.ALL,mappedBy="recievers")
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "recievers")
     private Set<BroadcastMessage> broadcastMessages;
 
     //TODO: Remove eager loading, it fails on ChatServiceTest.testGetOrCreate() though
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "participants", fetch = FetchType.EAGER)
     private Set<Chat> chats;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy= "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Set<ParticipatedTrip> participatedTrips;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy= "sender")
-        private Set<Message> messages;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sender")
+    private Set<Message> messages;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-        private Set<Expense> expenses;
+    private Set<Expense> expenses;
+    @OneToMany()
+    private Set<User> blockedUsers;
 
 
     public User() {
@@ -84,11 +86,12 @@ public class User {
         this.facebookID = facebookID;
     }
 
-    private void initLists(){
+    private void initLists() {
         this.participatedTrips = new HashSet<ParticipatedTrip>();
         this.chats = new HashSet<Chat>();
         this.broadcastMessages = new HashSet<BroadcastMessage>();
         this.messages = new HashSet<Message>();
+        this.blockedUsers = new HashSet<User>();
     }
 
     public Integer getId() {
@@ -162,6 +165,7 @@ public class User {
     public void setParticipatedTrips(Set<ParticipatedTrip> participatedTrips) {
         this.participatedTrips = participatedTrips;
     }
+
     public void addParticipatedTrips(ParticipatedTrip participatedTrip) {
         this.participatedTrips.add(participatedTrip);
     }
@@ -196,7 +200,7 @@ public class User {
         this.broadcastMessages.add(message);
     }
 
-    public void addChat(Chat chat){
+    public void addChat(Chat chat) {
         this.chats.add(chat);
     }
 
@@ -208,7 +212,7 @@ public class User {
         this.messages = messages;
     }
 
-    public void addMessage(Message message){
+    public void addMessage(Message message) {
         this.messages.add(message);
     }
 
@@ -218,6 +222,17 @@ public class User {
 
     public void setExpenses(Set<Expense> expenses) {
         this.expenses = expenses;
+    }
+
+    public Set<User> getBlockedUsers() {
+        return blockedUsers;
+    }
+
+    public void setBlockedUsers(Set<User> blockedUsers) {
+        this.blockedUsers = blockedUsers;
+    }
+    public void addBlockedUser(User user){
+        this.blockedUsers.add(user);
     }
 
     @Override

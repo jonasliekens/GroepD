@@ -1,7 +1,6 @@
 package be.kdg.backend.dao.impl;
 
 import be.kdg.backend.dao.interfaces.UserDao;
-import be.kdg.backend.entities.Trip;
 import be.kdg.backend.entities.User;
 import org.springframework.stereotype.Repository;
 
@@ -72,5 +71,12 @@ public class UserDaoImpl implements UserDao {
         Query query = entityManager.createQuery("select u from User u where facebookID = ?1");
         query.setParameter(1, facebookId);
         return (User) query.getSingleResult();
+    }
+
+    @Override
+    public void removeBlockedUser(Integer userId, Integer blockId) {
+        User user = entityManager.find(User.class, userId);
+        user.getBlockedUsers().remove(entityManager.find(User.class,blockId));
+        update(user);
     }
 }
