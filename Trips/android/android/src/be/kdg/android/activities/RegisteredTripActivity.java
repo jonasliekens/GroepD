@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import be.kdg.android.entities.MyLocation;
 import be.kdg.android.entities.Trip;
 import be.kdg.android.fragments.ChatFragment;
 import be.kdg.android.fragments.StopListFragment;
@@ -134,22 +135,29 @@ public class RegisteredTripActivity extends ListActivity {
 
         @Override
         protected Void doInBackground(String... strings) {
-            try {
-                Intent serviceIntent = new Intent(RegisteredTripActivity.this, LocationService.class);
-                startService(serviceIntent);
+            //Intent serviceIntent = new Intent(RegisteredTripActivity.this, LocationService.class);
+            //startService(serviceIntent);
 
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
-                Integer tripId = trip.getId();
-                Integer userId = settings.getInt("userId", 0);
+            MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
+                @Override
+                public void gotLocation(Location location) {
+                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                    Integer tripId = trip.getId();
+                    Integer userId = settings.getInt("userId", 0);
 
-                params.add(new BasicNameValuePair("tripId", tripId.toString()));
-                params.add(new BasicNameValuePair("userId", userId.toString()));
+                    params.add(new BasicNameValuePair("tripId", tripId.toString()));
+                    params.add(new BasicNameValuePair("userId", userId.toString()));
+                    params.add(new BasicNameValuePair("latitude", String.format("%d", location.getLatitude())));
+                    params.add(new BasicNameValuePair("latitude", String.format("%d", location.getLongitude())));
 
-                RestHttpConnection restHttpConnection = new RestHttpConnection();
-                String result = restHttpConnection.doPostWithResult(Utilities.START_TRIP_ADDRESS, params);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                    RestHttpConnection restHttpConnection = new RestHttpConnection();
+                    try {
+                        String result = restHttpConnection.doPostWithResult(Utilities.UPDATE_LOCATION_ADDRESS, params);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
             return null;
         }
 

@@ -31,7 +31,7 @@ public class Utilities {
     // IP-addresses
 //    public static final String SERVER_ADDRESS = "http://192.168.0.195:8080/web";
 //    public static final String SERVER_ADDRESS = "http://192.168.0.196:8080/web";
-    public static final String SERVER_ADDRESS = "http://192.168.113.1:8080/web";
+    public static final String SERVER_ADDRESS = "http://192.168.1.3:8080/web";
 
     // RestControllers
     public static final String LOGIN_ADDRESS = SERVER_ADDRESS + "/rest/login";
@@ -41,6 +41,7 @@ public class Utilities {
     public static final String REGISTERED_TRIPS_ADDRESS = SERVER_ADDRESS + "/rest/trips/registeredtrips/%d";
     public static final String INVITED_TRIPS_ADDRESS = SERVER_ADDRESS + "/rest/trips/invitations/%d";
     public static final String START_TRIP_ADDRESS = SERVER_ADDRESS + "/rest/trips/registeredtrips/start/";
+    public static final String UPDATE_LOCATION_ADDRESS = SERVER_ADDRESS + "/rest/trips/participant/location/";
 
     // Google Maps
     public static final LatLng ANTWERP = new LatLng(51.2192159, 4.4028818);

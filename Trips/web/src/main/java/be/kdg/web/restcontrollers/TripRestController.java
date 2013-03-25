@@ -99,10 +99,10 @@ public class TripRestController {
     }
 
     @RequestMapping(value = "/participant/location", method = RequestMethod.POST)
-    public String sendLocation(@RequestParam Integer tripId, @RequestParam Integer userId, @RequestParam Double latitude, @RequestParam Double longitude){
+    public String sendLocation(@RequestParam Integer tripId, @RequestParam Integer userId, @RequestParam String latitude, @RequestParam String longitude){
         ParticipatedTrip pt = participatedTripService.getParticipatedTrip(tripId, userId);
-        pt.setLatitude(latitude);
-        pt.setLongitude(longitude);
+        pt.setLatitude(Double.parseDouble(latitude));
+        pt.setLongitude(Double.parseDouble(longitude));
         participatedTripService.update(pt);
         return "true";
     }
