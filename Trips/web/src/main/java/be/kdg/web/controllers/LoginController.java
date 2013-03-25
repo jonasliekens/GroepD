@@ -120,9 +120,9 @@ public class LoginController {
             boolean userExisted = userService.addUser(user);
 
             if (userExisted) {
-                model.addAttribute("msg", "User already existed. You can login with your email and password.");
+                //TODO: Show a message the user already existed?
             } else {
-                model.addAttribute("msg", "User has been succesfully registered. You can now login with your provided email and password.");
+                //TODO: Show a message the user is registered?
                 session.setAttribute("userId", user.getId());
 
                 // Log the user in into Spring Security
@@ -130,7 +130,7 @@ public class LoginController {
                 SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(userDetails, " ", userDetails.getAuthorities()));
             }
 
-            return "login/registercomplete";
+            return "redirect:/";
         }
     }
 

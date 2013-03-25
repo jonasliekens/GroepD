@@ -37,7 +37,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         }
 
         //TODO: Is this correct?
-        httpServletResponse.sendRedirect("trips");
+        httpServletResponse.sendRedirect("");
 
         //TODO: If the user was redirected to the login page from a page where he has to be logged in to access it, redirect to that page again (if possible)
     }
