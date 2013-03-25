@@ -18,6 +18,8 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -51,6 +53,7 @@ import java.util.Date;
  */
 @Controller
 public class FileUploadController extends SimpleFormController {
+    static final Logger logger = LoggerFactory.getLogger(LoginController.class);
     private String accessKey = "e5eed588864ed2fdf23908899806267d2620d97c";
     private String secretKey = "06894d75a3781f60193e428b814103f823a8753b";
 
@@ -106,6 +109,7 @@ public class FileUploadController extends SimpleFormController {
                 stop.addPhoto(photo);
                 stopService.update(stop, id);
             } catch (Exception e) {
+                logger.debug("A Exception occured in create. Message: " + e.getMessage(), e);
                 e.printStackTrace();
             }
         }

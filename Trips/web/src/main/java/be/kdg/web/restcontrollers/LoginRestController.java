@@ -5,7 +5,10 @@ import be.kdg.backend.exceptions.DataNotFoundException;
 import be.kdg.backend.exceptions.LoginInvalidException;
 import be.kdg.backend.services.interfaces.UserService;
 import be.kdg.backend.utilities.Utilities;
+import be.kdg.web.controllers.LoginController;
 import be.kdg.web.security.CustomUserDetailsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,6 +31,7 @@ import java.security.NoSuchAlgorithmException;
 @Controller
 @RequestMapping("/rest/login")
 public class LoginRestController {
+    static final Logger logger = LoggerFactory.getLogger(LoginController.class);
     @Autowired
     @Qualifier("userService")
     private UserService userService;
@@ -43,6 +47,7 @@ public class LoginRestController {
             User user = userService.checkLogin(username, password);
             return user;
         } catch (LoginInvalidException e) {
+            logger.warn("Failed login attempt detected for user: " + username, e);
             return null;
         }
     }

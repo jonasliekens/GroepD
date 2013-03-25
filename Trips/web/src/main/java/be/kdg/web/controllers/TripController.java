@@ -11,6 +11,8 @@ import be.kdg.web.forms.TripForm;
 import be.kdg.web.validators.AnnouncementValidator;
 import be.kdg.web.validators.EquipmentValidator;
 import be.kdg.web.validators.TripValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.annotation.Secured;
@@ -39,7 +41,8 @@ import java.util.*;
 @Controller
 @RequestMapping("/")
 public class TripController {
-
+    //LOGGER
+    static final Logger logger = LoggerFactory.getLogger(LoginController.class);
     //SERVICES
     @Autowired
     @Qualifier("tripService")
@@ -360,7 +363,8 @@ public class TripController {
             }
 
         } catch (MessagingException ex) {
-            ex.printStackTrace();
+            logger.debug("A MessangingException Occured in invitePost. Message: " + ex.getMessage(), ex);
+            //ex.printStackTrace();
         }
 
         userService.createUserInvitations(userIdList, id);
@@ -406,7 +410,6 @@ public class TripController {
         if (result.hasErrors()) {
             return "trips";
         } else {
-
             Trip trip = tripService.get(id);
             User sender = userService.get((Integer) session.getAttribute("userId"));
 
@@ -437,7 +440,8 @@ public class TripController {
                 }
 
             } catch (MessagingException ex) {
-                ex.printStackTrace();
+                logger.debug("A MessangingException Occured in addAnouncementsPost. Message: " + ex.getMessage(), ex);
+                //ex.printStackTrace();
             }
 
             Announcement announcement = new Announcement();

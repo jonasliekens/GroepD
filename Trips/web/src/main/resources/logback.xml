@@ -1,0 +1,46 @@
+<configuration>
+	<!--Appenders -->
+	<appender name="backendFile" class="ch.qos.logback.core.FileAppender">
+        <file>C:\Backend.log</file>
+		<append>true</append>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </layout>
+    </appender>
+	
+	<appender name="frontendFile" class="ch.qos.logback.core.FileAppender">
+        <file>C:\Frontend.log</file>
+		<append>true</append>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </layout>
+    </appender>
+	
+	<appender name="tripFile" class="ch.qos.logback.core.FileAppender">
+        <file>C:\Trips.log</file>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+	<!-- Loggers -->
+	<!-- Config -->
+	<logger level="WARN" name="org.hibernate"></logger>
+	<logger level="INFO" name="com.my"></logger> 
+
+	<logger level="TRACE" name="com.my.web"></logger>
+	<logger level="WARN" name="com.my.lib.myclass"></logger>
+	<logger level="TRACE" name="com.my.test"></logger>
+	<!--Trips-->
+	<logger level="TRACE" name="be.kdg.backend" additivity="false">
+		<appender-ref ref="backendFile"/>
+	</logger>
+	<logger level="TRACE" name="be.kdg.web" additivity="false">
+		<appender-ref ref="frontendFile"></appender-ref>
+	</logger>
+	
+	<!-- root logger -->
+	<root level="info">
+		<appender-ref ref="tripFile"></appender-ref>
+	</root> 
+</configuration>

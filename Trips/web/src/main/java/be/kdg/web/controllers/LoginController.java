@@ -1,7 +1,6 @@
 package be.kdg.web.controllers;
 
 import be.kdg.backend.entities.User;
-import be.kdg.backend.exceptions.LoginInvalidException;
 import be.kdg.backend.services.interfaces.UserService;
 import be.kdg.backend.utilities.Utilities;
 import be.kdg.web.forms.EditProfileForm;
@@ -9,6 +8,8 @@ import be.kdg.web.forms.LoginForm;
 import be.kdg.web.forms.RegisterForm;
 import be.kdg.web.security.CustomUserDetailsService;
 import be.kdg.web.validators.EditProfileValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,6 +39,7 @@ import java.util.GregorianCalendar;
  */
 @Controller
 public class LoginController {
+    static final Logger logger = LoggerFactory.getLogger(LoginController.class);
     @Autowired
     @Qualifier("userService")
     private UserService userService;
@@ -49,7 +51,7 @@ public class LoginController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String showPage(ModelMap model) {
         //TODO: If the user is already logged in, redirect to another page or to logout
-
+ 
         model.addAttribute("registerForm", new RegisterForm());
         model.addAttribute("loginForm", new LoginForm());
 
@@ -109,8 +111,10 @@ public class LoginController {
             try {
                 user = new User(registerForm.getEmail(), Utilities.getEncryptPassword(registerForm.getPassword()), registerForm.getFirstname(), registerForm.getLastname(), registerForm.getBirthday());
             } catch (NoSuchAlgorithmException e) {
+                logger.debug("A NoSuchAlgorithmException occured in register. Message: " + e.getMessage(), e);
                 return "exceptions/GenericException";
             } catch (UnsupportedEncodingException e) {
+                logger.debug("A UnsupportedEncodingException occured in register. Message: " + e.getMessage(), e);
                 return "exceptions/GenericException";
             }
             boolean userExisted = userService.addUser(user);
