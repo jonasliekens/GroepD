@@ -19,7 +19,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Login</title>
+    <title>Edit profile</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
@@ -101,8 +101,8 @@
 
                     <div class="control-group">
                         <div class="controls">
-                            <spring:message code="control.edit" var="btnEdit"></spring:message>
-                            <input class="btn" type="submit" value="${btnEdit}"/>
+                            <spring:message code="control.save" var="btnSave"></spring:message>
+                            <input class="btn" type="submit" value="${btnSave}"/>
                         </div>
                     </div>
                     </form:form>

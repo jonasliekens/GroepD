@@ -92,13 +92,13 @@ public class LoginController {
 //            return returnToLoginIndex(model, result);
 //        }
 //    }
-
-    private String returnToLoginIndex(ModelMap model, BindingResult result) {
-        model.addAttribute("registerForm", new RegisterForm());
-        result.addError(new ObjectError("email", "Email or password invalid."));
-
-        return "login/index";
-    }
+//
+//    private String returnToLoginIndex(ModelMap model, BindingResult result) {
+//        model.addAttribute("registerForm", new RegisterForm());
+//        result.addError(new ObjectError("email", "Email or password invalid."));
+//
+//        return "login/index";
+//    }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String register(ModelMap model, @ModelAttribute("registerForm") @Valid RegisterForm registerForm, BindingResult result, SessionStatus status, HttpSession session) {
@@ -107,7 +107,7 @@ public class LoginController {
 
             return "login/index";
         } else {
-            User user = null;
+            User user;
             try {
                 user = new User(registerForm.getEmail(), Utilities.getEncryptPassword(registerForm.getPassword()), registerForm.getFirstname(), registerForm.getLastname(), registerForm.getBirthday());
             } catch (NoSuchAlgorithmException e) {
@@ -157,10 +157,15 @@ public class LoginController {
 
         User user = userService.get((Integer) session.getAttribute("userId"));
         EditProfileForm editProfileForm = new EditProfileForm();
+
         editProfileForm.setBirthday(user.getBirthday());
         editProfileForm.setFirstname(user.getFirstName());
         editProfileForm.setLastname(user.getLastName());
+        editProfileForm.setReceiveMails(user.isReceiveMails());
+        editProfileForm.setShareLocation(user.isShareLocation());
+
         model.addAttribute("editprofileform", editProfileForm);
+
         return "users/profile";
     }
 
@@ -174,12 +179,15 @@ public class LoginController {
             User user = userService.get((Integer) session.getAttribute("userId"));
             Calendar cal = new GregorianCalendar();
             cal.setTime(editProfileForm.getBirthday());
+
             user.setBirthday(new Date(cal.getTimeInMillis()));
             user.setFirstName(editProfileForm.getFirstname());
             user.setLastName(editProfileForm.getLastname());
             user.setReceiveMails(editProfileForm.isReceiveMails());
             user.setShareLocation(editProfileForm.isShareLocation());
+
             userService.update(user);
+
             return "users/profile";
         }
     }
