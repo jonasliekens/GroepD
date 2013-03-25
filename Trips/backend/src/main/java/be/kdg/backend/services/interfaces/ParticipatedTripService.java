@@ -1,6 +1,8 @@
 package be.kdg.backend.services.interfaces;
 
 import be.kdg.backend.entities.ParticipatedTrip;
+import be.kdg.backend.entities.Trip;
+import be.kdg.backend.entities.User;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -26,5 +28,5 @@ public interface ParticipatedTripService extends GenericService<ParticipatedTrip
     @Transactional
     public ParticipatedTrip getParticipatedTrip(Integer tripId, Integer userId);
     @Transactional
-    public List<ParticipatedTrip> getStartedParticipatedTripsByTripId(Integer tripId);
+    public List<ParticipatedTrip> getAllParticipatedTripsStartedWithLocationByTripId(Integer tripId);
 }

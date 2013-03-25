@@ -49,7 +49,7 @@ public class ParticipatedTripServiceTest extends AbstractJUnit4SpringContextTest
         pt.setStarted(true);
         pt.setFinished(false);
         participatedTripService.add(pt);
-        assertTrue(participatedTripService.get(pt.getId()).isStarted() && !(participatedTripService.get(pt.getId()).isFinished()));
+        assertTrue(participatedTripService.get(pt.getId()).getStarted() && !(participatedTripService.get(pt.getId()).getFinished()));
 
     }
 
@@ -135,7 +135,7 @@ public class ParticipatedTripServiceTest extends AbstractJUnit4SpringContextTest
     }
 
     @Test
-    public void getStartedParticipatedTripsByTripIdTest() {
+    public void getAllParticipatedTripsStartedWithLocationByTripIdTest() {
         //TODO: Multiple participated trips fails this test
         ParticipatedTrip participatedTrip1 = newParticipatedTrip();
 //        ParticipatedTrip participatedTrip2 = newParticipatedTrip();
@@ -162,7 +162,7 @@ public class ParticipatedTripServiceTest extends AbstractJUnit4SpringContextTest
 //        participatedTripService.update(participatedTrip3);
 
 
-        assertTrue(participatedTripService.getStartedParticipatedTripsByTripId(trip.getId()).size() == 1);
+        assertTrue(participatedTripService.getAllParticipatedTripsStartedWithLocationByTripId(trip.getId()).size() == 1);
     }
 
     @After

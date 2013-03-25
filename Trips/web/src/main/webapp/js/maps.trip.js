@@ -100,6 +100,26 @@
 		showParticipantsLocations		= function(data) {
 			var position;
 
+			//TODO: IMPROVE
+			// This is the array containing the id's of all the participants currently shown
+			var participantsIds = [];
+			for(var i in markers) {
+				participantsIds.push(i);
+			}
+
+			for(var i = 0; i < data.length; i++) {
+				if(markers[data[i].id] !== undefined) {
+					participantsIds.splice(participantsIds.indexOf(data[i].id), 1);
+				}	
+			}
+
+			// Loop through all the participants id's that were not in the new data and remove the marker
+			for(var i = 0; i < participantsIds.length; i++) {
+				markers[participantsIds[i]].setMap(null);
+				markers.splice(participantsIds[i], 1);
+			}
+			// END IMPROVE
+
 			for(var i = 0; i < data.length; i++) {
 				// Create the position of the marker
 				position = new google.maps.LatLng(data[i].latitude, data[i].longitude);
@@ -108,7 +128,8 @@
 				if(markers[data[i].id] === undefined) {
 					markers[data[i].id] = new google.maps.Marker({
 						position :	position,
-						map :		map
+						map :		map ,
+                        zIndex :	99
 					});
 				}
 

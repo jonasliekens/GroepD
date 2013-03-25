@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * User: Bart Verhavert
@@ -30,6 +30,10 @@ public class TripRestController {
     @Autowired
     @Qualifier("stopService")
     private StopService stopService;
+
+    @Autowired
+    @Qualifier("userService")
+    private UserService userService;
 
     @Autowired
     @Qualifier("participatedTripService")
@@ -109,8 +113,25 @@ public class TripRestController {
 
     @RequestMapping(value = "/participants/started", method = RequestMethod.GET)
     @ResponseBody
-    public List<ParticipatedTrip> getStartedParticipants(@RequestParam Integer tripId) {
-        //TODO: Security check: check if the user is a participant or admin of this trip
-        return participatedTripService.getStartedParticipatedTripsByTripId(tripId);
+    public List<ParticipatedTrip> getStartedParticipants(@RequestParam Integer tripId, HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("userId");
+
+        if(userId != null) {
+            User user = userService.get(userId);
+            Trip trip = tripService.get(tripId);
+
+            Boolean userIsParticipant = false;
+            for(ParticipatedTrip participatedTrip : trip.getParticipatedTrips()) {
+                if(participatedTrip.getUser().equals(user)) {
+                    userIsParticipant = true;
+                }
+            }
+
+            if(userIsParticipant || trip.getAdmins().contains(user)) {
+                return participatedTripService.getAllParticipatedTripsStartedWithLocationByTripId(tripId);
+            }
+        }
+
+        return new ArrayList<ParticipatedTrip>();
     }
 }

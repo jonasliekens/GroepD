@@ -63,7 +63,7 @@ public class ParticipatedTripTest extends AbstractJUnit4SpringContextTests {
     }
 
     @Test
-    public void findAllStartedByTripIdTest() {
+    public void findAllParticipatedTripsStartedWithLocationByTripIdTest() {
         //TODO: Multiple participated trips fails this test, detached entity => trip ... eager loading is a dirty solution
         ParticipatedTrip participatedTrip1 = new ParticipatedTrip();
 //        ParticipatedTrip participatedTrip2 = new ParticipatedTrip();
@@ -89,7 +89,7 @@ public class ParticipatedTripTest extends AbstractJUnit4SpringContextTests {
 //        participatedTripDao.update(participatedTrip2);
 //        participatedTripDao.update(participatedTrip3);
 
-        assertTrue(participatedTripDao.findAllStartedByTripId(trip.getId()).size() == 1);
+        assertTrue(participatedTripDao.findAllParticipatedTripsStartedWithLocationByTripId(trip.getId()).size() == 1);
     }
 
     @After

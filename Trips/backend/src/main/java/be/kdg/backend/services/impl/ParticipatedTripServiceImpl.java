@@ -2,6 +2,8 @@ package be.kdg.backend.services.impl;
 
 import be.kdg.backend.dao.interfaces.ParticipatedTripDao;
 import be.kdg.backend.entities.ParticipatedTrip;
+import be.kdg.backend.entities.Trip;
+import be.kdg.backend.entities.User;
 import be.kdg.backend.services.interfaces.ParticipatedTripService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -73,7 +75,7 @@ public class ParticipatedTripServiceImpl implements ParticipatedTripService {
     }
 
     @Override
-    public List<ParticipatedTrip> getStartedParticipatedTripsByTripId(Integer tripId) {
-        return participatedTripDao.findAllStartedByTripId(tripId);
+    public List<ParticipatedTrip> getAllParticipatedTripsStartedWithLocationByTripId(Integer tripId) {
+        return participatedTripDao.findAllParticipatedTripsStartedWithLocationByTripId(tripId);
     }
 }

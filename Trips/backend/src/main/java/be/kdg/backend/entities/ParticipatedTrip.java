@@ -49,8 +49,11 @@ public class ParticipatedTrip {
         return id;
     }
 
+    private void setId(Integer id) {
+        this.id = id;
+    }
 
-    public Boolean isStarted() {
+    public Boolean getStarted() {
         return isStarted;
     }
 
@@ -58,7 +61,7 @@ public class ParticipatedTrip {
         isStarted = started;
     }
 
-    public Boolean isFinished() {
+    public Boolean getFinished() {
         return isFinished;
     }
 
@@ -90,28 +93,16 @@ public class ParticipatedTrip {
         this.user = user;
     }
 
-    public Boolean getStarted() {
-        return isStarted;
-    }
-
-    public Boolean getFinished() {
-        return isFinished;
-    }
-
     public Double getLatitude() {
         return latitude;
     }
 
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
     }
 
     public void setLongitude(Double longitude) {
