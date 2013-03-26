@@ -30,6 +30,7 @@ public class Utilities {
     // Basic settings
     public static final String PREFS_NAME = "TripsPreferences";
     public static final long TRIPS_RELOAD_TIME = 5 * 60 * 1000; // 5 minutes
+    public static final long LOCATION_UPDATE_TIME = 10000;
 
     // IP-addresses
 //    public static final String SERVER_ADDRESS = "http://192.168.0.195:8080/web";
