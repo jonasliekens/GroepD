@@ -31,7 +31,7 @@ public class LocationService extends Service {
     Location lastLocation;
     private Integer tripId;
     private Integer userId;
-    private GetLocationTask getLocationTask;
+
 
     private class MyLocationListener implements LocationListener {
         public MyLocationListener(String provider) {
@@ -42,6 +42,7 @@ public class LocationService extends Service {
         public void onLocationChanged(Location location) {
             if (isBetterLocation(location, lastLocation)) {
                 lastLocation.set(location);
+                GetLocationTask getLocationTask = new GetLocationTask();
                 getLocationTask.execute();
             }
         }
@@ -84,7 +85,6 @@ public class LocationService extends Service {
     public void onCreate() {
         Log.v("TRIPS", "in de functie onCreate");
         initializeLocationManager();
-        getLocationTask = new GetLocationTask();
         /*try {
             locationManager.requestLocationUpdates(
                     LocationManager.NETWORK_PROVIDER, LOCATION_INTERVAL, LOCATION_DISTANCE,
@@ -184,7 +184,7 @@ public class LocationService extends Service {
             params.add(new BasicNameValuePair("tripId", tripId.toString()));
             params.add(new BasicNameValuePair("userId", userId.toString()));
             params.add(new BasicNameValuePair("latitude", String.format("%f", lastLocation.getLatitude())));
-            params.add(new BasicNameValuePair("latitude", String.format("%f", lastLocation.getLongitude())));
+            params.add(new BasicNameValuePair("longitude", String.format("%f", lastLocation.getLongitude())));
 
             try {
                 RestHttpConnection restHttpConnection = new RestHttpConnection();
