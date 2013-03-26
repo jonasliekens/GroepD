@@ -169,7 +169,7 @@ public class TripController {
             trip.addAdmin(user);
             tripService.update(trip);
 
-            return "redirect:/trips/";
+            return "redirect:/trips/own";
         }
     }
 

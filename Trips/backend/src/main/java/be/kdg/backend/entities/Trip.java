@@ -258,5 +258,4 @@ public class Trip {
     public void setExpenses(Set<Expense> expenses) {
         this.expenses = expenses;
     }
-
 }
