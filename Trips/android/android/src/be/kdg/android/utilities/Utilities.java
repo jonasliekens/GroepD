@@ -13,7 +13,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -31,7 +34,7 @@ public class Utilities {
     // IP-addresses
 //    public static final String SERVER_ADDRESS = "http://192.168.0.195:8080/web";
 //    public static final String SERVER_ADDRESS = "http://192.168.0.196:8080/web";
-    public static final String SERVER_ADDRESS = "http://192.168.1.3:8080/web";
+    public static final String SERVER_ADDRESS = "http://192.168.113.1:8080/web";
 
     // RestControllers
     public static final String LOGIN_ADDRESS = SERVER_ADDRESS + "/rest/login";
@@ -74,6 +77,19 @@ public class Utilities {
         }
 
         return true;
+    }
+
+    public static String getEncryptPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(password.getBytes("UTF-8"));
+        byte[] digest = md.digest();
+        StringBuffer sb = new StringBuffer();
+
+        for(byte b : digest){
+            sb.append(Integer.toHexString(b & 0xff));
+        }
+
+        return sb.toString();
     }
 
     public static User getUser(String json) {

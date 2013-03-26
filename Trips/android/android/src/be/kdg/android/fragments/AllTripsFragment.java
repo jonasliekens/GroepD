@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.view.*;
 import android.widget.ListView;
 import android.os.Bundle;
+import be.kdg.android.activities.TripActivity;
 import be.kdg.android.entities.Trip;
 import be.kdg.android.listadapters.TripsListAdapter;
 import be.kdg.android.networking.RestHttpConnection;
