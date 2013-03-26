@@ -47,6 +47,9 @@
         <activity android:name="be.kdg.android.activities.InvitationActivity"
                   android:configChanges="keyboardHidden|orientation|screenSize"/>
 
+        <activity android:name="be.kdg.android.activities.RegisteredTripActivity"/>
+        <activity android:name="be.kdg.android.activities.TripActivity"/>
+
         <activity android:name=".CloudReco"
                   android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
                   android:finishOnTaskLaunch="true"

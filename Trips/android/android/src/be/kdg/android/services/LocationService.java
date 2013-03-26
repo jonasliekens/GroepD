@@ -1,14 +1,13 @@
 package be.kdg.android.services;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
-import be.kdg.android.entities.MyLocation;
 import be.kdg.android.networking.RestHttpConnection;
 import be.kdg.android.utilities.Utilities;
 import de.akquinet.android.androlog.Log;
@@ -32,16 +31,19 @@ public class LocationService extends Service {
     Location lastLocation;
     private Integer tripId;
     private Integer userId;
+    private GetLocationTask getLocationTask;
 
-    private class LocationListener implements android.location.LocationListener {
-        public LocationListener(String provider) {
+    private class MyLocationListener implements LocationListener {
+        public MyLocationListener(String provider) {
             lastLocation = new Location(provider);
         }
 
         @Override
         public void onLocationChanged(Location location) {
-            lastLocation.set(location);
-
+            if (isBetterLocation(location, lastLocation)) {
+                lastLocation.set(location);
+                getLocationTask.execute();
+            }
         }
 
         @Override
@@ -57,9 +59,9 @@ public class LocationService extends Service {
         }
     }
 
-    LocationListener[] mLocationListeners = new LocationListener[]{
-            new LocationListener(LocationManager.GPS_PROVIDER),
-            new LocationListener(LocationManager.NETWORK_PROVIDER)
+    MyLocationListener[] myLocationListeners = new MyLocationListener[]{
+            new MyLocationListener(LocationManager.GPS_PROVIDER)//,
+            //new MyLocationListener(LocationManager.NETWORK_PROVIDER)
     };
 
     @Override
@@ -82,17 +84,18 @@ public class LocationService extends Service {
     public void onCreate() {
         Log.v("TRIPS", "in de functie onCreate");
         initializeLocationManager();
-        try {
+        getLocationTask = new GetLocationTask();
+        /*try {
             locationManager.requestLocationUpdates(
                     LocationManager.NETWORK_PROVIDER, LOCATION_INTERVAL, LOCATION_DISTANCE,
-                    mLocationListeners[1]);
+                    myLocationListeners[1]);
         } catch (Exception ex) {
-        }
+        } */
 
         try {
             locationManager.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER, LOCATION_INTERVAL, LOCATION_DISTANCE,
-                    mLocationListeners[0]);
+                    myLocationListeners[0]);
         } catch (Exception ex) {
         }
     }
@@ -101,8 +104,8 @@ public class LocationService extends Service {
     public void onDestroy() {
         super.onDestroy();
         if (locationManager != null) {
-            for (int i = 0; i < mLocationListeners.length; i++) {
-                locationManager.removeUpdates(mLocationListeners[i]);
+            for (int i = 0; i < myLocationListeners.length; i++) {
+                locationManager.removeUpdates(myLocationListeners[i]);
             }
         }
     }
@@ -114,6 +117,65 @@ public class LocationService extends Service {
         }
     }
 
+    /**
+     * http://developer.android.com/training/basics/location/currentlocation.html
+     * Determines whether one Location reading is better than the current Location fix
+     *
+     * @param location            The new Location that you want to evaluate
+     * @param currentBestLocation The current Location fix, to which you want to compare the new one
+     */
+    protected boolean isBetterLocation(Location location, Location currentBestLocation) {
+        if (currentBestLocation == null) {
+            // A new location is always better than no location
+            return true;
+        }
+
+        // Check whether the new location fix is newer or older
+        long timeDelta = location.getTime() - currentBestLocation.getTime();
+        boolean isSignificantlyNewer = timeDelta > Utilities.LOCATION_UPDATE_TIME;
+        boolean isSignificantlyOlder = timeDelta < -Utilities.LOCATION_UPDATE_TIME;
+        boolean isNewer = timeDelta > 0;
+
+        // If it's been more than two minutes since the current location, use the new location
+        // because the user has likely moved
+        if (isSignificantlyNewer) {
+            return true;
+            // If the new location is more than two minutes older, it must be worse
+        } else if (isSignificantlyOlder) {
+            return false;
+        }
+
+        // Check whether the new location fix is more or less accurate
+        int accuracyDelta = (int) (location.getAccuracy() - currentBestLocation.getAccuracy());
+        boolean isLessAccurate = accuracyDelta > 0;
+        boolean isMoreAccurate = accuracyDelta < 0;
+        boolean isSignificantlyLessAccurate = accuracyDelta > 200;
+
+        // Check if the old and new location are from the same provider
+        boolean isFromSameProvider = isSameProvider(location.getProvider(),
+                currentBestLocation.getProvider());
+
+        // Determine location quality using a combination of timeliness and accuracy
+        if (isMoreAccurate) {
+            return true;
+        } else if (isNewer && !isLessAccurate) {
+            return true;
+        } else if (isNewer && !isSignificantlyLessAccurate && isFromSameProvider) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks whether two providers are the same
+     */
+    private boolean isSameProvider(String provider1, String provider2) {
+        if (provider1 == null) {
+            return provider2 == null;
+        }
+        return provider1.equals(provider2);
+    }
+
     public class GetLocationTask extends AsyncTask<String, String, Void> {
         @Override
         protected Void doInBackground(String... strings) {
@@ -121,11 +183,11 @@ public class LocationService extends Service {
 
             params.add(new BasicNameValuePair("tripId", tripId.toString()));
             params.add(new BasicNameValuePair("userId", userId.toString()));
-            params.add(new BasicNameValuePair("latitude", String.format("%d", lastLocation.getLatitude())));
-            params.add(new BasicNameValuePair("latitude", String.format("%d", lastLocation.getLongitude())));
+            params.add(new BasicNameValuePair("latitude", String.format("%f", lastLocation.getLatitude())));
+            params.add(new BasicNameValuePair("latitude", String.format("%f", lastLocation.getLongitude())));
 
-            RestHttpConnection restHttpConnection = new RestHttpConnection();
             try {
+                RestHttpConnection restHttpConnection = new RestHttpConnection();
                 String result = restHttpConnection.doPostWithResult(Utilities.UPDATE_LOCATION_ADDRESS, params);
             } catch (IOException e) {
                 e.printStackTrace();
