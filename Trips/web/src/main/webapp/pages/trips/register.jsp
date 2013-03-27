@@ -41,7 +41,7 @@
     <div class="container">
         <div class="row-fluid">
             <div class="span12">
-                <div class="alert alert-error">
+                <div class="alert alert-info">
                     <spring:message code="message.register.trip" />
                     <form method="post">
                         <input type="submit" value="Yes">

@@ -32,7 +32,9 @@
         <div class="container">
             <div class="row-fluid">
                 <div class="span12">
-                     Page not found. Please return to where you came from.
+                    <div class="alert alert-error">
+                        Page not found. Please return to where you came from.
+                    </div>
                 </div>
             </div>
         </div>

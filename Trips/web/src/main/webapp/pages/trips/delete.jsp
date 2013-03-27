@@ -44,7 +44,7 @@
                     <div class="alert alert-error">
                         <spring:message code="message.delete.trip" />
                         <form method="post">
-                            <input type="submit" value="Yes">
+                            <input type="submit" class="btn" value="Yes">
                         </form>
                     </div>
                 </div>

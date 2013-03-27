@@ -45,7 +45,16 @@
     <div class="container">
         <div class="row-fluid">
             <div class="span12">
-                <c:if test="${sessionScope.userId != null}"> <a href="trips/add"><spring:message code="control.add"/></a> <a href="trips/own"><spring:message code="message.showmytrips.trip"/></a> <a href="trips/registered"><spring:message code="message.showusertrips.trip"/></a> <a href="trips/invitations"><spring:message code="message.showinvitations.trip"/></a></c:if>
+                <c:if test="${sessionScope.userId != null}">
+                    <div class="btn-toolbar">
+                        <a class="btn" href="trips/add"><spring:message code="control.add"/></a>
+                        <div class="btn-group">
+                            <a class="btn" href="trips/own"><spring:message code="message.showmytrips.trip"/></a>
+                            <a class="btn" href="trips/registered"><spring:message code="message.showusertrips.trip"/></a>
+                            <a class="btn" href="trips/invitations"><spring:message code="message.showinvitations.trip"/></a>
+                        </div>
+                    </div>
+                </c:if>
                 <table class="table table-striped">
                     <thead>
                     <tr>

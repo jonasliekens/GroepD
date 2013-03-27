@@ -47,8 +47,8 @@
 
                     <spring:message code="message.logout" />
 
-                    <a href="j_spring_security_logout" id="logout" class="btn">Yes</a>
-                    <a href="" class="btn">No</a>
+                    <a href="j_spring_security_logout" id="logout" class="btn"><spring:message code="common.yes" /></a>
+                    <a href="" class="btn"><spring:message code="common.no" /></a>
                 </div>
             </div>
         </div>

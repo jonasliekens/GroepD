@@ -257,7 +257,7 @@ public class TripController {
 
         tripService.remove(tripService.get(id));
 
-        return "redirect:/trips/";
+        return "redirect:/";
     }
 
     @Secured("ROLE_USER")

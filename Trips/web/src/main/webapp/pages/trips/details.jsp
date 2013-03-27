@@ -43,15 +43,15 @@
     <%@include file="../../template/header.jsp" %>
 
     <section id="content">
-        <section id="trip-banner">
-            <div class="container">
-                <div class="row-fluid">
-                    <div class="span12">
-                        <img src="http://lorempixel.com/1170/200/nature/" alt="The banner for this trip"/>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <%--<section id="trip-banner">--%>
+            <%--<div class="container">--%>
+                <%--<div class="row-fluid">--%>
+                    <%--<div class="span12">--%>
+                        <%--<img src="http://lorempixel.com/1170/200/nature/" alt="The banner for this trip"/>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</section>--%>
         <section>
             <div class="container">
                 <div class="row-fluid">
@@ -220,18 +220,18 @@
         <th>
             <spring:message code="stop.name"/>
         </th>
-        <th>
-            <spring:message code="stop.orderNumber"/>
-        </th>
+        <%--<th>--%>
+            <%--<spring:message code="stop.orderNumber"/>--%>
+        <%--</th>--%>
         <th>
             <spring:message code="stop.description"/>
         </th>
-        <th>
-            <spring:message code="stop.latitude"/>
-        </th>
-        <th>
-            <spring:message code="stop.longitude"/>
-        </th>
+        <%--<th>--%>
+            <%--<spring:message code="stop.latitude"/>--%>
+        <%--</th>--%>
+        <%--<th>--%>
+            <%--<spring:message code="stop.longitude"/>--%>
+        <%--</th>--%>
         <th>
             <!--Controls-->
         </th>
@@ -250,21 +250,23 @@
             <td>
                 <a href="trips/${trip.id}/stops/details/${stop.id}">${stop.name}</a>
             </td>
-            <td>
-                    ${stop.orderNumber}
-            </td>
+            <%--<td>--%>
+                    <%--${stop.orderNumber}--%>
+            <%--</td>--%>
             <td>
                     ${stop.description}
             </td>
+            <%--<td>--%>
+                    <%--${stop.latitude}--%>
+            <%--</td>--%>
+            <%--<td>--%>
+                    <%--${stop.longitude}--%>
+            <%--</td>--%>
             <td>
-                    ${stop.latitude}
-            </td>
-            <td>
-                    ${stop.longitude}
-            </td>
-            <td>
-                <a href="trips/${trip.id}/stops/edit/${stop.id}"><spring:message code="control.edit"/></a>
-                <a href="trips/${trip.id}/stops/delete/${stop.id}"><spring:message code="control.delete"/></a>
+                <c:if test="${isAdmin}">
+                    <a href="trips/${trip.id}/stops/edit/${stop.id}"><spring:message code="control.edit"/></a>
+                    <a href="trips/${trip.id}/stops/delete/${stop.id}"><spring:message code="control.delete"/></a>
+                </c:if>
             </td>
         </tr>
     </c:forEach>

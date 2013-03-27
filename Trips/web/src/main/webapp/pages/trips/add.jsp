@@ -43,35 +43,65 @@
         <div class="container">
             <div class="row-fluid">
                 <div class="span12">
-                    <form:form method="post" modelAttribute="tripForm">
-                        <form:label path="name"><spring:message code="trip.name" /></form:label>
-                        <form:input path="name" />
-                        <form:errors path="name" cssClass="alert alert-error" />
+                    <h3><spring:message code="trip.add" /></h3>
 
-                        <form:label path="privateTrip"><spring:message code="trip.privateQuestion" /></form:label>
-                        <form:checkbox path="privateTrip" />
-                        <form:errors path="privateTrip" cssClass="alert alert-error" />
-                        <form:label path="communicationByChat"><spring:message code="trip.communicationByChatQuestion" /></form:label>
-                        <form:checkbox path="communicationByChat" />
-                        <form:errors path="communicationByChat" cssClass="alert alert-error" />
-                        <form:label path="communicationByLocation"><spring:message code="trip.communicationByLocationQuestion" /></form:label>
-                        <form:checkbox path="communicationByLocation" />
-                        <form:errors path="communicationByLocation" cssClass="alert alert-error" />
-                        <br/>
+                    <form:form method="post" cssClass="form-horizontal" modelAttribute="tripForm">
+                        <div class="control-group">
+                            <form:label path="name" cssClass="control-label"><spring:message code="trip.name" /></form:label>
+                            <div class="controls">
+                                <form:input path="name" />
+                                <form:errors path="name" cssClass="help-inline" />
+                            </div>
+                        </div>
 
-                        <form:label path="tripType"><spring:message code="trip.tripTypeQuestion" /></form:label>
-                        <form:select path="tripType">
-                            <form:options items="${tripTypes}"/>
-                        </form:select>
+                        <div class="control-group">
+                            <form:label path="privateTrip" cssClass="control-label"><spring:message code="trip.privateQuestion" /></form:label>
+                            <div class="controls">
+                                <form:checkbox id="privateTrip" path="privateTrip" />
+                                <form:errors path="privateTrip" cssClass="help-inline" />
+                            </div>
+                        </div>
 
-                        <form:label path="travelType"><spring:message code="trip.travelTypeQuestion" /></form:label>
-                        <form:select path="travelType">
-                            <form:options items="${travelTypes}"/>
-                        </form:select>
+                        <div class="control-group">
+                            <form:label path="communicationByChat" cssClass="control-label"><spring:message code="trip.communicationByChatQuestion" /></form:label>
+                            <div class="controls">
+                                <form:checkbox id="communicationByChat" path="communicationByChat" />
+                                <form:errors path="communicationByChat" cssClass="help-inline" />
+                            </div>
+                        </div>
 
+                        <div class="control-group">
+                            <form:label path="communicationByLocation" cssClass="control-label"><spring:message code="trip.communicationByLocationQuestion" /></form:label>
+                            <div class="controls">
+                                <form:checkbox id="communicationByLocation" path="communicationByLocation" />
+                                <form:errors path="communicationByLocation" cssClass="help-inline" />
+                            </div>
+                        </div>
 
-                        <spring:message code="control.add" var="btnAdd"></spring:message>
-                        <input type="submit" value="${btnAdd}" />
+                        <div class="control-group">
+                            <form:label path="tripType" cssClass="control-label"><spring:message code="trip.tripTypeQuestion" /></form:label>
+                            <div class="controls">
+                                <form:select path="tripType">
+                                    <form:options items="${tripTypes}"/>
+                                </form:select>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <form:label path="travelType" cssClass="control-label"><spring:message code="trip.travelTypeQuestion" /></form:label>
+                            <div class="controls">
+                                <form:select path="travelType">
+                                    <form:options items="${travelTypes}"/>
+                                </form:select>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="controls">
+                                <spring:message code="control.add" var="btnAdd"></spring:message>
+                                <input class="btn" type="submit" value="${btnAdd}" />
+                            </div>
+                        </div>
                     </form:form>
                 </div>
             </div>

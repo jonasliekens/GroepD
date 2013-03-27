@@ -8,7 +8,7 @@
 
 body {
     background-color: $white;
-    /*background-image: url(../img/background/background-pattern.png);*/
+    background-image: url(../img/background/background-pattern.png);
 }
 
 /*
@@ -49,6 +49,9 @@ body {
 #content {
     background-color: $white;
     margin-top: 40px; /* 40px is the height of the header section */    
+    @include prefix(box-shadow, 0 0 7px #333);
+    min-height: 550px;
+    padding: 25px 0;
 }
 
 /*
@@ -58,6 +61,7 @@ body {
 #footer-section {
     position: relative;
     z-index: 1;
+    padding: 25px 0;
 }
 
 /* Import the page specific css files */
