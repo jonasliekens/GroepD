@@ -90,34 +90,39 @@ public class TripController {
     @RequestMapping(method = RequestMethod.GET)
     public String list(ModelMap model) {
         model.addAttribute("trips", tripService.getPublicTrips());
+
         return "trips/list";
     }
 
-    @RequestMapping(value = "/trips/details/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/trip/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable Integer id, ModelMap model, HttpSession session) {
         Trip trip = tripService.get(id);
         model.addAttribute("trip", trip);
-        boolean isAdmin = false;
-        User user;
+
+        //TODO: Can this if statement be removed?
         if (!(trip.getStops().isEmpty())) {
             model.addAttribute("stops", stopService.getStopsByTripId(id));
         }
-        int userId = 0;
-        if (session.getAttribute("userId") != null) {
-            userId = (Integer) session.getAttribute("userId");
-        }
-        if (userId > 0) {
-            if (trip.getAdmins().contains(userService.get(userId))) {
-                isAdmin = true;
-            }
 
-            model.addAttribute("isAdmin", isAdmin);
+        Integer userId = (Integer) session.getAttribute("userId");
+
+        if (userId != null) {
+            Boolean isParticipant = true;
+
+            //TODO: This still crashes for some reason
+//            Boolean isParticipant = participatedTripService.getParticipatedTrip(trip.getId(), userId) != null;
+
+            model.addAttribute("isAdmin", trip.getAdmins().contains(userService.get(userId)));
+            model.addAttribute("isParticipant", isParticipant);
+
             model.addAttribute("announcements", tripService.getAnnouncementsByTripId(trip.getId()));
             model.addAttribute("equipment", tripService.getEquipmentByTripId(trip.getId()));
-            BroadcastForm form = new BroadcastForm();
-            form.setTripId(id);
-            model.addAttribute("broadcastForm", form);
+
+            BroadcastForm broadcastForm = new BroadcastForm();
+            broadcastForm.setTripId(id);
+            model.addAttribute("broadcastForm", broadcastForm);
         }
+
         return "trips/details";
     }
 
@@ -273,7 +278,7 @@ public class TripController {
         participatedTrip.setTrip(trip);
         participatedTrip.setConfirmed(true);
         participatedTripService.add(participatedTrip);
-        return "redirect:/trips/details/" + id;
+        return "redirect:/trip/" + id;
     }
 
     @Secured("ROLE_USER")
@@ -286,12 +291,19 @@ public class TripController {
     @Secured("ROLE_USER")
     @RequestMapping(value = "/trips/start/{participatedTripId}", method = RequestMethod.GET)
     public String startTrip(@PathVariable Integer participatedTripId, ModelMap model, HttpSession session) {
-        ParticipatedTrip pTrip = participatedTripService.get(participatedTripId);
-        pTrip.setFinished(false);
-        pTrip.setStarted(true);
+        //TODO: Security check: Make sure a user is logged in that this logged in user is linked to the pt
+        ParticipatedTrip participatedTrip = participatedTripService.get(participatedTripId);
         User user = userService.get((Integer) session.getAttribute("userId"));
 
-        participatedTripService.update(pTrip);
+        if(user != null && participatedTrip.getUser().equals(user)) {
+            if(participatedTrip.getStarted() == false && participatedTrip.getFinished() == false) {
+                participatedTrip.setFinished(false);
+                participatedTrip.setStarted(true);
+            }
+        }
+
+        participatedTripService.update(participatedTrip);
+
         return "redirect:/trips/registered/";
     }
 
@@ -430,7 +442,7 @@ public class TripController {
                         StringBuilder msgBody = new StringBuilder();
                         msgBody.append(String.format("Dear %s %s\n\n%s %s placed an announcement for trip: %s.\n\n" +
                                 "%s\n\n" +
-                                "To view the announcement go to: http://localhost:8080/web/trips/details/%d\n" +
+                                "To view the announcement go to: http://localhost:8080/web/trip/%d\n" +  //TODO: Dezen url klopt wel ni ze ..
                                 "Make sure you are logged in before going to the link above.\n\n" +
                                 "This is an automated email. You can not reply to this email.", receiver.getFirstName(), receiver.getLastName(), sender.getFirstName(), sender.getLastName(), trip.getName(), announcementForm.getMessage(), id));
 
@@ -450,7 +462,7 @@ public class TripController {
             announcement.setTrip(trip);
             trip.addAnnouncement(announcement);
             tripService.update(trip);
-            return "redirect:/trips/details/" + id;
+            return "redirect:/trip/" + id;
         }
 
     }
@@ -459,7 +471,7 @@ public class TripController {
     @RequestMapping(value = "/trips/{id}/announcements/delete/{announcementid}", method = RequestMethod.GET)
     public String deleteAnnouncement(@PathVariable Integer id, @PathVariable Integer announcementid, ModelMap model) {
         tripService.removeAnnouncementFromTrip(announcementid);
-        return "redirect:/trips/details/" + id;
+        return "redirect:/trip/" + id;
     }
 
     @Secured("ROLE_USER")
@@ -482,7 +494,7 @@ public class TripController {
             equipment.setTrip(trip);
             trip.addEquipment(equipment);
             tripService.update(trip);
-            return "redirect:/trips/details/" + id;
+            return "redirect:/trip/" + id;
         }
 
     }
@@ -491,7 +503,7 @@ public class TripController {
     @RequestMapping(value = "/trips/{id}/equipment/delete/{equipmentid}", method = RequestMethod.GET)
     public String deleteEquipment(@PathVariable Integer id, @PathVariable Integer equipmentid, ModelMap model) {
         tripService.removeEquipmentFromTrip(equipmentid);
-        return "redirect:/trips/details/" + id;
+        return "redirect:/trip/" + id;
     }
 
     @Secured("ROLE_USER")
@@ -500,7 +512,7 @@ public class TripController {
         System.out.println("tripId=" + broadcastForm.getTripId().toString());
         BroadcastMessage message = new BroadcastMessage(broadcastForm.getMessage(), tripService.get(broadcastForm.getTripId()), new Date());
         broadcastService.add(message);
-        return "redirect:/trips/details/" + broadcastForm.getTripId();
+        return "redirect:/trip/" + broadcastForm.getTripId();
     }
 
     @RequestMapping(value = "/trips/{tripid}/block/{id}", method = RequestMethod.GET)

@@ -104,6 +104,7 @@ public class ParticipatedTripDaoImpl implements ParticipatedTripDao {
 
     @Override
     public ParticipatedTrip find(Integer tripId, Integer userId) {
+        //TODO: isStarted = false, moet dit wel in de query van een gewone find staan?
         Query query = entityManager.createQuery("SELECT pt FROM ParticipatedTrip pt WHERE pt.user.id = ?1 AND pt.trip.id = ?2 AND pt.isConfirmed = true AND pt.isStarted = false");
         query.setParameter(1, userId);
         query.setParameter(2, tripId);

@@ -3,8 +3,8 @@ package be.kdg.backend.services.impl;
 import be.kdg.backend.dao.interfaces.RequestDao;
 import be.kdg.backend.entities.Request;
 import be.kdg.backend.services.interfaces.RequestService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Service("requestService")
 public class RequestServiceImpl implements RequestService {
-    static final Logger logger = LoggerFactory.getLogger(RequestServiceImpl.class);
+//    static final Logger logger = LoggerFactory.getLogger(RequestServiceImpl.class);
     @Qualifier("requestDaoImpl")
     @Autowired(required = true)
     private RequestDao requestDao;
@@ -33,7 +33,7 @@ public class RequestServiceImpl implements RequestService {
             req.removeUserFromList(userId);
             update(req);
         }catch(NoResultException nre){
-            logger.debug("NoResultException in removeUserFromList: No Request object with facebookrequestid " + fbRequestId);
+//            logger.debug("NoResultException in removeUserFromList: No Request object with facebookrequestid " + fbRequestId);
         }
     }
 
