@@ -512,6 +512,7 @@ public class TripController {
         System.out.println("tripId=" + broadcastForm.getTripId().toString());
         BroadcastMessage message = new BroadcastMessage(broadcastForm.getMessage(), tripService.get(broadcastForm.getTripId()), new Date());
         broadcastService.add(message);
+        session.setAttribute("messageCount", broadcastService.getUserBroadcastMessages((Integer)session.getAttribute("userId")).size());
         return "redirect:/trip/" + broadcastForm.getTripId();
     }
 

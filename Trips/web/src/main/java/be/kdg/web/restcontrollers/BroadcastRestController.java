@@ -31,6 +31,7 @@ public class BroadcastRestController {
         Integer userId = (Integer)session.getAttribute("userId");
         if(id != null && userId != null){
             broadcastService.confirmMessage(userId, Integer.parseInt(id));
+            session.setAttribute("messageCount", broadcastService.getUserBroadcastMessages(userId).size());
             return "true";
         }
         return "false";
