@@ -20,8 +20,8 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.qualcomm.QCARSamples.CloudRecognition.R;
+
 
 /** Custom View with Book Overlay Data */
 public class PhotoOverlayView extends RelativeLayout
