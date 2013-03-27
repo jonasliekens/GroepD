@@ -18,7 +18,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title></title>
+    <title><spring:message code="chat.chat" /></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
@@ -44,7 +44,7 @@
         <div class="container">
             <div class="row-fluid">
                 <div class="span4">
-                    <h4><spring:message code="chat.chats" /></h4>
+                    <h4 class="title"><spring:message code="chat.chats" /></h4>
                     <ul class="chats">
                         <c:if test="${fn:length(chats) == 0}">
                             <li class="text-center muted">
@@ -65,7 +65,7 @@
                     </ul>
                 </div>
                 <div class="span8">
-                    <h4>
+                    <h4 class="title">
                         <c:forEach var="participant" items="${participants}">
                             <c:if test="${participant.id != sessionScope.userId}">
                                 ${participant.firstName} ${participant.lastName}
@@ -78,16 +78,27 @@
                                 <spring:message code="chat.noMessages" />
                             </li>
                         </c:if>
+                        <c:set var="prevId" value="0" />
                         <c:forEach var="message" varStatus="iterator" items="${messages}">
                             <li>
-                                <div class="info">
-                                    <span class="sender">${message.sender.firstName} ${message.sender.lastName}</span>
-                                    <span class="date">${message.date}</span>
-                                </div>
-                                <div class="message">
+                                <c:if test="${prevId != message.sender.id}">
+                                    <div class="info">
+                                        <c:choose>
+                                            <c:when test="${message.sender.id == sessionScope.userId}">
+                                                <span class="sender me">${message.sender.firstName} ${message.sender.lastName}</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="sender">${message.sender.firstName} ${message.sender.lastName}</span>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <span class="date">- ${message.date.date}-${message.date.month}-${message.date.year} ${message.date.hours}:${message.date.minutes}</span>
+                                    </div>
+                                </c:if>
+                                <div class="message" title="${message.date}">
                                     ${message.message}
                                 </div>
                             </li>
+                            <c:set var="prevId" value="${message.sender.id}" />
                         </c:forEach>
                     </ul>
                     <div class="new-message">
