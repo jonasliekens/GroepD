@@ -20,11 +20,11 @@ public class ParticipatedTrip {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Boolean isStarted;
+    private Boolean started;
 
-    private Boolean isFinished;
+    private Boolean finished;
 
-    private Boolean isConfirmed;
+    private Boolean confirmed;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "tripId")
@@ -41,8 +41,8 @@ public class ParticipatedTrip {
     private Double longitude;
 
     public ParticipatedTrip() {
-        this.isStarted = false;
-        this.isFinished = false;
+        this.started = false;
+        this.finished = false;
     }
 
     public Integer getId() {
@@ -54,27 +54,27 @@ public class ParticipatedTrip {
     }
 
     public Boolean getStarted() {
-        return isStarted;
+        return started;
     }
 
     public void setStarted(Boolean started) {
-        isStarted = started;
+        this.started = started;
     }
 
     public Boolean getFinished() {
-        return isFinished;
+        return finished;
     }
 
     public void setFinished(Boolean finished) {
-        isFinished = finished;
+        this.finished = finished;
     }
 
     public Boolean getConfirmed() {
-        return isConfirmed;
+        return confirmed;
     }
 
     public void setConfirmed(Boolean confirmed) {
-        isConfirmed = confirmed;
+        this.confirmed = confirmed;
     }
 
     public Trip getTrip() {

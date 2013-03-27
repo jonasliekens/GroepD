@@ -85,7 +85,7 @@ public class ParticipatedTripDaoImpl implements ParticipatedTripDao {
     @Override
     public List<ParticipatedTrip> findAllConfirmedByUserId(Integer userId) {
         entityManager.clear(); //Otherwise takes not updated but yet changed entities into the collection, now it works directly on the database
-        Query query = entityManager.createQuery("SELECT pt FROM ParticipatedTrip pt WHERE pt.user.id = ?1 AND pt.isConfirmed = true");
+        Query query = entityManager.createQuery("SELECT pt FROM ParticipatedTrip pt WHERE pt.user.id = ?1 AND pt.confirmed = true");
         query.setParameter(1, userId);
         return query.getResultList();
     }
@@ -93,21 +93,21 @@ public class ParticipatedTripDaoImpl implements ParticipatedTripDao {
     @Override
     public List<ParticipatedTrip> findAllConfirmedByTripId(Integer tripId) {
         entityManager.clear();
-        Query query = entityManager.createQuery("SELECT pt FROM ParticipatedTrip pt WHERE pt.trip.id = ?1 AND pt.isConfirmed = true");
+        Query query = entityManager.createQuery("SELECT pt FROM ParticipatedTrip pt WHERE pt.trip.id = ?1 AND pt.confirmed = true");
         query.setParameter(1, tripId);
         return query.getResultList();
     }
 
     @Override
     public List<ParticipatedTrip> getInvitations(Integer userId) {
-        Query query = entityManager.createQuery("SELECT pt FROM ParticipatedTrip pt WHERE pt.user.id = ?1 AND pt.isConfirmed = false");
+        Query query = entityManager.createQuery("SELECT pt FROM ParticipatedTrip pt WHERE pt.user.id = ?1 AND pt.confirmed = false");
         query.setParameter(1, userId);
         return query.getResultList();
     }
 
     @Override
     public ParticipatedTrip findNotStarted(Integer tripId, Integer userId) {
-        Query query = entityManager.createQuery("SELECT pt FROM ParticipatedTrip pt WHERE pt.user.id = ?1 AND pt.trip.id = ?2 AND pt.isConfirmed = true AND pt.isStarted = false");
+        Query query = entityManager.createQuery("SELECT pt FROM ParticipatedTrip pt WHERE pt.user.id = ?1 AND pt.trip.id = ?2 AND pt.confirmed = true AND pt.started = false");
         query.setParameter(1, userId);
         query.setParameter(2, tripId);
         return (ParticipatedTrip) query.getSingleResult();
@@ -115,7 +115,7 @@ public class ParticipatedTripDaoImpl implements ParticipatedTripDao {
 
     @Override
     public ParticipatedTrip find(Integer tripId, Integer userId) {
-        Query query = entityManager.createQuery("SELECT pt FROM ParticipatedTrip pt WHERE pt.user.id = ?1 AND pt.trip.id = ?2 AND pt.isConfirmed = true");
+        Query query = entityManager.createQuery("SELECT pt FROM ParticipatedTrip pt WHERE pt.user.id = ?1 AND pt.trip.id = ?2 AND pt.confirmed = true");
         query.setParameter(1, userId);
         query.setParameter(2, tripId);
         try {
@@ -128,7 +128,7 @@ public class ParticipatedTripDaoImpl implements ParticipatedTripDao {
     @Override
     public List<ParticipatedTrip> findAllParticipatedTripsStartedWithLocationByTripId(Integer tripId) {
         entityManager.clear();
-        Query query = entityManager.createQuery("SELECT pt FROM ParticipatedTrip pt WHERE pt.trip.id = ?1 AND pt.isStarted = true AND pt.user.shareLocation = true");
+        Query query = entityManager.createQuery("SELECT pt FROM ParticipatedTrip pt WHERE pt.trip.id = ?1 AND pt.started = true AND pt.user.shareLocation = true");
         query.setParameter(1, tripId);
         return query.getResultList();
     }

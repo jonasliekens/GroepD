@@ -119,13 +119,10 @@ public class StopMapFragment extends MapFragment {
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
 
-        // Antwerp
-        mMap.moveCamera(Utilities.getCameraUpdate(Utilities.ANTWERP, 13));
-
         fillMap();
 
-//        ShowLocationsTask showLocationsTask = new ShowLocationsTask();
-//        showLocationsTask.execute();
+        ShowLocationsTask showLocationsTask = new ShowLocationsTask();
+        showLocationsTask.execute();
     }
 
     private void fillMap() {
@@ -136,7 +133,7 @@ public class StopMapFragment extends MapFragment {
 
         // center first stop or else center Antwerp
         if (stops.length > 0) {
-            LatLng position = new LatLng(stops[0].getLatitude(), stops[1].getLongitude());
+            LatLng position = new LatLng(stops[0].getLatitude(), stops[0].getLongitude());
             mMap.moveCamera(Utilities.getCameraUpdate(position, 17));
         } else {
             mMap.moveCamera(Utilities.getCameraUpdate(Utilities.ANTWERP, 13));

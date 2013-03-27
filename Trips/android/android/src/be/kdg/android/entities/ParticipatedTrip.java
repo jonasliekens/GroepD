@@ -12,17 +12,17 @@ import java.io.Serializable;
 
 public class ParticipatedTrip implements Serializable {
     private Integer id;
-    private Boolean isStarted;
-    private Boolean isFinished;
-    private Boolean isConfirmed;
+    private Boolean started;
+    private Boolean finished;
+    private Boolean confirmed;
     private Trip trip;
     private User user;
     private Double latitude;
     private Double longitude;
 
     public ParticipatedTrip() {
-        this.isStarted = false;
-        this.isFinished = false;
+        this.started = false;
+        this.finished = false;
     }
 
     public Integer getId() {
@@ -33,28 +33,28 @@ public class ParticipatedTrip implements Serializable {
         this.id = id;
     }
 
-    public Boolean isStarted() {
-        return isStarted;
+    public Boolean getStarted() {
+        return started;
     }
 
     public void setStarted(Boolean started) {
-        isStarted = started;
+        this.started = started;
     }
 
-    public Boolean isFinished() {
-        return isFinished;
+    public Boolean getFinished() {
+        return finished;
     }
 
     public void setFinished(Boolean finished) {
-        isFinished = finished;
+        this.finished = finished;
     }
 
     public Boolean getConfirmed() {
-        return isConfirmed;
+        return confirmed;
     }
 
     public void setConfirmed(Boolean confirmed) {
-        isConfirmed = confirmed;
+        this.confirmed = confirmed;
     }
 
     public Trip getTrip() {
