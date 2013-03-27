@@ -3,7 +3,6 @@ package be.kdg.web.forms;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -27,7 +26,6 @@ public class RegisterForm {
     @NotEmpty
     private String lastname;
 
-    @DateTimeFormat(iso= DateTimeFormat.ISO.DATE)
     private Date birthday;
 
     public String getEmail() {
@@ -67,6 +65,7 @@ public class RegisterForm {
     }
 
     public void setBirthday(Date birthday) {
+
         this.birthday = birthday;
     }
 }

@@ -57,7 +57,7 @@ public class RequestServiceTest extends AbstractJUnit4SpringContextTests {
         request.setTrip(trip);
         assertNotNull(requestService.get(request.getId()).getTrip());
         request.setRequestId("578691422155249");
-        Set<String> users = new HashSet<>();
+        Set<String> users = new HashSet<String>();
         users.add("1272280436");
         request.setUserIds(users);
         requestService.update(request);

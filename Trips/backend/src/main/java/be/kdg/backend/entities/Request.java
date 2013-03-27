@@ -28,7 +28,7 @@ public class Request {
     private Trip trip;
 
     public Request() {
-        this.userIds = new HashSet<>();
+        this.userIds = new HashSet<String>();
     }
 
     public Integer getId() {
