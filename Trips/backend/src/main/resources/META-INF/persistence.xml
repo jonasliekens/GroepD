@@ -8,7 +8,7 @@
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
             <property name="hibernate.connection.password" value="groepD"/>
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost/groepD"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://94.226.148.94:3306/groepD"/>
             <property name="hibernate.connection.username" value="groepD"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
