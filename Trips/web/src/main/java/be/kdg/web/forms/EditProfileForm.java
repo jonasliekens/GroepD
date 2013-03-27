@@ -1,7 +1,5 @@
 package be.kdg.web.forms;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.util.Date;
 
 /**
@@ -13,7 +11,6 @@ public class EditProfileForm {
 
     private String firstname;
     private String lastname;
-    @DateTimeFormat(iso= DateTimeFormat.ISO.DATE)
     private Date birthday;
     private boolean receiveMails;
     private boolean shareLocation;

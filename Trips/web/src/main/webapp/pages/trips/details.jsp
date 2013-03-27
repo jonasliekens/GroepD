@@ -33,111 +33,87 @@
     <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 </head>
 <body>
-<!--[if lt IE 7]>
-<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-    your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to
-    improve your experience.</p>
-<![endif]-->
+    <!--[if lt IE 7]>
+    <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+        your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to
+        improve your experience.</p>
+    <![endif]-->
 
 
-<%@include file="../../template/header.jsp" %>
+    <%@include file="../../template/header.jsp" %>
 
-<section id="content">
-<section id="trip-banner">
-    <div class="container">
-        <div class="row-fluid">
-            <div class="span12">
-                <img src="http://lorempixel.com/1170/200/nature/" alt="The banner for this trip"/>
+    <section id="content">
+        <section id="trip-banner">
+            <div class="container">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <img src="http://lorempixel.com/1170/200/nature/" alt="The banner for this trip"/>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</section>
-<section>
-<div class="container">
+        </section>
+        <section>
+            <div class="container">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div>
+                            <h3>
+                                ${trip.name}
+                            </h3>
+                            <span class="label label-info">
+                                <c:if test="${trip.privateTrip == true}">
+                                    <spring:message code="common.private"/>
+                                </c:if>
+                                <c:if test="${trip.privateTrip == false}">
+                                    <spring:message code="common.public"/>
+                                </c:if>
+                            </span>
+                            <span class="label label-info">
+                                ${fn:length(trip.stops)} <spring:message code="trip.inlineStops" />
+                            </span>
+                            <span class="label label-info">
+                                ${fn:length(trip.participatedTrips)} <spring:message code="trip.inlineParticipants" />
+                            </span>
+                        </div>
+
+                        <div>
+                            <c:if test="${sessionScope.userId > 0 && !isParticipant}">
+                                <a class="btn" href="trips/register/${trip.id}"><spring:message code="trip.register"/></a>
+                            </c:if>
+                            <c:if test="${isAdmin}">
+                                <a class="btn" href="trips/participants/${trip.id}"><spring:message code="trip.showParticipants"/></a>
+                            </c:if>
+                            <c:if test="${isParticipant || isAdmin}">
+                                <a class="btn" href="trip/${trip.id}/expenses">
+                                    <c:choose>
+                                        <c:when test="${isAdmin}">
+                                            <spring:message code="trip.showExpenses" />
+                                        </c:when>
+                                        <c:otherwise>
+                                            <spring:message code="trip.showMyExpenses" />
+                                        </c:otherwise>
+                                    </c:choose>
+                                </a>
+                            </c:if>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span6">
+
+                    </div>
+                    <div class="span6">
+
+                    </div>
+                </div>
+
+
+
+
+
 <div class="row-fluid">
-<div class="span12">
-<c:if test="${sessionScope.userId > 0}">
-    <a class="btn" href="trips/register/${trip.id}"><spring:message code="trip.register"/></a>
-</c:if>
-<c:if test="${isAdmin}">
-    <a class="btn" href="trips/participants/${trip.id}"><spring:message code="trip.showParticipants"/></a>
-</c:if>
-
-
-<a class="btn" href="trip/${trip.id}/expenses">
-    <c:choose>
-        <c:when test="${isAdmin}">
-            <spring:message code="trip.showExpenses" />
-        </c:when>
-        <c:otherwise>
-            <spring:message code="trip.showMyExpenses" />
-        </c:otherwise>
-    </c:choose>
-</a>
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>
-            <spring:message code="trip.name"/>
-        </th>
-        <th>
-            <spring:message code="trip.private"/>
-        </th>
-        <th>
-            <spring:message code="trip.start"/>
-        </th>
-        <th>
-            <spring:message code="trip.end"/>
-        </th>
-        <th>
-            <spring:message code="trip.numberOfStops"/>
-        </th>
-        <th>
-            <spring:message code="trip.participants"/>
-        </th>
-        <th>
-            <!--Controls-->
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>
-            ${trip.name}
-        </td>
-        <td>
-            <c:if test="${trip.privateTrip == true}">
-                <spring:message code="common.yes"/>
-            </c:if>
-            <c:if test="${trip.privateTrip == false}">
-                <spring:message code="common.no"/>
-            </c:if>
-        </td>
-        <td>
-            <c:if test="${fn:length(stops) == 0}">
-                ${stops.get(0).latitude}, ${stops.get(0).longitude}
-            </c:if>
-
-        </td>
-        <td>
-            <c:if test="${fn:length(stops) == 0}">
-                ${stops.get(fn:length(trip.stops)-1).latitude}, ${stops.get(fn:length(trip.stops)-1).longitude}
-            </c:if>
-
-        </td>
-        <td>
-            ${fn:length(trip.stops)}
-        </td>
-        <td>
-
-        </td>
-        <td>
-            <a href="trips/edit/${trip.id}"><spring:message code="control.edit"/></a>
-            <a href="trips/delete/${trip.id}"><spring:message code="control.delete"/></a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+    <div class="span12">
 <c:if test="${isAdmin}">
     <h5>
         <spring:message code="trips.broadcast"/>
@@ -290,10 +266,8 @@
                     ${stop.longitude}
             </td>
             <td>
-                <a href="trips/${trip.id}/stops/edit/${stop.id}"><spring:message
-                        code="control.edit"/></a>
-                <a href="trips/${trip.id}/stops/delete/${stop.id}"><spring:message
-                        code="control.delete"/></a>
+                <a href="trips/${trip.id}/stops/edit/${stop.id}"><spring:message code="control.edit"/></a>
+                <a href="trips/${trip.id}/stops/delete/${stop.id}"><spring:message code="control.delete"/></a>
             </td>
         </tr>
     </c:forEach>

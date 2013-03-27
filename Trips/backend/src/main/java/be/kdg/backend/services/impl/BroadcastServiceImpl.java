@@ -25,7 +25,7 @@ public class BroadcastServiceImpl implements BroadcastService {
 
     @Override
     public List<BroadcastMessage> getUserBroadcastMessages(Integer userId) throws NoResultException{
-            return broadcastDao.findMessagesByUserId(userId);
+        return broadcastDao.findMessagesByUserId(userId);
     }
 
     @Override

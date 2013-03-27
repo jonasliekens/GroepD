@@ -70,7 +70,7 @@
                             <c:forEach var="trip" items="${trips}" varStatus="loop">
                                 <tr>
                                     <td>
-                                        <a href="trips/details/${trip.id}">${trip.name}</a>
+                                        <a href="trip/${trip.id}">${trip.name}</a>
                                     </td>
                                     <td>
                                         ${fn:length(trip.stops)}
@@ -92,6 +92,15 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 
-    <script src="js/main.js"></script>
+<script src="js/main.js"></script>
+<script src="js/facebook.js"></script>
+<script>
+    if (window.location.toString().contains("?")) {
+        window.fbAsyncInit = function () {
+            initFB();
+            checkLoginStatusRequest();
+        };
+    }
+</script>
 </body>
 </html>
