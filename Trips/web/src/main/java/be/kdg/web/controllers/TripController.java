@@ -285,6 +285,7 @@ public class TripController {
     @RequestMapping(value = "/trips/registered", method = RequestMethod.GET)
     public String registeredTrips(ModelMap model, HttpSession session) {
         model.addAttribute("user", userService.get((Integer) session.getAttribute("userId")));
+        model.addAttribute("pt", participatedTripService.getConfirmedParticipatedTripsByUserId((Integer) session.getAttribute("userId")));
         return "trips/registered";
     }
 

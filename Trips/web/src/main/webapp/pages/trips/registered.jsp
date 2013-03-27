@@ -67,7 +67,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="participatedTrip" items="${user.participatedTrips}" varStatus="loop">
+                    <c:forEach var="participatedTrip" items="${pt}" varStatus="loop">
                         <tr>
                             <td>
                                 <a href="trip/${participatedTrip.trip.id}">${participatedTrip.trip.name}</a>
