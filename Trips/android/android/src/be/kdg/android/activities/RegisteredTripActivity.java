@@ -40,7 +40,6 @@ public class RegisteredTripActivity extends ListActivity {
     private Trip trip;
 
     private SharedPreferences settings;
-    private SharedPreferences.Editor settingsEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +53,6 @@ public class RegisteredTripActivity extends ListActivity {
 
     private void initSettings() {
         settings = getSharedPreferences(Utilities.PREFS_NAME, 0);
-        settingsEditor = settings.edit();
     }
 
     private void initControls() {

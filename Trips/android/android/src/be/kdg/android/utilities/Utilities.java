@@ -3,11 +3,13 @@ package be.kdg.android.utilities;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import be.kdg.android.entities.ParticipatedTrip;
 import be.kdg.android.entities.Stop;
 import be.kdg.android.entities.Trip;
 import be.kdg.android.entities.User;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -34,9 +36,9 @@ public class Utilities {
     public static final long LOCATION_UPDATE_TIME = 10000;
 
     // IP-addresses
-//    public static final String SERVER_ADDRESS = "http://192.168.0.195:8080/web";
+    public static final String SERVER_ADDRESS = "http://192.168.0.195:8080/web";
 //    public static final String SERVER_ADDRESS = "http://192.168.0.196:8080/web";
-    public static final String SERVER_ADDRESS = "http://192.168.3.1:8080/web";
+//    public static final String SERVER_ADDRESS = "http://192.168.113.1:8080/web";
 
     // RestControllers
     public static final String LOGIN_ADDRESS = SERVER_ADDRESS + "/rest/login";
@@ -47,6 +49,7 @@ public class Utilities {
     public static final String INVITED_TRIPS_ADDRESS = SERVER_ADDRESS + "/rest/trips/invitations/%d";
     public static final String START_TRIP_ADDRESS = SERVER_ADDRESS + "/rest/trips/registeredtrips/start";
     public static final String UPDATE_LOCATION_ADDRESS = SERVER_ADDRESS + "/rest/trips/participant/location";
+    public static final String LOCATION_USERS_ADDRESS = SERVER_ADDRESS + "/rest/trips/participants/started/android";
 
     // Google Maps
     public static final LatLng ANTWERP = new LatLng(51.2192159, 4.4028818);
@@ -116,6 +119,17 @@ public class Utilities {
         return null;
     }
 
+    public static List<ParticipatedTrip> getParticipatedTrips(String json) {
+        createGson();
+        try {
+            List<ParticipatedTrip> participatedTrips = gson.fromJson(json, new TypeToken<List<ParticipatedTrip>>() { }.getType());
+            return participatedTrips;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static Stop getStop(String json){
         createGson();
         try {
@@ -142,5 +156,13 @@ public class Utilities {
                 .title(title)
                 .snippet(description)
                 .draggable(false);
+    }
+
+    public static MarkerOptions getUserMarker(LatLng position, String firstname, String lastname) {
+        return new MarkerOptions()
+                .position(position)
+                .title(String.format("%s %s", firstname, lastname))
+                .draggable(false)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
     }
 }

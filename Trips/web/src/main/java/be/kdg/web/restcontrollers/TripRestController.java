@@ -79,7 +79,7 @@ public class TripRestController {
     }
 
     @RequestMapping(value = "/registeredtrips/start", method = RequestMethod.POST)
-    public String startTrip(@RequestParam Integer tripId, @RequestParam Integer userId){
+    public String startTrip(@RequestParam Integer tripId, @RequestParam Integer userId) {
         ParticipatedTrip pt = participatedTripService.getParticipatedTripNotStarted(tripId, userId);
         pt.setStarted(true);
         participatedTripService.update(pt);
@@ -88,7 +88,7 @@ public class TripRestController {
 
     @RequestMapping(value = "/stops/stop/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public Stop getStopById(@PathVariable Integer id){
+    public Stop getStopById(@PathVariable Integer id) {
         Stop stop = stopService.get(id);
         return stop;
     }
@@ -96,7 +96,7 @@ public class TripRestController {
     private List<Trip> getTripsFromParticipatedTrips(List<ParticipatedTrip> participatedTrips) {
         List<Trip> trips = new ArrayList<Trip>();
 
-        for(ParticipatedTrip pt : participatedTrips) {
+        for (ParticipatedTrip pt : participatedTrips) {
             trips.add(pt.getTrip());
         }
 
@@ -104,7 +104,7 @@ public class TripRestController {
     }
 
     @RequestMapping(value = "/participant/location", method = RequestMethod.POST)
-    public String sendLocation(@RequestParam Integer tripId, @RequestParam Integer userId, @RequestParam Double latitude, @RequestParam Double longitude){
+    public String sendLocation(@RequestParam Integer tripId, @RequestParam Integer userId, @RequestParam Double latitude, @RequestParam Double longitude) {
         ParticipatedTrip pt = participatedTripService.getParticipatedTrip(tripId, userId);
         pt.setLatitude(latitude);
         pt.setLongitude(longitude);
@@ -117,20 +117,40 @@ public class TripRestController {
     public List<ParticipatedTrip> getStartedParticipants(@RequestParam Integer tripId, HttpSession session) {
         Integer userId = (Integer) session.getAttribute("userId");
 
-        if(userId != null) {
+        if (userId != null) {
             User user = userService.get(userId);
             Trip trip = tripService.get(tripId);
 
             Boolean userIsParticipant = false;
-            for(ParticipatedTrip participatedTrip : trip.getParticipatedTrips()) {
-                if(participatedTrip.getUser().equals(user)) {
+            for (ParticipatedTrip participatedTrip : trip.getParticipatedTrips()) {
+                if (participatedTrip.getUser().equals(user)) {
                     userIsParticipant = true;
                 }
             }
 
-            if(userIsParticipant || trip.getAdmins().contains(user)) {
+            if (userIsParticipant || trip.getAdmins().contains(user)) {
                 return participatedTripService.getAllParticipatedTripsStartedWithLocationByTripId(tripId);
             }
+        }
+
+        return new ArrayList<ParticipatedTrip>();
+    }
+
+    @RequestMapping(value = "/participants/started/android", method = RequestMethod.GET)
+    @ResponseBody
+    public List<ParticipatedTrip> getStartedParticipantsAndroid(@RequestParam Integer tripId, @RequestParam Integer userId) {
+        User user = userService.get(userId);
+        Trip trip = tripService.get(tripId);
+
+        Boolean userIsParticipant = false;
+        for (ParticipatedTrip participatedTrip : trip.getParticipatedTrips()) {
+            if (participatedTrip.getUser().equals(user)) {
+                userIsParticipant = true;
+            }
+        }
+
+        if (userIsParticipant || trip.getAdmins().contains(user)) {
+            return participatedTripService.getAllParticipatedTripsStartedWithLocationByTripId(tripId);
         }
 
         return new ArrayList<ParticipatedTrip>();

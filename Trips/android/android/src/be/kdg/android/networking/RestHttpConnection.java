@@ -53,10 +53,10 @@ public class RestHttpConnection {
     }
 
     public String doGetWithParams(String url, List<NameValuePair> params) throws IOException {
-        init(url, params);
-        connect(true, true, "GET");
+        init(String.format("%s?%s", url, getQuery(params)), null);
+        connect(true, false, "GET");
 
-        writeOutputStream();
+        // writeOutputStream();
 
         String result = readInputStream();
         disconnect();
