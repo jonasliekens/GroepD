@@ -64,6 +64,20 @@ function getDataRequest(){
     });
 }
 
+function checkRequest(){
+    var weblocation = window.location.toString();
+    if(weblocation.contains("?")){
+        var requestIds = "fbRequestIds=" + weblocation.split('?')[1].split('&')[0].split('=')[1];
+        $.post("rest/request/register", requestIds, function(data){
+            if(data != "false"){
+                window.location="trip/"+data;
+            }else if(data == "false"){
+                alert("You already registered for this trip using this invite.")
+            }
+        })
+    }
+}
+
 function logout(){
     FB.getLoginStatus(function(response) {
         if (response.status == 'connected') {
