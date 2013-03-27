@@ -146,10 +146,14 @@ public class ParticipatedTripServiceTest extends AbstractJUnit4SpringContextTest
 //        participatedTripService.add(participatedTrip3);
 
         Trip trip = newTrip();
+        User user = new User("Admin@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
+        user.setShareLocation(true);
+        userService.addUser(user);
 
         tripService.add(trip);
 
         participatedTrip1.setTrip(trip);
+        participatedTrip1.setUser(user);
 //        participatedTrip2.setTrip(trip);
 //        participatedTrip3.setTrip(trip);
 

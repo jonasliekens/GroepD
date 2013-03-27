@@ -2,8 +2,11 @@ package dao;
 
 import be.kdg.backend.dao.interfaces.ParticipatedTripDao;
 import be.kdg.backend.dao.interfaces.TripDao;
+import be.kdg.backend.dao.interfaces.UserDao;
 import be.kdg.backend.entities.ParticipatedTrip;
 import be.kdg.backend.entities.Trip;
+import be.kdg.backend.entities.User;
+import be.kdg.backend.utilities.Utilities;
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,9 @@ public class ParticipatedTripTest extends AbstractJUnit4SpringContextTests {
     @Qualifier("tripDaoImpl")
     TripDao tripDao;
     ParticipatedTrip pt;
+    @Qualifier("userDaoImpl")
+       @Autowired(required = true)
+       private UserDao userDao;
 
     @Test
     public void testAddParticipatedTrip() {
@@ -74,12 +80,17 @@ public class ParticipatedTripTest extends AbstractJUnit4SpringContextTests {
 //        participatedTripDao.add(participatedTrip3);
 
         Trip trip = newTrip();
+        User user = new User("Admin@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
+        user.setShareLocation(true);
+                userDao.add(user);
 
         tripDao.add(trip);
 
         participatedTrip1.setTrip(trip);
 //        participatedTrip2.setTrip(trip);
 //        participatedTrip3.setTrip(trip);
+
+        participatedTrip1.setUser(user);
 
         participatedTrip1.setStarted(true);
 //        participatedTrip2.setStarted(true);
