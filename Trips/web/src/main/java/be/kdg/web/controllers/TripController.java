@@ -88,9 +88,9 @@ public class TripController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String list(ModelMap model) {
+    public String list(ModelMap model, HttpSession session) {
         model.addAttribute("trips", tripService.getPublicTrips());
-
+        session.setAttribute("messageCount", broadcastService.getUserBroadcastMessages((Integer) session.getAttribute("userId")).size());
         return "trips/list";
     }
 

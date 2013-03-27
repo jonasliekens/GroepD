@@ -49,6 +49,7 @@
                         <a class="btn" href="trips/invitations"><spring:message code="message.showinvitations.trip"/></a>
                     </c:if>
                     <div id="fb-root"></div>
+
                     <table class="table table-striped">
                         <thead>
                             <tr>

@@ -94,7 +94,7 @@ public class FileUploadController extends SimpleFormController {
             for (ObjectError error : result.getAllErrors()) {
                 System.err.println("Error: " + error.getCode() + " - " + error.getDefaultMessage());
             }
-            return "upload/uploadForm";
+            return "redirect:/trip/" + id;
         } else {
             try {
                 MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;

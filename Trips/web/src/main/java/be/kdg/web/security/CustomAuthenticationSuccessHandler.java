@@ -36,7 +36,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             HttpSession session = httpServletRequest.getSession();
 
             session.setAttribute("userId", user.getId());
-            session.setAttribute("messageCount", broadcastService.getUserBroadcastMessages(user.getId()).size());
         } catch (DataNotFoundException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
