@@ -7,6 +7,7 @@ import be.kdg.backend.entities.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
 
@@ -25,11 +26,12 @@ public class ParticipatedTripDaoImpl implements ParticipatedTripDao {
     public ParticipatedTripDaoImpl() {
         entityManager = emf.createEntityManager();
     }
+
     @Override
     public void add(ParticipatedTrip entity) {
         entityManager.getTransaction().begin();
         if (entity.getTrip() != null) {
-        entity.setTrip(entityManager.find(Trip.class, entity.getTrip().getId()));
+            entity.setTrip(entityManager.find(Trip.class, entity.getTrip().getId()));
         }
         if (entity.getUser() != null) {
             entity.setUser(entityManager.find(User.class, entity.getUser().getId()));
@@ -71,6 +73,7 @@ public class ParticipatedTripDaoImpl implements ParticipatedTripDao {
         Query query = entityManager.createQuery("select pt from ParticipatedTrip pt");
         return query.getResultList();
     }
+
     @Override
     public List<ParticipatedTrip> findAllByTripId(Integer tripId) {
         entityManager.clear(); //Otherwise takes not updated but yet changed entities into the collection, now it works directly on the database
@@ -112,10 +115,14 @@ public class ParticipatedTripDaoImpl implements ParticipatedTripDao {
 
     @Override
     public ParticipatedTrip find(Integer tripId, Integer userId) {
-        Query query = entityManager.createQuery("SELECT pt FROM ParticipatedTrip pt WHERE pt.user.id = ?1 AND pt.trip.id = ?2 AND pt.isConfirmed = true AND pt.isStarted = true");
+        Query query = entityManager.createQuery("SELECT pt FROM ParticipatedTrip pt WHERE pt.user.id = ?1 AND pt.trip.id = ?2 AND pt.isConfirmed = true");
         query.setParameter(1, userId);
         query.setParameter(2, tripId);
-        return (ParticipatedTrip) query.getSingleResult();
+        try {
+            return (ParticipatedTrip) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Override

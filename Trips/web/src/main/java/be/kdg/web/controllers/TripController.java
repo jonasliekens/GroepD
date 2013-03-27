@@ -107,10 +107,10 @@ public class TripController {
         Integer userId = (Integer) session.getAttribute("userId");
 
         if (userId != null) {
-            Boolean isParticipant = true;
+            //Boolean isParticipant = true;
 
             //TODO: This still crashes for some reason
-//            Boolean isParticipant = participatedTripService.getParticipatedTrip(trip.getId(), userId) != null;
+            Boolean isParticipant = (participatedTripService.getParticipatedTrip(trip.getId(), userId) != null);
 
             model.addAttribute("isAdmin", trip.getAdmins().contains(userService.get(userId)));
             model.addAttribute("isParticipant", isParticipant);

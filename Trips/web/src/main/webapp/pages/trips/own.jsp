@@ -74,7 +74,7 @@
                     <c:forEach var="trip" items="${myTrips}" varStatus="loop">
                         <tr>
                             <td>
-                                <a href="trips/details/${trip.id}">${trip.name}</a>
+                                <a href="trip/${trip.id}">${trip.name}</a>
                             </td>
                             <td>
                                 <c:if test="${trip.privateTrip == true}">

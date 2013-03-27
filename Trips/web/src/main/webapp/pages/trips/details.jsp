@@ -71,10 +71,6 @@
                             <span class="label label-info">
                                 ${fn:length(trip.stops)} <spring:message code="trip.inlineStops" />
                             </span>
-                            <span class="label label-info">
-                                <c:if test="${trip.participatedTrips.size > 0}">
-                                ${fn:length(trip.participatedTrips)} </c:if> <spring:message code="trip.inlineParticipants" />
-                            </span>
                         </div>
 
                         <div>

@@ -100,7 +100,7 @@ public class StopController {
 
             stopService.add(stop, id);
 
-            return "redirect:/trips/details/" + id;
+            return "redirect:/trip/" + id;
         }
     }
 
