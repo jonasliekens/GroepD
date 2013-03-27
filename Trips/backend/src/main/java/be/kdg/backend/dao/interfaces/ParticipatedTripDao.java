@@ -22,7 +22,9 @@ public interface ParticipatedTripDao extends GenericDao<ParticipatedTrip,Integer
     @Transactional
     List<ParticipatedTrip> findAllConfirmedByUserId(Integer userId);
     @Transactional
-    ParticipatedTrip find(Integer tripId, Integer userId);
+    ParticipatedTrip findNotStarted(Integer tripId, Integer userId);
     @Transactional
     public List<ParticipatedTrip> findAllParticipatedTripsStartedWithLocationByTripId(Integer tripId);
+    @Transactional
+    public ParticipatedTrip find(Integer tripId, Integer userId);
 }

@@ -80,7 +80,7 @@ public class TripRestController {
 
     @RequestMapping(value = "/registeredtrips/start", method = RequestMethod.POST)
     public String startTrip(@RequestParam Integer tripId, @RequestParam Integer userId){
-        ParticipatedTrip pt = participatedTripService.getParticipatedTrip(tripId, userId);
+        ParticipatedTrip pt = participatedTripService.getParticipatedTripNotStarted(tripId, userId);
         pt.setStarted(true);
         participatedTripService.update(pt);
         return "true";

@@ -135,37 +135,28 @@ public class RegisteredTripActivity extends ListActivity {
 
         @Override
         protected Void doInBackground(String... strings) {
-            Intent serviceIntent = new Intent(RegisteredTripActivity.this, LocationService.class);
-            serviceIntent.putExtra("tripId", trip.getId());
-            serviceIntent.putExtra("userId", settings.getInt("userId", 0));
-            startService(serviceIntent);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            Integer tripId = trip.getId();
+            Integer userId = settings.getInt("userId", 0);
 
-//            MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
-//                @Override
-//                public void gotLocation(Location location) {
-//                    List<NameValuePair> params = new ArrayList<NameValuePair>();
-//                    Integer tripId = trip.getId();
-//                    Integer userId = settings.getInt("userId", 0);
-//
-//                    params.add(new BasicNameValuePair("tripId", tripId.toString()));
-//                    params.add(new BasicNameValuePair("userId", userId.toString()));
-//                    params.add(new BasicNameValuePair("latitude", String.format("%d", location.getLatitude())));
-//                    params.add(new BasicNameValuePair("latitude", String.format("%d", location.getLongitude())));
-//
-//                    RestHttpConnection restHttpConnection = new RestHttpConnection();
-//                    try {
-//                        String result = restHttpConnection.doPostWithResult(Utilities.UPDATE_LOCATION_ADDRESS, params);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            };
-
+            params.add(new BasicNameValuePair("tripId", tripId.toString()));
+            params.add(new BasicNameValuePair("userId", userId.toString()));
+            RestHttpConnection restHttpConnection = new RestHttpConnection();
+            try {
+                String result = restHttpConnection.doPostWithResult(Utilities.START_TRIP_ADDRESS, params);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            Intent serviceIntent = new Intent(RegisteredTripActivity.this, LocationService.class);
+            serviceIntent.putExtra("tripId", trip.getId());
+            serviceIntent.putExtra("userId", settings.getInt("userId", 0));
+            startService(serviceIntent);
+
             progressDialog.dismiss();
         }
     }
