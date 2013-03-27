@@ -66,7 +66,7 @@
                         </thead>
                         <tbody>
                         <div id="fb-root"></div>
-                        <button onclick="sendRequestViaMultiFriendSelector()">Invite with Facebook</button>
+                        <button onclick="sendRequestViaMultiFriendSelector()"> <spring:message code="invite.facebook"/></button>
                         <form method="post">
                             <c:forEach var="user" items="${users}">
                                 <tr>

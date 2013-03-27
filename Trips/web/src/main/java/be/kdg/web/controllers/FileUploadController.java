@@ -113,7 +113,7 @@ public class FileUploadController extends SimpleFormController {
                 e.printStackTrace();
             }
         }
-        return "redirect:/trips/details/" + id;
+        return "redirect:/trip/" + id;
     }
 
     private String postTarget() throws URISyntaxException, ClientProtocolException, IOException, JSONException {
