@@ -18,7 +18,7 @@ public class RestHttpConnection {
     private URL url;
     private String query;
     private List<NameValuePair> params;
-    private final int TIMEOUT = 10000;
+    private final int TIMEOUT = 20000;
 
     private void disconnect() {
         if (urlConnection != null) {

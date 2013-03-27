@@ -29,4 +29,6 @@ public interface ParticipatedTripService extends GenericService<ParticipatedTrip
     public ParticipatedTrip getParticipatedTrip(Integer tripId, Integer userId);
     @Transactional
     public List<ParticipatedTrip> getAllParticipatedTripsStartedWithLocationByTripId(Integer tripId);
+    @Transactional
+    public ParticipatedTrip getParticipatedTripNotStarted(Integer tripId, Integer userId);
 }
