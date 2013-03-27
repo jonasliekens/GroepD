@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import be.kdg.android.R;
 
 
 public class CloudRecoSplashScreen extends Activity

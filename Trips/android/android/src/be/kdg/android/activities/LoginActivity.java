@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.qualcomm.QCARSamples.CloudRecognition.R;
+import be.kdg.android.R;
 import be.kdg.android.entities.User;
 import be.kdg.android.networking.RestHttpConnection;
 import be.kdg.android.utilities.Utilities;

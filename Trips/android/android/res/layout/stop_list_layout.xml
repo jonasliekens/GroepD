@@ -18,4 +18,8 @@
               android:padding="10dp"
               android:gravity="center"
               style="@android:style/TextAppearance.Holo.Large"/>
+    <Button android:text="@string/checkIn"
+            android:layout_height="40dp"
+            android:layout_width="fill_parent"
+            android:onClick="startVuforia"/>
 </LinearLayout>

@@ -175,7 +175,7 @@ public class StopController {
 
             stopService.update(stop, id);
 
-            return "redirect:/trips/details/" + id;
+            return "redirect:/trip/" + id;
         }
     }
 
@@ -193,7 +193,7 @@ public class StopController {
 
         stopService.remove(stopService.get(stopid));
 
-        return "redirect:/trips/details/" + id;
+        return "redirect:/trip/" + id;
     }
 
     @RequestMapping(value = "trips/{id}/stops/details/{stopid}", method = RequestMethod.GET)

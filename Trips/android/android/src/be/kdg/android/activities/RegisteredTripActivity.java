@@ -23,7 +23,7 @@ import be.kdg.android.fragments.StopMapFragment;
 import be.kdg.android.networking.RestHttpConnection;
 import be.kdg.android.services.*;
 import be.kdg.android.utilities.Utilities;
-import com.qualcomm.QCARSamples.CloudRecognition.R;
+import be.kdg.android.R;
 import de.akquinet.android.androlog.Log;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;

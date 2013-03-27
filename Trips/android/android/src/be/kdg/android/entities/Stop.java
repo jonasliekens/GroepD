@@ -12,7 +12,7 @@ public class Stop implements Serializable {
     private Double longitude;
     private Integer accuracy;
     private Integer orderNumber;
-    private Set<Picture> pictures;
+    private Set<Photo> pictures;
     private Set<Question> questions;
     private Trip trip;
 
@@ -30,7 +30,7 @@ public class Stop implements Serializable {
 
     private void initLists(){
         this.questions = new HashSet<Question>();
-        this.pictures = new HashSet<Picture>();
+        this.pictures = new HashSet<Photo>();
     }
 
     public Integer getId() {
@@ -65,7 +65,7 @@ public class Stop implements Serializable {
         this.description = description;
     }
 
-    public void addPicture(Picture picture){
+    public void addPicture(Photo picture){
         this.pictures.add(picture);
     }
 
@@ -97,11 +97,11 @@ public class Stop implements Serializable {
         this.accuracy = accuracy;
     }
 
-    public Set<Picture> getPictures() {
+    public Set<Photo> getPictures() {
         return pictures;
     }
 
-    public void setPictures(Set<Picture> pictures) {
+    public void setPictures(Set<Photo> pictures) {
         this.pictures = pictures;
     }
 

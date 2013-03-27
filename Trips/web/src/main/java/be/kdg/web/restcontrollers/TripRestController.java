@@ -86,10 +86,11 @@ public class TripRestController {
         return "true";
     }
 
+    @RequestMapping(value = "/stops/stop/{id}", method = RequestMethod.GET)
     @ResponseBody
-    @RequestMapping(value = "stops/stop/picture", method = RequestMethod.GET)
-    public Stop getStopById(@RequestParam Integer id){
-        return stopService.get(id);
+    public Stop getStopById(@PathVariable Integer id){
+        Stop stop = stopService.get(id);
+        return stop;
     }
 
     private List<Trip> getTripsFromParticipatedTrips(List<ParticipatedTrip> participatedTrips) {

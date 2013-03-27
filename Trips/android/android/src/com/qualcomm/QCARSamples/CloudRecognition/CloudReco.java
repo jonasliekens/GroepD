@@ -13,23 +13,18 @@
 
 package com.qualcomm.QCARSamples.CloudRecognition;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
 import be.kdg.android.R;
-import be.kdg.android.entities.Picture;
 import be.kdg.android.entities.Stop;
+import be.kdg.android.networking.RestHttpConnection;
+import be.kdg.android.utilities.Utilities;
 import com.qualcomm.QCARSamples.CloudRecognition.view.PhotoOverlayView;
 import org.apache.http.util.ByteArrayBuffer;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -65,7 +60,7 @@ import com.qualcomm.QCARSamples.CloudRecognition.utils.DebugLog;
 public class CloudReco extends Activity
 {
     // Defines the Server URL to get the books data
-    private static final String mServerURL = "http://192.168.3.1:8080/web/rest/trips/stops/stop/picture";
+    private static final String mServerURL = "http://192.168.3.1:8080/web/rest/trips/stops/stop/%s";
 
     // Different screen orientations supported by the CloudReco system.
     public static final int SCREEN_ORIENTATION_LANDSCAPE = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
@@ -1175,23 +1170,15 @@ public class CloudReco extends Activity
     /** Gets the book data from a JSON Object */
     private class GetBookDataTask extends AsyncTask<Void, Void, Void>
     {
-        private String mBookDataJSONFullUrl;
         private static final String CHARSET = "UTF-8";
 
+        private String url;
 
         protected void onPreExecute()
         {
             mIsLoadingBookData = true;
 
-            // Initialize the current book full url to search
-            // for the data
-            StringBuilder sBuilder = new StringBuilder();
-            sBuilder.append(mServerURL);
-            sBuilder.append("1");
-            //sBuilder.append(mBookJSONUrl); todo: uncomment
-
-            mBookDataJSONFullUrl = sBuilder.toString();
-
+            url = String.format(mServerURL, mBookJSONUrl);
             // Shows the loading dialog
             loadingDialogHandler.sendEmptyMessage(SHOW_LOADING_DIALOG);
         }
@@ -1199,21 +1186,17 @@ public class CloudReco extends Activity
 
         protected Void doInBackground(Void... params)
         {
-            HttpURLConnection connection = null;
-
             try
             {
                 // Connects to the Server to get the book data
-                URL url = new URL(mBookDataJSONFullUrl);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestProperty("Accept-Charset", CHARSET);
-                connection.connect();
 
-                int status = connection.getResponseCode();
+                RestHttpConnection restHttpConnection = new RestHttpConnection();
+
+                String result = restHttpConnection.doGet(url);
 
                 // Checks that the book JSON url exists and connection
                 // has been successful
-                if (status != HttpURLConnection.HTTP_OK)
+                if (result == null)
                 {
                     // Cleans book data variables
                     mStopData = null;
@@ -1228,36 +1211,19 @@ public class CloudReco extends Activity
                     enterScanningMode();
                 }
 
-                BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(connection.getInputStream()));
-                StringBuilder builder = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null)
-                {
-                    builder.append(line);
-                }
-
                 // Cleans any old reference to mStopData
                 if (mStopData != null)
                 {
                     mStopData = null;
                 }
 
-                JSONObject jsonObject = new JSONObject(builder.toString());
-
                 // Generates a new Book Object with the JSON object data
-                mStopData = new Stop();
-
-                mStopData.setDescription(jsonObject.getString("description"));
+                mStopData = Utilities.getStop(result);
 
             }
             catch (Exception e)
             {
                 DebugLog.LOGD("Couldn't get books. e: " + e);
-            }
-            finally
-            {
-                connection.disconnect();
             }
 
             return null;
@@ -1392,7 +1358,8 @@ public class CloudReco extends Activity
     /** Updates a PhotoOverlayView with the Book data specified in parameters */
     private void updateProductView(PhotoOverlayView photoView, Stop stop)
     {
-        photoView.setBookTitle(stop.getDescription());
+        photoView.setStopTitle(stop.getName());
+        photoView.setStopDescription(stop.getDescription());
     }
 
 

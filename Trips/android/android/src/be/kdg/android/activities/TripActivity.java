@@ -13,8 +13,8 @@ import be.kdg.android.fragments.ChatFragment;
 import be.kdg.android.fragments.StopListFragment;
 import be.kdg.android.fragments.StopMapFragment;
 import be.kdg.android.listadapters.StopsListAdapter;
-import com.qualcomm.QCARSamples.CloudRecognition.R;
-
+import com.qualcomm.QCARSamples.CloudRecognition.CloudReco;
+import be.kdg.android.R;
 /**
  * User: Sander
  * Date: 10/03/13 13:51
@@ -57,6 +57,11 @@ public class TripActivity extends ListActivity {
 
     public final Trip getTrip() {
         return trip;
+    }
+
+    public void startVuforia(View view){
+        Intent intent = new Intent(this, CloudReco.class);
+        startActivity(intent);
     }
 
     @Override

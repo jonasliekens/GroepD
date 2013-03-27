@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.qualcomm.QCARSamples.CloudRecognition.R;
+import be.kdg.android.R;
 
 /**
  * User: Sander

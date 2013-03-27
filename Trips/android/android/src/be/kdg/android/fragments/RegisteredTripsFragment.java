@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import be.kdg.android.activities.RegisteredTripActivity;
-import com.qualcomm.QCARSamples.CloudRecognition.R;
+import be.kdg.android.R;
 import be.kdg.android.entities.Trip;
 import be.kdg.android.listadapters.TripsListAdapter;
 import be.kdg.android.networking.RestHttpConnection;

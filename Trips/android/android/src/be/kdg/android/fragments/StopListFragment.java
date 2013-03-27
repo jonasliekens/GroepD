@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import be.kdg.android.activities.TripActivity;
-import com.qualcomm.QCARSamples.CloudRecognition.R;
+import be.kdg.android.R;
 import be.kdg.android.entities.Stop;
 import be.kdg.android.entities.Trip;
 import be.kdg.android.listadapters.StopsListAdapter;

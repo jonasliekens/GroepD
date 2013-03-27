@@ -9,9 +9,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
-import be.kdg.android.R;
 import be.kdg.android.fragments.*;
 import be.kdg.android.utilities.Utilities;
+import be.kdg.android.R;
 
 /**
  * User: Sander

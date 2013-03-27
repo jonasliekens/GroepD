@@ -3,6 +3,7 @@ package be.kdg.android.utilities;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import be.kdg.android.entities.Stop;
 import be.kdg.android.entities.Trip;
 import be.kdg.android.entities.User;
 import com.google.android.gms.maps.CameraUpdate;
@@ -35,7 +36,7 @@ public class Utilities {
     // IP-addresses
 //    public static final String SERVER_ADDRESS = "http://192.168.0.195:8080/web";
 //    public static final String SERVER_ADDRESS = "http://192.168.0.196:8080/web";
-    public static final String SERVER_ADDRESS = "http://192.168.113.1:8080/web";
+    public static final String SERVER_ADDRESS = "http://192.168.3.1:8080/web";
 
     // RestControllers
     public static final String LOGIN_ADDRESS = SERVER_ADDRESS + "/rest/login";
@@ -109,6 +110,17 @@ public class Utilities {
         try {
             List<Trip> trips = gson.fromJson(json, new TypeToken<List<Trip>>() { }.getType());
             return trips;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Stop getStop(String json){
+        createGson();
+        try {
+            Stop stop = gson.fromJson(json, Stop.class);
+            return stop;
         } catch (Exception e) {
             e.printStackTrace();
         }

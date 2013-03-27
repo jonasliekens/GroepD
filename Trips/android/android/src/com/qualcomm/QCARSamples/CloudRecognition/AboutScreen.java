@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import be.kdg.android.R;
 
 /** The activity for showing the About text in the CloudReco sample. */
 public class AboutScreen extends Activity implements OnClickListener

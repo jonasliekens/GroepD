@@ -12,7 +12,7 @@ import be.kdg.android.entities.Trip;
 import be.kdg.android.listadapters.TripsListAdapter;
 import be.kdg.android.networking.RestHttpConnection;
 import be.kdg.android.utilities.Utilities;
-import com.qualcomm.QCARSamples.CloudRecognition.R;
+import be.kdg.android.R;
 
 import java.io.IOException;
 import java.util.List;

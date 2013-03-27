@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import com.qualcomm.QCARSamples.CloudRecognition.R;
+import be.kdg.android.R;
 import be.kdg.android.activities.InvitationActivity;
 import be.kdg.android.entities.Trip;
 import be.kdg.android.listadapters.TripsListAdapter;

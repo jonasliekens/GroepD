@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.ListView;
-import com.qualcomm.QCARSamples.CloudRecognition.R;
+import be.kdg.android.R;
 import be.kdg.android.entities.Trip;
 import be.kdg.android.listadapters.TripsListAdapter;
 import be.kdg.android.networking.RestHttpConnection;

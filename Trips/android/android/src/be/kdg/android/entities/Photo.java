@@ -1,30 +1,14 @@
-package be.kdg.backend.entities;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+package be.kdg.android.entities;
 
 /**
  * Created by IntelliJ IDEA.
  * Author: Nick De Waele
  * Date: 13/03/13
  */
-@Entity
-@Table(name = "T_PHOTO")
 public class Photo {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotNull
     private String targetId;
-
-    @ManyToOne()
-    @JoinColumn(name = "stopId")
-    @JsonIgnore
     private Stop stop;
-
-    @NotNull
     private String targetName;
 
     public Stop getStop() {
