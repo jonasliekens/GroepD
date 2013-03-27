@@ -23,6 +23,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
+import be.kdg.android.R;
 import be.kdg.android.entities.Picture;
 import be.kdg.android.entities.Stop;
 import com.qualcomm.QCARSamples.CloudRecognition.view.PhotoOverlayView;

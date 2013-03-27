@@ -83,9 +83,9 @@ function sendRequestViaMultiFriendSelector() {
     }, function (response) {
         if (response.request && response.to) {
             var request_ids = [];
+            request_ids.push(response.request);
             for (i = 0; i < response.to.length; i++) {
-                var temp = response.request + "_" + response.to[i];
-                request_ids.push(temp);
+                request_ids.push(response.to[i]);
             }
             var requests = request_ids.join(',');
             var splittedUrl = url.split("/");

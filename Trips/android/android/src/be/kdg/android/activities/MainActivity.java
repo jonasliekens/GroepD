@@ -9,7 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
-import com.qualcomm.QCARSamples.CloudRecognition.R;
+import be.kdg.android.R;
 import be.kdg.android.fragments.*;
 import be.kdg.android.utilities.Utilities;
 
@@ -82,14 +82,14 @@ public class MainActivity extends Activity {
         tab = actionBar
                 .newTab()
                 .setText(R.string.registered_trips_tab_name)
-                .setIcon(R.drawable.icon_my_trips_tab)
+                .setIcon(R.drawable.icon_registered_trips_tab)
                 .setTabListener(new CustomTabListener<RegisteredTripsFragment>(this, "registered_trips_layout", RegisteredTripsFragment.class));
         actionBar.addTab(tab);
 
         tab = actionBar
                 .newTab()
                 .setText(R.string.invited_trips_tab_name)
-                .setIcon(R.drawable.icon_my_trips_tab)
+                .setIcon(R.drawable.icon_invitations_tab)
                 .setTabListener(new CustomTabListener<InvitedTripsFragment>(this, "invited_trips_layout", InvitedTripsFragment.class));
         actionBar.addTab(tab);
 
