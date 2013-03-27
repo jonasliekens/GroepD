@@ -56,7 +56,7 @@
                         </c:if>
                         <c:forEach var="chat" items="${chats}">
                             <li>
-                                <a href="chat/${chat.id}" class="chat">
+                                <a  class="btn" href="chat/${chat.id}" class="chat">
                                     <c:forEach var="participant" items="${chat.participants}">
                                         <c:if test="${participant.id != sessionScope.userId}">
                                             ${participant.firstName} ${participant.lastName}

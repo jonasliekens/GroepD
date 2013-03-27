@@ -41,7 +41,7 @@
         <div class="container">
             <div class="row-fluid">
                 <div class="span12">
-                    <a href="trips/${tripId}/stops/add"><spring:message code="control.add"/></a>
+                    <a  class="btn" href="trips/${tripId}/stops/add"><spring:message code="control.add"/></a>
 
                     <table class="table table-striped">
                         <thead>
@@ -74,9 +74,9 @@
                                         ${stop.description}
                                     </td>
                                     <td>
-                                        <a href="trips/${tripId}/stops/edit/${stop.id}"><spring:message
+                                        <a  class="btn" href="trips/${tripId}/stops/edit/${stop.id}"><spring:message
                                                 code="control.edit"/></a>
-                                        <a href="trips/${tripId}/stops/delete/${stop.id}"><spring:message
+                                        <a  class="btn" href="trips/${tripId}/stops/delete/${stop.id}"><spring:message
                                                 code="control.delete"/></a>
                                     </td>
                                 </tr>

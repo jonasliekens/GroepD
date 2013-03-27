@@ -16,7 +16,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import be.kdg.android.entities.MyLocation;
 import be.kdg.android.entities.Trip;
 import be.kdg.android.fragments.ChatFragment;
 import be.kdg.android.fragments.StopListFragment;
