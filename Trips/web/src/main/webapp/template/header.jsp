@@ -15,7 +15,7 @@
                                 <a href="profile/edit"><spring:message code="menu.profile"/></a>
                             </li>
                             <li>
-                                <a href="broadcast"><spring:message code="menu.messages"/>(${sessionScope.messageCount})</a>
+                                <a href="broadcast"><spring:message code="menu.messages"/> (${sessionScope.messageCount})</a>
                             </li>
                             <li>
                                 <a href="logout"><spring:message code="menu.logout"/></a>

@@ -121,8 +121,8 @@ public class StopMapFragment extends MapFragment {
 
         fillMap();
 
-        ShowLocationsTask showLocationsTask = new ShowLocationsTask();
-        showLocationsTask.execute();
+//        ShowLocationsTask showLocationsTask = new ShowLocationsTask();
+//        showLocationsTask.execute();
     }
 
     private void fillMap() {

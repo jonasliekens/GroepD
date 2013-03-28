@@ -4,6 +4,7 @@
     <div class="container">
         <div class="row-fluid">
             <div class="span12">
+                <strong><spring:message code="common.chooseLanguage" /></strong>
                 <ul class="unstyled">
                     <li>
                         <a href="${page}?lang=en">English</a>

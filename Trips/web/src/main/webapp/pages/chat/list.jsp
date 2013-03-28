@@ -47,7 +47,7 @@
         <div class="container">
             <div class="row-fluid">
                 <div class="span4">
-                    <h4><spring:message code="chat.chats" /></h4>
+                    <h4 class="title"><spring:message code="chat.chats" /></h4>
                     <ul class="chats">
                         <c:if test="${fn:length(chats) == 0}">
                             <li class="text-center muted">
@@ -56,7 +56,7 @@
                         </c:if>
                         <c:forEach var="chat" items="${chats}">
                             <li>
-                                <a  class="btn" href="chat/${chat.id}" class="chat">
+                                <a href="chat/${chat.id}" class="chat">
                                     <c:forEach var="participant" items="${chat.participants}">
                                         <c:if test="${participant.id != sessionScope.userId}">
                                             ${participant.firstName} ${participant.lastName}
