@@ -18,7 +18,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Delete</title>
+    <title><spring:message code="menu.logout" /></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 

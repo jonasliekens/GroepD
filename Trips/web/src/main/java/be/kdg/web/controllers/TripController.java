@@ -19,10 +19,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
 import javax.mail.*;
@@ -532,4 +529,12 @@ public class TripController {
             userService.removeBlockedUser(user.getId(),blockedUser.getId());
             return "redirect:/trips/participants/" + tripid;
         }
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public String search(ModelMap model, @RequestParam String query) {
+        model.addAttribute("trips", tripService.searchTripsByNamePattern(query));
+        model.addAttribute("query", query);
+
+        return "trips/list";
+    }
 }

@@ -17,16 +17,18 @@ import java.util.List;
 public interface TripDao  extends GenericDao<Trip,Integer> {
     @Transactional
     List<Trip> getPublicTrips();
-
+    @Transactional
     void removeAnnouncementFromTrip(Integer announcementId);
-
+    @Transactional
     List<Announcement> getAnnouncementsByTripId(Integer tripId);
-
+    @Transactional
     void removeEquipmentFromTrip(Integer equipmentId);
-
+    @Transactional
     List<Equipment> getEquipmentByTrip(Integer tripId);
-
+    @Transactional
     List<Trip> findOwnTripsByUserId(Integer userId);
-
+    @Transactional
     List<Trip> findRegisteredTripsByUserId(Integer userId);
+    @Transactional
+    List<Trip> findTripsByNamePattern(String query);
 }

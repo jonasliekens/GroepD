@@ -54,6 +54,11 @@
                     </c:if>
                     <div id="fb-root"></div>
 
+                    <form method="get" action="search">
+                        <spring:message var="search" code="trip.search" />
+                        <input type="text" placeholder="${search}" name="query" value="${query}">
+                    </form>
+
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -62,6 +67,9 @@
                                 </th>
                                 <th>
                                     <spring:message code="trip.numberOfStops" />
+                                </th>
+                                <th>
+                                    <spring:message code="trip.admins" />
                                 </th>
                             </tr>
                         </thead>
@@ -80,6 +88,11 @@
                                     </td>
                                     <td>
                                         ${fn:length(trip.stops)}
+                                    </td>
+                                    <td>
+                                        <c:forEach var="admin" items="${trip.admins}">
+                                            ${admin.firstName} ${admin.lastName}
+                                        </c:forEach>
                                     </td>
                                 </tr>
                             </c:forEach>

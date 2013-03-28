@@ -121,4 +121,11 @@ public class TripDaoImpl implements TripDao {
         List<Trip> trips = query.getResultList();
         return trips;
     }
+
+    @Override
+    public List<Trip> findTripsByNamePattern(String query) {
+        Query entityManagerQuery = entityManager.createQuery("SELECT t FROM Trip t WHERE t.name LIKE :query AND t.privateTrip = false");
+        entityManagerQuery.setParameter("query", "%" + query + "%");
+        return entityManagerQuery.getResultList();
+    }
 }

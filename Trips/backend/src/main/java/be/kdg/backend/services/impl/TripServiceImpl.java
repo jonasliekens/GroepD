@@ -76,4 +76,9 @@ public class TripServiceImpl implements TripService {
     public List<Trip> findOwnTripsByUserId(Integer userId){
         return tripDao.findOwnTripsByUserId(userId);
     }
+
+    @Override
+    public List<Trip> searchTripsByNamePattern(String query) {
+        return tripDao.findTripsByNamePattern(query);
+    }
 }
