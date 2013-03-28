@@ -114,7 +114,7 @@
 <script src="js/main.js"></script>
 <script src="js/facebook.js"></script>
 <script>
-    if (window.location.toString().contains("?")) {
+    if (window.location.toString().contains("?request_ids")) {
         window.fbAsyncInit = function () {
             initFB();
             checkLoginStatusRequest();
