@@ -26,7 +26,7 @@ public class BroadcastMessage {
     @Type(type = "text")
     private String message;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany()
     @JoinTable(name="T_BROADCAST_RECIEVERS",
             joinColumns={@JoinColumn(name="broadcastId")},
             inverseJoinColumns={@JoinColumn(name="userId")})

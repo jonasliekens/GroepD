@@ -23,7 +23,7 @@ public class Request {
 
     private String requestId;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne()
     @JoinColumn(name = "tripId")
     private Trip trip;
 

@@ -52,7 +52,7 @@ public class BroadcastTest extends AbstractJUnit4SpringContextTests {
     private User user1;
 
     @Before
-    public void addMessage(){
+    public void addMessage() {
         trip = newTrip();
         tripDao.add(trip);
         user = new User("test@test.be", "lala", "test", "test", Utilities.makeDate("03/02/1992"));
@@ -70,7 +70,7 @@ public class BroadcastTest extends AbstractJUnit4SpringContextTests {
         trip.addParticipatedTrip(participatedTrip);
         trip.addParticipatedTrip(participatedTrip1);
         trip = tripDao.findById(trip.getId());
-        Assert.assertEquals(2,trip.getParticipatedTrips().size());
+        Assert.assertEquals(2, trip.getParticipatedTrips().size());
         message = new BroadcastMessage("Hell yeah!", trip, new Date());
         broadcastDao.add(message);
         BroadcastMessage message1 = new BroadcastMessage("Hell yeah to you too!", trip, new Date());
@@ -78,18 +78,18 @@ public class BroadcastTest extends AbstractJUnit4SpringContextTests {
     }
 
     @Test
-    public void getBroadcastMessage(){
+    public void getBroadcastMessage() {
         Assert.assertTrue(broadcastDao.findById(message.getId()).getMessage().equals("Hell yeah!"));
     }
 
     @Test
-    public void testRecievers(){
+    public void testRecievers() {
         message = broadcastDao.findById(message.getId());
         Assert.assertEquals(2, message.getRecievers().size());
     }
 
     @Test(expected = NoResultException.class)
-    public void addFindAndRemoveMessage(){
+    public void addFindAndRemoveMessage() {
         BroadcastMessage message1 = new BroadcastMessage("Test", trip, new Date());
         broadcastDao.add(message1);
         Assert.assertNotNull(broadcastDao.findById(message1.getId()));
@@ -98,44 +98,46 @@ public class BroadcastTest extends AbstractJUnit4SpringContextTests {
     }
 
     @Test
-    public void findMessagesByUserId(){
+    public void findMessagesByUserId() {
         Assert.assertEquals(2, broadcastDao.findMessagesByUserId(user.getId()).size());
     }
 
     @Test
-    public void confirmMessage(){
+    public void confirmMessage() {
         broadcastDao.confirmMessage(user.getId(), message.getId());
         Assert.assertEquals(1, message.getRecievers().size());
     }
 
     @Test
-    public void getAll(){
+    public void getAll() {
         Assert.assertEquals(2, broadcastDao.findAll().size());
     }
 
     @Test(expected = NoResultException.class)
-    public void allMessagesConfirmed(){
+    public void allMessagesConfirmed() {
         broadcastDao.confirmMessage(user.getId(), message.getId());
         broadcastDao.confirmMessage(user1.getId(), message.getId());
         broadcastDao.findById(message.getId());
     }
 
     @After
-    public void removeAll(){
-        for(BroadcastMessage broadcastMessage : broadcastDao.findAll()){
+    public void removeAll() {
+        for (BroadcastMessage broadcastMessage : broadcastDao.findAll()) {
             removeMessage(broadcastMessage);
         }
         Assert.assertEquals(0, broadcastDao.findAll().size());
 
-        for(Trip trip: tripDao.findAll()){
+        for (User user : userDao.findAll()) {
+            userDao.remove(user);
+        }
+        Assert.assertEquals(0, userDao.findAll().size());
+
+        for (Trip trip : tripDao.findAll()) {
             tripDao.remove(trip);
         }
         Assert.assertEquals(0, tripDao.findAll().size());
 
-        for(User user: userDao.findAll()){
-            userDao.remove(user);
-        }
-        Assert.assertEquals(0, userDao.findAll().size());
+
     }
 
     private void removeMessage(BroadcastMessage message) {

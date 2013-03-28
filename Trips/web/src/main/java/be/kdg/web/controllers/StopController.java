@@ -5,6 +5,7 @@ import be.kdg.backend.entities.Question;
 import be.kdg.backend.entities.Stop;
 import be.kdg.backend.services.interfaces.StopService;
 import be.kdg.backend.services.interfaces.TripService;
+import be.kdg.backend.services.interfaces.UserService;
 import be.kdg.web.forms.AnswerForm;
 import be.kdg.web.forms.QuestionForm;
 import be.kdg.web.forms.StopForm;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +41,8 @@ public class StopController {
 
     @Autowired
     TripService tripService;
+    @Autowired
+    UserService userService;
 
     @Autowired
     StopValidator stopValidator;
@@ -52,6 +56,7 @@ public class StopController {
     @RequestMapping(value = "/trips/{id}/stops", method = RequestMethod.GET)
     public String list(@PathVariable Integer id, ModelMap model) {
         model.addAttribute("tripId", id);
+
         stopService.getStopsByTripId(id);
         return "/stops/list";
     }
@@ -197,8 +202,9 @@ public class StopController {
     }
 
     @RequestMapping(value = "trips/{id}/stops/details/{stopid}", method = RequestMethod.GET)
-    public String detailsStop(@PathVariable Integer id, @PathVariable Integer stopid, ModelMap model) {
+    public String detailsStop(@PathVariable Integer id, @PathVariable Integer stopid, ModelMap model, HttpSession session) {
         model.addAttribute("trip", tripService.get(id));
+        model.addAttribute("isAdmin", tripService.get(id).getAdmins().contains(userService.get((Integer)session.getAttribute("userId"))));
         model.addAttribute("stop", stopService.get(stopid));
         model.addAttribute("photos", stopService.get(stopid).getPhotos());
         return "/stops/details";

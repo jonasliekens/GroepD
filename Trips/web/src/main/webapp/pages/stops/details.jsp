@@ -93,6 +93,7 @@
                             ${stop.orderNumber}
                         </td>
                         <td>
+                            <c:if test="${isAdmin}">
                             <a  class="btn" href="trips/${trip.id}/stops/addquestion/${stop.id}"><spring:message
                                     code="control.question"/></a>
                             <a  class="btn" href="trips/${trip.id}/stops/addphoto/${stop.id}"><spring:message
@@ -100,6 +101,7 @@
                             <a  class="btn" href="trips/${trip.id}/stops/edit/${stop.id}"><spring:message code="control.edit"/></a>
                             <a class="btn" href="trips/${trip.id}/stops/delete/${stop.id}"><spring:message
                                     code="control.delete"/></a>
+                            </c:if>
                         </td>
                     </tr>
                     </tbody>
@@ -145,9 +147,11 @@
                                         </tr>
                                     </c:forEach>
                                     </tbody>
-                                </table>
+                                </table
+                                <c:if test="${isAdmin}">
                                 <a  class="btn" href="trips/${trip.id}/stops/addanswer/${stop.id}/${question.id}"><spring:message
                                         code="control.answer"/></a>
+                                </c:if>
                             </td>
 
                         </tr>
@@ -169,8 +173,10 @@
                                     ${photo.targetName}
                             </td>
                             <td>
+                                <c:if test="${isAdmin}">
                                 <a href="trips/${trip.id}/stops/deletephoto/${stop.id}/${photo.id}"><spring:message
                                         code="control.delete"/></a>
+                                </c:if>
                             </td>
 
                         </tr>
